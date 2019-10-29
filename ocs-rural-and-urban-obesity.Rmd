@@ -1,0 +1,435 @@
+---
+title: "ocs-rural-and-urban-obesity"
+output: html_document
+---
+
+Background...
+
+###Data Import
+
+First let's dowload the data so we can take a look at the original data:
+```{r}
+library(XML)
+library(here)
+url <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf"
+
+download.file(url, "paper_supplement.pdf")
+```
+
+Now that we have the obesity pdf, we will read it in to R using the  pdftools package
+```{r}
+library(pdftools)
+
+
+pdf_obesity<-pdf_text(here("paper_supplement.pdf"))# PDF error: Expected the optional content group list, but wasn't able to find it, or it isn't an Array - errors like this can be common with PDFs... we can take a look at the data to see if it still looks as expected
+```
+
+Let's take a look at the data- the str() function helps us to look at the structure of R objects.
+
+```{r}
+str(pdf_obesity)
+```
+
+We can see that we have 63 elements that are character strings. You may also notice that the orginal PDF has 63 pages. Let's take a look at some of these elements.
+
+```{r}
+pdf_obesity[1] # this looks like the first page
+pdf_obesity[2] # this looks like the second page
+pdf_obesity[3] # this looks like the third page
+pdf_obesity[55] # this looks like data in a the table we are interested in
+```
+
+We can see that the output looks pretty similar to the pages of the pdf, but the spacing is quite awkward. 
+
+We are interested in a supplementary Table 3. which has multiple pages and includes the same header on each page, we can use that to determine what elements of our pdf_obesity character strings include our table. We will use the grep function to search for the elements that contain text that is consistently in the header.
+
+```{r}
+grep("Age-standardised mean BMI", pdf_obesity) # "Age-standardised mean BMI" is part of the header in the table on every page in the pdf. This shows the elements that contain our table of interest.
+```
+
+Let's extract just the data for the table now and call it rural_urban.
+```{r}
+rural_urban <-pdf_obesity[grep("Age-standardised mean BMI", pdf_obesity)]
+
+str(rural_urban) # the str() function shows us that there are 10 pages worth of elements in our rural_urban object
+
+```
+
+
+Let's check the first and last page:
+
+```{r, out.width="60%"}
+cat(rural_urban[1]) 
+```
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("first_page.png"))
+```
+
+This looks the same as the begining... how about the end?
+
+```{r, out.width="60%"}
+cat(rural_urban[10])  # what about dplyr glimpse???
+```
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("last_page.png"))
+```
+
+Great! Our rural_urban object looks like it contains the entire Supplementary 3 table, as both the beginning and the end include the data we expected.
+
+###Wrangling 
+
+At this point we have large strings now for each page of the table, but this is not very convenient to work with. Now we will wrangle the data into a more usable form. Ideally we would like our data to be in some sort of tabular form.
+
+First it would be useful to separate each page into lines.
+```{r}
+library(readr)
+rural_urban <-read_lines(rural_urban)
+str(rural_urban) # now we have 461 lines
+rural_urban[6] # we can see that line 6 shows the data for females in Afghanistan  
+```
+
+We also have a lot of whitespace... let's get rid of the excess white spaces.
+
+```{r}
+library(tidyverse)
+rural_urban<-str_squish(rural_urban) 
+head(rural_urban)
+```
+
+Now it is much easier to see the data.
+
+If we look at the end of the first page of the table and the start of the second we can see that the header information is repeated, as well as a line with the page number and an empty line, and a line that says "2 2".
+```{r}
+rural_urban[44:56]
+```
+
+Although the header was necessary on all of the pages of the pdf version of the table, we only need that information once in our data.. so we will remove all but the first instance of this information. 
+
+First, let's save the header information that we would want to reference to make a single line header in the future:
+```{r}
+header <- rural_urban[1:4]
+header
+```
+
+Now, let's remove all the header information and the page number lines from the rural_urban object.
+One way to do this is to find all lines that include either "women" or "men" and only keep this data.
+```{r}
+grep("Women|Men", rural_urban)
+```
+
+Ok, so this looks correct. This includes most lines but there are gaps where are header is located.
+
+```{r}
+rural_urban <- rural_urban[grep(pattern ="Women|Men", rural_urban)]
+```
+
+We can check our data now using either head() or glimpse().
+```{r}
+library(dplyr)
+glimpse(rural_urban)
+```
+```{r}
+head(rural_urban)
+```
+
+So the `head()` function shows us the first rows or lines of the data, while the `glimpse()` function provides us information about the total size of the object and shows us the first line or row.
+
+Great! So now our data looks much better but we need to add back our header and we would like this to only be a single line to make it easy to transform our data into a table or table-like object.
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("last_page.png"))
+```
+
+
+First let's try splitting our headerless data into columns based on spaces:
+```{r}
+str_split(rural_urban, " ", simplify = TRUE)
+```
+
+This almost worked, but unfortunately country names that have spaces will be a problem. We can see that American Samoa has been divided into two columns and all subsequent columns are shifted.
+
+
+So now let's try to extract the country information, by separating the country information from the sex information when the sex is female. Sex always starts with either a capital "W" if the gender is female. We need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". Here we will also introduce the concept of piping, which uses the `%>%`. This is really useful when we have multiple steps, which we will show soon.
+```{r}
+# Women <-rural_urban[grep(pattern ="Women", rural_urban)]
+# country_split <-Women %>%
+#   strsplit(split= " W") %>%
+#   unlist() 
+Women <- stringr::str_subset(string = rural_urban, pattern = "Women") # First let's subset the data to only the lines that contain "Women"
+
+country_split <-Women %>%
+  stringr::str_split(pattern= " W") %>%
+  unlist() 
+
+# country_split1 <-rural_urban %>%
+#   strsplit(split= " W", " M") %>%
+#   unlist() 
+#this is equivalent:
+# library(stringr)
+# country_split2 <-rural_urban %>%
+#   stringr::str_split(pattern= " W| M") %>%
+#   unlist() # this function will collapse the lists that are created when we use str_split()
+# 
+
+head(country_split)
+# this is equivalent to:
+#country_split <-str_split(rural_urban, "W|M")
+#country_split <-unlist(country_split)
+```
+
+Now we can see that Country is always the odd rows and the rest of the data is the rest of the rows
+
+```{r}
+country <-data.frame(country_split) %>% 
+  dplyr::filter(row_number() %% 2 == 1) 
+country
+Women_BMI <-data.frame(country_split) %>% 
+  dplyr::filter(row_number() %% 2 == 0)
+```
+
+
+Great! Now we have a list of the countries that can be used for both the male and female data. 
+
+Let's add the "W" back to our Women data:
+```{r}
+glimpse(Women)
+Women<-Women_BMI %>%
+mutate(country_split =stringr::str_replace_all(string =country_split, pattern ="omen", replacement = "Women"))
+head(Women$country_split)
+```
+
+It's always a good idea to check that your data objects are the size you expect when wrangling.
+
+```{r}
+dim(Women)
+```
+Great! There are 200 rows like we expected.
+
+Let's grab the male data:
+
+```{r}
+# remember our rural_urban object contains male data for the odd rows
+
+Men <-data.frame(rural_urban) %>% 
+  dplyr::filter(row_number() %% 2 == 1) 
+head(Men$rural_urban)
+dim(Men) # again let's make sure we have the correct number of rows for our final "Men" data object
+```
+
+
+
+
+
+So close! Notice that there are `na*` values that have shifted the suqsequent values within the columns because typically there is a space between the BMI and the credible intervals. Here we can see this data in our original pdf:
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics(here::here("missing_pdf.png"))
+```
+
+We need to repace our `na*` values  with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. Therefore, `na* na*` should work.
+
+```{r}
+class(Men$rural_urban)# In order to use the functions within the stringr package, our Men data needs to be of character class
+Men<-as.character(Men$rural_urban) # This function allows us to change the factor data within Men$rural_urban to the character class and we are changing the structure so that the data is directly just called Men and not within a vector called rural_urban
+Men<-stringr::str_replace_all(string = Men, pattern = "na\\*", replacement = "na\\* na\\*") # the \\ are necessary because the * is a special character that would typically indicate that any possible value, but here we actually want a `*` instead, thus the double backslash does that for us.
+# Here we are replacing all occurences of the na* values (thus str_replace_all instead of str_replace) that occur in the strings within Men with na* na*. 
+#To check that this worked...
+Men[20:30]
+#YAY!
+
+
+# Now for the Women data object
+class(Women$country_split)# the female data is already in character form
+Women<-stringr::str_replace_all(string = Women$country_split, pattern = "na\\*", replacement = "na\\* na\\*") 
+Women[20:30]
+
+```
+
+
+Great, now we can split our data by spaces.
+
+```{r}
+#Men<-as_tibble(str_split(Men$rural_urban, " ", simplify = TRUE))# note here we need to use the column of Men that has the data
+#Men
+```
+
+```{r}
+Men <-as_tibble(str_split(Men, " ", simplify = TRUE))# note here we need to use the column of Women that has the data
+head(Men)
+Women<-as_tibble(str_split(Women, " ", simplify = TRUE))# note here we need to use the column of Women that has the data
+head(Women)
+Women[20:30,] # we can see that our na values look correct
+```
+
+We can see from our pdf and our object called header what the header was like. Let's also make a new single line header, but let's wait to add Country:
+
+```{r}
+#header
+new_header <-c("Sex","National_BMI_1985", "National_BMI_1985_CI", "Rural_BMI_1985", "Rural_BMI_1985_CI", "Urban_BMI_1985", "Urban_BMI_1985_CI", "National_BMI_2017", "National_BMI_2017_CI","Rural_BMI_2017", "Rural_BMI_2017_CI", "Urban_BMI_2017", "Urban_BMI_2017_CI")
+```
+
+
+Let's change the names of our columns of our tibble to this new header for our Men and Women data
+
+```{r}
+names(Women)<-new_header
+names(Men)<-new_header
+```
+
+
+Now we will add our country data to both our Men and Women tibbles 
+```{r}
+Women <- dplyr::bind_cols(country, Women)# this will add the country as a new column to the Women data object on the left 
+Men <- dplyr::bind_cols(country, Men) # this will add the country as a new column to the Men data object on the left 
+head(Women)
+```
+
+Here we will change the variable name of the country data to country, currently it is called country_split. Here we will also introduce the concept of the assignment pipe. In this case our pipe opperator looks like this `%<>%` .  Using this fancier pipe requires another package,  called magrittr. The other simpler pipe options from this package are loaded with tidyverse, but not this fancier version. 
+
+The `>` portion of the pipe still behaves like a normal pipe, while the `<` portion of the pipe makes an assignment to whatever the `<`is pointing to, just like when we use the typical assignment opperator `<-`. 
+```{r}
+library(magrittr)
+# Here we will just use the traditional assignment strategy
+Women<-rename(Women, Country = country_split) # here we will rename the country_split variable to be called country
+
+# Here we reassign Men using the pipe strategy
+Men %<>%rename(Country = country_split) # here we will rename the country_split variable to to be called country and then reassign Men to the data object which has the country variable renamed
+```
+
+Now we can combine our Men and Women data. This will put all the female data first (x) and all the male data second (y).
+```{r}
+BMI<-dplyr::full_join(x = Men, y = Women)
+str(BMI)#let's check the size of our BMI data... it should have 400 rows (obs).
+
+```
+
+Now Lets sort the data by country:
+```{r}
+BMI <-dplyr::arrange(BMI, Country)
+head(BMI)
+
+```
+
+Our data is looking great! Now we might want to make sure that our observations for each variable look the way we want. In otherwords if we want to make plots about National BMI in 1985 then we would need our values to be numeric. Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the `:`. Looks like none of our BMI data is actually numeric. Let's change that now.
+
+```{r, warning=FALSE}
+str(BMI)
+BMI$National_BMI_1985%<>% as.numeric
+BMI$Rural_BMI_1985%<>% as.numeric
+BMI$Urban_BMI_1985%<>% as.numeric
+
+BMI$National_BMI_2017%<>% as.numeric
+BMI$Rural_BMI_2017%<>% as.numeric
+BMI$Urban_BMI_2017%<>% as.numeric
+
+str(BMI)# we can see now these variables show as "num" which stands for numeric
+
+#We might want to just compare males and females or look at their data separately... since we already have this data let's also make these values numeric for these data objects
+Women$National_BMI_1985%<>% as.numeric
+Women$Rural_BMI_1985%<>% as.numeric
+Women$Urban_BMI_1985%<>% as.numeric
+
+Women$National_BMI_2017%<>% as.numeric
+Women$Rural_BMI_2017%<>% as.numeric
+Women$Urban_BMI_2017%<>% as.numeric
+
+Men$National_BMI_1985%<>% as.numeric
+Men$Rural_BMI_1985%<>% as.numeric
+Men$Urban_BMI_1985%<>% as.numeric
+
+Men$National_BMI_2017%<>% as.numeric
+Men$Rural_BMI_2017%<>% as.numeric
+Men$Urban_BMI_2017%<>% as.numeric
+
+```
+
+
+## Data Exploration
+
+Now that our data is clean and in a format that we can work with, we can start to take a look at the data and how different groups might compare.
+
+One of the first things that is useful to do with data is to plot the frequency of the different possible values. This is called a `distribution`. To do this we can use the `hist()` function to create a histogram.
+
+If the data were what we call `normally distributed` then the distribution should be equally centered around the mean and would look something like this:
+
+```{r}
+norm_BMI_ex_data <- rnorm(n = 200, mean = 24) # this function allows us to make a vector of normaly distributed data centered around the mean of 24
+hist(norm_BMI_ex_data)
+```
+
+
+```{r}
+
+hist(BMI$National_BMI_1985)
+
+```
+
+Ok so the data looks it might be slighty what we call `right skewed` because the tail of the distribution is longer on the right side.
+
+```{r}
+
+
+hist(BMI$Rural_BMI_1985)
+hist(BMI$Urban_BMI_1985)
+
+hist(BMI$National_BMI_2017)
+hist(BMI$Rural_BMI_2017)
+hist(BMI$Urban_BMI_2017)
+
+hist(Women$National_BMI_1985)
+hist(Women$Rural_BMI_1985)
+hist(Women$Urban_BMI_1985)
+
+hist(Women$National_BMI_2017)
+hist(Women$Rural_BMI_2017)
+hist(Women$Urban_BMI_2017)
+
+hist(Men$National_BMI_1985)
+hist(Men$Rural_BMI_1985)
+hist(Men$Urban_BMI_1985)
+
+hist(Men$National_BMI_2017)
+hist(Men$Rural_BMI_2017)
+hist(Men$Urban_BMI_2017)
+```
+
+Let's use a method called qqplots to determine if the data is indeed normally distributed. This method allows us to test the fit of known thoretical distributions (like the normal distribution) with our oberved distribution.
+
+Here is an example of a qqplot for the normally distributed data that we just created:
+
+```{r}
+
+qqnorm(norm_BMI_ex_data)
+qqline(norm_BMI_ex_data)
+
+```
+
+```{r}
+
+
+qqnorm(BMI$National_BMI_1985, ylab = "1985_BMI_quantiles")
+qqline(BMI$National_BMI_1985)
+
+qqnorm(BMI$National_BMI_2017, ylab = "2017_BMI_quantiles")
+qqline(BMI$National_BMI_2017)
+
+qqnorm(Men$National_BMI_1985, ylab = "Men_1985_BMI_quantiles")
+qqline(Men$National_BMI_1985)
+
+qqnorm(Women$National_BMI_2017, ylab = "Women_1985_BMI_quantiles")
+qqline(Women$National_BMI_2017)
+
+```
+
+Finally, you can also use the Shapiro-Wilk test for normality when the qqplot is a bit unclear.
+
+```{r}
+
+shapiro.test(norm_BMI_ex_data) # example of the test output for normal data
+shapiro.test(BMI$National_BMI_1985)
+shapiro.test(BMI$National_BMI_2017)
+shapiro.test(Women$National_BMI_1985)
+shapiro.test(Men$National_BMI_1985)
+```
