@@ -3,11 +3,23 @@ title: "ocs-rural-and-urban-obesity"
 output: html_document
 ---
 
-Background...
+### Background
 
-###Data Import
+An [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in Nature evaluated and compared the Body-Mass Index (BMI) number of populations in rural and urban communities around the world. 
 
-First let's dowload the data so we can take a look at the original data:
+`NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. Nature 569, 260–264 (2019).`
+
+This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities.
+
+```{r, echo = FALSE, out.width="100%", message=FALSE}
+library(here)
+knitr::include_graphics(here::here("paper.png"))
+
+```
+
+### Data Import
+
+First let's download the data so we can take a look at the original data:
 ```{r}
 library(XML)
 library(here)
@@ -30,7 +42,7 @@ Let's take a look at the data- the str() function helps us to look at the struct
 str(pdf_obesity)
 ```
 
-We can see that we have 63 elements that are character strings. You may also notice that the orginal PDF has 63 pages. Let's take a look at some of these elements.
+We can see that we have 63 elements that are character strings. You may also notice that the original PDF has 63 pages. Let's take a look at some of these elements.
 
 ```{r}
 pdf_obesity[1] # this looks like the first page
@@ -66,7 +78,7 @@ cat(rural_urban[1])
 knitr::include_graphics(here::here("first_page.png"))
 ```
 
-This looks the same as the begining... how about the end?
+This looks the same as the beginning... how about the end?
 
 ```{r, out.width="60%"}
 cat(rural_urban[10])  # what about dplyr glimpse???
@@ -78,7 +90,7 @@ knitr::include_graphics(here::here("last_page.png"))
 
 Great! Our rural_urban object looks like it contains the entire Supplementary 3 table, as both the beginning and the end include the data we expected.
 
-###Wrangling 
+### Wrangling 
 
 At this point we have large strings now for each page of the table, but this is not very convenient to work with. Now we will wrangle the data into a more usable form. Ideally we would like our data to be in some sort of tabular form.
 
@@ -90,7 +102,7 @@ str(rural_urban) # now we have 461 lines
 rural_urban[6] # we can see that line 6 shows the data for females in Afghanistan  
 ```
 
-We also have a lot of whitespace... let's get rid of the excess white spaces.
+We also have a lot of white-space... let's get rid of the excess white spaces.
 
 ```{r}
 library(tidyverse)
@@ -119,7 +131,7 @@ One way to do this is to find all lines that include either "women" or "men" and
 grep("Women|Men", rural_urban)
 ```
 
-Ok, so this looks correct. This includes most lines but there are gaps where are header is located.
+OK, so this looks correct. This includes most lines but there are gaps where are header is located.
 
 ```{r}
 rural_urban <- rural_urban[grep(pattern ="Women|Men", rural_urban)]
@@ -143,7 +155,7 @@ knitr::include_graphics(here::here("last_page.png"))
 ```
 
 
-First let's try splitting our headerless data into columns based on spaces:
+First let's try splitting our header-less data into columns based on spaces:
 ```{r}
 str_split(rural_urban, " ", simplify = TRUE)
 ```
@@ -222,13 +234,13 @@ dim(Men) # again let's make sure we have the correct number of rows for our fina
 
 
 
-So close! Notice that there are `na*` values that have shifted the suqsequent values within the columns because typically there is a space between the BMI and the credible intervals. Here we can see this data in our original pdf:
+So close! Notice that there are `na*` values that have shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals. Here we can see this data in our original pdf:
 
 ```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics(here::here("missing_pdf.png"))
 ```
 
-We need to repace our `na*` values  with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. Therefore, `na* na*` should work.
+We need to replace our `na*` values  with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. Therefore, `na* na*` should work.
 
 ```{r}
 class(Men$rural_urban)# In order to use the functions within the stringr package, our Men data needs to be of character class
@@ -286,9 +298,9 @@ Men <- dplyr::bind_cols(country, Men) # this will add the country as a new colum
 head(Women)
 ```
 
-Here we will change the variable name of the country data to country, currently it is called country_split. Here we will also introduce the concept of the assignment pipe. In this case our pipe opperator looks like this `%<>%` .  Using this fancier pipe requires another package,  called magrittr. The other simpler pipe options from this package are loaded with tidyverse, but not this fancier version. 
+Here we will change the variable name of the country data to country, currently it is called country_split. Here we will also introduce the concept of the assignment pipe. In this case our pipe operator looks like this `%<>%` .  Using this fancier pipe requires another package,  called magrittr. The other simpler pipe options from this package are loaded with tidyverse, but not this fancier version. 
 
-The `>` portion of the pipe still behaves like a normal pipe, while the `<` portion of the pipe makes an assignment to whatever the `<`is pointing to, just like when we use the typical assignment opperator `<-`. 
+The `>` portion of the pipe still behaves like a normal pipe, while the `<` portion of the pipe makes an assignment to whatever the `<`is pointing to, just like when we use the typical assignment operator `<-`. 
 ```{r}
 library(magrittr)
 # Here we will just use the traditional assignment strategy
@@ -312,7 +324,7 @@ head(BMI)
 
 ```
 
-Our data is looking great! Now we might want to make sure that our observations for each variable look the way we want. In otherwords if we want to make plots about National BMI in 1985 then we would need our values to be numeric. Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the `:`. Looks like none of our BMI data is actually numeric. Let's change that now.
+Our data is looking great! Now we might want to make sure that our observations for each variable look the way we want. In other words if we want to make plots about National BMI in 1985 then we would need our values to be numeric. Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the `:`. Looks like none of our BMI data is actually numeric. Let's change that now.
 
 ```{r, warning=FALSE}
 str(BMI)
@@ -366,11 +378,10 @@ hist(BMI$National_BMI_1985)
 
 ```
 
-Ok so the data looks it might be slighty what we call `right skewed` because the tail of the distribution is longer on the right side.
+OK, so the data looks like it is what we call `right skewed` because the tail of the distribution is longer on the right side.
 
+What does the rest of our data look like?
 ```{r}
-
-
 hist(BMI$Rural_BMI_1985)
 hist(BMI$Urban_BMI_1985)
 
@@ -394,10 +405,11 @@ hist(Men$National_BMI_2017)
 hist(Men$Rural_BMI_2017)
 hist(Men$Urban_BMI_2017)
 ```
+In general the data for the Men looks less normal but it is a bit harder to tell for some of the data for the Women.
 
-Let's use a method called qqplots to determine if the data is indeed normally distributed. This method allows us to test the fit of known thoretical distributions (like the normal distribution) with our oberved distribution.
+Let's use a method called quantile quantile plotting to determine if the data is indeed normally distributed. These plots are called `QQ plots`. This method allows us to test the fit of known theoretical distributions (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a `quantile`? This is a division of the data distribution into roughly equal portions.
 
-Here is an example of a qqplot for the normally distributed data that we just created:
+Here is an example of a QQ plot for the normally distributed data that we just created:
 
 ```{r}
 
@@ -405,6 +417,18 @@ qqnorm(norm_BMI_ex_data)
 qqline(norm_BMI_ex_data)
 
 ```
+
+Here we can see that the quantiles are fairly similar bewteen the observed and theoretical data. We see that the points mostly fall on the line, however there are some points that are a bit further from the line as we get to the extreme quantiles. Notice that the sample quantiles (which will be fairly similar to our real BMI data quantiles) on the y-axis has the same range as the values that we created. So values that are bellow 22 for example are represented as the points bellow 22 on the y-axis. As expected we see that about half the points are bellow our mean of 24.
+
+If we were to use different data that had a range of differnt values our y-axis would shift according to the range of values. For example the Orange data within the installation of R includes data about the circumfrance of orange trees in millimeters. Here we can see that the quantiles are quite different but reflect the range of orange tree circumfrances.
+```{r}
+range(Orange$circumference)
+qqnorm(Orange$circumference)
+qqline(Orange$circumference)
+```
+
+
+Let's take a look at our BMI data:
 
 ```{r}
 
@@ -418,10 +442,11 @@ qqline(BMI$National_BMI_2017)
 qqnorm(Men$National_BMI_1985, ylab = "Men_1985_BMI_quantiles")
 qqline(Men$National_BMI_1985)
 
-qqnorm(Women$National_BMI_2017, ylab = "Women_1985_BMI_quantiles")
+qqnorm(Women$National_BMI_2017, ylab = "Women_1985_BMI_quantiles") # this looks pretty close
 qqline(Women$National_BMI_2017)
 
 ```
+We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution.
 
 Finally, you can also use the Shapiro-Wilk test for normality when the qqplot is a bit unclear.
 
@@ -432,4 +457,6 @@ shapiro.test(BMI$National_BMI_1985)
 shapiro.test(BMI$National_BMI_2017)
 shapiro.test(Women$National_BMI_1985)
 shapiro.test(Men$National_BMI_1985)
+
+# in all of these cases our data does not appear to be normally distributed
 ```
