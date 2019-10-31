@@ -513,17 +513,30 @@ We are interested in comparing male and female BMI measurements, as well as rura
 
 If these assumptions are violated, this doesn't necessarily mean we can't perform a t test. It just means we may have to transform the data to make it normally distributed and we may need to peform the t test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. We will explore both of these options.
 
-
-First let's see how the results look if we were to ignore the fact that our data does not appear to be normally distributed.
+Let's check if the variance of the rural and urban data is equal using the `var.test()` function.
 
 ```{r}
-for_hist <-BMI %>% select(-matches("CI|ex|Country"))# to remove columns with names containing CI, such as "Urban_BMI_1985_CI or "Country"
-rownames(for_hist)<- paste(BMI$Country, BMI$Sex, sep = "_")
-lapply(for_hist, hist)
+var.test(BMI$Rural_BMI_1985, BMI$Urban_BMI_1985)
+var.test(BMI$Rural_BMI_2017, BMI$Urban_BMI_2017)
+```
+
+Our p value is less than .05 for both tests, thus we reject our null hypothesis that there is no difference in the variance. Therefore, we conclude that the variance is not equal and that our data also violates this assumption.
+
+First let's see how the results look if we were to ignore the fact that our data does not appear to be normally distributed. We will perform a special t.test where we account for the fact that our variance is not equal.
+
+```{r}
+t.test(BMI$Rural_BMI_1985, BMI$Urban_BMI_1985, var.equal = FALSE)
+t.test(BMI$Rural_BMI_2017, BMI$Urban_BMI_2017, var.equal = FALSE)
+
 ```
 
 
+Now we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values.
 
+```{r}
 
-
-
+BMI_log <-log(data_hist)
+BMI_log_hist <-lapply(BMI_log, make_hist)
+do.call(grid.arrange, BMI_log_hist)
+lapply(BMI_log, shapiro.test)
+```
