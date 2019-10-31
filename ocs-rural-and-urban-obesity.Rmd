@@ -371,40 +371,73 @@ norm_BMI_ex_data <- rnorm(n = 200, mean = 24) # this function allows us to make 
 hist(norm_BMI_ex_data)
 ```
 
+Alternatively we can plot this using the `qplot()` function of the `ggplot2 package`:
 
 ```{r}
+qplot(norm_BMI_ex_data)
+qplot(norm_BMI_ex_data, bins = 15) # we can modify how we bin our histogram using the bin argument- in other words, how many bars would we like to include
+```
 
-hist(BMI$National_BMI_1985)
-
+Let's see how our data looks:
+```{r}
+qplot(BMI$National_BMI_1985, bins = 15)
 ```
 
 OK, so the data looks like it is what we call `right skewed` because the tail of the distribution is longer on the right side.
 
-What does the rest of our data look like?
-```{r}
-hist(BMI$Rural_BMI_1985)
-hist(BMI$Urban_BMI_1985)
+What does the rest of our data look like? We could check by doing something like this, but this is a lot of code:
+```{r, eval = FALSE}
 
-hist(BMI$National_BMI_2017)
-hist(BMI$Rural_BMI_2017)
-hist(BMI$Urban_BMI_2017)
+qplot(BMI$Rural_BMI_1985, bins = 15)
+qplot(BMI$Urban_BMI_1985, bins = 15)
 
-hist(Women$National_BMI_1985)
-hist(Women$Rural_BMI_1985)
-hist(Women$Urban_BMI_1985)
+qplot(BMI$National_BMI_2017, bins = 15)
+qplot(BMI$Rural_BMI_2017, bins = 15)
+qplot(BMI$Urban_BMI_2017, bins = 15)
 
-hist(Women$National_BMI_2017)
-hist(Women$Rural_BMI_2017)
-hist(Women$Urban_BMI_2017)
+qplot(Women$National_BMI_1985, bins = 15)
+qplot(Women$Rural_BMI_1985, bins = 15)
+qplot(Women$Urban_BMI_1985, bins = 15)
 
-hist(Men$National_BMI_1985)
-hist(Men$Rural_BMI_1985)
-hist(Men$Urban_BMI_1985)
+qplot(Women$National_BMI_2017, bins = 15)
+qplot(Women$Rural_BMI_2017, bins = 15)
+qplot(Women$Urban_BMI_2017, bins = 15)
 
-hist(Men$National_BMI_2017)
-hist(Men$Rural_BMI_2017)
-hist(Men$Urban_BMI_2017)
+qplot(Men$National_BMI_1985, bins = 15)
+qplot(Men$Rural_BMI_1985, bins = 15)
+qplot(Men$Urban_BMI_1985, bins = 15)
+
+qplot(Men$National_BMI_2017, bins = 15)
+qplot(Men$Rural_BMI_2017, bins = 15)
+qplot(Men$Urban_BMI_2017, bins = 15)
 ```
+ 
+ Alternatively if we want to plot all of these we can do something like this:
+ 
+```{r, warnings = FALSE}
+
+data_hist <-BMI %>% select(-matches("CI|ex|Country"))# to remove columns with names containing CI, such as "Urban_BMI_1985_CI or "Country" or "Sex" - I could not recall if Sex was capitalized so using "ex" allowed me to remove that column regardless
+rownames(data_hist)<- paste(BMI$Country, BMI$Sex, sep = "_") # to keep track of the data we can rename the rownmanes of the newly created data with the Country and the Sex data
+make_hist <- function(x) {qplot(x, bins = 15)}
+lapply(data_hist, make_hist) # this allows his to apply the hist() function to all the columns in data_hist
+```
+
+Doing the same with the Men and Women data, we can combine our histograms into one plot for each using the gridExtra package:
+ 
+```{r, warnings = FALSE}
+library(gridExtra)
+data_hist_Men <-Men %>% select(-matches("CI|ex|Country"))
+rownames(data_hist_Men)<- paste(Men$Country, Men$Sex, sep = "_")
+Men_hist<-lapply(data_hist_Men, make_hist)
+do.call(grid.arrange, Men_hist)
+
+data_hist_Women <-Women %>% select(-matches("CI|ex|Country"))
+rownames(data_hist_Women)<- paste(Women$Country, Women$Sex, sep = "_")
+Women_hist<-lapply(data_hist_Women, make_hist)
+do.call(grid.arrange, Men_hist)
+
+```
+
 In general the data for the Men looks less normal but it is a bit harder to tell for some of the data for the Women.
 
 Let's use a method called quantile quantile plotting to determine if the data is indeed normally distributed. These plots are called `QQ plots`. This method allows us to test the fit of known theoretical distributions (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a `quantile`? This is a division of the data distribution into roughly equal portions.
@@ -457,6 +490,40 @@ shapiro.test(BMI$National_BMI_1985)
 shapiro.test(BMI$National_BMI_2017)
 shapiro.test(Women$National_BMI_1985)
 shapiro.test(Men$National_BMI_1985)
+shapiro.test(Men$Urban_BMI_1985)
+shapiro.test(Men$Rural_BMI_1985)
+shapiro.test(Women$Urban_BMI_1985)
+shapiro.test(Women$Rural_BMI_1985)
+shapiro.test(BMI$Urban_BMI_1985)
+shapiro.test(BMI$Rural_BMI_1985)
 
+shapiro.test(Men$National_BMI_2017)
+shapiro.test(Men$Urban_BMI_2017)
+shapiro.test(Men$Rural_BMI_2017)
+shapiro.test(Women$Urban_BMI_2017)
+shapiro.test(Women$Rural_BMI_2017)
+shapiro.test(BMI$Urban_BMI_2017)
+shapiro.test(BMI$Rural_BMI_2017)
 # in all of these cases our data does not appear to be normally distributed
 ```
+We are interested in comparing male and female BMI measurements, as well as rural and urban, but the data does not appear to be normally distributed. Often when comparing two groups we might perform a two sample t test to determine if the means of each group is different. The two sample t test however, relies on several assumptions:
+
+1) The data for both groups is normally distributed
+2) The variance of both groups is similar
+
+If these assumptions are violated, this doesn't necessarily mean we can't perform a t test. It just means we may have to transform the data to make it normally distributed and we may need to peform the t test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. We will explore both of these options.
+
+
+First let's see how the results look if we were to ignore the fact that our data does not appear to be normally distributed.
+
+```{r}
+for_hist <-BMI %>% select(-matches("CI|ex|Country"))# to remove columns with names containing CI, such as "Urban_BMI_1985_CI or "Country"
+rownames(for_hist)<- paste(BMI$Country, BMI$Sex, sep = "_")
+lapply(for_hist, hist)
+```
+
+
+
+
+
+
