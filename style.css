@@ -1,0 +1,21 @@
+.particular_topic_block {
+    margin: .2em;
+    padding: .2em;
+    border: 1px solid blue;
+    border-radius: 5px;
+    background: #1E90FF;
+}
+
+
+.blue-outline {
+   background-color: #1E90FF;
+   padding:10px;
+   display: inline-block;
+}
+
+
+.scrollable {
+  white-space: pre !important;
+  overflow-y: scroll !important;
+  height: 50vh !important;
+}

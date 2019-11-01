@@ -15,6 +15,8 @@ output:
     toc: yes
 ---
 
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE)
@@ -229,11 +231,22 @@ Now we can see that Country is always the odd rows and the rest of the data is t
 ```{r}
 country <-data.frame(country_split) %>% 
   dplyr::filter(row_number() %% 2 == 1) 
+```
+
+We can take a look to make sure that all the country names look as expected:
+``` {r, eval= FALSE}
 country
+```
+
+#### {.scrollable }
+``` {r, echo = FALSE}
+country
+```
+####
+```{r}
 Women_BMI <-data.frame(country_split) %>% 
   dplyr::filter(row_number() %% 2 == 0)
 ```
-
 
 Great! Now we have a list of the countries that can be used for both the male and female data. 
 
@@ -325,7 +338,7 @@ names(Men)<-new_header
 ```
 
 
-Now we will add our country data to both our Men and Women tibbles 
+Now we will add our country data to both our Men and Women tibbles:
 
 ```{r}
 Women <- dplyr::bind_cols(country, Women)# this will add the country as a new column to the Women data object on the left 
