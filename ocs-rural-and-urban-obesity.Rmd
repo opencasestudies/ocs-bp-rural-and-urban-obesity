@@ -1,5 +1,5 @@
 ---
-title: "ocs-rural-and-urban-obesity"
+title: "Open Case Studies - Rural and Urban Obesity"
 css: style.css
 output:
   html_document:
@@ -22,6 +22,9 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE)
 ```
 
+```{r, echo = FALSE}
+knitr::include_graphics(here::here("mainplot.png"))
+```
 
 ## Motivation
 BMI is measured as an individual's weight in kilograms divided by the individual's height in meters squared. Different categories of weight are defined with the following cutoffs:
@@ -680,7 +683,7 @@ That's useful, but let's look at the individual points and include our country l
 ```{r}
 BMI_long$Country <-BMI_long$Country %>%str_replace( pattern = "United States of America", replacement = "USA")
 
-
+pdf(file = here("mainplot.pdf"), width = 8, height = 6)
 ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Year)) + 
   facet_grid(~Sex + Region) + 
@@ -693,7 +696,9 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
         axis.text.y = element_text(size = 20), 
         axis.title.y = element_text(size =15), 
         axis.title.x = element_text(size =15), 
-        strip.text.x = element_text(size = 15)) # this changes the size of x axis labels for the facet
+        strip.text.x = element_text(size = 15)) +
+        ggtitle( "Differences in Body-Mass Index (BMI) Over Time and Across Region Type and Gender" ) # this changes the size of x axis labels for the facet 
+
 
 ```
 
