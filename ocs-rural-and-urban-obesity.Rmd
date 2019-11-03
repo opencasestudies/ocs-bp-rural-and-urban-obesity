@@ -683,7 +683,7 @@ That's useful, but let's look at the individual points and include our country l
 ```{r}
 BMI_long$Country <-BMI_long$Country %>%str_replace( pattern = "United States of America", replacement = "USA")
 
-pdf(file = here("mainplot.pdf"), width = 8, height = 6)
+
 ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Year)) + 
   facet_grid(~Sex + Region) + 
