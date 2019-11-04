@@ -250,6 +250,7 @@ rural_urban[44:56]
 
 Although the header was necessary on all of the pages of the pdf version of the table, we only need that information once in our data.
 
+### Removing unnecessary repeated header information
 
 So, let's remove all the header information and the page number lines from the rural_urban object, then we will make a single line header for the beginning.
 One way to do this is to find all lines that include either "women" or "men" and only keep this data.
@@ -281,7 +282,7 @@ Great! So now our data looks much better but we need to add back our header and 
 knitr::include_graphics(here::here("last_page.png"))
 ```
 
-### Splitting the data into columns
+### Dealing with spacing
 
 First let's try splitting our header-less data into columns based on spaces:
 ```{r}
@@ -370,6 +371,8 @@ tibble::as_tibble(str_split(unknown$rural_urban, " ", simplify = TRUE))
 
 ```
 
+### Dealing with NA values
+
 So close! Notice that the "na*" values  have shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals. Here we can see this data in our original pdf:
 
 ```{r, echo = FALSE, out.width="100%"}
@@ -406,6 +409,7 @@ Women[20:30]
 
 Great, now we can split our data by spaces.
 
+### Splitting the data
 
 
 ```{r}
@@ -419,6 +423,7 @@ Women[20:30,]
 # We can see that our na values look correct
 ```
 
+### Adding new header
 We can see from our pdf and our object called header what the header was like. Let's also make a new single line header, but let's wait to add Country:
 
 ```{r}
@@ -445,6 +450,7 @@ Men <- dplyr::bind_cols(country, Men)
 head(Women)
 ```
 
+### Changing variable names
 Here we will change the variable name of the country data to country, currently it is called country_split. Here we will also introduce the concept of the assignment pipe. In this case our pipe operator looks like this `%<>%` .  Using this fancier pipe requires another package,  called `magrittr`. The other simpler pipe options from this package are loaded with `tidyverse` (if you used `library(tidyverse)` which loads most tidyverse packages), but not this fancier version. 
 
 The `>` portion of the pipe still behaves like a normal pipe, while the `<` portion of the pipe makes an assignment to whatever the `<`is pointing to, just like when we use the typical assignment operator `<-`. 
@@ -464,7 +470,10 @@ Men %<>%rename(Country = country_split)
 # We have also reassigned Men to the data object which has the country variable renamed
 ```
 
+
+### Joining the data
 Now we can combine our Men and Women data. This will put all the female data first (x) and all the male data second (y).
+
 
 ```{r}
 BMI<-dplyr::full_join(x = Men, y = Women)
@@ -472,6 +481,7 @@ BMI<-dplyr::full_join(x = Men, y = Women)
 str(BMI)
 ```
 
+### Sorting the data
 Now Lets sort the data by country:
 
 ```{r}
@@ -534,6 +544,12 @@ BMI_long%<>% tidyr::separate(class_BMI, c("Region", NA, "Year"))
 # The middle part of the column will not be used to create any new columns
 head(BMI_long)
 
+# Let's see how the dimensions of the BMI data have changed now that it is in long format:
+
+dim(BMI_numeric)
+dim(BMI_long)
+
+# Question opportunity: Why are there now 2,400 rows?
 ```
 
 
@@ -544,58 +560,104 @@ Great! our data is very usable now in this format!
 
 Now that our data is clean and in a format that we can work with, we can start to take a look at the data and how different groups might compare.
 
-One of the first things that is useful to do with data is to plot the frequency of the different possible values. This is called a <b>distribution</b>. To do this we can use the `hist()` function to create a histogram.
+Statistically speaking there are tests that can allow us to evaluate if the means of the groups are different. First let's see how our data looks in general.
+
+### General summary
+
+
+```{r}
+summary(BMI_numeric)
+# We can see that the mean  BMI estimates are larger in 2017
+# Is this a meaningful increase?
+```
+
+Lets look at the Data separately by gender:
+```{r}
+#Women:
+BMI_numeric %>% subset(Sex == "Women") %>% summary()
+
+```
+
+```{r}
+#Men
+BMI_numeric %>% subset(Sex == "Men") %>% summary()
+```
+
+It looks like mean BMIs have increased in all regions for both men and women. It is unclear though if this change is statistically significant.
+
+
+In order to apply a statistical test to compare the means, one of the first things that is useful to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. To do this we can use the `hist()` function to create a histogram.
 
 If the data were what we call <b>normally distributed</b> then the distribution should be equally centered around the mean and would look something like this:
 
 ```{r}
-norm_BMI_ex_data <- rnorm(n = 200, mean = 24) 
+norm_BMI_ex_data <- tibble(norm_data =rnorm(n = 200, mean = 24))
 # The rnorm() function allows us to make a vector of normaly distributed data centered around the mean of 24
-hist(norm_BMI_ex_data)
+head(norm_BMI_ex_data)
+hist(norm_BMI_ex_data$norm_data)
 ```
 
-Alternatively we can plot this using the `qplot()` function of the `ggplot2` package:
+Alternatively we can plot this using the `geom_hist()` function of the `ggplot2` package:
 
 ```{r}
-qplot(norm_BMI_ex_data)
-qplot(norm_BMI_ex_data, bins = 15) 
-# we can modify how we bin our histogram using the bin argument- in other words, how many bars would we like to include
+
+norm_BMI_ex_data %>% ggplot2::ggplot(aes(x = norm_data)) + ggplot2::geom_histogram() 
+# We are using the column called norm_data within the norm_BMI_ex_data data object
+# With ggplot2 we must first specify the data we are using with the ggplot() function
+# The geom_histogram() function specifies what type of plot to create
 ```
 
 Let's see how our data looks:
 ```{r}
-qplot(BMI_long$BMI)
+BMI_long%>% ggplot(aes(x = BMI)) + geom_histogram() 
+
 ```
 
 OK, so the data looks like it is what we call <b>right skewed</b> because the tail of the distribution is longer on the right side, but it looks fairly normally distributed.
 
-If we parse our data, what does it look like? The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI data by year, gender, and region.
+If we parse our data, what does it look like? The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI data by year, gender, and region. We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 ```{r, eval = TRUE}
-ggplot2::ggplot(BMI_long, aes(x=BMI)) + geom_histogram() 
-ggplot(BMI_long, aes(x=BMI)) + geom_histogram() + facet_wrap( ~ Sex)
-ggplot(BMI_long, aes(x=BMI)) + geom_histogram() + facet_wrap( ~ Sex + Year) 
-ggplot(BMI_long, aes(x=BMI)) + geom_histogram() + facet_wrap( ~ Sex + Year + Region) 
+BMI_long %>%
+  ggplot(aes(x=BMI)) +
+  geom_histogram()+
+  facet_wrap( ~ Sex)
+
+BMI_long %>%
+  ggplot(aes(x=BMI)) +
+  geom_histogram()+
+  facet_wrap( ~ Sex + Year) 
+
+BMI_long %>%
+  ggplot(aes(x=BMI)) +
+  geom_histogram() +
+  facet_wrap( ~ Sex + Year + Region) 
 
 ```
  
 Let's use a method called quantile quantile plotting to determine if the data is indeed normally distributed. These plots are called <b>QQ plots</b>. This method allows us to test the fit of known theoretical distributions (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a <b>quantile</b>? This is a division of the data distribution into roughly equal portions.
 
-Here is an example of a QQ plot for the normally distributed data that we just created:
+Here is an example of a QQ plot for the normally distributed data that we just created using the `stat_qq()` function of  the `ggplot2` package:
 
 ```{r}
 
-qqnorm(norm_BMI_ex_data)
-qqline(norm_BMI_ex_data)
+norm_BMI_ex_data %>%
+  ggplot(aes(sample =norm_data)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
+
+
 
 ```
 
 Here we can see that the quantiles are fairly similar bewteen the observed and theoretical data. We see that the points mostly fall on the line, however there are some points that are a bit further from the line as we get to the extreme quantiles. Notice that the sample quantiles (which will be fairly similar to our real BMI data quantiles) on the y-axis has the same range as the values that we created. So values that are bellow 22 for example are represented as the points bellow 22 on the y-axis. As expected we see that about half the points are bellow our mean of 24.
 
-If we were to use different data that had a range of differnt values our y-axis would shift according to the range of values. For example the Orange data within the installation of R includes data about the circumfrance of orange trees in millimeters. Here we can see that the quantiles are quite different but reflect the range of orange tree circumfrances.
+If we were to use different data that had a range of different values our y-axis would shift according to the range of values. For example the Orange data within the installation of R includes data about the circumfrance of orange trees in millimeters. Here we can see that the quantiles are quite different but reflect the range of orange tree circumfrances.
 ```{r}
 range(Orange$circumference)
-qqnorm(Orange$circumference)
-qqline(Orange$circumference)
+Orange%>%
+  ggplot(aes(sample =circumference)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
 ```
 
 
@@ -603,54 +665,97 @@ Let's take a look at our BMI data:
 
 ```{r}
 
-qqnorm(BMI_long$BMI)
-qqline(BMI_long$BMI)
+BMI_long %>%
+  ggplot(aes(sample =BMI)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
 ```
 
-We are particularly insterested in data for Women for each year and region. How does this data look?
-```{r}
-
-qqnorm(filter(BMI_long, Sex == "Women")$BMI)
-qqline(filter(BMI_long, Sex == "Women")$BMI)
-
-qqnorm(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural")$BMI)
-qqline(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural")$BMI)
-
-qqnorm(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban")$BMI)
-qqline(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban")$BMI)
-
-qqnorm(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural")$BMI)
-qqline(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural")$BMI)
-
-qqnorm(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban")$BMI)
-qqline(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban")$BMI)
-```
-We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution.
-
-Finally, we can also use the Shapiro-Wilk test for normality when the qqplot is a bit unclear.
+For the sake of simplicity, we are going to focus on the data from the women.  This is because women were identified in the paper to have larger increases in BMI. If we want to perform tests on these groups specifically, then we need to know how this data looks.
 
 ```{r}
 
-shapiro.test(norm_BMI_ex_data) # example of the test output for normal data
-shapiro.test(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban")$BMI)
-shapiro.test(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural")$BMI)
-shapiro.test(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban")$BMI)
-shapiro.test(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural")$BMI)
+BMI_long %>%
+  filter(Sex == "Women") %>%
+  ggplot(aes(sample =BMI)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
+```
+
+
+What about by region and year? If we compare these data then we need to look at the distribution of each of these subsets.
+
+```{r}
+
+BMI_long %>%
+  filter(Sex == "Women", Year == "2017", Region == "Rural") %>%
+  ggplot(aes(sample =BMI)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
+
+BMI_long %>%
+  filter(Sex == "Women", Year == "2017", Region == "Urban") %>%
+  ggplot(aes(sample =BMI)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
+
+
+BMI_long %>%
+  filter(Sex == "Women", Year == "1985", Region == "Rural") %>%
+  ggplot(aes(sample =BMI)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
+
+BMI_long %>%
+  filter(Sex == "Women", Year == "1985", Region == "Urban") %>%
+  ggplot(aes(sample =BMI)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()
+
 
 ```
+
+We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. The Rural data looks more normal than the urban data, but if we were to use statistical tests that rely on normality, this would require that both groups are normally distributed.
+
+Finally, some statisticians also use the Shapiro-Wilk test for normality when the qqplot is a bit unclear. Many statisticians however would conclude from the QQ plots that normality has been violated.
+
+For illustrative purposes we will show how we can  use the dplyr summarize() and group_by() functions to perform the shapiro test for all the subsets we are interested in.
+
+```{r}
+
+norm_BMI_ex_data$norm_data %>% shapiro.test() 
+# example of the test output for normal data
+
+BMI_long %>% 
+  filter(Sex == "Women") %>% 
+  group_by(Year, Region) %>% 
+  summarize(shapiro_test = shapiro.test(BMI)$p.value)
+
+```
+
+We see that all the data looks like it is not normally distributed.
 
 ## Data Analysis
 
-We are interested in comparing the female rural and urban BMI measurements for both years, but the data does not appear to be normally distributed. Often when comparing two groups we might perform a two sample t test to determine if the means of each group is different. The two sample t test however, relies on several assumptions:
+
+We are interested in comparing the means of female rural and urban BMI measurements for both years. There are two possible classes of statistical tests that we could run to compare the means of these two groups:
+
+1) Parametric
+2) Nonparametric
+
+### Parametric two sample mean tests
+
+Often when comparing two groups we might perform a two sample t test to determine if the means of each group is different. The two sample t test however, relies on several assumptions:
 
 1) The data for both groups is normally distributed
 2) The variance of both groups is similar
 
 If these assumptions are violated, this doesn't necessarily mean we can't perform a t test. It just means we may have to transform the data to make it normally distributed and we may need to peform the t test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. We will explore both of these options.
 
-The t test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficent but let's investigate this further.
+The t test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficent but let's investigate the nonparametric tests further. 
 
-Let's check if the variance of the rural and urban data is equal using the `var.test()` function.
+
+Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function.
 
 ```{r}
 
@@ -664,13 +769,13 @@ rownames(women_1985) <-country$country_split
 head(women_2017)
 head(women_1985)
 
-var.test(women_2017$Urban, women_2017$Rural)
+mood.test(women_2017$Urban, women_2017$Rural)
 
-var.test(women_1985$Urban, women_1985$Rural)
+mood.test(women_1985$Urban, women_1985$Rural)
 
 ```
 
-Our p value is just a bit less than .05 for both tests, thus we reject our null hypothesis that there is no difference in the variance. Therefore, we conclude that the variance is not equal and that our data also violates this assumption.
+Our p value is less than .05 for both tests, thus we reject our null hypothesis that there is no difference in the variance. Therefore, we conclude that the variance is not equal and that our data also violates this assumption.
 
 We will perform a special t.test where we account for the fact that our variance is not equal. 
 
@@ -683,7 +788,7 @@ t.test(women_2017$Urban, women_2017$Rural, var.equal = FALSE, paired = TRUE)
 ```
 
 
-Now we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values. 
+Now we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values. Then we will see how this influences the results.
 
 ```{r}
 
@@ -703,12 +808,12 @@ The data appears to be more similar to the normal distribution, but in some case
 
 There are two options to consider when the assumptions of the t test are violated. The Wilcoxon signed rank test and the Two-sample Kolmogorov-Smirnov test both do not assume normality. Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
 
-Importantly the Kolmogorov-Smirnov test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, even though the variance was quite similar between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate.
+Importantly the Kolmogorov-Smirnov test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, becuase the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate.
 
 ```{r}
 
-wilcox.test(women_2017$Urban, women_2017$Rural, paired = TRUE)
-wilcox.test(women_1985$Urban, women_1985$Rural,paired = TRUE)
+#wilcox.test(women_2017$Urban, women_2017$Rural, paired = TRUE)
+#wilcox.test(women_1985$Urban, women_1985$Rural,paired = TRUE)
 
 ks.test(women_2017$Urban, women_2017$Rural, paired = TRUE)
 ks.test(women_1985$Urban, women_1985$Rural, paired = TRUE)
@@ -718,13 +823,8 @@ ks.test(women_1985$Urban, women_1985$Rural, paired = TRUE)
 ##What about the difference in female BMI from 1985 to 2017 for both regions?
 
 ```{r}
-var.test(women_2017$Rural, women_1985$Rural) 
-# the varaince is equal so the Wilcoxon signed rank test will work well.
-wilcox.test(women_2017$Rural, women_1985$Rural, paired = TRUE)
-
-var.test(women_2017$Urban, women_1985$Urban) 
-# the varaince is equal so the Wilcoxon signed rank test will work well.
-wilcox.test(women_2017$Urban, women_1985$Urban, paired = TRUE)
+ks.test(women_1985$Urban, women_2017$Urban, paired = TRUE)
+ks.test(women_1985$Rural, women_1985$Rural, paired = TRUE)
 
 ```
 
@@ -776,7 +876,7 @@ ggplot(women_2017_long, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlie
 ```
 
 
-
+### Overall differences
 
 Let's take a look at all the data together:
 ```{r}
@@ -818,6 +918,7 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
 
 Here we can see that overall BMI appears to be increasing globally over time. Additionally we can see that this is occuring not just in urban areas, but also in rural areas. The US is consistently above the median in all strata of the data. In general, the female data shows higher BMI values than the male data. The rural USA BMI appears to be higher than the urban BMI for both men and women. Many countries have average BMI estimates above the obesity threshold of 30. Thus it appears that education and outreach programs for weight management should focus on both rural and urban areas and both genders. Education and assistance for women may be especially helpful. 
 
+### Differences in rate of increase
 
 How does the rate of increase in BMI differ between groups? Which group might especially need attention?
 
