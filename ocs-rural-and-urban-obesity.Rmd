@@ -43,7 +43,24 @@ knitr::include_graphics(here::here("paper.png"))
 NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* 569, 260–264 (2019). 
 
 ####
-This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities.
+This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities. 
+
+<b><u> Our main questions are: </u></b>
+
+1) Is there a difference between rural and urban BMI estimates around the world?
+2) How have BMI estimates changed from 1985 to 2017?
+3) How do different countries compare for BMI estimates- in particular, how does the United States compare to the rest of the world?
+
+In this case study, we’ll walk you through importing data from a pdf, cleaning data, wrangling data, visualizing the data, and comparing the means of two groups using well-established and commonly used packages, including stringr, tidyr, dplyr, purrr, and ggplot2. We will especially focus on using packages and functions from the [Tidyverse](https://www.tidyverse.org/). The Tidyverse is a library of packages created by the chief scientist at RStudio, Hadley Wickham. While some students may be familiar with previous R programming packages, these packages make data science in R especially efficient.
+
+
+
+```{r, out.width = "20%", echo = FALSE, fig.align ="center"}
+library(knitr)
+include_graphics("https://tidyverse.tidyverse.org/logo.png")
+```
+
+### Context
 
 The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf) that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link) for risk for many diseases particularly when combined with other risk factor information.
 
@@ -649,26 +666,26 @@ How do the different countries compare?  Or in otherwords what do the individual
 library(ggplot2)
 
 women_1985$country <- country$country_split # Let's add the country names
-women_1985<-gather(women_1985, key = Type, value = BMI, Urban:Rural) # Let's put the type of BMI in long format again, but not inlcude the country in long format
-head(women_1985)
+women_1985_long<-gather(women_1985, key = Type, value = BMI, Urban:Rural) # Let's put the type of BMI in long format again, but not inlcude the country in long format
+head(women_1985_long)
 
 women_2017$country <- country$country_split # Let's add the country names
-women_2017<-gather(women_2017, key = Type, value = BMI, Urban:Rural) # Let's put the type of BMI in long format again, but not inlcude the country in long format
-head(women_2017)
+women_2017_long<-gather(women_2017, key = Type, value = BMI, Urban:Rural) # Let's put the type of BMI in long format again, but not inlcude the country in long format
+head(women_2017_long)
 
-ggplot(women_1985, aes(x = Type, y =BMI, col = Type)) + geom_boxplot() + geom_label(aes(label = country))  
+ggplot(women_1985_long, aes(x = Type, y =BMI, col = Type)) + geom_boxplot() + geom_label(aes(label = country))  
 ```
 If we include all country names this is a bit too much... so perhaps we should focus on just the extreme BMI values:
 ```{r}
 library(ggrepel)
-ggplot(women_1985, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlier.shape = NA)+geom_text(data=subset(women_1985, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country)) + geom_jitter(data=subset(women_1985, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country), width = .02) + geom_text_repel(data=subset(women_1985, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country))
+ggplot(women_1985_long, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlier.shape = NA)+geom_text(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country)) + geom_jitter(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country), width = .02) + geom_text_repel(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country))
 ```
 
 And let's fill the boxplots with color and outline in black:
 ```{r}
-ggplot(women_1985, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlier.shape = NA, aes(fill = Type), color = "black") + geom_jitter(data=subset(women_1985, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country), width = .02) + geom_text_repel(data=subset(women_1985, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country))
+ggplot(women_1985_long, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlier.shape = NA, aes(fill = Type), color = "black") + geom_jitter(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country), width = .02) + geom_text_repel(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country))
 
-ggplot(women_2017, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlier.shape = NA, aes(fill = Type), color = "black") + geom_jitter(data=subset(women_1985, BMI>33 | BMI<20 | country == "United States of America"), aes(x =Type, y =BMI,label=country), width = .02) + geom_text_repel(data=subset(women_1985, BMI>31 | BMI<20 | country == "United States of America"), aes(x =Type, y =BMI,label=country))
+ggplot(women_2017_long, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlier.shape = NA, aes(fill = Type), color = "black") + geom_jitter(data=subset(women_2017_long, BMI>33 | BMI<20 | country == "United States of America"), aes(x =Type, y =BMI,label=country), width = .02) + geom_text_repel(data=subset(women_2017_long, BMI>31 | BMI<20 | country == "United States of America"), aes(x =Type, y =BMI,label=country))
 ```
 
 
@@ -702,7 +719,48 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
 
 ```
 
+
+How does the rate of increase in BMI differ between the groups?
+
+```{r}
+women_diff <-women_2017 -women_1985
+
+women_diff$country <- country$country_split # Let's add the country names
+women_diff_long<-gather(women_diff, key = Type, value = Difference, Urban:Rural) # Let's put the type of BMI in long format again, but not inlcude the country in long format
+head(women_diff_long)
+
+ggplot(women_diff_long, aes(x = Type, y =Difference, col = Type)) + geom_boxplot(outlier.shape = NA, aes(fill = Type), color = "black") + geom_jitter(data=subset(women_diff_long,  country == "United States of America"), aes(x =Type, y =Difference,label=country), width = .02) + geom_text_repel(data=subset(women_diff_long, country == "United States of America"), aes(x =Type, y =Difference,label=country))
+
+BMI_numeric$Rural_difference <- BMI_numeric$Rural_BMI_2017 - BMI_numeric$Rural_BMI_1985
+BMI_numeric$Urban_difference <- BMI_numeric$Urban_BMI_2017 - BMI_numeric$Urban_BMI_1985
+BMI_numeric$National_difference <- BMI_numeric$National_BMI_2017 - BMI_numeric$National_BMI_1985
+
+BMI_diff_long <- BMI_numeric %>% select(Country: National_difference) %>% gather(key = Type, value = Difference , Rural_difference:National_difference)
+BMI_diff_long$Country <-BMI_diff_long$Country %>%str_replace( pattern = "United States of America", replacement = "USA")
+
+ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) + 
+  geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Type)) + 
+  facet_grid(~Sex) +
+  geom_jitter(data=subset(BMI_diff_long), aes(x =Type, y =Difference), width = .2, size =2, shape =21, color = "black", fill = "gray")  + # this will add the individual country data points, the shape 21 allows for a different fill and outline color ( the outline is the "color"), the width determines how wide the jitter points are plotted
+  geom_jitter(data=subset(BMI_diff_long, Country == "USA"), aes(x =Type, y =Difference), width = .02, size =12, shape =21, color = "black", fill = "gray") + # this will add points that are larger for the USA data
+  geom_text(data=subset(BMI_diff_long,  Country == "USA"), aes(x =Type, y =Difference,label=Country), color = "black")+ # this will add USA labels to the USA points
+  theme(legend.position = "none", # this is useful for removing the legend
+        axis.text.x = element_text(size = 15,angle = 30), # this changes the size and angle of the x axis point labels 
+        axis.text.y = element_text(size = 20), 
+        axis.title.y = element_text(size =15), 
+        axis.title.x = element_text(size =15), 
+        strip.text.x = element_text(size = 15)) +
+        ggtitle( "Change in Body-Mass Index (BMI) Over Time and Across Region Type and Gender" ) # this changes the size of x axis labels for the facet 
+
+
+
+```
+
+
+
 Here we can see that overall BMI appears to be increasing globally over time. Additionally we can see that this is occuring not just in urban areas, but also in rural areas. The US is consistently above the median in all strata of the data. In general, the female data shows higher BMI values than the male data. The rural USA BMI appears to be higher than the urban BMI for both men and women. Many countries have average BMI estimates above the obesity threshold of 30. Thus it appears that education and outreach programs for weight management should focus on both rural and urban areas and both genders. Education and assistance for women may be especially helpful. 
+
+
 
 ## Summary
 
