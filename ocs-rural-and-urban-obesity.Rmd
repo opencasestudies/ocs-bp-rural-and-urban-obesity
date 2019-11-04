@@ -767,6 +767,23 @@ Often we would check if the variance of the rural and urban data is equal using 
 
 ```{r}
 
+
+mood.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
+          pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI))
+# not equal - p value <.05 reject the null: no difference in the variance of the distributions
+
+mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
+          pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI))
+# not equal - p value <.05, reject the null: no difference in the variance of the distributions
+
+mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
+          pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI))
+# equal - p value >.05, accept the null: no difference in the variance of the distributions
+
+mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI), 
+          pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI))
+# equal - p value >.05, accept the null: no difference in the variance of the distributions
+
 women_2017 <- data.table::data.table(Urban = filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban")$BMI, Rural = filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural")$BMI)
 
 women_1985 <- data.table::data.table(Urban = filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban")$BMI, Rural = filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural")$BMI)
@@ -790,8 +807,35 @@ We will perform a special t.test where we account for the fact that our variance
 Another important consideration is that the data is what we call <b>paired</b>. Meaning the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country.
 
 ```{r}
+
+t.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI), 
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI),
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI),
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+
+
+
 t.test(women_1985$Urban, women_1985$Rural, var.equal = FALSE, paired = TRUE)
 t.test(women_2017$Urban, women_2017$Rural, var.equal = FALSE, paired = TRUE)
+
+
+
 
 ```
 
@@ -800,17 +844,81 @@ Now we will try transform our data to make it more normally distributed. One way
 
 ```{r}
 
-women_1985_log <- log(women_1985)
-women_2017_log <- log(women_2017)
-map(women_2017_log, shapiro.test)
-map(women_1985_log, shapiro.test)
+# create a new column with the log version of the BMI variable
+BMI_long_log <- mutate(BMI_long, log_BMI=log(pull(BMI_long,BMI))) 
 
-t.test(women_1985_log$Urban, women_1985_log$Rural, var.equal = FALSE, paired = TRUE)
-t.test(women_2017_log$Urban, women_2017_log$Rural, var.equal = FALSE, paired = TRUE)
+
+BMI_long_log %>%
+  filter(Sex == "Women", Year == "2017", Region == "Rural") %>%
+  ggplot(aes(sample =log_BMI)) +
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Log Women 2017 Rural Data")
+
+BMI_long_log %>%
+  filter(Sex == "Women", Year == "2017", Region == "Urban") %>%
+  ggplot(aes(sample =log_BMI)) +
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Log Women 2017 Urban Data")
+
+
+BMI_long_log %>%
+  filter(Sex == "Women", Year == "1985", Region == "Rural") %>%
+  ggplot(aes(sample =log_BMI)) +
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Log Women 1985 Rural Data")
+
+BMI_long_log %>%
+  filter(Sex == "Women", Year == "1985", Region == "Urban") %>%
+  ggplot(aes(sample =log_BMI)) +
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Log Women 1985 Urban Data")
+
+
+BMI_long_log %>% 
+  filter(Sex == "Women") %>% 
+  group_by(Year, Region) %>% 
+  summarize(shapiro_test = shapiro.test(log_BMI)$p.value)
+
+# recall what it was before
+BMI_long %>% 
+  filter(Sex == "Women") %>% 
+  group_by(Year, Region) %>% 
+  summarize(shapiro_test = shapiro.test(BMI)$p.value)
+
+# so the data is more normal... but still not really normally distributed
 
 ```
 
-The data appears to be more similar to the normal distribution, but in some cases still fails the Shapiro-Wilk normality test. Again, our sample size of 200 is quite large and the t test is generally quite robost to violations of normality with large n, thus the modified t test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t test are violated. 
+Let's see the results of the t test with the transformed data:
+```{r}
+
+t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Rural"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Urban"), log_BMI), 
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Rural"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Urban"), log_BMI),
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Rural"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Rural"), log_BMI),
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Urban"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Urban"), log_BMI),
+       var.equal = FALSE, paired = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+
+```
+
+The data appears to be more similar to the normal distribution, but most subsets still fail the Shapiro-Wilk normality test. Again, our sample size of 200 is quite large and the t test is generally quite robost to violations of normality with large n, thus the modified t test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t test are violated. 
 
 ### Nonparametric two sample mean tests
 
@@ -820,59 +928,90 @@ Importantly the Kolmogorov-Smirnov test does not assume normality or equal varia
 
 ```{r}
 
-#wilcox.test(women_2017$Urban, women_2017$Rural, paired = TRUE)
-#wilcox.test(women_1985$Urban, women_1985$Rural,paired = TRUE)
+#wilcox.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
+#            pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
+#            paired = TRUE)
+#wilcox.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
+#            pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI),
+#            paired = TRUE))
 
-ks.test(women_2017$Urban, women_2017$Rural, paired = TRUE)
-ks.test(women_1985$Urban, women_1985$Rural, paired = TRUE)
+ks.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
+        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
+        paired = TRUE)
+
+ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
+        pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI),
+        paired = TRUE)
+
 ```
 
 
 ##What about the difference in female BMI from 1985 to 2017 for both regions?
 
 ```{r}
-ks.test(women_1985$Urban, women_2017$Urban, paired = TRUE)
-ks.test(women_1985$Rural, women_1985$Rural, paired = TRUE)
+ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
+        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI),
+        paired = TRUE)
+
+ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI), 
+        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
+        paired = TRUE)
 
 ```
 
 ## Data Visualization
 
 ```{r}
+BMI_long %>% 
+  filter(Sex == "Women", Year == "1985", Region != "National") %>%
+  ggplot(aes(x = Region, y = BMI)) +
+  geom_boxplot() +
+  geom_jitter(width = .3)
 
-ggplot(gather(women_1985), aes(x = key, y =value, col = key)) + geom_boxplot() +geom_jitter(width = .3)
-ggplot(gather(women_2017), aes(x = key, y =value, col = key)) + geom_boxplot() +geom_jitter(width = .3)
+BMI_long %>% 
+  filter(Sex == "Women", Year == "2017", Region != "National") %>%
+  ggplot(aes(x = Region, y = BMI)) +
+  geom_boxplot() +
+  geom_jitter(width = .3)
 
 ```
 
 ```{r}
-Rural_women <- tibble(BMI_2017 = women_2017$Rural, BMI_1985 = women_1985$Rural)
-Urban_women <- tibble(BMI_2017 = women_2017$Urban, BMI_1985 = women_1985$Urban)
+BMI_long %>% 
+  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+  ggplot(aes(x = Year, y = BMI)) +
+  geom_boxplot() +
+  geom_jitter(width = .3)
 
-ggplot(gather(Rural_women), aes(x = key, y =value, col = key)) + geom_boxplot() +geom_jitter(width = .3)
-ggplot(gather(Urban_women), aes(x = key, y =value, col = key)) + geom_boxplot() +geom_jitter(width = .3)
-
+BMI_long %>% 
+  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Urban") %>%
+  ggplot(aes(x = Year, y = BMI)) +
+  geom_boxplot() +
+  geom_jitter(width = .3)
 
 ```
 
 How do the different countries compare?  Or in otherwords what do the individual dots represent in our boxplots?
 ```{r}
-# Let's add the country names
-women_1985$country <- country$country_split 
-# Let's put the type of BMI in long format again, but not inlcude the country in long format
-women_1985_long<-gather(women_1985, key = Type, value = BMI, Urban:Rural) 
-head(women_1985_long)
 
-# Let's add the country names
-women_2017$country <- country$country_split 
-# Let's put the type of BMI in long format again, but not inlcude the country in long format
-women_2017_long<-gather(women_2017, key = Type, value = BMI, Urban:Rural)
-head(women_2017_long)
+BMI_long %>% 
+  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+  ggplot(aes(x = Year, y = BMI)) +
+  geom_boxplot() +
+  geom_jitter(width = .3)+
+  geom_label(aes(label = Country))
 
-ggplot(women_1985_long, aes(x = Type, y =BMI, col = Type)) + geom_boxplot() + geom_label(aes(label = country))  
 ```
 If we include all country names this is a bit too much... so perhaps we should focus on just the extreme BMI values. We will also use the `ggrepel` package to have our labels not overlap eachother.
 ```{r}
+
+BMI_long %>% 
+  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+  ggplot(aes(x = Year, y = BMI)) +
+  geom_boxplot() +
+  geom_jitter(width = .3)+
+  geom_label(aes(label = Country))
+
 ggplot(women_1985_long, aes(x = Type, y =BMI, col = Type)) + geom_boxplot(outlier.shape = NA)+geom_text(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country)) + geom_jitter(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country), width = .02) + ggrepel::geom_text_repel(data=subset(women_1985_long, BMI>31 | BMI<19 | country == "United States of America"), aes(x =Type, y =BMI,label=country))
 ```
 
