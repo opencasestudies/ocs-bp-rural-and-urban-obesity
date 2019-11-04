@@ -585,6 +585,7 @@ BMI_numeric %>% subset(Sex == "Men") %>% summary()
 
 It looks like mean BMIs have increased in all regions for both men and women. It is unclear though if this change is statistically significant.
 
+### Distributions
 
 In order to apply a statistical test to compare the means, one of the first things that is useful to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. To do this we can use the `hist()` function to create a histogram.
 
@@ -633,7 +634,8 @@ BMI_long %>%
   facet_wrap( ~ Sex + Year + Region) 
 
 ```
- 
+### Quantile Quantile Plots
+
 Let's use a method called quantile quantile plotting to determine if the data is indeed normally distributed. These plots are called <b>QQ plots</b>. This method allows us to test the fit of known theoretical distributions (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a <b>quantile</b>? This is a division of the data distribution into roughly equal portions.
 
 Here is an example of a QQ plot for the normally distributed data that we just created using the `stat_qq()` function of  the `ggplot2` package:
@@ -690,36 +692,42 @@ What about by region and year? If we compare these data then we need to look at 
 BMI_long %>%
   filter(Sex == "Women", Year == "2017", Region == "Rural") %>%
   ggplot(aes(sample =BMI)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
-  stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Women 2017 Rural Data")
 
 BMI_long %>%
   filter(Sex == "Women", Year == "2017", Region == "Urban") %>%
   ggplot(aes(sample =BMI)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
-  stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Women 2017 Urban Data")
 
 
 BMI_long %>%
   filter(Sex == "Women", Year == "1985", Region == "Rural") %>%
   ggplot(aes(sample =BMI)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
-  stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Women 1985 Rural Data")
 
 BMI_long %>%
   filter(Sex == "Women", Year == "1985", Region == "Urban") %>%
   ggplot(aes(sample =BMI)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
-  stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  ggtitle("QQ Plot for Women 1985 Urban Data")
 
 
 ```
 
 We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. The Rural data looks more normal than the urban data, but if we were to use statistical tests that rely on normality, this would require that both groups are normally distributed.
 
-Finally, some statisticians also use the Shapiro-Wilk test for normality when the qqplot is a bit unclear. Many statisticians however would conclude from the QQ plots that normality has been violated.
+Finally, some statisticians also use the Shapiro-Wilk test for normality when the QQ plot is a bit unclear. Many statisticians however would conclude from the QQ plots that normality has been violated.
 
-For illustrative purposes we will show how we can  use the dplyr summarize() and group_by() functions to perform the shapiro test for all the subsets we are interested in.
+### Shapiro-Wilk test
+
+For illustrative purposes we will show how we can use the dplyr summarize() and group_by() functions to perform the Shapiro-Wilk test for all the subsets we are interested in.
 
 ```{r}
 
@@ -733,7 +741,7 @@ BMI_long %>%
 
 ```
 
-We see that all the data looks like it is not normally distributed.
+We see that all the data does not appear to be normally distributed.
 
 ## Data Analysis
 
@@ -976,4 +984,4 @@ We have evaluated BMI average estimates from 200 different countries around the 
 
 ### Suggested Homework
 
-Students can evaluate the change in BMI overtime using the global data available for each year between 2015 and 2017. This data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv).
+Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. This data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv).
