@@ -88,11 +88,11 @@ library(cowplot)
 [dplyr](https://dplyr.tidyverse.org/)      | to arrange/filter/select subsets of the data 
 [tibble](https://tibble.tidyverse.org/)     | to create data objects that we can manipulate with dplyr/stringr/tidyr/purrr
 [magrittr](https://magrittr.tidyverse.org/articles/magrittr.html)   | to use the `%<>%` pipping operator
-[purrr](https://purrr.tidyverse.org/)      | to perform functions on all colums of a tibble
+[purrr](https://purrr.tidyverse.org/)      | to perform functions on all columns of a tibble
 [tidyr](https://tidyr.tidyverse.org/)      | to convert data from wide to long format
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
 [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) | to create data objects that are similar to tibbles but different
-[ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figrues not to overlap
+[ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figures not to overlap
 [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined
 ___
 
@@ -115,7 +115,7 @@ knitr::include_graphics(here::here("first_page.png"))
 
 Here you can see that the data contains mean BMI values for both Men and Women in various countries at the national level, as well as the mean BMI values for the rural and urban areas of these countries for both 1985 and 2017.
 
-The data within the parantheses are the 95 % <b>credible interval</b> (CIs) ranges for the mean BMI estimates. The authors privide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accuate, as there are more possible values for the true mean with credible evidence.
+The data within the parentheses are the 95 % <b>credible interval</b> (CIs) ranges for the mean BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence.
 
 <u>Note:</u> While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/) and [sex](https://www.who.int/genomics/gender/en/index1.html) are not actually binary, the data presented that is used in this analysis only contains data for groups of individuals described as men or women. 
 
@@ -522,7 +522,7 @@ head(BMI_numeric)
 ```
 
 
-It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularlly for plotting. 
+It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularly for plotting. 
 
 For a more detailed description about this, please see [this case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html)
 
@@ -537,7 +537,7 @@ BMI_long <-tidyr::gather(data =BMI_numeric, key = class_BMI, value = BMI, Nation
 head(BMI_long)
 ```
 
-It would be usefull to parse the 1985 and the 2017 data. We can do so by separating the parts of the class_BMI column using the `separate()` function of the `tidyr` package.
+It would be useful to parse the 1985 and the 2017 data. We can do so by separating the parts of the class_BMI column using the `separate()` function of the `tidyr` package.
 ```{r}
 BMI_long%<>% tidyr::separate(class_BMI, c("Region", NA, "Year")) 
 # We will separate the class_BMI column of the BMI_long tibble based on the underscores and create two new columns.
@@ -653,9 +653,9 @@ norm_BMI_ex_data %>%
 
 ```
 
-Here we can see that the quantiles are fairly similar bewteen the observed and theoretical data. We see that the points mostly fall on the line, however there are some points that are a bit further from the line as we get to the extreme quantiles. Notice that the sample quantiles (which will be fairly similar to our real BMI data quantiles) on the y-axis has the same range as the values that we created. So values that are bellow 22 for example are represented as the points bellow 22 on the y-axis. As expected we see that about half the points are bellow our mean of 24.
+Here we can see that the quantiles are fairly similar between the observed and theoretical data. We see that the points mostly fall on the line, however there are some points that are a bit further from the line as we get to the extreme quantiles. Notice that the sample quantiles (which will be fairly similar to our real BMI data quantiles) on the y-axis has the same range as the values that we created. So values that are bellow 22 for example are represented as the points bellow 22 on the y-axis. As expected we see that about half the points are bellow our mean of 24.
 
-If we were to use different data that had a range of different values our y-axis would shift according to the range of values. For example the Orange data within the installation of R includes data about the circumfrance of orange trees in millimeters. Here we can see that the quantiles are quite different but reflect the range of orange tree circumfrances.
+If we were to use different data that had a range of different values our y-axis would shift according to the range of values. For example the Orange data within the installation of R includes data about the circumference of orange trees in millimeters. Here we can see that the quantiles are quite different but reflect the range of orange tree circumferences.
 ```{r}
 range(Orange$circumference)
 Orange%>%
@@ -751,7 +751,7 @@ We see that all the data does not appear to be normally distributed.
 We are interested in comparing the means of female rural and urban BMI measurements for both years. There are two possible classes of statistical tests that we could run to compare the means of these two groups:
 
 1) Parametric
-2) Nonparametric
+2) nonparametric
 
 ### Parametric two sample mean tests
 
@@ -760,9 +760,9 @@ Often when comparing two groups we might perform a two sample t test to determin
 1) The data for both groups is normally distributed
 2) The variance of both groups is similar
 
-If these assumptions are violated, this doesn't necessarily mean we can't perform a t test. It just means we may have to transform the data to make it normally distributed and we may need to peform the t test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. We will explore both of these options.
+If these assumptions are violated, this doesn't necessarily mean we can't perform a t test. It just means we may have to transform the data to make it normally distributed and we may need to perform the t test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. We will explore both of these options.
 
-The t test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficent but let's investigate the nonparametric tests further. 
+The t test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
 
 
 Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function.
@@ -897,13 +897,13 @@ t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Urba
 
 ```
 
-The data appears to be more similar to the normal distribution, but most subsets still fail the Shapiro-Wilk normality test. Again, our sample size of 200 is quite large and the t test is generally quite robost to violations of normality with large n, thus the modified t test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t test are violated. 
+The data appears to be more similar to the normal distribution, but most subsets still fail the Shapiro-Wilk normality test. Again, our sample size of 200 is quite large and the t test is generally quite robust to violations of normality with large n, thus the modified t test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t test are violated. 
 
 ### Nonparametric two sample mean tests
 
 There are two options to consider when the assumptions of the t test are violated. The Wilcoxon signed rank test and the Two-sample Kolmogorov-Smirnov test both do not assume normality. Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
 
-Importantly the Kolmogorov-Smirnov test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, becuase the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate.
+Importantly the Kolmogorov-Smirnov test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate.
 
 ```{r}
 
@@ -970,7 +970,7 @@ BMI_long %>%
 
 ```
 
-How do the different countries compare?  Or in otherwords what do the individual dots represent in our boxplots?
+How do the different countries compare?  Or in other words what do the individual dots represent in our box plots?
 ```{r}
 
 BMI_long %>% 
@@ -981,7 +981,7 @@ BMI_long %>%
   geom_label(aes(label = Country))
 
 ```
-If we include all country names this is a bit too much... so perhaps we should focus on just the extreme BMI values. We will also use the `ggrepel` package to have our labels not overlap eachother.
+If we include all country names this is a bit too much... so perhaps we should focus on just the extreme BMI values. We will also use the `ggrepel` package to have our labels not overlap each other.
 
 
 
@@ -1005,7 +1005,7 @@ BMI_long %>%
               
 ```
 
-And let's fill the boxplots with color and outline in black:
+And let's fill the box plots with color and outline in black:
 ```{r}
 
 BMI_long %>% 
@@ -1065,7 +1065,7 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
 
 ```
 
-Here we can see that overall BMI appears to be increasing globally over time. Additionally we can see that this is occuring not just in urban areas, but also in rural areas. The US is consistently above the median in all strata of the data. In general, the female data shows higher BMI values than the male data. The rural USA BMI appears to be higher than the urban BMI for both men and women. Many countries have average BMI estimates above the obesity threshold of 30. Thus it appears that education and outreach programs for weight management should focus on both rural and urban areas and both genders. Education and assistance for women may be especially helpful. 
+Here we can see that overall BMI appears to be increasing globally over time. Additionally we can see that this is occurring not just in urban areas, but also in rural areas. The US is consistently above the median in all strata of the data. In general, the female data shows higher BMI values than the male data. The rural USA BMI appears to be higher than the urban BMI for both men and women. Many countries have average BMI estimates above the obesity threshold of 30. Thus it appears that education and outreach programs for weight management should focus on both rural and urban areas and both genders. Education and assistance for women may be especially helpful. 
 
 ### Differences in rate of increase
 
@@ -1190,7 +1190,7 @@ cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
 
 ## Summary
 
-We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community using t tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions.  Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particuarly for women. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges.
+We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community using t tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions.  Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges.
 
 ### Suggested Homework
 
