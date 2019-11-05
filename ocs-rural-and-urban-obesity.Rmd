@@ -3,6 +3,7 @@ title: "Open Case Studies - Rural and Urban Obesity"
 css: style.css
 output:
   html_document:
+    self_contained: yes
     code_download: yes
     highlight: tango
     number_sections: no
