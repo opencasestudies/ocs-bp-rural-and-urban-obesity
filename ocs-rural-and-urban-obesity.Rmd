@@ -784,20 +784,6 @@ mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban
           pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI))
 # equal - p value >.05, accept the null: no difference in the variance of the distributions
 
-women_2017 <- data.table::data.table(Urban = filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban")$BMI, Rural = filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural")$BMI)
-
-women_1985 <- data.table::data.table(Urban = filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban")$BMI, Rural = filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural")$BMI)
-
-rownames(women_2017) <-country$country_split
-rownames(women_1985) <-country$country_split
-
-head(women_2017)
-head(women_1985)
-
-mood.test(women_2017$Urban, women_2017$Rural)
-
-mood.test(women_1985$Urban, women_1985$Rural)
-
 ```
 
 Our p value is less than .05 for both tests, thus we reject our null hypothesis that there is no difference in the variance. Therefore, we conclude that the variance is not equal and that our data also violates this assumption.
@@ -827,15 +813,6 @@ t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"),
        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
        var.equal = FALSE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
-
-
-
-
-t.test(women_1985$Urban, women_1985$Rural, var.equal = FALSE, paired = TRUE)
-t.test(women_2017$Urban, women_2017$Rural, var.equal = FALSE, paired = TRUE)
-
-
-
 
 ```
 
@@ -1092,24 +1069,23 @@ Here we can see that overall BMI appears to be increasing globally over time. Ad
 
 How does the rate of increase in BMI differ between groups? Which group might especially need attention?
 
+First let's calculate the differences in BMI from 2017 and 1985 and add this to our BMI_long data object:
 ```{r}
-women_diff <-women_2017 -women_1985
-
- # Let's add the country names
-women_diff$country <- country$country_split
-# Let's put the type of BMI in long format again, but not inlcude the country in long format
-women_diff_long<-gather(women_diff, key = Type, value = Difference, Urban:Rural) 
-
-head(women_diff_long)
-
-ggplot(women_diff_long, aes(x = Type, y =Difference, col = Type)) + geom_boxplot(outlier.shape = NA, aes(fill = Type), color = "black") + geom_jitter(data=subset(women_diff_long,  country == "United States of America"), aes(x =Type, y =Difference,label=country), width = .02) + geom_text_repel(data=subset(women_diff_long, country == "United States of America"), aes(x =Type, y =Difference,label=country))
 
 BMI_numeric$Rural_difference <- BMI_numeric$Rural_BMI_2017 - BMI_numeric$Rural_BMI_1985
 BMI_numeric$Urban_difference <- BMI_numeric$Urban_BMI_2017 - BMI_numeric$Urban_BMI_1985
 BMI_numeric$National_difference <- BMI_numeric$National_BMI_2017 - BMI_numeric$National_BMI_1985
 
 BMI_diff_long <- BMI_numeric %>% select(Country: National_difference) %>% gather(key = Type, value = Difference , Rural_difference:National_difference)
+head(BMI_diff_long)
+```
+
+Let's replace "United states of America" with "USA" and make a plot with this data to compare the change in BMI:
+
+```{r}
+
 BMI_diff_long$Country <-BMI_diff_long$Country %>%str_replace( pattern = "United States of America", replacement = "USA")
+
 
 ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Type)) + 
@@ -1139,6 +1115,8 @@ ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) +
 
 We can now see that the rate of change appears to be larger in the women compared to the men. The group with the largest increase in the USA is the women living in rural areas.
 Thus this group should be especially focused on to improve this public health issue.
+
+
 
 ## Summary
 
