@@ -9,6 +9,12 @@ Title: Open Case Studies
 Version: 0.0.1
 Depends: R (>= 3.6.0)
 Imports:
+    qpdf,
+    Rcpp,
+    jpeg, 
+    png, 
+    testthat, 
+    webp,
     pdftools,
     readr,
     tidyr,
