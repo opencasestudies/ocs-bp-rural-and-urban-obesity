@@ -23,7 +23,7 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("mainplot.png"))
+knitr::include_graphics(here::here("mainplot2.png"))
 ```
 
 ## Motivation
@@ -74,6 +74,7 @@ library(tidyr)
 library(ggplot2)
 library(data.table)
 library(ggrepel)
+library(cowplot)
 
 ```
 
@@ -1116,7 +1117,75 @@ ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) +
 We can now see that the rate of change appears to be larger in the women compared to the men. The group with the largest increase in the USA is the women living in rural areas.
 Thus this group should be especially focused on to improve this public health issue.
 
+Now let's make a plot that summarizes the last two plots. To do this we will simplify the other two plots and then combine them together.
 
+```{r}
+
+# simplified national means plot
+Means_plot<-BMI_long %>% 
+  filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National") %>%
+ggplot(aes(x = Sex, y = BMI)) + 
+  geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Sex)) + 
+ scale_fill_manual(values=c("dodgerblue", "orchid2"))+
+  facet_grid(~Year) + 
+  geom_hline(yintercept=30, linetype="dashed", color = "red", size =1)  + 
+  geom_jitter(data=BMI_long 
+                          %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"),
+                          aes(x =Sex, y =BMI), width = .2, size =2, shape =21, color = "black", fill = "gray") +
+  geom_jitter(data=subset(BMI_long 
+                          %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"), 
+                          Country == "USA"), aes(x =Sex, y =BMI), width = .02, size =12, shape =21, color = "black", fill = "gray") + 
+  # This will add points that are larger for the USA data
+  geom_text(data=subset(BMI_long
+                        %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"),
+                        Country == "USA"), aes(x =Sex, y =BMI,label=Country), color = "black") + 
+  # This will add USA labels to the USA points
+  theme(legend.position = "none", 
+  # This is useful for removing the legend
+        axis.text.x = element_text(size = 15,angle = 30), 
+        # this changes the size and angle of the x axis point labels 
+        axis.text.y = element_text(size = 20), 
+        axis.title.y = element_text(size =15), 
+        axis.title.x = element_text(size =15), 
+        strip.text.x = element_text(size = 15))
+   
+#Simplified difference plot 
+BMI_diff_long$Type <-BMI_diff_long$Type %>%str_replace( pattern = "_difference", replacement = "")
+
+Diff_plot<-BMI_diff_long %>% 
+  filter(Sex %in% c("Men", "Women"), Type != "National") %>%
+ggplot( aes(x = Type, y = Difference, col = Type)) + 
+  geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Sex)) + 
+  scale_fill_manual(values=c("dodgerblue", "orchid2"))+
+  facet_grid(~Sex) +
+  geom_jitter(data=BMI_diff_long %>% 
+    filter(Sex %in% c("Men", "Women"), Type != "National") , 
+    aes(x =Type, y =Difference), width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
+  geom_jitter(data=subset(BMI_diff_long %>% 
+    filter(Sex %in% c("Men", "Women"), Type != "National") , Country == "USA"), 
+    aes(x =Type, y =Difference), width = .02, size =12, shape =21, color = "black", fill = "gray") + 
+  # This will add points that are larger for the USA data
+  geom_text(data=subset(BMI_diff_long %>% 
+    filter(Sex %in% c("Men", "Women"), Type != "National") , Country == "USA"),
+    aes(x =Type, y =Difference,label=Country), color = "black") + 
+  # This will add USA labels to the USA points
+  theme(legend.position = "none", 
+  # This is useful for removing the legend
+        axis.text.x = element_text(size = 15,angle = 30), 
+        # this changes the size and angle of the x axis point labels 
+        axis.text.y = element_text(size = 20), 
+        axis.title.y = element_text(size =15), 
+        axis.title.x = element_text(size =15), 
+        strip.text.x = element_text(size = 15)) # this changes the size of x axis labels for the facet
+
+Diff_plot<-Diff_plot + labs(title = "Change in BMI by region", x = "", y = "Increase in BMI \n (1985 to 2017)")+
+    theme(title = element_text (size = 12, face = "bold"))
+Means_plot <-Means_plot + labs(title = "Mean BMI over time", x = "", y = "Mean BMI")+
+    theme(title = element_text (size = 12, face = "bold"))
+
+cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
+
+```
 
 ## Summary
 
