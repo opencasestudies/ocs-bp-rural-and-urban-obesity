@@ -1,0 +1,27 @@
+Description: This is a Description.
+License: GPL-3
+Authors@R: person(given = "Just",
+           family = "Placeholder",
+           email = "blah@gmail.com")
+Package: ocs.rural.and.urban.obesity
+Type: package
+Title: Open Case Studies
+Version: 0.0.1
+Depends: R (>= 3.4.0)
+Imports: 
+    readr,
+    tidyr,
+    dplyr,
+    ggplot2,
+    ggrepel,
+    rmarkdown,
+    knitr,
+    cowplot,
+    here,
+    pdftools,
+    stringr,
+    tibble,
+    magrittr,
+    purrr,
+    data.table
+VignetteBuilder: knitr
