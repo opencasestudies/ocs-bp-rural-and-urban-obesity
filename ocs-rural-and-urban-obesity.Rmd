@@ -93,6 +93,7 @@ library(cowplot)
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
 [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) | to create data objects that are similar to tibbles but different
 [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figrues not to overlap
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined
 ___
 
 
