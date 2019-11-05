@@ -7,8 +7,9 @@ Package: ocs.rural.and.urban.obesity
 Type: package
 Title: Open Case Studies
 Version: 0.0.1
-Depends: R (>= 3.4.0)
-Imports: 
+Depends: R (>= 3.6.0)
+Imports:
+    pdftools,
     readr,
     tidyr,
     dplyr,
@@ -18,7 +19,6 @@ Imports:
     knitr,
     cowplot,
     here,
-    pdftools,
     stringr,
     tibble,
     magrittr,
