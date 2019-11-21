@@ -14,7 +14,6 @@ Imports:
     jpeg, 
     png, 
     testthat, 
-    webp,
     pdftools,
     readr,
     tidyr,
@@ -28,6 +27,6 @@ Imports:
     stringr,
     tibble,
     magrittr,
-    purrr,
-    data.table
+    glue,
+    purrr
 VignetteBuilder: knitr

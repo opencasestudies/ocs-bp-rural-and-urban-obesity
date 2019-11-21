@@ -44,11 +44,11 @@ knitr::include_graphics(here::here("paper.png"))
 NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* 569, 260–264 (2019). 
 
 ####
-This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities. 
+This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much if not more so than urban populations. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities. To do this we will test if there is a difference between the means of the measurements for each group.
 
 <b><u> Our main questions are: </u></b>
 
-1) Is there a difference between rural and urban BMI estimates around the world?
+1) Is there a difference between rural and urban BMI estimates around the world? How does this compare for males and females?
 2) How have BMI estimates changed from 1985 to 2017?
 3) How do different countries compare for BMI estimates- in particular, how does the United States compare to the rest of the world?
 
@@ -70,13 +70,12 @@ library(readr)
 library(dplyr)
 library(tibble)
 library(magrittr)
+library(glue)
 library(purrr)
 library(tidyr)
 library(ggplot2)
-library(data.table)
 library(ggrepel)
 library(cowplot)
-
 ```
 
 
@@ -89,16 +88,15 @@ library(cowplot)
 [dplyr](https://dplyr.tidyverse.org/)      | to arrange/filter/select subsets of the data 
 [tibble](https://tibble.tidyverse.org/)     | to create data objects that we can manipulate with dplyr/stringr/tidyr/purrr
 [magrittr](https://magrittr.tidyverse.org/articles/magrittr.html)   | to use the `%<>%` pipping operator
+[glue](https://www.tidyverse.org/blog/2017/10/glue-1.2.0/)  | to paste or combine character strings and data together
 [purrr](https://purrr.tidyverse.org/)      | to perform functions on all columns of a tibble
 [tidyr](https://tidyr.tidyverse.org/)      | to convert data from wide to long format
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
-[data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) | to create data objects that are similar to tibbles but different
 [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figures not to overlap
 [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined
 ___
 
-
-The first time we use a function, we will use the `::` to indicate what package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to illustrate what package we are using.
+The first time we use a function, we will use the `::` to indicate which package we are using. Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
 
 
 ### Context
@@ -114,7 +112,7 @@ We will be using data located within a table of the [supplementary material](htt
 knitr::include_graphics(here::here("first_page.png"))
 ```
 
-Here you can see that the data contains mean BMI values for both Men and Women in various countries at the national level, as well as the mean BMI values for the rural and urban areas of these countries for both 1985 and 2017.
+Here you can see that the data contains mean BMI values for both men and women in various countries at the national level, as well as the mean BMI values for the rural and urban areas of these countries for both 1985 and 2017.
 
 The data within the parentheses are the 95 % <b>credible interval</b> (CIs) ranges for the mean BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence.
 
@@ -162,7 +160,7 @@ knitr::include_graphics(here::here("page55.png"))
 ```
 
 
-We can see that the output looks pretty similar to the pages of the pdf, but the spacing is quite awkward. The way the data is displayed is partially influenced by how width setting of the RStudio window.  
+We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
 
 We are interested in a supplementary Table 3. which has multiple pages and includes the same header on each page; we can use that to determine what elements of our pdf_obesity character strings include our table. We will use the `str_detect()` function of the `stringr` package to search for the elements that contain text that is consistently in the header. The output of of this function will show which elements of the object (in this case pages of the pdf) include this pattern indicated as a "TRUE" or "FALSE".
 
@@ -172,9 +170,10 @@ stringr::str_detect(pattern = "Age-standardised mean BMI", string = pdf_obesity)
 # This shows the pages that contain our table of interest (as TRUE values).
 ```
 
-Let's extract just the data for the table now and call it rural_urban.
+Now we will extract just the data for the table now and call it rural_urban. To do this we will use the `str_subset()` function of the stringr package.
+
 ```{r}
-rural_urban <-pdf_obesity[stringr::str_detect(pattern ="Age-standardised mean BMI", string =pdf_obesity)]
+rural_urban <-stringr::str_subset(pattern ="Age-standardised mean BMI", string =pdf_obesity)
 
 str(rural_urban) 
 # The str() function is similar to the summary function
@@ -226,7 +225,7 @@ At this point we have large strings now for each page of the table, but this is 
 
 ### Separate the data into lines
 
-First it would be useful to separate each page into lines.
+First it would be useful to separate the data into lines or rows of the table.
 ```{r}
 rural_urban <-readr::read_lines(rural_urban)
 str(rural_urban) 
@@ -237,7 +236,7 @@ rural_urban[6]
 
 ### Removing excess white-space
 
-We also have a lot of white-space... let's get rid of the excess white spaces using `str_squish()`.
+We also have a lot of white-space... let's get rid of the excess white spaces using `str_squish()` also from the `stringr` package.
 
 ```{r}
 rural_urban<-stringr::str_squish(rural_urban) 
@@ -257,15 +256,18 @@ Although the header was necessary on all of the pages of the pdf version of the 
 
 So, let's remove all the header information and the page number lines from the rural_urban object, then we will make a single line header for the beginning.
 One way to do this is to find all lines that include either "women" or "men" and only keep this data.
+First let's see how many lines include "women" or "men". We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns.
+
 ```{r}
-stringr::str_which(string = rural_urban, pattern = "Women|Men") 
+stringr::str_which(string = rural_urban, pattern = "Women|Men")
+length(stringr::str_which(string = rural_urban, pattern = "Women|Men"))
 # Here the "|" indicates that we are looking for either the "Women" or "Men" patterns
 ```
 
-OK, so this looks correct. This includes most lines but there are gaps where are header is located.
+OK, so this looks correct. This includes most lines but there are gaps where are header is located. It looks like there are 400 lines in our table that aren't headers.
 
 ```{r}
-rural_urban <- rural_urban[str_which(string = rural_urban, pattern = "Women|Men")]
+rural_urban <- str_subset(string = rural_urban, pattern = "Women|Men")
 ```
 
 We can check our data now using either head() or glimpse().
@@ -273,13 +275,17 @@ We can check our data now using either head() or glimpse().
 dplyr::glimpse(rural_urban)
 ```
 
+Great, now our rural_urban object 400 lines instead of 461, like it did before when it contained the redudant header information.
+
 ```{r}
 head(rural_urban)
 ```
 
-So the `head()` function shows us the first rows or lines of the data, while the `glimpse()` function provides us information about the total size of the object and shows us the first line or row.
+The `head()` function shows us the first rows or lines of the data, while the `glimpse()` function provides us information about the total size of the object and shows us the first line or row.
 
 Great! So now our data looks much better but we need to add back our header and we would like this to only be a single line to make it easy to transform our data into a table or table-like object.
+
+Here is what our header used to look like:
 
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("last_page.png"))
@@ -287,33 +293,52 @@ knitr::include_graphics(here::here("last_page.png"))
 
 ### Dealing with spacing
 
-First let's try splitting our header-less data into columns based on spaces:
+First let's try splitting our header-less data into columns based on spaces using the `str_split()` function, where we specify that we are splitting the data based on the pattern of a space (the space is included in quotes):
 ```{r}
-(str_split(rural_urban, " ", simplify = TRUE))[1:10,] 
-# Here we will take a look at just the first 10 lines
+(str_split(string = rural_urban, pattern = " ", simplify = TRUE))[1:10,] 
+# Here we will take a look at just the first 10 lines using the [1:10,]
 ```
 
 This almost worked, but unfortunately country names that have spaces will be a problem. We can see that American Samoa has been divided into two columns and all subsequent columns are shifted.
 
 
-So now let's try to extract the country information, by separating the country information from the sex information when the sex is female. Sex always starts with either a capital "W" if the gender is female. We need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". Here we will also introduce the concept of piping, which uses the `%>%`. This is really useful when we have multiple steps, which we will show soon.
+So now let's try to extract the country information, by separating the country information from the sex information when the sex is female. 
+
+Sex always starts with either a capital "W" if the gender is female. #We need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
+
+Here we will also introduce the concept of piping, which uses the `%>%`. This is really useful when we have multiple steps, which we will show soon.
+
+So first we will select just the data for Women and then split this data based on the pattern " Women" (Note that the space is included - so that it is not within the country data).
+
 ```{r}
 
-Women <- stringr::str_subset(string = rural_urban, pattern = "Women") 
+Women <- str_subset(string = rural_urban, pattern = "Women") 
 # First let's subset the data to only the lines that contain "Women"
 
 country_split <-Women %>%
-  stringr::str_split(pattern= " W") %>%
+  stringr::str_split(pattern= " Women") %>%
   unlist() 
 
+
+#we can do the same thing with two pipes:
+# first we select the "Women" data and then we split the data by " Women"
+# finally we assign the output of both steps to the object country_split
+
+country_split <- str_subset(string = rural_urban, pattern = "Women") %>%
+  stringr::str_split(pattern= " Women") %>%
+  unlist()
 
 head(country_split)
 ```
 
-Now we can see that Country is always the odd rows and the rest of the data is the rest of the rows
+Now we can see that Country is always the odd rows and the rest of the data is the rest of the rows. 
+We can select the odd rows using the <b> Modulus (Remainder from division) operator</b>. 
+This operator looks like this `%%`. 
+All odd values such as 3, 7, or 15 when divided by 2 would leave a remainder of 1. 
+We will select just these rows using the `filter()` function of `dplyr`.
 
 ```{r}
-country <-data.frame(country_split) %>% 
+country <-tibble(country_split) %>% 
   dplyr::filter(row_number() %% 2 == 1) 
 ```
 
@@ -327,34 +352,43 @@ country
 country
 ```
 ####
+
+Thus the even rows - the rows with the data for women have a remainder of zero.
+
 ```{r}
-Women_BMI <-data.frame(country_split) %>% 
+Women_BMI <-tibble(country_split) %>% 
   dplyr::filter(row_number() %% 2 == 0)
+head(Women_BMI)
 ```
 
 Great! Now we have a list of the countries that can be used for both the male and female data. 
 
-Let's add the "W" back to our Women data. We can do so by replacing the string "omen" with "Women" using `str_repace()`.  
-```{r}
-glimpse(Women)
-Women<-Women_BMI %>%
-mutate(country_split =stringr::str_replace(string =country_split, pattern ="omen", replacement = "Women"))
-head(Women$country_split)
-```
 
 It's always a good idea to check that your data objects are the size you expect when wrangling. We can do so with the `dim()` function, which shows us the dimensions of data objects.
 
 ```{r}
-dim(Women)
+dim(Women_BMI)
 ```
-Great! There are 200 rows like we expected.
+Great! There are 200 rows like we expected. 
+
+We do however need to add " Women" back to this data.
+
+To do this we will use the `glue()` function of the `glue` package. 
+
+```{r}
+Women <-glue::glue("Women{Women_BMI$country_split}")
+head(Women)
+# here we will paste " Women" in fromt of the Women_BMI data
+# note that there will be a space in between because it is already in front of the first BMI value
+```
+
 
 Let's grab the male data:
 
 ```{r}
 # remember our rural_urban object contains male data for the odd rows
 
-Men <-data.frame(rural_urban) %>% 
+Men <-tibble(rural_urban) %>% 
   dplyr::filter(row_number() %% 2 == 1) 
 head(Men$rural_urban)
 
@@ -395,18 +429,21 @@ Men<-stringr::str_replace_all(string = Men, pattern = "na\\*", replacement = "na
 # The * would typically indicate any possible value, but here we actually want a "*" instead
 # Thus the double backslash does that for us
 # Here we are replacing all occurences of the na* values (thus str_replace_all instead of str_replace) with na* na*. 
+```
 
-# To check that this worked...
+Let's check that it worked...
+```{r}
 Men[20:30]
-#YAY!
+```
 
+Great!
 
-# Now for the Women data object
-class(Women$country_split)
+Now for the Women data object
+```{r}
+class(Women)
 # the female data is already in character form
-Women<-stringr::str_replace_all(string = Women$country_split, pattern = "na\\*", replacement = "na\\* na\\*") 
+Women<-stringr::str_replace_all(string = Women, pattern = "na\\*", replacement = "na\\* na\\*") 
 Women[20:30]
-
 ```
 
 
@@ -425,7 +462,9 @@ head(Women)
 Women[20:30,] 
 # We can see that our na values look correct
 ```
-
+ Looks good!
+ 
+ 
 ### Adding new header
 
 We can see from our pdf and our object called header what the header was like. Let's also make a new single line header, but let's wait to add Country:
@@ -436,7 +475,7 @@ new_header <-c("Sex","National_BMI_1985", "National_BMI_1985_CI", "Rural_BMI_198
 ```
 
 
-Let's change the names of our columns of our tibble to this new header for our Men and Women data
+Let's change the names of our columns of our tibbles to this new header for our Men and Women data
 
 ```{r}
 names(Women)<-new_header
@@ -444,7 +483,7 @@ names(Men)<-new_header
 ```
 
 
-Now we will add our country data to both our Men and Women tibbles:
+Now we will add our country data to both our Men and Women tibbles using the `bind_cols()` function:
 
 ```{r}
 Women <- dplyr::bind_cols(country, Women)
@@ -465,7 +504,7 @@ The `>` portion of the pipe still behaves like a normal pipe, while the `<` port
 # We have already done this but we include this for illustrative purposes.
 # Here we will just use the traditional assignment strategy
 
-Women<-rename(Women, Country = country_split) 
+Women<-dplyr::rename(Women, Country = country_split) 
 # We have renamed the country_split variable to be called Country
 
 # Here we reassign Men using the pipe strategy
@@ -477,7 +516,7 @@ Men %<>%rename(Country = country_split)
 
 ### Joining the data
 
-Now we can combine our Men and Women data using the `full_join()` function of `dplyr`. This will put all the female data first (x) and all the male data second (y).
+Now we can combine our Men and Women data using the `full_join()` function of `dplyr`. This will put all the male data first (x) and all the female data second (y).
 
 
 ```{r}
@@ -485,6 +524,7 @@ BMI<-dplyr::full_join(x = Men, y = Women)
 # Let's check the size of our BMI data... it should have 400 rows (obs).
 str(BMI)
 ```
+
 
 ### Sorting the data
 
@@ -523,6 +563,8 @@ BMI_numeric <- as_tibble(purrr::map((BMI %>% select(-matches("CI|Sex|Country")))
 # If you are familiar with apply(), this function is very similar
 BMI_numeric %<>% mutate(Country =BMI$Country, Sex =BMI$Sex)
 head(BMI_numeric)
+# In this case our numeric data is class dbl - which means double-precision floating point numbers
+# The alternative numeric option is the integar class - but we would of course like to retain our decimal values
 ```
 
 
@@ -530,7 +572,14 @@ It is generally useful to get the data in what is called <b>long</b> format for 
 
 For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html)
 
+Basically what the long format will have more rows and fewer columns.
+Thus we can combine or "gather" some columns together.
+In our case we can put all the different BMI data together in one long column.
+We will create a new column that tells us what each row of the new BMI column represents.
+In other words, it will tell us what the original column was.
+
 To do this we will use the `gather()` function of the `tidyr` package:
+
 ```{r}
 BMI_long <-tidyr::gather(data =BMI_numeric, key = class_BMI, value = BMI, National_BMI_1985:Urban_BMI_2017, factor_key = FALSE) 
 # The data value indicates what data you start with
@@ -541,7 +590,9 @@ BMI_long <-tidyr::gather(data =BMI_numeric, key = class_BMI, value = BMI, Nation
 head(BMI_long)
 ```
 
-It would be useful to parse the 1985 and the 2017 data. We can do so by separating the parts of the class_BMI column using the `separate()` function of the `tidyr` package.
+It would be useful to parse the 1985 and the 2017 data. We can do so by separating the parts of the class_BMI column using the `separate()` function of the `tidyr` package. 
+In our case we will relace the class_BMI column with two new columns.
+
 ```{r}
 BMI_long%<>% tidyr::separate(class_BMI, c("Region", NA, "Year")) 
 # We will separate the class_BMI column of the BMI_long tibble based on the underscores and create two new columns.
@@ -576,8 +627,12 @@ summary(BMI_numeric)
 # We can see that the mean  BMI estimates are larger in 2017
 # Is this a meaningful increase?
 ```
+Ok, so our means are fairly similar, but we can see some differences. 
+The question is if those differences are meaningful. 
+This is difficult to determine without a statistical test.
 
-Lets look at the Data separately by gender:
+Lets look at the data separately by gender:
+
 ```{r}
 #Women:
 BMI_numeric %>% subset(Sex == "Women") %>% summary()
@@ -591,11 +646,12 @@ BMI_numeric %>% subset(Sex == "Men") %>% summary()
 
 It looks like mean BMIs have increased in all regions for both men and women. It is unclear though if this change is statistically significant.
 
+
 ### Distributions
 
-In order to apply a statistical test to compare the means, one of the first things that is useful to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. To do this we can use the `hist()` function to create a histogram.
+In order to apply a statistical test to compare the means, one of the first things  to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. To do this we can use the `hist()` function to create a histogram.
 
-If the data were what we call <b>normally distributed</b> then the distribution should be equally centered around the mean and would look something like this:
+If the data were what we call <b>normally distributed</b>  or  followed a <b> Gaussian distribution </b> then the distribution should be equally centered around the mean and would look something like this:
 
 ```{r}
 norm_BMI_ex_data <- tibble(norm_data =rnorm(n = 200, mean = 24))
@@ -604,7 +660,7 @@ head(norm_BMI_ex_data)
 hist(norm_BMI_ex_data$norm_data)
 ```
 
-Alternatively we can plot this using the `geom_hist()` function of the `ggplot2` package. The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers. Notice in the following code how their is a plus sign between the `ggplot()` function and the `geom_histogram()` function. With ggplot2 we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity. In this case the `geom_histrogram()` function initiates the plotting of a histogram with the data that was identified in the `ggplot()` function. We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
+Alternatively we can plot this using the `geom_hist()` function of the `ggplot2` package. The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers. Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. With ggplot2 we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). In this case the `geom_histrogram()` function initiates the plotting of a histogram with the data that was identified in the `ggplot()` function. We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
 ```{r}
 
@@ -620,7 +676,7 @@ BMI_long%>% ggplot(aes(x = BMI)) + geom_histogram()
 
 ```
 
-OK, so the data looks like it is what we call <b>right skewed</b> because the tail of the distribution is longer on the right side, but it looks fairly normally distributed.
+OK, so the data looks like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side), but it looks fairly normally distributed.
 
 If we parse our data, what does it look like? The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI data by year, gender, and region. We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 
@@ -641,11 +697,15 @@ BMI_long %>%
   facet_wrap( ~ Sex + Year + Region) 
 
 ```
-### Quantile Quantile Plots
 
-Let's use a method called quantile quantile plotting to determine if the data is indeed normally distributed. These plots are called <b>QQ plots</b>. This method allows us to test the fit of known theoretical distributions (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a <b>quantile</b>? This is a division of the data distribution into roughly equal portions.
+Ok, so some of these plots look pretty similar to our normal distribution plot, like the Women 2017 Urban plot (although it is right-skewed).
+However some of the other plots, like the Men 2017 Urban plot, look very different. 
 
-Here is an example of a QQ plot for the normally distributed data that we just created using the `stat_qq()` function of  the `ggplot2` package:
+### Quantile-Quantile Plots
+
+Let's use a method called the  quantile-quantile plot to determine if the data is indeed normally distributed. These plots are called <b>Q-Q plots</b>. This method allows us to test the fit of known theoretical distributions (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a <b>quantile</b>? This is a division of the data distribution into roughly equal portions.
+
+Here is an example of a Q-Q plot for the normally distributed data that we just created using the `stat_qq()` function of  the `ggplot2` package:
 
 ```{r}
 
@@ -730,7 +790,7 @@ BMI_long %>%
 
 We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. The Rural data looks more normal than the urban data, but if we were to use statistical tests that rely on normality, this would require that both groups are normally distributed.
 
-Finally, some statisticians also use the Shapiro-Wilk test for normality when the QQ plot is a bit unclear. Many statisticians however would conclude from the QQ plots that normality has been violated.
+Finally, some statisticians also use the Shapiro-Wilk test for normality when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
 
 ### Shapiro-Wilk test
 
@@ -739,7 +799,7 @@ For illustrative purposes we will show how we can use the `dplyr` `summarize()` 
 ```{r}
 
 norm_BMI_ex_data$norm_data %>% shapiro.test() 
-# example of the test output for normal data
+# example of the test output for normal data - the p value is not < 0.05
 
 BMI_long %>% 
   filter(Sex == "Women") %>% 
@@ -752,22 +812,48 @@ We see that all the data does not appear to be normally distributed.
 
 ## Data Analysis
 
+We can use statistical tests like the stud t-test to determine if the means are significantly different.
 
-We are interested in comparing the means of female rural and urban BMI measurements for both years. There are two possible classes of statistical tests that we could run to compare the means of these two groups:
+In these <b> two means hypothesis tests </b> we test the <null hypothesis that there is no difference in the two means:
+
+                                        Ho: μ1 = μ2
+                                        
+                               μ1 is the mean of one group
+                               μ2 is the mean of the other group
+                               
+The alternative hypothesis is that the two means are not equal:
+                                        
+                                        Ha: μ1 ≠ μ2
+    
+
+We are interested in comparing the means of female rural and urban BMI measurements for both years. 
+
+There are two possible classes of statistical tests that we could run to compare the means of these two groups:
 
 1) Parametric
 2) nonparametric
 
 ### Parametric two sample mean tests
 
-Often when comparing two groups we might perform a two sample t test to determine if the means of each group is different. The two sample t test however, relies on several assumptions:
+Often when comparing two groups we might perform a two sample t-test to determine if the means of each group is different. The two sample t-test however, relies on several assumptions:
 
 1) The data for both groups is normally distributed
 2) The variance of both groups is similar
+3) The number of observations is similar for both groups - thus they are <b> balanced </b>
 
-If these assumptions are violated, this doesn't necessarily mean we can't perform a t test. It just means we may have to transform the data to make it normally distributed and we may need to perform the t test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. We will explore both of these options.
+If these assumptions are violated, this doesn't necessarily mean we can't perform a t-test. It just means we may have to transform the data to make it normally distributed and we may need to perform the t-test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test or we can use permutation. We will explore these options.
 
-The t test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
+Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
+If it were violated, we would want to consider using permutation methods.
+
+If we needed to check if our samples were imbalanced, we could use the `table()` function:
+```{r}
+table(BMI_long$Sex, BMI_long$Region, BMI_long$Year)
+```
+
+We can see that the number of obersvations for each possible group of interest is the same.
+
+The t-test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
 
 
 Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the Mood's two-sample test for a difference in scale parameters and does not assume that the data is normally distributed.
@@ -820,7 +906,10 @@ t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"),
        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
        var.equal = FALSE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
+# the t value shows us that the directionality of the difference
+# the t value was negative thus the BMI was lower in 1985 (the 1st group) compared to 2017 (the 2nd group)
 
+# Question opportunity: Was global BMI lower in Rural or Urban areas in 1985 based on looking at the t value?
 ```
 
 
@@ -828,8 +917,8 @@ Now we will try transform our data to make it more normally distributed. One way
 
 ```{r}
 
-# create a new column with the log version of the BMI variable
-BMI_long_log <- mutate(BMI_long, log_BMI=log(pull(BMI_long,BMI))) 
+# create a new column with the log version of the BMI variable using mutate()
+BMI_long_log <- mutate(BMI_long, log_BMI=log(pull(BMI_long,BMI)))
 
 
 BMI_long_log %>%
@@ -877,7 +966,7 @@ BMI_long %>%
 
 ```
 
-Let's see the results of the t test with the transformed data:
+Let's see the results of the t-test with the transformed data:
 ```{r}
 
 t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Rural"), log_BMI), 
@@ -902,13 +991,13 @@ t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Urba
 
 ```
 
-The data appears to be more similar to the normal distribution, but most subsets still fail the Shapiro-Wilk normality test. Again, our sample size of 200 is quite large and the t test is generally quite robust to violations of normality with large n, thus the modified t test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t test are violated. 
+The data appears to be more similar to the normal distribution, but most subsets still fail the Shapiro-Wilk normality test. Again, our sample size of 200 is quite large and the t-test is generally quite robust to violations of normality with large n, thus the modified t-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t-test are violated. 
 
-### Nonparametric two sample mean tests
+### Nonparametric two sample tests
 
-There are two options to consider when the assumptions of the t test are violated. The Wilcoxon signed rank test and the Two-sample Kolmogorov-Smirnov test both do not assume normality. Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
+There are two nonparametric options to consider when the assumptions of the t-test are violated. The Wilcoxon signed rank test and the Two-sample Kolmogorov-Smirnov test both do not assume normality. Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
 
-Importantly the Kolmogorov-Smirnov test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate.
+Importantly the Kolmogorov-Smirnov (KS) test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate. Both the t-test and the KS test evaluate if the distributions of the two groups are indentical, however the KS test does not particuarly test any parameter of the distrubution like the mean, therefore confidence intervals cannot be calculated using this test. 
 
 ```{r}
 
@@ -926,7 +1015,6 @@ ks.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural")
 ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
         pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI),
         paired = TRUE)
-
 ```
 
 
@@ -943,9 +1031,43 @@ ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban")
 
 ```
 
+### Multiple Testing Correction
+
+It's important to note that utlimately we wanted to test 4 different tests:
+
+1) Is there a difference in mean BMI for women between Rural and Urban areas in 1985?
+2) Is there a difference in mean BMI for women between Rural and Urban areas in 2017?
+3) Is there a difference in mean BMI for women between 1985 and 2017 in Rural areas?
+4) Is there a difference in mean BMI for women between 1985 and 2017 in Urban areas?
+
+When we test multiple questions like this, we need to correct for the multiple tests that we are performing.
+
+The more we test data, the more likely we are to see a significant finding just by chance.
+
+One way to do this is using the Bonferroni method. 
+
+In this method we would divide our significance threshold (generally 0.05) by the number of tests.
+
+```{r}
+.05/4 # 4 tests
+```
+
+Our new significance threshold is now 0.0125. 
+Thus our p-values should be less than this value for us to reject the null that there is no difference in means.
+In all cases, our p-values were less than 0.0125.
+So we see a significant difference in the means of the groups after mutiple testing correction for our different tests.
+
+Again, it would be reasonalble to use the t-test because it is robust to deviations in normality when samples are relatively large. 
+We can see that we obtained the same results regarless of the test that we used.
+However, if sample sizes are small (generally speaking <25 per group), then these nonparametric options are useful to know.
+
+The D values in the output of our KS tests, show the magnitude of distancein the differnce between the distributions of the groups tested.
+You may notice that the D value is larger for the tests of BMI across time rather then across region.
+In these tests the p-value was also smaller.
+
 ## Data Visualization
 
-Again we will utilize `ggplot2` to create plots.If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html). The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
+Again we will utilize `ggplot2` to create plots to look at the directionality and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html). The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
 
 Let's look at the national mean BMI estimates for each of the years:
 ```{r}
@@ -965,20 +1087,40 @@ BMI_long %>%
 
 Now Let's look at the change in rural and urban mean BMI estimates:
 ```{r}
+#this time we will add titles for Rural and Urban using ggtitle()
 BMI_long %>% 
   filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
   # filtering this way allows us to keep data from both years
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
-  geom_jitter(width = .3)
+  geom_jitter(width = .3) +
+  ggtitle("Rural")
 
 BMI_long %>% 
   filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Urban") %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
-  geom_jitter(width = .3)
+  geom_jitter(width = .3)+
+  ggtitle("Urban")
 
 ```
+Let's put the plots together to see how the change over the years differs between the regions.
+We will use again use `facet_wrap()` to do this:
+
+```{r}
+
+BMI_long %>% 
+  filter(Sex == "Women", Year %in% c("1985", "2017"), Region %in% c("Rural", "Urban")) %>%
+  # filtering this way allows us to keep data from both years
+  ggplot(aes(x = Year, y = BMI)) +
+  geom_boxplot() +
+  geom_jitter(width = .3) +
+  facet_wrap(~Region)
+
+# we would get national data too if we did not include `Region %in% c("Rural", "Urban"))`
+
+```
+Indeed the change in BMI over time looks bigger in the rural areas!
 
 How do the different countries compare?  Or in other words what do the individual dots represent in our box plots?
 We will take a look using `geom_label()`:
@@ -1126,8 +1268,73 @@ ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) +
 
 ```
 
-We can now see that the rate of change appears to be larger in the women compared to the men. The group with the largest increase in the USA is the women living in rural areas.
-Thus this group should be especially focused on to improve this public health issue.
+We can now see that the rate of change from 1985 to 2017 appears to be larger in the women compared to the men in all regions. The group with the largest increase in the USA is the women living in rural areas.
+
+Let's check the difference with some statistical tests:
+
+```{r}
+#first lets look at the normality of the difference in BMI
+BMI_diff_long %>%
+  ggplot(aes(x=Difference)) +
+  geom_histogram() +
+  facet_wrap( ~ Sex + Type)
+# interesting...the spread of difference is much broader for women than for men 
+# thus there are some women in some countries that especially need help while others are actually showing a loss of BMI
+
+ks.test(pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Urban_difference"), Difference),
+        paired = TRUE)
+
+ks.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long, Sex == "Men",  Type == "Urban_difference"), Difference),
+        paired = TRUE)
+
+ks.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference),
+        paired = TRUE)
+
+t.test(pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Urban_difference"), Difference),
+        paired = TRUE, var.equal = FALSE)
+
+t.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long, Sex == "Men",  Type == "Urban_difference"), Difference),
+        paired = TRUE, var.equal = FALSE)
+
+t.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference),
+        paired = TRUE, var.equal = FALSE)
+
+
+```
+
+There is a larger difference in the Rural communities for both Men and Women. The Rural difference is significantly different between men and women according to the KS test, but but not according to the t-test.
+
+Importantly- we noticed that it appears to be specific countries where BMI shows a particular increase especially for women. Which countries are those? how does that compare with the US? Clearly the US is among the countries with the highest differences. 
+
+```{r}
+BMI_diff_long %>% filter(Country == "USA")
+
+```
+
+In the US, focus should be placed on <b> both urban and rural </b> women to improve this public health issue. 
+
+Here we can see that these countries have the largest differences in BMI- the largest differences are all for Women in rural areas. 
+
+```{r}
+BMI_diff_long %>%filter(Difference>4.8)
+```
+
+However it is important to see what the start and end point mean BMI values are for these countries. 
+It could be that the average was underweight in 1985... let's take a look.
+
+```{r}
+BMI_long %>% filter(Country %in% pull(filter(BMI_diff_long, Difference>4.8), Country), 
+                    Sex %in% pull(filter(BMI_diff_long, Difference>4.8), Sex))
+
+```
+
+The data suggests that rural women in Egypt and Saint Lucia may especially benefit from dietary resources and our interventions and programs to assist with weight managment.
 
 Now let's make a plot that summarizes the last two plots. To do this we will simplify the other two plots and then combine them together.
 
@@ -1203,7 +1410,7 @@ Great, now we have put two plots together using the `plot_grid()` function of th
 
 ## Summary
 
-We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community using t tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions.  Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges.
+We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community using t-tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions.  Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges.
 
 ### Suggested Homework
 
