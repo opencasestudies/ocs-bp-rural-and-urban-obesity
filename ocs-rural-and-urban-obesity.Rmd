@@ -24,7 +24,7 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("mainplot2.png"))
+knitr::include_graphics(here::here("mainplot.png"))
 ```
 
 ## Motivation
@@ -32,7 +32,12 @@ BMI is measured as an individual's weight in kilograms divided by the individual
 
 ![](https://cdn.vertex42.com/ExcelTemplates/Images/bmi-chart.gif)
 
-An [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in Nature evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
+###### [BMI Chart](https://www.vertex42.com/ExcelTemplates/bmi-chart.html) created by Vertex42.com. Used with permission.
+
+
+
+
+An [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in *Nature* evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
 
 ```{r, echo = FALSE, out.width="100%", message=FALSE}
 library(here)
@@ -841,12 +846,13 @@ Often when comparing two groups we might perform a two sample t-test to determin
 2) The variance of both groups is similar
 3) The number of observations is similar for both groups - thus they are <b> balanced </b>
 
-If these assumptions are violated, this doesn't necessarily mean we can't perform a t-test. It just means we may have to transform the data to make it normally distributed and we may need to perform the t-test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test or we can use permutation. We will explore these options.
+If these assumptions are violated, this doesn't necessarily mean we can't perform a t-test. It just means we may have to transform the data to make it normally distributed and we may need to perform the t-test in a special way to account for the difference in the variance in the two groups. Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. We will explore these options.
 
 Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
-If it were violated, we would want to consider using permutation methods.
+If it were violated, we would want to consider using permutation methods. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html).
 
 If we needed to check if our samples were imbalanced, we could use the `table()` function:
+
 ```{r}
 table(BMI_long$Sex, BMI_long$Region, BMI_long$Year)
 ```
@@ -856,13 +862,14 @@ We can see that the number of obersvations for each possible group of interest i
 The t-test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
 
 
-Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the Mood's two-sample test for a difference in scale parameters and does not assume that the data is normally distributed.
+Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the Mood's two-sample test for a difference in scale parameters and does not assume that the data is normally distributed. We will also introduce the `pull()` function of the `dplyr` package.
 
 ```{r}
 
+#pull() will allow us to take the BMI column of the resulting data when when filter BMI_long
 
-mood.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
-          pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI))
+mood.test(dplyr::pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
+          dplyr::pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI))
 # not equal - p value <.05 reject the null: no difference in the variance of the distributions
 
 mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
@@ -1281,9 +1288,38 @@ BMI_diff_long %>%
 # interesting...the spread of difference is much broader for women than for men 
 # thus there are some women in some countries that especially need help while others are actually showing a loss of BMI
 
+
+BMI_diff_long %>%
+  ggplot(aes(sample =Difference)) +
+  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq_line()+
+  facet_wrap(~Sex + Type)
+
+# ok so some of the data for Men looks fairly normal but not the data for Women
+
+# Now we will check the variance
+BMI_diff_long %>% 
+  group_by(Type, Sex) %>% 
+  summarize(shapiro_test = shapiro.test(Difference)$p.value)
+
+
+mood.test(pull(filter(BMI_diff_long, Sex == "Women", Type == "Rural_difference"), Difference), 
+          pull(filter(BMI_diff_long, Sex == "Women", Type == "Urban_difference"), Difference))
+#reject the null - conclude that variance is not equal
+
+mood.test(pull(filter(BMI_diff_long, Sex == "Men", Type == "Rural_difference"), Difference), 
+          pull(filter(BMI_diff_long, Sex == "Men", Type == "Urban_difference"), Difference))
+#accept the null - conclude that variance is equal
+
+mood.test(pull(filter(BMI_diff_long, Sex == "Women", Type == "Rural_difference"), Difference), 
+          pull(filter(BMI_diff_long, Sex == "Men", Type == "Rural_difference"), Difference))
+#reject the null - conclude that variance is not equal
+
 ks.test(pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference), 
         pull(filter(BMI_diff_long, Sex == "Women",  Type == "Urban_difference"), Difference),
-        paired = TRUE)
+        paired = TRUE) 
+
+# this is again still paired because each value of "Rural_difference" and "Urban_difference" correspond to the same country
 
 ks.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
         pull(filter(BMI_diff_long, Sex == "Men",  Type == "Urban_difference"), Difference),
@@ -1299,7 +1335,7 @@ t.test(pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), 
 
 t.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
         pull(filter(BMI_diff_long, Sex == "Men",  Type == "Urban_difference"), Difference),
-        paired = TRUE, var.equal = FALSE)
+        paired = TRUE, var.equal = TRUE)
 
 t.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
         pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference),
@@ -1319,24 +1355,32 @@ BMI_diff_long %>% filter(Country == "USA")
 
 In the US, focus should be placed on <b> both urban and rural </b> women to improve this public health issue. 
 
-Here we can see that these countries have the largest differences in BMI- the largest differences are all for Women in rural areas. 
+Here we can see the countries have the largest differences in BMI from 1985-2017:
 
 ```{r}
-BMI_diff_long %>%filter(Difference>4.8)
+BMI_diff_long %>%filter(Difference>4.9) %>%arrange(-Difference)
+#here we sorted by the highest to lowest values of BMI Difference
 ```
 
-However it is important to see what the start and end point mean BMI values are for these countries. 
+
+However it is important to see what the mean BMI values are were for these countries in 2017. 
 It could be that the average was underweight in 1985... let's take a look.
 
 ```{r}
-BMI_long %>% filter(Country %in% pull(filter(BMI_diff_long, Difference>4.8), Country), 
-                    Sex %in% pull(filter(BMI_diff_long, Difference>4.8), Sex))
+BMI_long %>% filter(Country %in% pull(filter(BMI_diff_long, Difference>4.9), Country), 
+                    Sex %in% pull(filter(BMI_diff_long, Difference>4.9), Sex),
+                    Year =="2017") %>%
+            arrange(-BMI)
+
+#Here is the data just for the changes in BMI in Egypt
+filter(BMI_diff_long, Country == "Egypt") %>% arrange(-Difference)
 
 ```
+Thus rural women in Egypt had the greatest increase in BMI from 1985 to 2017 in this data (5.9) and the average BMI is now over the obesity threshold of 30.
 
-The data suggests that rural women in Egypt and Saint Lucia may especially benefit from dietary resources and our interventions and programs to assist with weight managment.
+The data suggests that rural women in Egypt and other countries may especially benefit from dietary resources and our interventions and programs to assist with weight managment.
 
-Now let's make a plot that summarizes the last two plots. To do this we will simplify the other two plots and then combine them together.
+Now let's make a plot that summarizes our findings. To do this we will simplify the other plots we made and then combine them together.
 
 ```{r}
 
@@ -1356,12 +1400,14 @@ ggplot(aes(x = Sex, y = BMI)) +
                           Country == "USA"), aes(x =Sex, y =BMI), width = .02, size =12, shape =21, color = "black", fill = "gray") + 
   # This will add points that are larger for the USA data
   geom_text(data=subset(BMI_long
-                        %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"),
-                        Country == "USA"), aes(x =Sex, y =BMI,label=Country), color = "black") + 
+                         %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"),
+                         Country == "USA"), aes(x =Sex, y =BMI,label=Country), color = "black") + 
   # This will add USA labels to the USA points
+  theme_linedraw()+
+  # This will make thebackground of the plot white and the facet labels black
   theme(legend.position = "none", 
   # This is useful for removing the legend
-        axis.text.x = element_text(size = 15,angle = 30), 
+        axis.text.x = element_text(size = 15,angle = 30, vjust = 0.5), 
         # this changes the size and angle of the x axis point labels 
         axis.text.y = element_text(size = 20), 
         axis.title.y = element_text(size =15), 
@@ -1388,29 +1434,40 @@ ggplot( aes(x = Type, y = Difference, col = Type)) +
     filter(Sex %in% c("Men", "Women"), Type != "National") , Country == "USA"),
     aes(x =Type, y =Difference,label=Country), color = "black") + 
   # This will add USA labels to the USA points
+  theme_linedraw()+
+    # This will make thebackground of the plot white and the facet labels black
   theme(legend.position = "none", 
   # This is useful for removing the legend
-        axis.text.x = element_text(size = 15,angle = 30), 
+        axis.text.x = element_text(size = 15,angle = 30, vjust = 0.5), 
         # this changes the size and angle of the x axis point labels 
         axis.text.y = element_text(size = 20), 
         axis.title.y = element_text(size =15), 
         axis.title.x = element_text(size =15), 
-        strip.text.x = element_text(size = 15)) # this changes the size of x axis labels for the facet
+        strip.text.x = element_text(size = 15))
+  # this changes the size of x axis labels for the facet
 
+#add labels
 Diff_plot<-Diff_plot + labs(title = "Change in BMI by region", x = "", y = "Increase in BMI \n (1985 to 2017)")+
     theme(title = element_text (size = 12, face = "bold"))
 Means_plot <-Means_plot + labs(title = "Mean BMI over time", x = "", y = "Mean BMI")+
     theme(title = element_text (size = 12, face = "bold"))
 
+
+
+obesity_text<-tibble(Year=c(1985),BMI=c(31),Sex=c("Men"),label=c("Obesity"))
+
+Means_plot <-Means_plot+ geom_text(data = obesity_text,label=pull(obesity_text,label), color = "red", aes( fontface ="bold.italic", size = 13))
+
 cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
+
 
 ```
 
-Great, now we have put two plots together using the `plot_grid()` function of the `cowplot` package. This way we can clearly communicate two messages. The first being that BMI has increased over time globally and that many countries including the United States of America are approaching a mean BMI that is above the obesity threshold of 30. We can also see that Women have larger BMI values, but that both genders show increased levels over time. In the second plot we can see that the increase in BMI is not just happening in  urban communities, but in both rural and urban communities. In fact, Women in rural areas of the United States of America appear to have the largest increase in BMI.
+Great, now we have put two plots together using the `plot_grid()` function of the `cowplot` package. This way we can clearly communicate two messages. The first being that BMI has increased over time globally and that many countries including the United States of America are approaching a mean BMI that is above the obesity threshold of 30. We can also see that women on average have larger BMI values than males, but that both genders show increased levels over time. In the second plot we can see that the increase in BMI is not just happening in  urban communities, but in both rural and urban communities and particularly in women. 
 
 ## Summary
 
-We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community using t-tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions.  Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges.
+We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community using t-tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions.  Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges. You can see in the [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) that this data came from that many more considerations would be involved to perform such an analysis.
 
 ### Suggested Homework
 
