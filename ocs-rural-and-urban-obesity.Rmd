@@ -280,7 +280,7 @@ We can check our data now using either head() or glimpse().
 dplyr::glimpse(rural_urban)
 ```
 
-Great, now our rural_urban object 400 lines instead of 461, like it did before when it contained the redudant header information.
+Great, now our rural_urban object 400 lines instead of 461, like it did before when it contained the redundant header information.
 
 ```{r}
 head(rural_urban)
@@ -596,7 +596,7 @@ head(BMI_long)
 ```
 
 It would be useful to parse the 1985 and the 2017 data. We can do so by separating the parts of the class_BMI column using the `separate()` function of the `tidyr` package. 
-In our case we will relace the class_BMI column with two new columns.
+In our case we will replace the class_BMI column with two new columns.
 
 ```{r}
 BMI_long%<>% tidyr::separate(class_BMI, c("Region", NA, "Year")) 
@@ -632,7 +632,7 @@ summary(BMI_numeric)
 # We can see that the mean  BMI estimates are larger in 2017
 # Is this a meaningful increase?
 ```
-Ok, so our means are fairly similar, but we can see some differences. 
+OK, so our means are fairly similar, but we can see some differences. 
 The question is if those differences are meaningful. 
 This is difficult to determine without a statistical test.
 
@@ -703,7 +703,7 @@ BMI_long %>%
 
 ```
 
-Ok, so some of these plots look pretty similar to our normal distribution plot, like the Women 2017 Urban plot (although it is right-skewed).
+OK, so some of these plots look pretty similar to our normal distribution plot, like the Women 2017 Urban plot (although it is right-skewed).
 However some of the other plots, like the Men 2017 Urban plot, look very different. 
 
 ### Quantile-Quantile Plots
@@ -857,7 +857,7 @@ If we needed to check if our samples were imbalanced, we could use the `table()`
 table(BMI_long$Sex, BMI_long$Region, BMI_long$Year)
 ```
 
-We can see that the number of obersvations for each possible group of interest is the same.
+We can see that the number of observations for each possible group of interest is the same.
 
 The t-test is also fairly robust to non-normality if the data is relatively large, and we have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
 
@@ -1004,7 +1004,7 @@ The data appears to be more similar to the normal distribution, but most subsets
 
 There are two nonparametric options to consider when the assumptions of the t-test are violated. The Wilcoxon signed rank test and the Two-sample Kolmogorov-Smirnov test both do not assume normality. Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
 
-Importantly the Kolmogorov-Smirnov (KS) test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate. Both the t-test and the KS test evaluate if the distributions of the two groups are indentical, however the KS test does not particuarly test any parameter of the distrubution like the mean, therefore confidence intervals cannot be calculated using this test. 
+Importantly the Kolmogorov-Smirnov (KS) test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate. Both the t-test and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
 
 ```{r}
 
@@ -1040,7 +1040,7 @@ ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban")
 
 ### Multiple Testing Correction
 
-It's important to note that utlimately we wanted to test 4 different tests:
+It's important to note that ultimately we wanted to test 4 different tests:
 
 1) Is there a difference in mean BMI for women between Rural and Urban areas in 1985?
 2) Is there a difference in mean BMI for women between Rural and Urban areas in 2017?
@@ -1062,13 +1062,13 @@ In this method we would divide our significance threshold (generally 0.05) by th
 Our new significance threshold is now 0.0125. 
 Thus our p-values should be less than this value for us to reject the null that there is no difference in means.
 In all cases, our p-values were less than 0.0125.
-So we see a significant difference in the means of the groups after mutiple testing correction for our different tests.
+So we see a significant difference in the means of the groups after multiple testing correction for our different tests.
 
-Again, it would be reasonalble to use the t-test because it is robust to deviations in normality when samples are relatively large. 
-We can see that we obtained the same results regarless of the test that we used.
+Again, it would be reasonable to use the t-test because it is robust to deviations in normality when samples are relatively large. 
+We can see that we obtained the same results regardless of the test that we used.
 However, if sample sizes are small (generally speaking <25 per group), then these nonparametric options are useful to know.
 
-The D values in the output of our KS tests, show the magnitude of distancein the differnce between the distributions of the groups tested.
+The D values in the output of our KS tests, show the magnitude of distance in the difference between the distributions of the groups tested.
 You may notice that the D value is larger for the tests of BMI across time rather then across region.
 In these tests the p-value was also smaller.
 
@@ -1378,7 +1378,7 @@ filter(BMI_diff_long, Country == "Egypt") %>% arrange(-Difference)
 ```
 Thus rural women in Egypt had the greatest increase in BMI from 1985 to 2017 in this data (5.9) and the average BMI is now over the obesity threshold of 30.
 
-The data suggests that rural women in Egypt and other countries may especially benefit from dietary resources and our interventions and programs to assist with weight managment.
+The data suggests that rural women in Egypt and other countries may especially benefit from dietary resources and our interventions and programs to assist with weight management.
 
 Now let's make a plot that summarizes our findings. To do this we will simplify the other plots we made and then combine them together.
 
