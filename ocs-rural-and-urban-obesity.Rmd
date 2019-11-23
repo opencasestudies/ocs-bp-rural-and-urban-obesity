@@ -136,8 +136,12 @@ Now that we have the obesity pdf, we will read it in to R using the `pdftools` p
 
 ```{r}
 pdf_obesity<-pdftools::pdf_text(here("paper_supplement.pdf"))
-# PDF error: Expected the optional content group list, but wasn't able to find it, or it isn't an Array
-# errors like this can be common with PDFs... we can take a look at the data to see if it still looks as expected
+# PDF error: 
+# "Expected the optional content group list, 
+# but wasn't able to find it, or it isn't an Array"
+
+# Errors like this can be common with PDFs
+# We can take a look at the data to see if it still looks as expected
 ```
 
 Let's take a look at the data- the `summary()` function helps us to look at the structure of R objects.
@@ -155,7 +159,7 @@ pdf_obesity[2] # this looks like the second page
 
 ```{r, eval = FALSE}
 pdf_obesity[55] 
-# this looks like data in a the table we are interested in
+# this looks like data in a the table we want
 ```
 
 ```{r, echo = FALSE, out.width="100%", message=FALSE}
@@ -171,18 +175,19 @@ We are interested in a supplementary Table 3. which has multiple pages and inclu
 
 ```{r}
 stringr::str_detect(pattern = "Age-standardised mean BMI", string = pdf_obesity)
-# "Age-standardised mean BMI" is part of the header in the table on every page in the pdf. 
+# "Age-standardised mean BMI" is part of the header in the table on every page.
 # This shows the pages that contain our table of interest (as TRUE values).
 ```
 
 Now we will extract just the data for the table now and call it rural_urban. To do this we will use the `str_subset()` function of the stringr package.
 
 ```{r}
-rural_urban <-stringr::str_subset(pattern ="Age-standardised mean BMI", string =pdf_obesity)
+rural_urban <-stringr::str_subset(pattern ="Age-standardised mean BMI", 
+                                  string =pdf_obesity)
 
 str(rural_urban) 
 # The str() function is similar to the summary function
-# This shows us that there are 10 pages worth of elements in our rural_urban object
+# There are 10 pages worth of elements in our rural_urban object
 
 ```
 
@@ -266,7 +271,7 @@ First let's see how many lines include "women" or "men". We can do this by first
 ```{r}
 stringr::str_which(string = rural_urban, pattern = "Women|Men")
 length(stringr::str_which(string = rural_urban, pattern = "Women|Men"))
-# Here the "|" indicates that we are looking for either the "Women" or "Men" patterns
+# Here the "|" indicates that we are looking for either  "Women" or "Men"
 ```
 
 OK, so this looks correct. This includes most lines but there are gaps where are header is located. It looks like there are 400 lines in our table that aren't headers.
@@ -358,7 +363,10 @@ country
 ```
 ####
 
-Thus the even rows - the rows with the data for women have a remainder of zero.
+Looks good!
+
+The even rows are the rows with the data for women.
+These row values have a remainder of 0 when divided by 2.
 
 ```{r}
 Women_BMI <-tibble(country_split) %>% 
@@ -369,7 +377,8 @@ head(Women_BMI)
 Great! Now we have a list of the countries that can be used for both the male and female data. 
 
 
-It's always a good idea to check that your data objects are the size you expect when wrangling. We can do so with the `dim()` function, which shows us the dimensions of data objects.
+It's always a good idea to check that your data objects are the size you expect when wrangling. 
+We can do so with the `dim()` function, which shows us the dimensions of data objects.
 
 ```{r}
 dim(Women_BMI)
@@ -384,7 +393,8 @@ To do this we will use the `glue()` function of the `glue` package.
 Women <-glue::glue("Women{Women_BMI$country_split}")
 head(Women)
 # here we will paste " Women" in fromt of the Women_BMI data
-# note that there will be a space in between because it is already in front of the first BMI value
+# note that there will be a space in between
+# This is because the space is already in front of the first BMI value
 ```
 
 
@@ -397,7 +407,7 @@ Men <-tibble(rural_urban) %>%
   dplyr::filter(row_number() %% 2 == 1) 
 head(Men$rural_urban)
 
-# Again let's make sure we have the correct number of rows for our final "Men" data object
+# Again let's make sure we have the correct number of rows 
 
 dim(Men) 
 ```
@@ -405,7 +415,8 @@ How about our number of columns?
 
 If we try splitting our data by space again, will it have the expected number of columns? What about the rows that contain na* values?
 ```{r}
-# Let's just take the Men data that contains na* values - this column is called rural_urban
+# Let's just take the Men data that contains na* values
+# This column is called rural_urban
 unknown <-Men %>%filter(str_detect(pattern ="na\\*", string = rural_urban)) 
 
 # Now we can try splitting by a space
@@ -425,15 +436,22 @@ We need to replace our na* values  with something that includes a space so that 
 
 ```{r}
 class(Men$rural_urban)
-# In order to use the functions within the stringr package, our Men data needs to be of character class
+# In order to use the functions within the stringr package, 
+# our Men data needs to be of character class
 Men<-as.character(Men$rural_urban) 
-# This function allows us to change the factor data within Men$rural_urban to the character class
-# We are changing the structure so that the data is directly just called Men and not within a vector called rural_urban
-Men<-stringr::str_replace_all(string = Men, pattern = "na\\*", replacement = "na\\* na\\*") 
+# This function allows us to change the factor data 
+# within Men$rural_urban to the character class
+# We are also changing the structure so that the data 
+# is not within a vector called rural_urban
+Men<-stringr::str_replace_all(string = Men, 
+                              pattern = "na\\*", 
+                              replacement = "na\\* na\\*") 
 # The \\ are necessary because the * is a special character 
-# The * would typically indicate any possible value, but here we actually want a "*" instead
+# The * would typically indicate any possible value, 
+# but here we actually want a "*" instead
 # Thus the double backslash does that for us
-# Here we are replacing all occurences of the na* values (thus str_replace_all instead of str_replace) with na* na*. 
+# Here we are replacing all occurences of the na* values 
+#(thus str_replace_all instead of str_replace) with na* na*. 
 ```
 
 Let's check that it worked...
@@ -446,8 +464,10 @@ Great!
 Now for the Women data object
 ```{r}
 class(Women)
-# the female data is already in character form
-Women<-stringr::str_replace_all(string = Women, pattern = "na\\*", replacement = "na\\* na\\*") 
+# the female data is already character type
+Women<-stringr::str_replace_all(string = Women, 
+                                pattern = "na\\*", 
+                                replacement = "na\\* na\\*") 
 Women[20:30]
 ```
 
@@ -476,7 +496,10 @@ We can see from our pdf and our object called header what the header was like. L
 
 ```{r}
 #header
-new_header <-c("Sex","National_BMI_1985", "National_BMI_1985_CI", "Rural_BMI_1985", "Rural_BMI_1985_CI", "Urban_BMI_1985", "Urban_BMI_1985_CI", "National_BMI_2017", "National_BMI_2017_CI","Rural_BMI_2017", "Rural_BMI_2017_CI", "Urban_BMI_2017", "Urban_BMI_2017_CI")
+new_header <-c("Sex","National_BMI_1985", "National_BMI_1985_CI", "Rural_BMI_1985", 
+               "Rural_BMI_1985_CI", "Urban_BMI_1985", "Urban_BMI_1985_CI", "National_BMI_2017",
+               "National_BMI_2017_CI","Rural_BMI_2017", "Rural_BMI_2017_CI", "Urban_BMI_2017", 
+               "Urban_BMI_2017_CI")
 ```
 
 
@@ -515,14 +538,15 @@ Women<-dplyr::rename(Women, Country = country_split)
 # Here we reassign Men using the pipe strategy
 Men %<>%rename(Country = country_split) 
 # We have renamed the country_split variable to to be called country
-# We have also reassigned Men to the data object which has the country variable renamed
+# We have also reassigned Men to the data object 
+# which has the country variable renamed
 ```
 
 
 ### Joining the data
 
-Now we can combine our Men and Women data using the `full_join()` function of `dplyr`. This will put all the male data first (x) and all the female data second (y).
-
+Now we can combine our Men and Women data using the `full_join()` function of `dplyr`. 
+This will put all the male data first (x) and all the female data second (y).
 
 ```{r}
 BMI<-dplyr::full_join(x = Men, y = Women)
@@ -541,12 +565,16 @@ head(BMI)
 
 ```
 
-Our data is looking great! Now we might want to make sure that our observations for each variable look the way we want. In other words if we want to make plots about National BMI in 1985 then we would need our values to be numeric. Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the ":" colon. Looks like none of our BMI data is actually numeric, but of the class character. Let's change that now.
+Our data is looking great! 
+Now we might want to make sure that our observations for each variable look the way we want. 
+In other words, if we want to make plots about National BMI in 1985 then we would need our values to be numeric. Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the ":" colon. Looks like none of our BMI data is actually numeric, but of the class character. Let's change that now.
 
 ```{r, warning=FALSE, eval}
 str(BMI)
 ```
+
 We could change these values to be numeric with 6 lines of code like this:
+
 ```{r, eval = TRUE}
 BMI$National_BMI_1985%<>% as.numeric
 BMI$Rural_BMI_1985%<>% as.numeric
@@ -556,20 +584,24 @@ BMI$National_BMI_2017%<>% as.numeric
 BMI$Rural_BMI_2017%<>% as.numeric
 BMI$Urban_BMI_2017%<>% as.numeric
 
-#  And if we did this we would see these variables show as "num" which stands for numeric
+#  And if we did this we would see these variables 
+#  show as "num" which stands for numeric
 str(BMI)
 ```
 
 Or we can use a more automated way with the `map()` function of the `purrr` package:
 ```{r}
-BMI_numeric <- as_tibble(purrr::map((BMI %>% select(-matches("CI|Sex|Country"))), as.numeric)) 
-# The map function of the purrr package allows us to apply the as.numeric() function to all the selected columns of BMI 
+BMI_numeric <- as_tibble(purrr::map(
+  (BMI %>% select(-matches("CI|Sex|Country"))), as.numeric)) 
+# The map function of the purrr package allows us to apply the 
+# as.numeric() function to all the selected columns of BMI 
 # We have selected those that dont contain CI, Sex, or Country in the column name 
 # If you are familiar with apply(), this function is very similar
 BMI_numeric %<>% mutate(Country =BMI$Country, Sex =BMI$Sex)
 head(BMI_numeric)
-# In this case our numeric data is class dbl - which means double-precision floating point numbers
-# The alternative numeric option is the integar class - but we would of course like to retain our decimal values
+# In this case our numeric data is class dbl
+# This means double-precision floating point numbers (with decimals)
+# The alternative numeric option is the integar class
 ```
 
 
@@ -588,10 +620,14 @@ To do this we will use the `gather()` function of the `tidyr` package:
 ```{r}
 BMI_long <-tidyr::gather(data =BMI_numeric, key = class_BMI, value = BMI, National_BMI_1985:Urban_BMI_2017, factor_key = FALSE) 
 # The data value indicates what data you start with
-# The key indicates the new name of the column that will now contian information about  the values of the columns we will put together
-# The value is the name of the column for the values for all the columns that are being put together
-# The ":" can be used to indentify the start and end of the column names that you are putting together
-# The factor_key paramater determines if the newly created key column should be evaluated as a factor or not
+# The key indicates the new name of the column that will now contain 
+# information about the values of the columns we will put together
+# The value is the name of the column for the values for 
+# all the columns that are being put together
+# The ":" can be used to indentify the start and end of the column names
+# that you are putting together
+# The factor_key paramater determines if the newly created key column 
+# should be evaluated as a factor or not
 head(BMI_long)
 ```
 
@@ -600,13 +636,16 @@ In our case we will replace the class_BMI column with two new columns.
 
 ```{r}
 BMI_long%<>% tidyr::separate(class_BMI, c("Region", NA, "Year")) 
-# We will separate the class_BMI column of the BMI_long tibble based on the underscores and create two new columns.
-# The first column will be called Region and will contain the first part of the class_BMI data before the first underscore
-# The second column will be called year and will contain the third part of the data based on the divisions of the underscore
+# We will separate the class_BMI column of the BMI_long tibble
+# This is based on the underscores and create two new columns
+# The first column will be called Region
+# It will contain the 1st part of the class_BMI data before the 1st underscore
+# The 2nd column will be called Year
+# It will contain the 3rd part of the data based on underscores
 # The middle part of the column will not be used to create any new columns
 head(BMI_long)
 
-# Let's see how the dimensions of the BMI data have changed now that it is in long format:
+# Let's see how the dimensions of the BMI data have changed in long format:
 
 dim(BMI_numeric)
 dim(BMI_long)
@@ -660,7 +699,8 @@ If the data were what we call <b>normally distributed</b>  or  followed a <b> Ga
 
 ```{r}
 norm_BMI_ex_data <- tibble(norm_data =rnorm(n = 200, mean = 24))
-# The rnorm() function allows us to make a vector of normaly distributed data centered around the mean of 24
+# The rnorm() function allows us to make a vector of normally distributed data
+# centered around the mean of 24
 head(norm_BMI_ex_data)
 hist(norm_BMI_ex_data$norm_data)
 ```
@@ -669,9 +709,11 @@ Alternatively we can plot this using the `geom_hist()` function of the `ggplot2`
 
 ```{r}
 
-norm_BMI_ex_data %>% ggplot2::ggplot(aes(x = norm_data)) + ggplot2::geom_histogram() 
-# We are using the column called norm_data within the norm_BMI_ex_data data object
-# With ggplot2 we must first specify the data we are using with the ggplot() function
+norm_BMI_ex_data %>% 
+  ggplot2::ggplot(aes(x = norm_data)) + 
+  ggplot2::geom_histogram() 
+# We are using the column called norm_data within norm_BMI_ex_data
+# With ggplot2 we must first specify the data with ggplot() 
 # The geom_histogram() function specifies what type of plot to create
 ```
 
@@ -866,23 +908,48 @@ Often we would check if the variance of the rural and urban data is equal using 
 
 ```{r}
 
-#pull() will allow us to take the BMI column of the resulting data when when filter BMI_long
+#pull() will allow us to take the BMI column after we filter BMI_long
 
-mood.test(dplyr::pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
-          dplyr::pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI))
-# not equal - p value <.05 reject the null: no difference in the variance of the distributions
+mood.test(dplyr::pull(filter(BMI_long, 
+                             Sex == "Women", 
+                             Year == "2017", 
+                             Region == "Rural"), BMI), 
+          dplyr::pull(filter(BMI_long,
+                             Sex == "Women", 
+                             Year == "2017", 
+                             Region == "Urban"), BMI))
+# p value <.05, conclude that variance is not equal
+# reject the null: no difference in the variance of the distributions
 
-mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
-          pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI))
-# not equal - p value <.05, reject the null: no difference in the variance of the distributions
+mood.test(pull(filter(BMI_long, Sex == "Women", 
+                      Year == "1985", 
+                      Region == "Rural"), BMI), 
+          pull(filter(BMI_long, 
+                      Sex == "Women", 
+                      Year == "1985", 
+                      Region == "Urban"), BMI))
+# p value <.05, conclude that variance is not equal
+# reject the null: no difference in the variance of the distributions
 
-mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
-          pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI))
-# equal - p value >.05, accept the null: no difference in the variance of the distributions
+mood.test(pull(filter(BMI_long, 
+                      Sex == "Women", 
+                      Year == "1985", 
+                      Region == "Rural"), BMI), 
+          pull(filter(BMI_long, Sex == "Women", 
+                      Year == "2017", 
+                      Region == "Rural"), BMI))
+# p value >.05, conclude that variance is equal
+# accept the null: no difference in the variance of the distributions
 
-mood.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI), 
-          pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI))
-# equal - p value >.05, accept the null: no difference in the variance of the distributions
+mood.test(pull(filter(BMI_long, 
+                      Sex == "Women", 
+                      Year == "1985", 
+                      Region == "Urban"), BMI), 
+          pull(filter(BMI_long, Sex == "Women", 
+                      Year == "2017", 
+                      Region == "Urban"), BMI))
+# p value >.05, conclude that variance is equal
+# accept the null: no difference in the variance of the distributions
 
 ```
 
@@ -894,29 +961,47 @@ Another important consideration is that the data is what we call <b>paired</b>. 
 
 ```{r}
 
-t.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
-       pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI), 
+t.test(pull(filter(BMI_long, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Rural"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Urban"), BMI), 
        var.equal = FALSE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 
-t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
-       pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI),
+t.test(pull(filter(BMI_long, Sex == "Women", 
+                   Year == "1985",
+                   Region == "Rural"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Urban"), BMI),
        var.equal = FALSE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 
-t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
-       pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI),
-       var.equal = FALSE, paired = TRUE)
+t.test(pull(filter(BMI_long, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Rural"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Rural"), BMI),
+       var.equal = TRUE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 
-t.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI), 
-       pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
-       var.equal = FALSE, paired = TRUE)
+t.test(pull(filter(BMI_long, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Urban"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Urban"), BMI),
+       var.equal = TRUE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 # the t value shows us that the directionality of the difference
-# the t value was negative thus the BMI was lower in 1985 (the 1st group) compared to 2017 (the 2nd group)
+# the t value was negative thus BMI was lower in 1985 (1st group) 
+# compared to 2017 (2nd group)
 
-# Question opportunity: Was global BMI lower in Rural or Urban areas in 1985 based on looking at the t value?
+# Question opportunity: 
+#Was global BMI lower in Rural or Urban areas in 1985 based on  the t value?
 ```
 
 
@@ -925,6 +1010,7 @@ Now we will try transform our data to make it more normally distributed. One way
 ```{r}
 
 # create a new column with the log version of the BMI variable using mutate()
+
 BMI_long_log <- mutate(BMI_long, log_BMI=log(pull(BMI_long,BMI)))
 
 
@@ -969,74 +1055,102 @@ BMI_long %>%
   group_by(Year, Region) %>% 
   summarize(shapiro_test = shapiro.test(BMI)$p.value)
 
-# so the data is more normal... but still not really normally distributed
+# so the data is more normal, but still not really normally distributed
 
 ```
 
 Let's see the results of the t-test with the transformed data:
 ```{r}
 
-t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Rural"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Urban"), log_BMI), 
+t.test(pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Rural"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Urban"), log_BMI), 
        var.equal = FALSE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 
-t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Rural"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Urban"), log_BMI),
+t.test(pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Rural"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Urban"), log_BMI),
        var.equal = FALSE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 
-t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Rural"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Rural"), log_BMI),
-       var.equal = FALSE, paired = TRUE)
+t.test(pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Rural"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Rural"), log_BMI),
+       var.equal = TRUE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 
-t.test(pull(filter(BMI_long_log, Sex == "Women", Year == "1985", Region == "Urban"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", Year == "2017", Region == "Urban"), log_BMI),
-       var.equal = FALSE, paired = TRUE)
+t.test(pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Urban"), log_BMI), 
+       pull(filter(BMI_long_log, Sex == "Women", 
+                   Year == "2017", 
+                   Region == "Urban"), log_BMI),
+       var.equal = TRUE, paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
 
 ```
 
-The data appears to be more similar to the normal distribution, but most subsets still fail the Shapiro-Wilk normality test. Again, our sample size of 200 is quite large and the t-test is generally quite robust to violations of normality with large n, thus the modified t-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t-test are violated. 
+The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the t-test is generally quite robust to violations of normality with large n, thus the modified t-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t-test are violated. 
 
 ### Nonparametric two sample tests
 
-There are two nonparametric options to consider when the assumptions of the t-test are violated. The Wilcoxon signed rank test and the Two-sample Kolmogorov-Smirnov test both do not assume normality. Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
+There are two nonparametric options to consider when the assumptions of the t-test are violated. The Wilcoxon signed rank test (for paired data - the alternative is Wilcoxon rank sum test for independent samples) and the Two-sample Kolmogorov-Smirnov test both do not assume normality (has both paired and unpaired methods). Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
 
-Importantly the Kolmogorov-Smirnov (KS) test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between our groups of interest, the Kolmogorov-Smirnov test would be more appropriate. Both the t-test and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
+Importantly the Kolmogorov-Smirnov (KS) test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between some of our groups of interest, the Kolmogorov-Smirnov test would be more appropriate. Both the t-test and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
 
 ```{r}
 
-#wilcox.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
-#            pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
-#            paired = TRUE)
-#wilcox.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
-#            pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI),
-#            paired = TRUE))
-
-ks.test(pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI), 
-        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
+ks.test(pull(filter(BMI_long, Sex == "Women", 
+                    Year == "2017", 
+                    Region == "Rural"), BMI), 
+        pull(filter(BMI_long, Sex == "Women", 
+                    Year == "2017", 
+                    Region == "Urban"), BMI),
         paired = TRUE)
 
-ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
-        pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI),
+ks.test(pull(filter(BMI_long, Sex == "Women", 
+                    Year == "1985", 
+                    Region == "Rural"), BMI), 
+        pull(filter(BMI_long, Sex == "Women", 
+                    Year == "1985", 
+                    Region == "Urban"), BMI),
         paired = TRUE)
 ```
 
 
-##What about the difference in female BMI from 1985 to 2017 for both regions?
+What about the difference in female BMI from 1985 to 2017 for both regions?
+Recall that the variance was equal for these comparisons.
 
 ```{r}
-ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Rural"), BMI), 
-        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Rural"), BMI),
-        paired = TRUE)
 
-ks.test(pull(filter(BMI_long, Sex == "Women", Year == "1985", Region == "Urban"), BMI), 
-        pull(filter(BMI_long, Sex == "Women", Year == "2017", Region == "Urban"), BMI),
-        paired = TRUE)
+wilcox.test(pull(filter(BMI_long, Sex == "Women", 
+                        Year == "1985", 
+                        Region == "Rural"), BMI),
+           pull(filter(BMI_long, Sex == "Women", 
+                       Year == "2017", 
+                       Region == "Rural"), BMI),
+           paired = TRUE)
+
+wilcox.test(pull(filter(BMI_long, Sex == "Women", 
+                        Year == "1985", 
+                        Region == "Urban"), BMI),
+           pull(filter(BMI_long, Sex == "Women", 
+                       Year == "2017", 
+                       Region == "Urban"), BMI),
+           paired = TRUE)
 
 ```
+There is a significant difference across time for both regions.
 
 ### Multiple Testing Correction
 
@@ -1051,7 +1165,7 @@ When we test multiple questions like this, we need to correct for the multiple t
 
 The more we test data, the more likely we are to see a significant finding just by chance.
 
-One way to do this is using the Bonferroni method. 
+One way to do this is using the <b>Bonferroni</b> method. 
 
 In this method we would divide our significance threshold (generally 0.05) by the number of tests.
 
@@ -1066,7 +1180,7 @@ So we see a significant difference in the means of the groups after multiple tes
 
 Again, it would be reasonable to use the t-test because it is robust to deviations in normality when samples are relatively large. 
 We can see that we obtained the same results regardless of the test that we used.
-However, if sample sizes are small (generally speaking <25 per group), then these nonparametric options are useful to know.
+However, if sample sizes are small (generally speaking n<15 for each group), then these nonparametric options are useful to know.
 
 The D values in the output of our KS tests, show the magnitude of distance in the difference between the distributions of the groups tested.
 You may notice that the D value is larger for the tests of BMI across time rather then across region.
@@ -1074,18 +1188,23 @@ In these tests the p-value was also smaller.
 
 ## Data Visualization
 
-Again we will utilize `ggplot2` to create plots to look at the directionality and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html). The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
+Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html). The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
 
 Let's look at the national mean BMI estimates for each of the years:
 ```{r}
 BMI_long %>% 
-  filter(Sex == "Women", Year == "1985", Region != "National") %>%
+  filter(Sex == "Women", 
+         Year == "1985", 
+         Region != "National") %>%
   ggplot(aes(x = Region, y = BMI)) +
   geom_boxplot() +
-  geom_jitter(width = .3) # the width determines how wide the points are plotted
+  geom_jitter(width = .3) 
+# the width determines how wide the points are plotted
 
 BMI_long %>% 
-  filter(Sex == "Women", Year == "2017", Region != "National") %>%
+  filter(Sex == "Women", 
+         Year == "2017", 
+         Region != "National") %>%
   ggplot(aes(x = Region, y = BMI)) +
   geom_boxplot() +
   geom_jitter(width = .3)
@@ -1096,7 +1215,9 @@ Now Let's look at the change in rural and urban mean BMI estimates:
 ```{r}
 #this time we will add titles for Rural and Urban using ggtitle()
 BMI_long %>% 
-  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+  filter(Sex == "Women", 
+         Year %in% c("1985", "2017"), 
+         Region == "Rural") %>%
   # filtering this way allows us to keep data from both years
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
@@ -1104,7 +1225,9 @@ BMI_long %>%
   ggtitle("Rural")
 
 BMI_long %>% 
-  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Urban") %>%
+  filter(Sex == "Women", 
+         Year %in% c("1985", "2017"), 
+         Region == "Urban") %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
   geom_jitter(width = .3)+
@@ -1117,14 +1240,16 @@ We will use again use `facet_wrap()` to do this:
 ```{r}
 
 BMI_long %>% 
-  filter(Sex == "Women", Year %in% c("1985", "2017"), Region %in% c("Rural", "Urban")) %>%
+  filter(Sex == "Women", 
+         Year %in% c("1985", "2017"), 
+         Region %in% c("Rural", "Urban")) %>%
   # filtering this way allows us to keep data from both years
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
   geom_jitter(width = .3) +
   facet_wrap(~Region)
 
-# we would get national data too if we did not include `Region %in% c("Rural", "Urban"))`
+# we would also get national data without `Region %in% c("Rural", "Urban"))`
 
 ```
 Indeed the change in BMI over time looks bigger in the rural areas!
@@ -1135,7 +1260,9 @@ We will take a look using `geom_label()`:
 ```{r}
 
 BMI_long %>% 
-  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+  filter(Sex == "Women", 
+         Year %in% c("1985", "2017"), 
+         Region == "Rural") %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
   geom_jitter(width = .3)+
@@ -1149,16 +1276,22 @@ If we include all country names this is a bit too much... so perhaps we should f
 ```{r}
 
 BMI_long %>% 
-  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+  filter(Sex == "Women", 
+         Year %in% c("1985", "2017"), 
+         Region == "Rural") %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
   geom_jitter(data=BMI_long %>% 
-              filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+              filter(Sex == "Women", 
+                     Year %in% c("1985", "2017"), 
+                     Region == "Rural") %>%
               filter(BMI>31 | BMI<19 | Country == "United States of America"), 
               aes(x =Year, y =BMI),
               width = .02) +
   ggrepel::geom_text_repel(data=BMI_long %>% 
-              filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+              filter(Sex == "Women", 
+                     Year %in% c("1985", "2017"), 
+                     Region == "Rural") %>%
               filter(BMI>31 | BMI<19 | Country == "United States of America"), 
               aes(x =Year, y =BMI, label = Country))
               
@@ -1169,16 +1302,22 @@ And let's fill the box plots with color and outline in black:
 ```{r}
 
 BMI_long %>% 
-  filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+  filter(Sex == "Women", 
+         Year %in% c("1985", "2017"), 
+         Region == "Rural") %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot(outlier.shape = NA, color = "black", aes(fill = Year)) +
   geom_jitter(data=BMI_long %>% 
-              filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+              filter(Sex == "Women", 
+                     Year %in% c("1985", "2017"), 
+                     Region == "Rural") %>%
               subset(BMI>31 | BMI<19 | Country == "United States of America"), 
               aes(x =Year, y =BMI),
               width = .02) +
   ggrepel::geom_text_repel(data=BMI_long %>% 
-              filter(Sex == "Women", Year %in% c("1985", "2017"), Region == "Rural") %>%
+              filter(Sex == "Women", 
+                     Year %in% c("1985", "2017"), 
+                     Region == "Rural") %>%
               subset(BMI>31 | BMI<19 | Country == "United States of America"), 
               aes(x =Year, y =BMI, label = Country))
 
@@ -1189,26 +1328,35 @@ BMI_long %>%
 
 Let's take a look at all the data together:
 ```{r}
-ggplot(BMI_long, aes(x = Year, y = BMI, col = Region)) + geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Region)) + facet_grid(~Sex)   
+ggplot(BMI_long, aes(x = Year, y = BMI, col = Region)) +
+  geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Region)) + 
+  facet_grid(~Sex)   
 ```
 
 That's useful, but let's look at the individual points and include our country labels, to do so lets change our United States of America label to USA:
 ```{r}
-BMI_long$Country <-BMI_long$Country %>%str_replace( pattern = "United States of America", replacement = "USA")
+BMI_long$Country <-BMI_long$Country %>%
+  str_replace( pattern = "United States of America", replacement = "USA")
 
 
 ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Year)) + 
   facet_grid(~Sex + Region) + 
   geom_hline(yintercept=30, linetype="dashed", color = "red", size =1)  + 
-  # This will add a horizontal dashed line to indicate BMI values considered to be in the range of obesity
-  geom_jitter(data=subset(BMI_long), aes(x =Year, y =BMI), width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
+  # This will add a horizontal dashed line to indicate the obesity BMI threshold
+  geom_jitter(data=subset(BMI_long), 
+              aes(x =Year, y =BMI), 
+              width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
   # This will add the individual country data points
-  # The shape 21 allows for a different fill and outline color ( the outline is the "color")
+  # The shape 21 allows for a different fill and outline color
   # The width determines how wide the jitter points are plotted
-  geom_jitter(data=subset(BMI_long, Country == "USA"), aes(x =Year, y =BMI), width = .02, size =12, shape =21, color = "black", fill = "gray") + 
+  geom_jitter(data=subset(BMI_long, Country == "USA"), 
+              aes(x =Year, y =BMI), 
+              width = .02, size =12, shape =21, color = "black", fill = "gray") + 
   # This will add points that are larger for the USA data
-  geom_text(data=subset(BMI_long,  Country == "USA"), aes(x =Year, y =BMI,label=Country), color = "black") + 
+  geom_text(data=subset(BMI_long,  Country == "USA"), 
+            aes(x =Year, y =BMI,label=Country), 
+            color = "black") + 
   # This will add USA labels to the USA points
   theme(legend.position = "none", 
   # This is useful for removing the legend
@@ -1219,7 +1367,8 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
         axis.title.x = element_text(size =15), 
         strip.text.x = element_text(size = 15)) +
   # This changes the size of x axis labels for the facet 
-        ggtitle( "Differences in BMI Over Time and Across Region Type and Gender") # Add a  plot title
+        ggtitle( "Differences in BMI Over Time and Across Region Type and Gender") 
+  # Add a  plot title
    
 
 
@@ -1227,18 +1376,24 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
 
 Here we can see that overall BMI appears to be increasing globally over time. Additionally we can see that this is occurring not just in urban areas, but also in rural areas. The US is consistently above the median in all strata of the data. In general, the female data shows higher BMI values than the male data. The rural USA BMI appears to be higher than the urban BMI for both men and women. Many countries have average BMI estimates above the obesity threshold of 30. Thus it appears that education and outreach programs for weight management should focus on both rural and urban areas and both genders. Education and assistance for women may be especially helpful. 
 
-### Differences in rate of increase
+### Differences in rate of change in BMI
 
-How does the rate of increase in BMI differ between groups? Which group might especially need attention?
+How does the rate of change in BMI differ between groups? Which group might especially need attention?
 
 First let's calculate the differences in BMI from 2017 and 1985 and add this to our BMI_long data object:
 ```{r}
 
-BMI_numeric$Rural_difference <- BMI_numeric$Rural_BMI_2017 - BMI_numeric$Rural_BMI_1985
-BMI_numeric$Urban_difference <- BMI_numeric$Urban_BMI_2017 - BMI_numeric$Urban_BMI_1985
-BMI_numeric$National_difference <- BMI_numeric$National_BMI_2017 - BMI_numeric$National_BMI_1985
+BMI_numeric$Rural_difference <- 
+     BMI_numeric$Rural_BMI_2017 - BMI_numeric$Rural_BMI_1985
 
-BMI_diff_long <- BMI_numeric %>% select(Country: National_difference) %>% gather(key = Type, value = Difference , Rural_difference:National_difference)
+BMI_numeric$Urban_difference <- 
+     BMI_numeric$Urban_BMI_2017 - BMI_numeric$Urban_BMI_1985
+
+BMI_numeric$National_difference <- 
+     BMI_numeric$National_BMI_2017 - BMI_numeric$National_BMI_1985
+
+BMI_diff_long <- BMI_numeric %>% select(Country: National_difference) %>% 
+gather(key = Type, value = Difference , Rural_difference:National_difference)
 head(BMI_diff_long)
 ```
 
@@ -1246,19 +1401,25 @@ Let's replace "United states of America" with "USA" and make a plot with this da
 
 ```{r}
 
-BMI_diff_long$Country <-BMI_diff_long$Country %>%str_replace( pattern = "United States of America", replacement = "USA")
+BMI_diff_long$Country <-BMI_diff_long$Country %>%
+  str_replace( pattern = "United States of America", replacement = "USA")
 
 
 ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Type)) + 
   facet_grid(~Sex) +
-  geom_jitter(data=subset(BMI_diff_long), aes(x =Type, y =Difference), width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
+  geom_jitter(data=subset(BMI_diff_long), 
+              aes(x =Type, y =Difference), 
+              width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
   # This will add the individual country data points
-  # The shape 21 allows for a different fill and outline color ( the outline is the "color")
+  # The shape 21 allows for a different fill and outline color
   # The width determines how wide the jitter points are plotted
-  geom_jitter(data=subset(BMI_diff_long, Country == "USA"), aes(x =Type, y =Difference), width = .02, size =12, shape =21, color = "black", fill = "gray") + 
+  geom_jitter(data=subset(BMI_diff_long, Country == "USA"), 
+              aes(x =Type, y =Difference), 
+              width = .02, size =12, shape =21, color = "black", fill = "gray") + 
   # This will add points that are larger for the USA data
-  geom_text(data=subset(BMI_diff_long,  Country == "USA"), aes(x =Type, y =Difference,label=Country), color = "black") + 
+  geom_text(data=subset(BMI_diff_long,  Country == "USA"), 
+            aes(x =Type, y =Difference,label=Country), color = "black") + 
   # This will add USA labels to the USA points
   theme(legend.position = "none", 
   # This is useful for removing the legend
@@ -1269,7 +1430,8 @@ ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) +
         axis.title.x = element_text(size =15), 
         strip.text.x = element_text(size = 15)) +
         # this changes the size of x axis labels for the facet
-        ggtitle( "Change in BMI Over Time and Across Region Type and Gender" )# Add a plot title  
+        ggtitle( "Change in BMI Over Time and Across Region Type and Gender")
+        # Add a plot title  
 
 
 
@@ -1286,22 +1448,25 @@ BMI_diff_long %>%
   geom_histogram() +
   facet_wrap( ~ Sex + Type)
 # interesting...the spread of difference is much broader for women than for men 
-# thus there are some women in some countries that especially need help while others are actually showing a loss of BMI
+# some women in some countries especially need help with obesity
+# while other countries are actually showing a loss of BMI
+# these countries are the points on our previous plot with a difference below 0
 
+#Let's see who:
+BMI_diff_long %>% arrange(Difference)
 
+# In general, people appear to have lost weight in Greece
+
+# Let's look at Q-Q plots:
 BMI_diff_long %>%
   ggplot(aes(sample =Difference)) +
   stat_qq()+ # to add the line we need to also include stat_qq_line()
   stat_qq_line()+
   facet_wrap(~Sex + Type)
 
-# ok so some of the data for Men looks fairly normal but not the data for Women
+# ok so some of the data for Men looks fairly normal but not as much for Women
 
 # Now we will check the variance
-BMI_diff_long %>% 
-  group_by(Type, Sex) %>% 
-  summarize(shapiro_test = shapiro.test(Difference)$p.value)
-
 
 mood.test(pull(filter(BMI_diff_long, Sex == "Women", Type == "Rural_difference"), Difference), 
           pull(filter(BMI_diff_long, Sex == "Women", Type == "Urban_difference"), Difference))
@@ -1315,12 +1480,15 @@ mood.test(pull(filter(BMI_diff_long, Sex == "Women", Type == "Rural_difference")
           pull(filter(BMI_diff_long, Sex == "Men", Type == "Rural_difference"), Difference))
 #reject the null - conclude that variance is not equal
 
+
+# let's compare the groups
+# this is again still paired data
+# this is because each value of "Rural_difference" and "Urban_difference" correspond to the same country
+
 ks.test(pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference), 
         pull(filter(BMI_diff_long, Sex == "Women",  Type == "Urban_difference"), Difference),
         paired = TRUE) 
 
-# this is again still paired because each value of "Rural_difference" and "Urban_difference" correspond to the same country
-
 ks.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
         pull(filter(BMI_diff_long, Sex == "Men",  Type == "Urban_difference"), Difference),
         paired = TRUE)
@@ -1329,22 +1497,14 @@ ks.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), D
         pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference),
         paired = TRUE)
 
-t.test(pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference), 
-        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Urban_difference"), Difference),
-        paired = TRUE, var.equal = FALSE)
-
-t.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
-        pull(filter(BMI_diff_long, Sex == "Men",  Type == "Urban_difference"), Difference),
-        paired = TRUE, var.equal = TRUE)
-
-t.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
-        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference),
-        paired = TRUE, var.equal = FALSE)
-
+```
+Now we have performed seven comparisons (4 earlier) so we should apply our multiple testing correction
+```{r}
+.05/7
 
 ```
 
-There is a larger difference in the Rural communities for both Men and Women. The Rural difference is significantly different between men and women according to the KS test, but but not according to the t-test.
+We see that there is a significant difference in the change in BMI Rural communities between men and women. This change is larger for women.
 
 Importantly- we noticed that it appears to be specific countries where BMI shows a particular increase especially for women. Which countries are those? how does that compare with the US? Clearly the US is among the countries with the highest differences. 
 
@@ -1386,22 +1546,35 @@ Now let's make a plot that summarizes our findings. To do this we will simplify 
 
 # simplified national means plot
 Means_plot<-BMI_long %>% 
-  filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National") %>%
+  filter(Sex %in% c("Men", "Women"), 
+         Year %in% c("1985", "2017"), 
+         Region == "National") %>%
 ggplot(aes(x = Sex, y = BMI)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Sex)) + 
  scale_fill_manual(values=c("dodgerblue", "orchid2"))+
   facet_grid(~Year) + 
   geom_hline(yintercept=30, linetype="dashed", color = "red", size =1)  + 
   geom_jitter(data=BMI_long 
-                          %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"),
-                          aes(x =Sex, y =BMI), width = .2, size =2, shape =21, color = "black", fill = "gray") +
+                          %>%filter(Sex %in% c("Men", "Women"), 
+                                    Year %in% c("1985", "2017"), 
+                                    Region == "National"),
+                             aes(x =Sex, y =BMI), 
+                             width = .2, size =2, shape =21, 
+                             color = "black", fill = "gray") +
   geom_jitter(data=subset(BMI_long 
-                          %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"), 
-                          Country == "USA"), aes(x =Sex, y =BMI), width = .02, size =12, shape =21, color = "black", fill = "gray") + 
+                          %>%filter(Sex %in% c("Men", "Women"), 
+                                    Year %in% c("1985", "2017"), 
+                                    Region == "National", 
+                                    Country == "USA")), 
+                             aes(x =Sex, y =BMI), 
+                             width = .02, size =12, shape =21, 
+                             color = "black", fill = "gray") + 
   # This will add points that are larger for the USA data
   geom_text(data=subset(BMI_long
-                         %>%filter(Sex %in% c("Men", "Women"), Year %in% c("1985", "2017"), Region == "National"),
-                         Country == "USA"), aes(x =Sex, y =BMI,label=Country), color = "black") + 
+                         %>%filter(Sex %in% c("Men", "Women"), 
+                                   Year %in% c("1985", "2017"), 
+                            Region == "National", Country == "USA")),
+                            aes(x =Sex, y =BMI,label=Country), color = "black") + 
   # This will add USA labels to the USA points
   theme_linedraw()+
   # This will make thebackground of the plot white and the facet labels black
@@ -1415,24 +1588,36 @@ ggplot(aes(x = Sex, y = BMI)) +
         strip.text.x = element_text(size = 15))
    
 #Simplified difference plot 
-BMI_diff_long$Type <-BMI_diff_long$Type %>%str_replace( pattern = "_difference", replacement = "")
+BMI_diff_long$Type <-BMI_diff_long$Type %>%
+  str_replace( pattern = "_difference", replacement = "")
 
 Diff_plot<-BMI_diff_long %>% 
-  filter(Sex %in% c("Men", "Women"), Type != "National") %>%
+  filter(Sex %in% c("Men", "Women"), 
+         Type != "National") %>%
 ggplot( aes(x = Type, y = Difference, col = Type)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Sex)) + 
   scale_fill_manual(values=c("dodgerblue", "orchid2"))+
   facet_grid(~Sex) +
   geom_jitter(data=BMI_diff_long %>% 
-    filter(Sex %in% c("Men", "Women"), Type != "National") , 
-    aes(x =Type, y =Difference), width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
+    filter(Sex %in% c("Men", "Women"), 
+           Type != "National"), 
+    aes(x =Type, y =Difference), 
+    width = .2, size =2, shape =21, 
+    color = "black", fill = "gray")  + 
   geom_jitter(data=subset(BMI_diff_long %>% 
-    filter(Sex %in% c("Men", "Women"), Type != "National") , Country == "USA"), 
-    aes(x =Type, y =Difference), width = .02, size =12, shape =21, color = "black", fill = "gray") + 
+    filter(Sex %in% c("Men", "Women"), 
+           Type != "National", 
+           Country == "USA")), 
+    aes(x =Type, y =Difference), 
+    width = .02, size =12, shape =21, 
+    color = "black", fill = "gray") + 
   # This will add points that are larger for the USA data
   geom_text(data=subset(BMI_diff_long %>% 
-    filter(Sex %in% c("Men", "Women"), Type != "National") , Country == "USA"),
-    aes(x =Type, y =Difference,label=Country), color = "black") + 
+    filter(Sex %in% c("Men", "Women"),
+           Type != "National"), 
+           Country == "USA"),
+    aes(x =Type, y =Difference,label=Country), 
+    color = "black") + 
   # This will add USA labels to the USA points
   theme_linedraw()+
     # This will make thebackground of the plot white and the facet labels black
@@ -1447,16 +1632,27 @@ ggplot( aes(x = Type, y = Difference, col = Type)) +
   # this changes the size of x axis labels for the facet
 
 #add labels
-Diff_plot<-Diff_plot + labs(title = "Change in BMI by region", x = "", y = "Increase in BMI \n (1985 to 2017)")+
-    theme(title = element_text (size = 12, face = "bold"))
-Means_plot <-Means_plot + labs(title = "Mean BMI over time", x = "", y = "Mean BMI")+
-    theme(title = element_text (size = 12, face = "bold"))
+Diff_plot<-Diff_plot + 
+        labs(title = "Change in BMI by region", 
+             x = "", 
+             y = "Change in BMI \n (1985 to 2017)") +
+        theme(title = element_text (size = 12, face = "bold"))
+
+Means_plot <-Means_plot + 
+        labs(title = "Mean BMI over time", 
+             x = "", 
+             y = "Mean BMI") +
+        theme(title = element_text (size = 12, face = "bold"))
 
 
 
 obesity_text<-tibble(Year=c(1985),BMI=c(31),Sex=c("Men"),label=c("Obesity"))
 
-Means_plot <-Means_plot+ geom_text(data = obesity_text,label=pull(obesity_text,label), color = "red", aes( fontface ="bold.italic", size = 13))
+Means_plot <-Means_plot+ 
+             geom_text(data = obesity_text,
+                       label=pull(obesity_text,label), 
+                       color = "red", 
+                       aes( fontface ="bold.italic", size = 13))
 
 cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
 
@@ -1467,7 +1663,29 @@ Great, now we have put two plots together using the `plot_grid()` function of th
 
 ## Summary
 
-We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community using t-tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions.  Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges. You can see in the [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) that this data came from that many more considerations would be involved to perform such an analysis.
+We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using t-tests and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
+
+<u> We learned that the t-test relies on:</u>
+1) normality of the data for both groups (this is not as much of an issue if the number of observations is relatively large total n>30)
+2) equal variance between the two groups (make sure you do the correct test if the data is not normal)
+3) balanced sample sizes of the two groups
+
+We learned that we can evaluate if our data is normally distributed by plotting the distribution and by creating Q-Q plots.
+
+<u>We learned that if our data is not normally distributed, we can consider these options:</u>
+1) We can still perform a t-test if our n is large
+2) We can transform the data before performing a t-test
+3) We can use a nonparametric test (Wilcoxon signed rank test and the Two-sample Kolmogorov-Smirnov (KS) test)
+
+We learned that if our groups do not have equal variance, that we need to use a modified t-test to account for this or the correct nonparametric test that does not rely on this assumption (Two-sample Kolmogorov-Smirnov test).
+
+We also learned that if our groups are not well balanced, that we can consider resampling methods.
+
+Finally its also important to remember that when we have [paired data](https://www.statisticshowto.datasciencecentral.com/paired-data/) and intend to compare means, we should perform a paired test (paired t-test, Wilcoxon signed rank test, or paired KS test). Our data used in this case study was paired because observations were taken for the same countries for different categories of populations - thus, we wanted to compare these populations within the same country (male vs female, rural vs urban etc.). Other examples would be in a case-control study (if samples are matched for various demographics) or a study with repeated measures (for example, symptom measures from the same individual before and after a treatment). 
+
+
+Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. We were also able to identify how the US compared to other countries and which countries showed the largest increase in BMI over time. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges. You can see in the [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) that this data came from that many additional considerations would be involved to perform such an analysis.
+
 
 ### Suggested Homework
 
