@@ -1,11 +1,22 @@
-.particular_topic_block {
+.reference_block {
     margin: .2em;
     padding: .2em;
-    border: 1px solid blue;
+    border: 1px solid black;
     border-radius: 5px;
-    background: #1E90FF;
+    background: #4B0082;
+    color: white;
+    font-weight: bold;
 }
 
+.question_block {
+    margin: .2em;
+    padding: .2em;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: #1E90FF;
+    color: white;
+    font-weight: bold;
+}
 
 .blue-outline {
    background-color: #1E90FF;
@@ -15,7 +26,7 @@
 
 
 .scrollable {
-  white-space: pre !important;
-  overflow-y: scroll !important;
-  height: 50vh !important;
+   white-space: pre !important;
+   overflow-y: scroll !important;
+   height: 50vh !important;
 }

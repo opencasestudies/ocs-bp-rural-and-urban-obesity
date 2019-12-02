@@ -28,13 +28,18 @@ knitr::include_graphics(here::here("mainplot.png"))
 ```
 
 ## Motivation
-BMI is measured as an individual's weight in kilograms divided by the individual's height in meters squared. Different categories of weight are defined with the following cutoffs:
+[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html) is used as a proxy for adiposity and is measured as an individual's weight in kilograms divided by the individual's height in meters squared. Different categories of weight are defined with the following cutoffs as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi) [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html) and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf):
 
-![](https://cdn.vertex42.com/ExcelTemplates/Images/bmi-chart.gif)
+![](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg)
 
-###### [BMI Chart](https://www.vertex42.com/ExcelTemplates/bmi-chart.html) created by Vertex42.com. Used with permission.
+###### [BMI table](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg)
 
+The following chart can help you identify your BMI estimate:
+![](http://content.everydayhealth.com/mayodiet/images/BMI-chart.jpg)
 
+###### [BMI Chart](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426) 
+
+High BMI (>30) is associated with higher rates of all-causes of mortality, as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. For additional information see [here](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf).
 
 
 An [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in *Nature* evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
@@ -45,7 +50,7 @@ knitr::include_graphics(here::here("paper.png"))
 
 ```
 
-#### {.particular_topic_block}
+#### {.reference_block}
 NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* 569, 260–264 (2019). 
 
 ####
@@ -106,7 +111,7 @@ The first time we use a function, we will use the `::` to indicate which package
 
 ### Context
 
-The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf) that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link) for risk for many diseases particularly when combined with other risk factor information.
+The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf) that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link) for risk for many diseases and conditions particularly when combined with other risk factor information.
 
 ## What are the data?
 
@@ -650,13 +655,22 @@ head(BMI_long)
 dim(BMI_numeric)
 dim(BMI_long)
 
-# Question opportunity: Why are there now 2,400 rows?
+
 ```
+
+#### {.question_block}
+<u>Question opportunity:</u> Why exactly are there 2,400 rows now?
+
+####
 
 
 Great! our data is very usable now in this format!
 
 
+```{r, echo = FALSE}
+save(BMI_numeric, BMI_long, file = here("Wrangled_data.rda"))
+
+```
 ## Data Exploration
 
 Now that our data is clean and in a format that we can work with, we can start to take a look at the data and how different groups might compare.
@@ -664,7 +678,12 @@ Now that our data is clean and in a format that we can work with, we can start t
 Statistically speaking there are tests that can allow us to evaluate if the means of the groups are different. First let's see how our data looks in general.
 
 ### General summary
+Start here if not working through data import and wrangling
 
+```{r, echo = FALSE}
+load(here("Wrangled_data.rda"))
+
+```
 
 ```{r}
 summary(BMI_numeric)
@@ -679,13 +698,17 @@ Lets look at the data separately by gender:
 
 ```{r}
 #Women:
-BMI_numeric %>% subset(Sex == "Women") %>% summary()
+BMI_numeric %>% 
+  subset(Sex == "Women") %>% 
+  summary()
 
 ```
 
 ```{r}
 #Men
-BMI_numeric %>% subset(Sex == "Men") %>% summary()
+BMI_numeric %>% 
+  subset(Sex == "Men") %>% 
+  summary()
 ```
 
 It looks like mean BMIs have increased in all regions for both men and women. It is unclear though if this change is statistically significant.
@@ -719,7 +742,9 @@ norm_BMI_ex_data %>%
 
 Let's see how our data looks:
 ```{r}
-BMI_long%>% ggplot(aes(x = BMI)) + geom_histogram() 
+BMI_long%>% 
+  ggplot(aes(x = BMI)) + 
+  geom_histogram() 
 
 ```
 
@@ -730,18 +755,18 @@ If we parse our data, what does it look like? The easiest way to do this is to u
 ```{r, eval = TRUE}
 BMI_long %>%
   ggplot(aes(x=BMI)) +
-  geom_histogram()+
-  facet_wrap( ~ Sex)
-
-BMI_long %>%
-  ggplot(aes(x=BMI)) +
-  geom_histogram()+
-  facet_wrap( ~ Sex + Year) 
+  geom_histogram() +
+  facet_wrap(~ Sex)
 
 BMI_long %>%
   ggplot(aes(x=BMI)) +
   geom_histogram() +
-  facet_wrap( ~ Sex + Year + Region) 
+  facet_wrap(~ Sex + Year) 
+
+BMI_long %>%
+  ggplot(aes(x=BMI)) +
+  geom_histogram() +
+  facet_wrap(~ Sex + Year + Region) 
 
 ```
 
@@ -758,7 +783,7 @@ Here is an example of a Q-Q plot for the normally distributed data that we just 
 
 norm_BMI_ex_data %>%
   ggplot(aes(sample =norm_data)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
   stat_qq_line()
 
 
@@ -772,7 +797,7 @@ If we were to use different data that had a range of different values our y-axis
 range(Orange$circumference)
 Orange%>%
   ggplot(aes(sample =circumference)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
   stat_qq_line()
 ```
 
@@ -783,9 +808,11 @@ Let's take a look at our BMI data:
 
 BMI_long %>%
   ggplot(aes(sample =BMI)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
-  stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  facet_wrap(~ Sex + Year + Region)
 ```
+This is a little hard to see, some plots look pretty good, but while others seem to be skewed, lets take a closer look.
 
 For the sake of simplicity, we are going to focus on the data from the women.  This is because women were identified in the paper to have larger increases in BMI. If we want to perform tests on these groups specifically, then we need to know how this data looks.
 
@@ -794,48 +821,15 @@ For the sake of simplicity, we are going to focus on the data from the women.  T
 BMI_long %>%
   filter(Sex == "Women") %>%
   ggplot(aes(sample =BMI)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
-  stat_qq_line()
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  facet_wrap(~ Year + Region)
 ```
 
 
 What about by region and year? If we compare these data then we need to look at the distribution of each of these subsets.
 
-```{r}
-
-BMI_long %>%
-  filter(Sex == "Women", Year == "2017", Region == "Rural") %>%
-  ggplot(aes(sample =BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() + # to add a title we can use ggtitle()
-  ggtitle("QQ Plot for Women 2017 Rural Data")
-
-BMI_long %>%
-  filter(Sex == "Women", Year == "2017", Region == "Urban") %>%
-  ggplot(aes(sample =BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  ggtitle("QQ Plot for Women 2017 Urban Data")
-
-
-BMI_long %>%
-  filter(Sex == "Women", Year == "1985", Region == "Rural") %>%
-  ggplot(aes(sample =BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  ggtitle("QQ Plot for Women 1985 Rural Data")
-
-BMI_long %>%
-  filter(Sex == "Women", Year == "1985", Region == "Urban") %>%
-  ggplot(aes(sample =BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  ggtitle("QQ Plot for Women 1985 Urban Data")
-
-
-```
-
-We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. The Rural data looks more normal than the urban data, but if we were to use statistical tests that rely on normality, this would require that both groups are normally distributed.
+We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. The rural data looks more normal than the urban data, but if we were to use statistical tests that rely on normality, this would require that both groups are normally distributed.
 
 Finally, some statisticians also use the Shapiro-Wilk test for normality when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
 
@@ -845,7 +839,8 @@ For illustrative purposes we will show how we can use the `dplyr` `summarize()` 
 
 ```{r}
 
-norm_BMI_ex_data$norm_data %>% shapiro.test() 
+norm_BMI_ex_data$norm_data %>% 
+  shapiro.test() 
 # example of the test output for normal data - the p value is not < 0.05
 
 BMI_long %>% 
@@ -859,16 +854,17 @@ We see that all the data does not appear to be normally distributed.
 
 ## Data Analysis
 
-We can use statistical tests like the stud t-test to determine if the means are significantly different.
+We can use statistical tests like the student t-test to determine if two means are significantly different.
 
-In these <b> two means hypothesis tests </b> we test the <null hypothesis that there is no difference in the two means:
+With the t-test, we perform what is called <b> two means hypothesis tests </b>.
+We define what is called the <b> null hypothesis </b>, which is what we assume by default or the baseline, that there is no difference in the two means:
 
                                         Ho: μ1 = μ2
                                         
                                μ1 is the mean of one group
                                μ2 is the mean of the other group
                                
-The alternative hypothesis is that the two means are not equal:
+Thus like in law, we accept this null hypothesis, unless we have enough evidence to suggest that we should reject it - similar to the idea that we by default assume that indivudals are not guilty, untill proven otherwise. If we reject the null hypothesis, we then accept an <b> alternative hypothesis </b>, this can vary for different statistical tests, but in the case of the t-test we evaluate if the two means are not equal:
                                         
                                         Ha: μ1 ≠ μ2
     
@@ -882,7 +878,7 @@ There are two possible classes of statistical tests that we could run to compare
 
 ### Parametric two sample mean tests
 
-Often when comparing two groups we might perform a two sample t-test to determine if the means of each group is different. The two sample t-test however, relies on several assumptions:
+Often when comparing two groups we might perform a two sample t-test to determine if the means of each group is different. The two sample t-test however, relies on several <strong>assumptions</strong>:
 
 1) The data for both groups is normally distributed
 2) The variance of both groups is similar
@@ -1000,12 +996,16 @@ t.test(pull(filter(BMI_long, Sex == "Women",
 # the t value was negative thus BMI was lower in 1985 (1st group) 
 # compared to 2017 (2nd group)
 
-# Question opportunity: 
-#Was global BMI lower in Rural or Urban areas in 1985 based on  the t value?
+
 ```
 
+#### {.question_block}
+<u>Question opportunity:</u> 
+Looking at the t value, was global BMI lower in Rural or Urban areas in 1985?
 
-Now we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values. Then we will see how this influences the results.
+####
+
+Now we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values. Then we will see how this influences the results. Again we will focus on the data for women.
 
 ```{r}
 
@@ -1013,36 +1013,12 @@ Now we will try transform our data to make it more normally distributed. One way
 
 BMI_long_log <- mutate(BMI_long, log_BMI=log(pull(BMI_long,BMI)))
 
-
 BMI_long_log %>%
-  filter(Sex == "Women", Year == "2017", Region == "Rural") %>%
+  filter(Sex == "Women") %>%
   ggplot(aes(sample =log_BMI)) +
   stat_qq() + # to add the line we need to also include stat_qq_line()
   stat_qq_line() +
-  ggtitle("QQ Plot for Log Women 2017 Rural Data")
-
-BMI_long_log %>%
-  filter(Sex == "Women", Year == "2017", Region == "Urban") %>%
-  ggplot(aes(sample =log_BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  ggtitle("QQ Plot for Log Women 2017 Urban Data")
-
-
-BMI_long_log %>%
-  filter(Sex == "Women", Year == "1985", Region == "Rural") %>%
-  ggplot(aes(sample =log_BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  ggtitle("QQ Plot for Log Women 1985 Rural Data")
-
-BMI_long_log %>%
-  filter(Sex == "Women", Year == "1985", Region == "Urban") %>%
-  ggplot(aes(sample =log_BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  ggtitle("QQ Plot for Log Women 1985 Urban Data")
-
+  facet_wrap(~ Year + Region)
 
 BMI_long_log %>% 
   filter(Sex == "Women") %>% 
@@ -1055,9 +1031,11 @@ BMI_long %>%
   group_by(Year, Region) %>% 
   summarize(shapiro_test = shapiro.test(BMI)$p.value)
 
-# so the data is more normal, but still not really normally distributed
+
 
 ```
+
+The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the t-test is generally quite robust to violations of normality with large n, thus the modified t-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
 
 Let's see the results of the t-test with the transformed data:
 ```{r}
@@ -1100,7 +1078,10 @@ t.test(pull(filter(BMI_long_log, Sex == "Women",
 
 ```
 
-The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the t-test is generally quite robust to violations of normality with large n, thus the modified t-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed. However, let's take a look at non parametric tests, which are also a great option when the assumptions of the t-test are violated. 
+We can see that our results are quite similar to that of the original data, however the t values are slightly smaller. In other cases we may see  a much more dramatic influence of transforming our data.
+
+
+Now, let's take a look at non parametric tests, which are also a great option when the assumptions of the t-test are violated. 
 
 ### Nonparametric two sample tests
 
@@ -1150,7 +1131,7 @@ wilcox.test(pull(filter(BMI_long, Sex == "Women",
            paired = TRUE)
 
 ```
-There is a significant difference across time for both regions.
+There is a significant difference across time for both regions, as we saw with the t-test. There is also a significant difference by region for each year. However, the p-values are a bit larger for the KS test results than we saw with the t-test.
 
 ### Multiple Testing Correction
 
@@ -1230,7 +1211,7 @@ BMI_long %>%
          Region == "Urban") %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
-  geom_jitter(width = .3)+
+  geom_jitter(width = .3) +
   ggtitle("Urban")
 
 ```
@@ -1247,7 +1228,7 @@ BMI_long %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
   geom_jitter(width = .3) +
-  facet_wrap(~Region)
+  facet_wrap(~ Region)
 
 # we would also get national data without `Region %in% c("Rural", "Urban"))`
 
@@ -1265,7 +1246,7 @@ BMI_long %>%
          Region == "Rural") %>%
   ggplot(aes(x = Year, y = BMI)) +
   geom_boxplot() +
-  geom_jitter(width = .3)+
+  geom_jitter(width = .3) +
   geom_label(aes(label = Country))
 
 ```
@@ -1330,7 +1311,7 @@ Let's take a look at all the data together:
 ```{r}
 ggplot(BMI_long, aes(x = Year, y = BMI, col = Region)) +
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Region)) + 
-  facet_grid(~Sex)   
+  facet_grid(~ Sex)   
 ```
 
 That's useful, but let's look at the individual points and include our country labels, to do so lets change our United States of America label to USA:
@@ -1341,12 +1322,12 @@ BMI_long$Country <-BMI_long$Country %>%
 
 ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Year)) + 
-  facet_grid(~Sex + Region) + 
-  geom_hline(yintercept=30, linetype="dashed", color = "red", size =1)  + 
+  facet_grid(~ Sex + Region) + 
+  geom_hline(yintercept=30, linetype="dashed", color = "red", size =1) + 
   # This will add a horizontal dashed line to indicate the obesity BMI threshold
   geom_jitter(data=subset(BMI_long), 
               aes(x =Year, y =BMI), 
-              width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
+              width = .2, size =2, shape =21, color = "black", fill = "gray") + 
   # This will add the individual country data points
   # The shape 21 allows for a different fill and outline color
   # The width determines how wide the jitter points are plotted
@@ -1392,8 +1373,10 @@ BMI_numeric$Urban_difference <-
 BMI_numeric$National_difference <- 
      BMI_numeric$National_BMI_2017 - BMI_numeric$National_BMI_1985
 
-BMI_diff_long <- BMI_numeric %>% select(Country: National_difference) %>% 
+BMI_diff_long <- BMI_numeric %>% 
+  select(Country: National_difference) %>% 
 gather(key = Type, value = Difference , Rural_difference:National_difference)
+
 head(BMI_diff_long)
 ```
 
@@ -1407,10 +1390,10 @@ BMI_diff_long$Country <-BMI_diff_long$Country %>%
 
 ggplot(BMI_diff_long, aes(x = Type, y = Difference, col = Type)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Type)) + 
-  facet_grid(~Sex) +
+  facet_grid(~ Sex) +
   geom_jitter(data=subset(BMI_diff_long), 
               aes(x =Type, y =Difference), 
-              width = .2, size =2, shape =21, color = "black", fill = "gray")  + 
+              width = .2, size =2, shape =21, color = "black", fill = "gray") + 
   # This will add the individual country data points
   # The shape 21 allows for a different fill and outline color
   # The width determines how wide the jitter points are plotted
@@ -1446,38 +1429,51 @@ Let's check the difference with some statistical tests:
 BMI_diff_long %>%
   ggplot(aes(x=Difference)) +
   geom_histogram() +
-  facet_wrap( ~ Sex + Type)
+  facet_wrap(~ Sex + Type)
 # interesting...the spread of difference is much broader for women than for men 
 # some women in some countries especially need help with obesity
 # while other countries are actually showing a loss of BMI
 # these countries are the points on our previous plot with a difference below 0
 
 #Let's see who:
-BMI_diff_long %>% arrange(Difference)
+BMI_diff_long %>% 
+  arrange(Difference)
 
 # In general, people appear to have lost weight in Greece
 
 # Let's look at Q-Q plots:
 BMI_diff_long %>%
   ggplot(aes(sample =Difference)) +
-  stat_qq()+ # to add the line we need to also include stat_qq_line()
-  stat_qq_line()+
-  facet_wrap(~Sex + Type)
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  facet_wrap(~ Sex + Type)
 
 # ok so some of the data for Men looks fairly normal but not as much for Women
 
 # Now we will check the variance
 
-mood.test(pull(filter(BMI_diff_long, Sex == "Women", Type == "Rural_difference"), Difference), 
-          pull(filter(BMI_diff_long, Sex == "Women", Type == "Urban_difference"), Difference))
+mood.test(pull(filter(BMI_diff_long, 
+                      Sex == "Women", 
+                      Type == "Rural_difference"), Difference), 
+          pull(filter(BMI_diff_long, 
+                      Sex == "Women", 
+                      Type == "Urban_difference"), Difference))
 #reject the null - conclude that variance is not equal
 
-mood.test(pull(filter(BMI_diff_long, Sex == "Men", Type == "Rural_difference"), Difference), 
-          pull(filter(BMI_diff_long, Sex == "Men", Type == "Urban_difference"), Difference))
+mood.test(pull(filter(BMI_diff_long, 
+                      Sex == "Men", 
+                      Type == "Rural_difference"), Difference), 
+          pull(filter(BMI_diff_long, 
+                      Sex == "Men", 
+                      Type == "Urban_difference"), Difference))
 #accept the null - conclude that variance is equal
 
-mood.test(pull(filter(BMI_diff_long, Sex == "Women", Type == "Rural_difference"), Difference), 
-          pull(filter(BMI_diff_long, Sex == "Men", Type == "Rural_difference"), Difference))
+mood.test(pull(filter(BMI_diff_long, 
+                      Sex == "Women", 
+                      Type == "Rural_difference"), Difference), 
+          pull(filter(BMI_diff_long, 
+                      Sex == "Men", 
+                      Type == "Rural_difference"), Difference))
 #reject the null - conclude that variance is not equal
 
 
@@ -1485,16 +1481,28 @@ mood.test(pull(filter(BMI_diff_long, Sex == "Women", Type == "Rural_difference")
 # this is again still paired data
 # this is because each value of "Rural_difference" and "Urban_difference" correspond to the same country
 
-ks.test(pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference), 
-        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Urban_difference"), Difference),
+ks.test(pull(filter(BMI_diff_long, 
+                    Sex == "Women",  
+                    Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long,
+                    Sex == "Women",  
+                    Type == "Urban_difference"), Difference),
         paired = TRUE) 
 
-ks.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
-        pull(filter(BMI_diff_long, Sex == "Men",  Type == "Urban_difference"), Difference),
+ks.test(pull(filter(BMI_diff_long,
+                    Sex == "Men",
+                    Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long,
+                    Sex == "Men", 
+                    Type == "Urban_difference"), Difference),
         paired = TRUE)
 
-ks.test(pull(filter(BMI_diff_long, Sex == "Men",  Type == "Rural_difference"), Difference), 
-        pull(filter(BMI_diff_long, Sex == "Women",  Type == "Rural_difference"), Difference),
+ks.test(pull(filter(BMI_diff_long,
+                    Sex == "Men", 
+                    Type == "Rural_difference"), Difference), 
+        pull(filter(BMI_diff_long, 
+                    Sex == "Women",  
+                    Type == "Rural_difference"), Difference),
         paired = TRUE)
 
 ```
@@ -1509,7 +1517,8 @@ We see that there is a significant difference in the change in BMI Rural communi
 Importantly- we noticed that it appears to be specific countries where BMI shows a particular increase especially for women. Which countries are those? how does that compare with the US? Clearly the US is among the countries with the highest differences. 
 
 ```{r}
-BMI_diff_long %>% filter(Country == "USA")
+BMI_diff_long %>% 
+  filter(Country == "USA")
 
 ```
 
@@ -1518,7 +1527,9 @@ In the US, focus should be placed on <b> both urban and rural </b> women to impr
 Here we can see the countries have the largest differences in BMI from 1985-2017:
 
 ```{r}
-BMI_diff_long %>%filter(Difference>4.9) %>%arrange(-Difference)
+BMI_diff_long %>%
+  filter(Difference>4.9) %>%
+  arrange(-Difference)
 #here we sorted by the highest to lowest values of BMI Difference
 ```
 
@@ -1527,13 +1538,15 @@ However it is important to see what the mean BMI values are were for these count
 It could be that the average was underweight in 1985... let's take a look.
 
 ```{r}
-BMI_long %>% filter(Country %in% pull(filter(BMI_diff_long, Difference>4.9), Country), 
+BMI_long %>% 
+  filter(Country %in% pull(filter(BMI_diff_long, Difference>4.9), Country), 
                     Sex %in% pull(filter(BMI_diff_long, Difference>4.9), Sex),
                     Year =="2017") %>%
-            arrange(-BMI)
+  arrange(-BMI)
 
 #Here is the data just for the changes in BMI in Egypt
-filter(BMI_diff_long, Country == "Egypt") %>% arrange(-Difference)
+filter(BMI_diff_long, Country == "Egypt") %>% 
+  arrange(-Difference)
 
 ```
 Thus rural women in Egypt had the greatest increase in BMI from 1985 to 2017 in this data (5.9) and the average BMI is now over the obesity threshold of 30.
@@ -1551,32 +1564,33 @@ Means_plot<-BMI_long %>%
          Region == "National") %>%
 ggplot(aes(x = Sex, y = BMI)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Sex)) + 
- scale_fill_manual(values=c("dodgerblue", "orchid2"))+
-  facet_grid(~Year) + 
-  geom_hline(yintercept=30, linetype="dashed", color = "red", size =1)  + 
-  geom_jitter(data=BMI_long 
-                          %>%filter(Sex %in% c("Men", "Women"), 
-                                    Year %in% c("1985", "2017"), 
-                                    Region == "National"),
-                             aes(x =Sex, y =BMI), 
-                             width = .2, size =2, shape =21, 
-                             color = "black", fill = "gray") +
-  geom_jitter(data=subset(BMI_long 
-                          %>%filter(Sex %in% c("Men", "Women"), 
-                                    Year %in% c("1985", "2017"), 
-                                    Region == "National", 
-                                    Country == "USA")), 
+ scale_fill_manual(values=c("dodgerblue", "orchid2")) +
+  facet_grid(~ Year) + 
+  geom_hline(yintercept=30, linetype="dashed", color = "red", size =1) + 
+  geom_jitter(data=BMI_long %>%
+                filter(Sex %in% c("Men", "Women"), 
+                       Year %in% c("1985", "2017"), 
+                       Region == "National"),
+                aes(x =Sex, y =BMI), 
+                width = .2, size =2, shape =21, 
+                color = "black", fill = "gray") +
+  geom_jitter(data=subset(BMI_long %>%
+                            filter(Sex %in% c("Men", "Women"), 
+                                   Year %in% c("1985", "2017"), 
+                                   Region == "National", 
+                                   Country == "USA")), 
                              aes(x =Sex, y =BMI), 
                              width = .02, size =12, shape =21, 
                              color = "black", fill = "gray") + 
   # This will add points that are larger for the USA data
-  geom_text(data=subset(BMI_long
-                         %>%filter(Sex %in% c("Men", "Women"), 
-                                   Year %in% c("1985", "2017"), 
-                            Region == "National", Country == "USA")),
-                            aes(x =Sex, y =BMI,label=Country), color = "black") + 
+  geom_text(data=subset(BMI_long%>%
+                          filter(Sex %in% c("Men", "Women"), 
+                                 Year %in% c("1985", "2017"), 
+                                 Region == "National", Country == "USA")),
+                          aes(x =Sex, y =BMI,label=Country), 
+                          color = "black") + 
   # This will add USA labels to the USA points
-  theme_linedraw()+
+  theme_linedraw() +
   # This will make thebackground of the plot white and the facet labels black
   theme(legend.position = "none", 
   # This is useful for removing the legend
@@ -1596,14 +1610,14 @@ Diff_plot<-BMI_diff_long %>%
          Type != "National") %>%
 ggplot( aes(x = Type, y = Difference, col = Type)) + 
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Sex)) + 
-  scale_fill_manual(values=c("dodgerblue", "orchid2"))+
-  facet_grid(~Sex) +
+  scale_fill_manual(values=c("dodgerblue", "orchid2")) +
+  facet_grid(~ Sex) +
   geom_jitter(data=BMI_diff_long %>% 
     filter(Sex %in% c("Men", "Women"), 
            Type != "National"), 
     aes(x =Type, y =Difference), 
     width = .2, size =2, shape =21, 
-    color = "black", fill = "gray")  + 
+    color = "black", fill = "gray") + 
   geom_jitter(data=subset(BMI_diff_long %>% 
     filter(Sex %in% c("Men", "Women"), 
            Type != "National", 
@@ -1619,8 +1633,8 @@ ggplot( aes(x = Type, y = Difference, col = Type)) +
     aes(x =Type, y =Difference,label=Country), 
     color = "black") + 
   # This will add USA labels to the USA points
-  theme_linedraw()+
-    # This will make thebackground of the plot white and the facet labels black
+  theme_linedraw() +
+    # This will make the background of the plot white and the facet labels black
   theme(legend.position = "none", 
   # This is useful for removing the legend
         axis.text.x = element_text(size = 15,angle = 30, vjust = 0.5), 
@@ -1648,7 +1662,7 @@ Means_plot <-Means_plot +
 
 obesity_text<-tibble(Year=c(1985),BMI=c(31),Sex=c("Men"),label=c("Obesity"))
 
-Means_plot <-Means_plot+ 
+Means_plot <-Means_plot + 
              geom_text(data = obesity_text,
                        label=pull(obesity_text,label), 
                        color = "red", 
