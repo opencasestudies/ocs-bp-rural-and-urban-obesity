@@ -54,15 +54,15 @@ knitr::include_graphics(here::here("paper.png"))
 NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* 569, 260–264 (2019). 
 
 ####
-This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities. To do this we will test if there is a difference between the means of the BMI measurements for each group.
+This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions. "We noted a persistently higher rural BMI, especially for women" This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. To do this we will test if there is a difference between the means of the BMI measurements for each group.
 
 ### Main Questions
 #### {.main_question_block}
 <b><u> Our main questions are: </u></b>
 
-1) Is there a difference between rural and urban BMI estimates around the world? How does this compare for males and females?
-2) How have BMI estimates changed from 1985 to 2017?
-3) How do different countries compare for BMI estimates- in particular, how does the United States compare to the rest of the world?
+1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
+2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
+3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
 
 ####
 
@@ -580,6 +580,7 @@ head(BMI)
 ```
 
 Our data is looking great! 
+
 Now we might want to make sure that our observations for each variable look the way we want. 
 In other words, if we want to make plots about National BMI in 1985 then we would need our values to be numeric. Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the ":" colon. Looks like none of our BMI data is actually numeric, but of the class character. Let's change that now.
 
@@ -923,7 +924,7 @@ The [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-samp
 We have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
 
 
-Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the Mood's two-sample test for a difference in scale parameters and does not assume that the data is normally distributed. We will also introduce the `pull()` function of the `dplyr` package.
+Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the [Mood's two-sample test for a difference in scale parameters](https://files.eric.ed.gov/fulltext/ED065559.pdf) and does not assume that the data is normally distributed. We will also introduce the `pull()` function of the `dplyr` package.
 
 ```{r}
 
@@ -938,7 +939,7 @@ mood.test(dplyr::pull(filter(BMI_long,
                              Year == "2017", 
                              Region == "Urban"), BMI))
 # p value <.05, conclude that variance is not equal
-# reject the null: no difference in the variance of the distributions
+# reject the null: no difference in the spread of the distributions
 
 mood.test(pull(filter(BMI_long, Sex == "Women", 
                       Year == "1985", 
@@ -978,7 +979,7 @@ We will perform a special t.test where we account for the fact that our variance
 
 Another important consideration is that the data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/), meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to peform the welch's or paired t-test.
 
-When we perform a paired t-test our hypothesis is slightly different from the typical student's t-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. Our null hypothesis is that the mean differences is equal to zero:
+When we perform a paired t-test our hypothesis is slightly different from the typical student's t-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. Our null hypothesis is that the mean of the differences is equal to zero:
 
                                         Ho: μd = 0
                                         
@@ -1172,7 +1173,12 @@ There is a significant difference across time for both regions, as we saw with t
 
 ### Multiple Testing Correction
 
-It's important to note that ultimately we wanted to test 4 different tests:
+Let's take a look back at the questions we wanted to answer:
+1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
+2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
+3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
+
+It's important to note that ultimately we wanted to test 4 different tests to answer question 1 and 2:
 
 1) Is there a difference in mean BMI for women between Rural and Urban areas in 1985?
 2) Is there a difference in mean BMI for women between Rural and Urban areas in 2017?
@@ -1183,7 +1189,13 @@ When we test multiple questions like this, we need to correct for the multiple t
 
 The more we test data, the more likely we are to see a significant finding just by chance.
 
-One way to do this is using the <b>Bonferroni</b> method. 
+As an example, let's take a look at some simulated data.
+
+```{r}
+#a<-r
+```
+
+One way to do this is using the [Bonferroni method](http://mathworld.wolfram.com/BonferroniCorrection.html. 
 
 In this method we would divide our significance threshold (generally 0.05) by the number of tests.
 
@@ -1208,6 +1220,7 @@ In these tests the p-value was also smaller.
 
 Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html). The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
 
+Our first main question was: Is there a difference between rural and urban BMI estimates around the world?
 Let's look at the national mean BMI estimates for each of the years:
 ```{r}
 BMI_long %>% 
@@ -1229,7 +1242,8 @@ BMI_long %>%
 
 ```
 
-Now Let's look at the change in rural and urban mean BMI estimates:
+Our 2nd main question was: How have BMI estimates changed from 1985 to 2017?
+Let's look at the change in rural and urban mean BMI estimates over time:
 ```{r}
 #this time we will add titles for Rural and Urban using ggtitle()
 BMI_long %>% 
@@ -1252,6 +1266,7 @@ BMI_long %>%
   ggtitle("Urban")
 
 ```
+
 Let's put the plots together to see how the change over the years differs between the regions.
 We will use again use `facet_wrap()` to do this:
 
@@ -1272,7 +1287,8 @@ BMI_long %>%
 ```
 Indeed the change in BMI over time looks bigger in the rural areas!
 
-How do the different countries compare?  Or in other words what do the individual dots represent in our box plots?
+
+One third main questions was: How do the different countries compare?  Or in other words what do the individual dots represent in our box plots?
 We will take a look using `geom_label()`:
 
 ```{r}
@@ -1290,6 +1306,7 @@ BMI_long %>%
 
 If we include all country names this is a bit too much... so perhaps we should focus on just the extreme BMI values using `filter()` function of the`dplyr` package. We will also use the `ggrepel` package to have our labels not overlap each other.
 
+Part of the third question was: How does the United States of America compare? So let's label the data points for the United states.
 
 ```{r}
 
@@ -1344,7 +1361,7 @@ BMI_long %>%
 
 ### Overall differences
 
-Let's take a look at all the data together:
+Let's take a look at all the data together, including the data for men:
 ```{r}
 ggplot(BMI_long, aes(x = Year, y = BMI, col = Region)) +
   geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Region)) + 
@@ -1711,6 +1728,12 @@ cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
 ```
 
 Great, now we have put two plots together using the `plot_grid()` function of the `cowplot` package. This way we can clearly communicate two messages. The first being that BMI has increased over time globally and that many countries including the United States of America are approaching a mean BMI that is above the obesity threshold of 30. We can also see that women on average have larger BMI values than males, but that both genders show increased levels over time. In the second plot we can see that the increase in BMI is not just happening in  urban communities, but in both rural and urban communities and particularly in women. 
+
+Our plot visually explores all of our main questions:
+1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
+2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
+3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
+
 
 ## Summary
 
