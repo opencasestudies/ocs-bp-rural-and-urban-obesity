@@ -18,6 +18,15 @@
     font-weight: bold;
 }
 
+.main_question_block {
+    margin: .2em;
+    padding: .2em;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: #000000;
+    color: white;
+    font-weight: bold;
+}
 .blue-outline {
    background-color: #1E90FF;
    padding:10px;
