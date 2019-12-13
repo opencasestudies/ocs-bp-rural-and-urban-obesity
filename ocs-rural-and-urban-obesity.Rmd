@@ -1885,6 +1885,8 @@ Students can evaluate the change in BMI over time using the global data availabl
 [Mood's Two-Sample Scale Test](https://files.eric.ed.gov/fulltext/ED065559.pdf)  
 [Wilcoxon Signed Rank Test](http://www.biostathandbook.com/wilcoxonsignedrank.html)   
 [Wilcoxon Rank Sum Test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html)  
-[Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm)  
+[Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm)
+[type 1 error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html)
+[p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8)
 [Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html)
-[Birthday Paradox](https://www.scientificamerican.com/article/bring-science-home-probability-birthday-paradox/)
+
