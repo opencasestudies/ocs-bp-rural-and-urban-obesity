@@ -54,7 +54,7 @@ knitr::include_graphics(here::here("paper.png"))
 NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* 569, 260–264 (2019). 
 
 ####
-This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions. "We noted a persistently higher rural BMI, especially for women" This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. To do this we will test if there is a difference between the means of the BMI measurements for each group.
+This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions: <b>"We noted a persistently higher rural BMI, especially for women"</b>. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. To do this we will test if there is a difference between the means of the BMI measurements for each group.
 
 ### Main Questions
 #### {.main_question_block}
@@ -622,7 +622,7 @@ head(BMI_numeric)
 
 It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularly for plotting. 
 
-For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html)
+For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
 Basically what the long format will have more rows and fewer columns.
 Thus we can combine or "gather" some columns together.
@@ -726,7 +726,7 @@ It looks like mean BMIs have increased in all regions for both men and women. It
 
 ### Distributions
 
-In order to apply a statistical test to compare the means, one of the first things  to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more informations about distributions. To plot the distribution of a dataset we can use the `hist()` function to create a histogram.
+In order to apply a statistical test to compare the means, one of the first things  to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. To plot the distribution of a dataset we can use the `hist()` function to create a histogram.
 
 If the data were what we call <b>normally distributed</b>  or  followed a <b> Gaussian distribution </b> then the distribution should be equally centered around the mean and would look something like this:
 
@@ -867,7 +867,8 @@ We see that all the data does not appear to be normally distributed.
 
 We can use statistical tests like the [student t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) to determine if [two means are significantly different](http://onlinestatbook.com/2/estimation/difference_means.html).
 
-With the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test), we perform what is called <b> two means hypothesis tests </b>.
+### Hypothesis testing
+With the t-test, we perform what is called <b> two means hypothesis tests </b>.
 We define what is called the <b> null hypothesis </b>, which is what we assume by default or the baseline, that there is no difference in the two means:
 
                                         Ho: μ1 = μ2
@@ -875,11 +876,13 @@ We define what is called the <b> null hypothesis </b>, which is what we assume b
                                μ1 is the true mean of one group
                                μ2 is the true mean of the other group
                                
-Thus like in law, we accept this null hypothesis, unless we have enough evidence to suggest that we should reject it - similarly to the idea that we by default assume that indivudals are not guilty until proven otherwise. If we reject the null hypothesis, we then accept an <b> alternative hypothesis </b>, this can vary for different statistical tests, but in the case of the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) we evaluate if the two means are not equal:
+Thus like in law, we fail to reject the null this null hypothesis, unless we have enough evidence to suggest that we should reject it - similarly to the idea that we by default assume that individuals are not guilty until proven otherwise. If we reject the null hypothesis, we then accept an <b> alternative hypothesis </b>, this can vary for different statistical tests, but in the case of the t-test we evaluate if the two means are not equal:
                                         
                                         Ha: μ1 ≠ μ2
                                         
-Remeber that we can't know the true mean for our populations of interest, instead we approximate or estimate our means based on the sample that we have in our data.
+Remember that we can't know the true mean for our populations of interest, instead we approximate or estimate our means based on the sample that we have in our data.
+
+When we use a statistical test to evaluate hypotheses like these, we use what we call the p-value. The p-value is a measure of the strength of the evidence for our null hypothesis. It is common practice to consider a p-value < 0.05 a strong enough evidence against the null hypothesis to reject it. Alternatively if the p-value > 0.5 then there is not enough evidence to reject the null hypothesis. We will use the p-values from our statistical tests to decide how to interpret the results of our tests.
     
 
 We are interested in comparing the means of female rural and urban BMI measurements for both years. 
@@ -889,24 +892,24 @@ There are two possible classes of statistical tests that we could run to compare
 1) Parametric
 2) Nonparametric
 
-Parametric tests are based on assumptions about the distribution of the data, while Nonparametric tests do not rely on this assumption. It is called "parametric" because aspects about the distribution of the data like the mean aer called <b>parameters</b> when we describe a population. In parametric tests we estimate the parameters of the true population of interest using a sample of that population. These estiamtes are called <b>statistics</b>. See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) for more information about the difference between these two classes of tests.
+Parametric tests are based on assumptions about the distribution of the data, while Nonparametric tests do not rely on this assumption. It is called "parametric" because aspects about the distribution of the data like the mean are called <b>parameters</b> when we describe a population. In parametric tests we estimate the parameters of the true population of interest using a sample of that population. These estimates are called <b>statistics</b>. See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) for more information about the difference between these two classes of tests.
 
 ### Parametric two sample mean tests
 
-Often when comparing two groups we might perform a two sample [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) to determine if the means of each group is different. The two sample [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) however, relies on several <u><b>assumptions</b></u>:
+Often when comparing two groups we might perform a two sample t-test to determine if the means of each group is different. The two sample t-test however, relies on several <u><b>assumptions</b></u>:
 
 1) The data for both groups is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html)
 2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance) of both groups is similar
 3) The number of observations is similar for both groups - thus they are [balanced](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/)
-4) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf) (meaning that observations do not influence eachother)
+4) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf) (meaning that observations do not influence each other)
 
-If these assumptions are violated, this doesn't necessarily mean we can't perform a [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test). It just means we may need to consider the following options:
+If these assumptions are violated, this doesn't necessarily mean we can't perform a t-test. It just means we may need to consider the following options:
 
 1) [Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/) of the data to make it more normally distributed
 2) [Welch's t-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/) also call the unequal variance t-test we may need to modify the way we perform the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) to account for the difference in the variance in the two groups
 3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html) to deal with violations of normality or imbalance.
 
-Alternatively, we can use a nonparametric test like the Wilcoxon–Mann–Whitney (WMW) test. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
+Alternatively, we can use a nonparametric test which is model free and does not rely on assumptions about the parameters of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
 
 Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
 If it were violated, we would want to consider using permutation methods which are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html).
@@ -919,7 +922,7 @@ table(BMI_long$Sex, BMI_long$Region, BMI_long$Year)
 
 We can see that the number of observations for each possible group of interest is the same.
 
-The [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) is also fairly robust to non-normality if the data is relatively large, due to what is called the [central limit theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/).
+The t-test is also fairly robust to non-normality if the data is relatively large, due to what is called the [central limit theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/), which states that as samples get larger, they approximate a normal distribution.
 
 We have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
 
@@ -959,7 +962,7 @@ mood.test(pull(filter(BMI_long,
                       Year == "2017", 
                       Region == "Rural"), BMI))
 # p value >.05, conclude that variance is equal
-# accept the null: no difference in the variance of the distributions
+# fail to reject the null the null: no difference in the variance of the distributions
 
 mood.test(pull(filter(BMI_long, 
                       Sex == "Women", 
@@ -969,7 +972,7 @@ mood.test(pull(filter(BMI_long,
                       Year == "2017", 
                       Region == "Urban"), BMI))
 # p value >.05, conclude that variance is equal
-# accept the null: no difference in the variance of the distributions
+# fail to reject the null the null: no difference in the variance of the distributions
 
 ```
 
@@ -977,7 +980,7 @@ Our p value is less than .05 for both tests, thus we reject our null hypothesis 
 
 We will perform a special t.test where we account for the fact that our variance is not equal. 
 
-Another important consideration is that the data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/), meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to peform the welch's or paired t-test.
+Another important consideration is that the data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/), meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to perform the Welch's or paired t-test.
 
 When we perform a paired t-test our hypothesis is slightly different from the typical student's t-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. Our null hypothesis is that the mean of the differences is equal to zero:
 
@@ -986,7 +989,7 @@ When we perform a paired t-test our hypothesis is slightly different from the ty
                                μd is the true mean differences 
                                between paired observations of the two groups
 
-The alternative hypthesis is that the mean of the differences is not equal to zero
+The alternative hypothesis is that the mean of the differences is not equal to zero
 
                                         Ha: μd ≠ 0
                                         
@@ -1073,9 +1076,10 @@ BMI_long %>%
 
 ```
 
-The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) is generally quite robust to violations of normality with large n, thus the modified [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
+The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the t-test is generally quite robust to violations of normality with large n, thus the modified t-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
 
-Let's see the results of the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) with the transformed data:
+Let's see the results of the t-test with the transformed data:
+
 ```{r}
 
 t.test(pull(filter(BMI_long_log, Sex == "Women", 
@@ -1116,16 +1120,16 @@ t.test(pull(filter(BMI_long_log, Sex == "Women",
 
 ```
 
-We can see that our results are quite similar to that of the original data, however the t values are slightly smaller. In other cases we may see  a much more dramatic influence of transforming our data.
+We can see that our results are quite similar to that of the original data, however the t values are slightly smaller. In other cases we may see a much more dramatic influence of transforming our data.
 
 
-Now, let's take a look at nonparametric tests, which are also a great option when the assumptions of the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) are violated. 
+Now, let's take a look at nonparametric tests, which are also a great option when the assumptions of the t-test are violated. 
 
 ### Nonparametric two sample tests
 
-There are two nonparametric options to consider when the assumptions of the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) are violated. The [Wilcoxon signed rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html) (for paired data - the alternative is [Wilcoxon rank sum test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html) (also called the Mann-Whitney U test) for independent samples) and the [two-sample Kolmogorov-Smirnov test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm) both do not assume normality (has both paired and unpaired methods). Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
+There are multiple nonparametric options to consider when the assumptions of the [t-test] are violated. The [Wilcoxon signed rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html) (for paired data - the alternative is [Wilcoxon rank sum test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html) (also called the Mann-Whitney U test) for independent samples) and the [two-sample Kolmogorov-Smirnov test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm) (KS) both do not assume normality (has both paired and unpaired methods). Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
 
-Importantly the [two-sample Kolmogorov-Smirnov (KS) test](http://www.real-statistics.com/non-parametric-tests/goodness-of-fit-tests/two-sample-kolmogorov-smirnov-test/) does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between some of our groups of interest, the KS test would be more appropriate. Both the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
+Importantly the KS test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between some of our groups of interest, the KS test would be more appropriate. Both the t-test and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
 
 ```{r}
 
@@ -1169,7 +1173,7 @@ wilcox.test(pull(filter(BMI_long, Sex == "Women",
            paired = TRUE)
 
 ```
-There is a significant difference across time for both regions, as we saw with the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test). There is also a significant difference by region for each year. However, the p-values are a bit larger for the KS test results than we saw with the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test).
+There is a significant difference across time for both regions, as we saw with the t-test. There is also a significant difference by region for each year. However, the p-values are a bit larger for the KS test results than we saw with the t-test.
 
 ### Multiple Testing Correction
 
@@ -1187,15 +1191,105 @@ It's important to note that ultimately we wanted to test 4 different tests to an
 
 When we test multiple questions like this, we need to correct for the multiple tests that we are performing.
 
-The more we test data, the more likely we are to see a significant finding just by chance.
+The more we test data, the more likely we are to see a significant finding just by [random chance](https://www.stat.berkeley.edu/~mgoldman/Section0402.pdf) even when the finding is in fact not real. It all comes down to probability.
 
-As an example, let's take a look at some simulated data.
+#### Probability
+
+You may recall that probability is the chance that an event will happen and it ranges from 0 to 1. 
+You can also think of it as a percentage of 0% (probability =0) to 100% (probability = 1) of chance that an event will happen.
+
+![](https://www.mathsisfun.com/data/images/probability-line.svg)
+https://www.mathsisfun.com/data/images/probability-line.svg
+
+If we consider flipping a coin, the probability of an event happening (heads) is always equal to  1 ( or 100% chance) minus the probability of the event not happening (tails instead of heads) because the total probability can not exceed 100%.
+
+        probability of 1 (100% chance) = the probabilty of heads (50% chance)
+                                         + the probability of tails (50% chance)
+                                       
+                                     1 = P(heads) + P(tails)
+            probability of one outcome = 1 - the probability of the other outcome
+                              P(heads) = 1 - P(tails) 
+                                        or
+                              P(tails) = 1 - P(heads)
+
+If we think about the probability of getting significant or nonsignificant results we can think of it like this:
+
+                                     1 = P(signifiant results) 
+                                          + P(no significant results)
+                P(significant results) = 1 - P(no significant results)
+
+### Alpha
+
+Alpha is the amount of risk that you are willing to accept that a statistical test result is actually a false positive, in other words we reject the null hypothesis when the null hypothesis is true. This is also called [type 1 error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html). A significance threshold of .05 is customary and it means that we are accepting a 5% chance that our result is actually a false positive.
+
+                                 alpha = probability of false significant results 
+                                           or
+                                     α = P(Making a type 1 error)
+                                            
+Remember that in our statistical tests if the p-value < alpha it is considered significant and if p-value > alpha it is considered not significant
+
+
+But what really is the [p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8)?
+
+### p-values
+
+The p in p-value stands for <b>probability</b> - the probability that we would obtain the statistics (for example the t in our student t-tests based on the means of our groups of comparison) just by random chance alone. Therefore a p-value of 0.02 means that there is a 2 percent chance that out data may look the way it does just because of random chance and not because there is really a difference in the means of the groups of interest.
+
+So then if alpha is the threshold for the p-value for obtaining false significant results then the probability of not making incorrect conclusions is 1 - alpha:
+
+                 P(Not making an error) = 1 - α
 
 ```{r}
-#a<-r
+#P(Not making an error) = 1 - α
+1-.05 
+
+```
+  
+OK so if we use an alpha of .05 we are accepting that 95% of the time we will not make a Type 1 error and 5 % of the time we will just by random chance.              
+Taking this one step further:
+
+                     P(Making an error) = 1 - P(Not making an error)
+                     P(Making an error) = 1 - (1 - α)
+                                  
+Here we can see that this checks out:                             
+```{r}
+#P(Making an error) = 1 - (1 - α)
+1-(1-.05)
 ```
 
-One way to do this is using the [Bonferroni method](http://mathworld.wolfram.com/BonferroniCorrection.html. 
+So what happens if we perform multiple tests?
+
+The probability of not making a type 1 error would remain the same for each test. Therefore we need to multiply the probabilities together each time to determine the over all probability of making an error across multiple tests. See [here](http://mathforum.org/library/drmath/view/74065.html) about why we multiply probabilities together.
+
+        P(Not making an error in m tests) = (1 - α)^m
+    P(Making at least 1 error in m tests) = 1 - (1 - α)^m
+
+Let's consider if we performed 10 different statistical tests and if we as usual considered the significance threshold alpha of .05:
+
+So the probability of getting 1 significant result with 10 tests is:                                   
+```{R}
+#P(Making at least 1 error in 10 tests) = 1 - ((1 - α)(1 - α)(1 - α)(1 - α)(1 - α)(1 - α)(1 - α)(1 - α)(1 - α)(1 - α))
+#this is the same as:
+#P(Making at least 1 error in 10 tests) = 1 - (1 - α)^10
+ 1- (1-.05)^10
+```
+
+So there is a 40% chance that that there will be a significant finding simply due to random chance alone.
+
+What about 100 tests?
+
+```{R}
+
+#P(Making at least 1 error in 100 tests) = 1 - (1 - α)^100
+ 1- (1-.05)^100
+```
+                        
+Yikes!! That is almost a 100% chance that there will be a significant finding simply due to chance alone!
+
+Much of this explanation is described in this [lecture](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf)
+
+
+One way to correct for this is multiple testing issue is using the [Bonferroni method](http://mathworld.wolfram.com/BonferroniCorrection.html). 
 
 In this method we would divide our significance threshold (generally 0.05) by the number of tests.
 
@@ -1208,7 +1302,7 @@ Thus our p-values should be less than this value for us to reject the null that 
 In all cases, our p-values were less than 0.0125.
 So we see a significant difference in the means of the groups after multiple testing correction for our different tests.
 
-Again, it would be reasonable to use the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) because it is robust to deviations in normality when samples are relatively large. 
+Again, it would be reasonable to use the t-test because it is robust to deviations in normality when samples are relatively large. 
 We can see that we obtained the same results regardless of the test that we used.
 However, if sample sizes are small (generally speaking n<15 for each group), then these nonparametric options are useful to know.
 
@@ -1411,7 +1505,7 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
 
 Here we can see that overall BMI appears to be increasing globally over time. Additionally we can see that this is occurring not just in urban areas, but also in rural areas. The US is consistently above the median in all strata of the data. In general, the female data shows higher BMI values than the male data. The rural USA BMI appears to be higher than the urban BMI for both men and women. Many countries have average BMI estimates above the obesity threshold of 30. Thus it appears that education and outreach programs for weight management should focus on both rural and urban areas and both genders. Education and assistance for women may be especially helpful. 
 
-### Differences in rate of change in BMI
+### Differences in rate of change
 
 How does the rate of change in BMI differ between groups? Which group might especially need attention?
 
@@ -1520,7 +1614,7 @@ mood.test(pull(filter(BMI_diff_long,
           pull(filter(BMI_diff_long, 
                       Sex == "Men", 
                       Type == "Urban_difference"), Difference))
-#accept the null - conclude that variance is equal
+#fail to reject the null the null - conclude that variance is equal
 
 mood.test(pull(filter(BMI_diff_long, 
                       Sex == "Women", 
@@ -1737,9 +1831,9 @@ Our plot visually explores all of our main questions:
 
 ## Summary
 
-We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [t-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) and nonparametric tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
+We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [t-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
 
-<u> We learned that the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) relies on:</u>
+<u> We learned that the t-test relies on:</u>
 1) normality of the data for both groups (this is not as much of an issue if the number of observations is relatively large total n>30)
 2) equal variance between the two groups (make sure you do the correct test if the data is not normal)
 3) balanced sample sizes of the two groups
@@ -1748,12 +1842,12 @@ We have evaluated BMI average estimates from 200 different countries around the 
 We learned that we can evaluate if our data is [normally distributed](https://www.physiology.org/doi/full/10.1152/advan.00064.2017) by plotting the distribution and by creating Q-Q plots.
 
 <u>We learned that if our data is not normally distributed, we can consider these options:</u>
-1) We can still perform a [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) if our n is large
-2) We can transform the data before performing a [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)
+1) We can still perform a t-test if our n is large
+2) We can transform the data before performing a t-test
 3) We can use a nonparametric test (Wilcoxon signed rank test, the Wilcoxon rank sum test, and the Two-sample Kolmogorov-Smirnov (KS) test)
-4) We can perform a [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) with resampling methods (which should be especially considered when the groups are imbalanced)
+4) We can perform a t-test with resampling methods (which should be especially considered when the groups are imbalanced)
 
-We learned that if our groups do not have equal variance, that we need to use a modified [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) to account for this or the correct nonparametric test that does not rely on this assumption (Two-sample Kolmogorov-Smirnov test).
+We learned that if our groups do not have equal variance, that we need to use a modified t-test to account for this or the correct nonparametric test that does not rely on this assumption (Two-sample Kolmogorov-Smirnov test).
 
 We also learned that if our groups are not well balanced, that we can consider resampling methods.
 
@@ -1765,4 +1859,32 @@ Using the `ggplot2` package we were able to visualize trends in the data. Import
 
 ### Suggested Homework
 
-Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. This data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv).
+Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. The data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv).
+
+### Helpful Links
+
+[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)  
+[Long and Wide Data Formats](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html)  
+[Distributions](http://onlinestatbook.com/2/introduction/distributions.html)
+[Normal Distribution](http://onlinestatbook.com/2/introduction/distributions.html)
+[Skewed Distributions](http://onlinestatbook.com/2/glossary/skew.html)  
+[Bimodal Distribution](http://onlinestatbook.com/2/introduction/distributions.html)  
+[ggplot2](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html)    
+[Q-Q Plots](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html)  
+[Shapiro-Wilk Test](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html)  
+[Student t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) 
+[Paired data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/)  
+[Welch's t-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/)    
+[Parametric and Nonparametric Methods](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960)
+[Variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance)  
+[Balanced Study Design](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/)  
+[Independent Observations](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf)  
+[Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/)  
+[Permutation/Resampling Methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html)   
+[Central Limit Theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/)  
+[Mood's Two-Sample Scale Test](https://files.eric.ed.gov/fulltext/ED065559.pdf)  
+[Wilcoxon Signed Rank Test](http://www.biostathandbook.com/wilcoxonsignedrank.html)   
+[Wilcoxon Rank Sum Test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html)  
+[Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm)  
+[Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html)
+[Birthday Paradox](https://www.scientificamerican.com/article/bring-science-home-probability-birthday-paradox/)
