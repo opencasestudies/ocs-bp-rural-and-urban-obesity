@@ -1,5 +1,5 @@
 ---
-title: "Open Case Studies - Rural and Urban Obesity"
+title: "Open Case Studies: Exploring global patterns of obesity across rural and urban regions"
 css: style.css
 output:
   html_document:
@@ -16,48 +16,58 @@ output:
     toc: yes
 ---
 
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE)
+library(here)
+library(knitr)
 ```
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("mainplot.png"))
+knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
 
 ## Motivation
-[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html) is used as a proxy for <b>adiposity</b> and is measured as an individual's weight in kilograms divided by the individual's height in meters squared. The different categories of weight are defined with the following BMI cutoffs as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html), and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf):
+
+Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)) is often used as a proxy for **adiposity** and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
+There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi) (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html), and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf). 
+For example, these are the categories defined by the WHO: 
 
 ![](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg)
 
-###### [BMI table source](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg)
+###### [[BMI table source](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg)]
 
-The following chart can help you identify your BMI estimate:
+The following chart can help you identify your estimate of BMI:
 ![](http://content.everydayhealth.com/mayodiet/images/BMI-chart.jpg)
 
-###### [BMI Chart source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426) 
+###### [[BMI Chart source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426)]
 
-Higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf), as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke.
+Previous work has shown higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf), as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. **SCH -- maybe more refs here **?
 
+Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in *Nature* evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
 
-An [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in *Nature* evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
+```{r echo=FALSE, message=FALSE, out.width="100%"}
 
-```{r, echo = FALSE, out.width="100%", message=FALSE}
-library(here)
-knitr::include_graphics(here::here("paper.png"))
-
+knitr::include_graphics(here::here("img", "paper.png"))
 ```
 
 #### {.reference_block}
-NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* 569, 260–264 (2019). 
+NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* 569, 260–264 (2019). 
 
 ####
-This article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. However this study demonstrated that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions: <b>"We noted a persistently higher rural BMI, especially for women"</b>. This case study will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. To do this we will test if there is a difference between the means of the BMI measurements for each group.
+
+The article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. 
+This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. 
+However, the NCD-RisC argued that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. 
+Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions: <b>"We noted a persistently higher rural BMI, especially for women"</b>. '
+
+In this case study, we will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. 
+Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. 
+To do this we will test if there is a difference between the means of the BMI measurements for each group.
 
 ### Main Questions
 #### {.main_question_block}
+
 <b><u> Our main questions are: </u></b>
 
 1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
@@ -68,13 +78,13 @@ This article challenged the widely-held view that increased urbanization was one
 
 ### Learning Objectives 
 
-In this case study, we’ll walk you through importing data from a pdf, cleaning data, wrangling data, visualizing the data, and <b> comparing two groups </b> using well-established and commonly used packages, including `stringr`, `tidyr`, `dplyr`, `purrr`, and `ggplot2`. We will especially focus on using packages and functions from the [Tidyverse](https://www.tidyverse.org/). The Tidyverse is a library of packages created by the chief scientist at RStudio, Hadley Wickham. While some students may be familiar with previous R programming packages, these packages make data science in R especially efficient.
-
-
+In this case study, we will walk you through importing data from a pdf, cleaning, wrangling and visualizing the data, and <b> comparing two groups </b> using well-established and commonly used packages, including `stringr`, `tidyr`, `dplyr`, `purrr`, and `ggplot2` from the [`tidyverse`](https://www.tidyverse.org/). 
+The tidyverse is "an opinionated collection of R packages designed for data science. All packages share an underlying philosophy and common APIs".
+Another way of putting it is that it's a set of packages that are useful specifically for data manipulation, exploration and visualization with a common philosophy.
+While some students may be familiar with previous R programming packages, these packages make data science in R especially efficient.
 
 ```{r, out.width = "20%", echo = FALSE, fig.align ="center"}
-library(knitr)
-include_graphics("https://tidyverse.tidyverse.org/logo.png")
+knitr::include_graphics("https://tidyverse.tidyverse.org/logo.png")
 ```
 
 
@@ -128,7 +138,7 @@ We will be using data located within a table of the [supplementary material](htt
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("first_page.png"))
+knitr::include_graphics(here::here("img","first_page.png"))
 ```
 
 Here you can see that the data contains mean BMI values for both men and women in various countries at the national level, as well as the mean BMI values for the rural and urban areas of these countries for both 1985 and 2017.
@@ -141,15 +151,16 @@ The data within the parentheses are the 95 % <b>credible interval</b> (CIs) rang
 
 First let's download the data:
 ```{r}
-
-url <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf"
-utils::download.file(url, "paper_supplement.pdf")
+if(!file.exists(here("docs", "paper_supplement.pdf"))){
+  url <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf"
+  utils::download.file(url, here("docs", "paper_supplement.pdf"))
+}
 ```
 
 Now that we have the obesity pdf, we will read it in to R using the `pdftools` package:
 
 ```{r}
-pdf_obesity<-pdftools::pdf_text(here("paper_supplement.pdf"))
+pdf_obesity<-pdftools::pdf_text(here("docs", "paper_supplement.pdf"))
 # PDF error: 
 # "Expected the optional content group list, 
 # but wasn't able to find it, or it isn't an Array"
@@ -178,8 +189,7 @@ pdf_obesity[55]
 
 ```{r, echo = FALSE, out.width="100%", message=FALSE}
 library(here)
-knitr::include_graphics(here::here("page55.png"))
-
+knitr::include_graphics(here::here("img","page55.png"))
 ```
 
 
@@ -216,12 +226,12 @@ cat(rural_urban[1])
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("first_page_in_R.png"))
+knitr::include_graphics(here::here("img","first_page_in_R.png"))
 ```
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("first_page.png"))
+knitr::include_graphics(here::here("img","first_page.png"))
 ```
 
 This looks the same as the beginning... how about the end?
@@ -232,12 +242,12 @@ cat(rural_urban[10])
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("last_page_in_R.png"))
+knitr::include_graphics(here::here("img","last_page_in_R.png"))
 ```
 
 
 ```{r, echo = FALSE }
-knitr::include_graphics(here::here("last_page.png"))
+knitr::include_graphics(here::here("img","last_page.png"))
 ```
 
 
@@ -312,7 +322,7 @@ Great! So now our data looks much better but we need to add back our header and 
 Here is what our header used to look like:
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("last_page.png"))
+knitr::include_graphics(here::here("img","last_page.png"))
 ```
 
 ### Dealing with spacing
@@ -443,7 +453,7 @@ tibble::as_tibble(str_split(unknown$rural_urban, " ", simplify = TRUE))
 So close! Notice that the "na*" values  have shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals. Here we can see this data in our original pdf:
 
 ```{r, echo = FALSE, out.width="100%"}
-knitr::include_graphics(here::here("missing_pdf.png"))
+knitr::include_graphics(here::here("img","missing_pdf.png"))
 ```
 
 We need to replace our na* values  with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an na* . Therefore, na* na* should work.
@@ -678,7 +688,7 @@ Great! our data is very usable now in this format!
 
 
 ```{r, echo = FALSE}
-save(BMI_numeric, BMI_long, file = here("Wrangled_data.rda"))
+save(BMI_numeric, BMI_long, file = here("data","Wrangled_data.rda"))
 
 ```
 ## Data Exploration
@@ -691,8 +701,7 @@ Statistically speaking there are tests that can allow us to evaluate if the mean
 Start here if not working through data import and wrangling
 
 ```{r, echo = FALSE}
-load(here("Wrangled_data.rda"))
-
+load(here("data", "Wrangled_data.rda"))
 ```
 
 ```{r}
@@ -711,7 +720,6 @@ Lets look at the data separately by gender:
 BMI_numeric %>% 
   subset(Sex == "Women") %>% 
   summary()
-
 ```
 
 ```{r}
@@ -741,7 +749,6 @@ hist(norm_BMI_ex_data$norm_data)
 Alternatively we can plot this using the `geom_hist()` function of the `ggplot2` package. The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers. Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. With ggplot2 we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). In this case the `geom_histrogram()` function initiates the plotting of a histogram with the data that was identified in the `ggplot()` function. We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
 ```{r}
-
 norm_BMI_ex_data %>% 
   ggplot2::ggplot(aes(x = norm_data)) + 
   ggplot2::geom_histogram() 
@@ -755,7 +762,6 @@ Let's see how our data looks:
 BMI_long%>% 
   ggplot(aes(x = BMI)) + 
   geom_histogram() 
-
 ```
 
 OK, so the data looks like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side), but it looks fairly normally distributed. See [here](http://onlinestatbook.com/2/glossary/skew.html) for more information about skewed distributions.
