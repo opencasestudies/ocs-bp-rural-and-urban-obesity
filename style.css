@@ -33,6 +33,15 @@
    display: inline-block;
 }
 
+.disclaimer_block {
+    margin: .2em;
+    padding: .2em;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: #ffffeb;
+    color: black;
+}
+
 
 .scrollable {
    white-space: pre !important;

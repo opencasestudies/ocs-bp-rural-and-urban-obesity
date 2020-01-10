@@ -23,9 +23,13 @@ library(here)
 library(knitr)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE }
 knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
+
+## {.disclaimer_block}
+
+**Disclaimer**: The purpose of the Open Case Studies project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most approrpriate way to analyze a given dataset, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
 
 ## Motivation
 
