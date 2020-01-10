@@ -1,5 +1,5 @@
 ---
-output: github_document
+output: md_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -12,7 +12,7 @@ output: github_document
 
 ### License 
 
-This case study is part of the [OpenCaseStudies]() project. This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 ([CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/us/)) United States License.
+This case study is part of the [OpenCaseStudies](https://opencasestudies.github.io) project. This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 ([CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/us/)) United States License.
 
 ### Citation 
 
@@ -49,7 +49,11 @@ This analysis is important because it demonstrates the need to provide better ac
 
 ### Other notes and resources 
 
-For instructors:  
+**For users**: There is a `Makefile` in this folder that allows you to type `make` to knit the case study contained in the `index.Rmd` to `index.html` and it will also knit the `README.Rmd` to a markdown file (`README.md`). 
+
+**For instructors**: 
+
+
 
  
 
