@@ -1,3 +1,7 @@
+li.toctree-l2:first-child {
+    display: none;
+}
+
 .reference_block {
     margin: .2em;
     padding: .2em;
@@ -40,8 +44,8 @@
     border-radius: 5px;
     background: #ffffeb;
     color: black;
+    font-size: 20px;
 }
-
 
 .scrollable {
    white-space: pre !important;
