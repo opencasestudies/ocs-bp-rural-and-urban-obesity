@@ -64,7 +64,7 @@ crisis.
 
 The data used in this analysis comes from a [supplementary
 table](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf)
-for an article published by the NCD Risk Factor Collaboration:
+for the following article:
 
 [NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index
 is the main driver of the global obesity epidemic in adults. *Nature*
@@ -82,15 +82,14 @@ visualization methods using ggplot2.
 
 #### Data Import
 
-Data is imported from a PDF using pdftools to obtain the following
-table:
+Data is imported from a PDF using `pdftools` to obtain data from the
+following table:
 
-<img src="img/first_page.png">
-
-#### Data wrangling
+<img src="img/first_page.png"> ![](img/first_page.png) \#\#\#\# Data
+wrangling
 
 This case study covers many wrangling techniques and largely involves
-using the package stringr.
+using the package `stringr`.
 
 1.  Dividing data into separate lines
 2.  Removing excess white-space
@@ -105,9 +104,9 @@ using the package stringr.
 
 #### Data exploration (exploratory analysis)
 
-To explore the data we use the summarize() function and plot the data to
-look at the distribution of the data. Quantile-Quantile plots are used
-to evaluate the distribution and compare it to theoretical normal
+To explore the data we use the `summarize()` function and plot the data
+to look at the distribution of the data. Quantile-Quantile plots are
+used to evaluate the distribution and compare it to theoretical normal
 distribution.
 
 #### Summary
