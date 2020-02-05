@@ -55,8 +55,8 @@ In this case study, we will largly focus on methods for comparing two groups usi
 
 Data is imported from a PDF using pdftools.
 ```{r, echo = FALSE, message=FALSE}
-
-knitr::include_graphics("/Users/carriewright/Documents/GitHub/ocs-rural-and-urban-obesity/logo.png")
+library(here)
+knitr::include_graphics(here::here("img", "first_page.png"))
 ```
 
 #### Data wrangling 
