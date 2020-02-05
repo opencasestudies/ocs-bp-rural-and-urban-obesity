@@ -84,11 +84,7 @@ visualization methods using ggplot2.
 
 Data is imported from a PDF using pdftools.
 
-    library(here)
-
     ## here() starts at /Users/carriewright/Documents/GitHub/ocs-rural-and-urban-obesity
-
-    knitr::include_graphics(here::here("img", "page55.png"))
 
 <img src="/Users/carriewright/Documents/GitHub/ocs-rural-and-urban-obesity/img/page55.png" width="1037" />
 

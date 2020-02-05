@@ -54,7 +54,7 @@ In this case study, we will largly focus on methods for comparing two groups usi
 #### Data Import 
 
 Data is imported from a PDF using pdftools.
-```{r}
+```{r, echo = FALSE}
 library(here)
 knitr::include_graphics(here::here("img", "page55.png"))
 ```
