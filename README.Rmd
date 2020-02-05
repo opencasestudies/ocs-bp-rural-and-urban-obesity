@@ -53,12 +53,14 @@ In this case study, we will largly focus on methods for comparing two groups usi
 
 #### Data Import 
 
-<img src="img/first_page.png">
-Data is imported from a PDF using pdftools.
-```{r, echo = FALSE, message=FALSE}
+
+Data is imported from a PDF using pdftools to obtain the following table:
+```{r, echo = FALSE, message=FALSE, eval = FALSE}
 library(here)
 knitr::include_graphics(here::here("img", "first_page.png"))
 ```
+
+<img src="img/first_page.png">
 
 #### Data wrangling 
 

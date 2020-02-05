@@ -1200,12 +1200,12 @@ Women 21.3 (18.0-24.6) 20.9 (17.6-24.3) 22.7 (19.3-26.0) 24.4 (21.2-27.7) 23.3 (
 <pre><code># A tibble: 6 x 1
   norm_data
       &lt;dbl&gt;
-1      23.6
-2      23.1
-3      24.4
-4      23.4
-5      23.8
-6      24.5</code></pre>
+1      26.0
+2      22.3
+3      24.5
+4      24.3
+5      22.8
+6      23.3</code></pre>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="kw">hist</span>(norm_BMI_ex_data<span class="op">$</span>norm_data)</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-60-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Alternatively we can plot this using the <code>geom_hist()</code> function of the <code>ggplot2</code> package. The <a href="https://ggplot2.tidyverse.org/">ggplot2</a> package creates plots by using layers. Notice in the following code how there is a plus sign between the <code>ggplot()</code> function and the <code>geom_histogram()</code> function. With ggplot2 we select what data we would like to plot using the first function (<code>ggplot()</code>) and then we add on additional layers of complexity (these layers can even involve different data). In this case the <code>geom_histrogram()</code> function initiates the plotting of a histogram with the data that was identified in the <code>ggplot()</code> function. We will see later how we can add many layers to plots with <code>ggplot2</code>. For additional information on using ggplot2, see this <a href="https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html">case study</a>.</p>
@@ -1286,7 +1286,7 @@ Women 21.3 (18.0-24.6) 20.9 (17.6-24.3) 22.7 (19.3-26.0) 24.4 (21.2-27.7) 23.3 (
     Shapiro-Wilk normality test
 
 data:  .
-W = 0.99267, p-value = 0.4183</code></pre>
+W = 0.99634, p-value = 0.9185</code></pre>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="co"># example of the test output for normal data - the p value is not &lt; 0.05</span></a>
 <a class="sourceLine" id="cb123-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb123-3" data-line-number="3">BMI_long <span class="op">%&gt;%</span><span class="st"> </span></a>

@@ -82,9 +82,10 @@ visualization methods using ggplot2.
 
 #### Data Import
 
-<img src="img/first_page.png"> Data is imported from a PDF using
-pdftools.
-<img src="/Users/carriewright/Documents/GitHub/ocs-rural-and-urban-obesity/img/first_page.png" width="1581" />
+Data is imported from a PDF using pdftools to obtain the following
+table:
+
+<img src="img/first_page.png">
 
 #### Data wrangling
 
