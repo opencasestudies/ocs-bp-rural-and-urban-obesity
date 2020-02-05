@@ -87,6 +87,8 @@ following table:
 
 <img src="img/first_page.png">
 
+![](img/first_page.png)
+
 #### Data wrangling
 
 This case study covers many wrangling techniques and largely involves

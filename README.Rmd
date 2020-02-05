@@ -58,9 +58,14 @@ Data is imported from a PDF using `pdftools` to obtain data from the following t
 ```{r, echo = FALSE, message=FALSE, eval = FALSE}
 library(here)
 knitr::include_graphics(here::here("img", "first_page.png"))
+knitr::include_graphics(here::here("img/first_page.png"))
+knitr::include_graphics("img/first_page.png")
+
 ```
 
 <img src="img/first_page.png">
+
+![](img/first_page.png)
 
 #### Data wrangling 
 
