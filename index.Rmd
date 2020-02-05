@@ -173,15 +173,8 @@ Now that we have downloaded the PDF file, we will read it in to R using the `pdf
 
 ```{r}
 pdf_obesity <- pdftools::pdf_text(here("docs", "paper_supplement.pdf"))
-# PDF error: 
-# "Expected the optional content group list, 
-# but wasn't able to find it, or it isn't an Array"
-
-# Errors like this can be common with PDFs
-# We can take a look at the data to see if it still looks as expected
 ```
 
-**sch -- i'm not sure I understand the text that is commented above? why is that included?**
 
 Let's take a look at the data -- the `summary()` function from base R helps us to look at the structure of R objects.
 

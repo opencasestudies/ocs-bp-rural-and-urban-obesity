@@ -41,21 +41,53 @@ This analysis is important because it demonstrates the need to provide better ac
 
 ### Data
 
+The data used in this analysis comes from a [supplementary table](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf) for an article published by  the NCD Risk Factor Collaboration: 
+
+[NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the main driver of the global obesity epidemic in adults. *Nature* **569**, 260–264 (2019).](https://www.nature.com/articles/s41586-019-1171-x)
+
+This article can be found freely available online.
+
 ### Analysis 
+
+In this case study, we will largly focus on methods for comparing two groups using hypothesis testing and parametric and nonparametric tests. We also cover multiple testing correction and fairly advanced data visualization methods using ggplot2.
 
 #### Data Import 
 
+Data is imported from a PDF using pdftools.
+```{r}
+library(here)
+knitr::include_graphics(here::here("img", "page55.png"))
+```
+
 #### Data wrangling 
+
+This case study covers many wrangling techniques and largely involves using the package stringr. 
+
+1) Dividing data into separate lines
+2) Removing excess white-space
+3) Removing redundant header information
+4) Correcting spacing issues
+5) Dealing with NA values that are labeled in an unusal manner
+6) Splitting the data into columns using a delimiter
+7) Changing variable names
+8) Sorting the data
+9) Converting to long format
+10) Separating a column into multiple columns
+
 
 #### Data exploration (exploratory analysis)   
 
-#### Summary   
+To explore the data we use the summarize() function and plot the data to look at the distribution of the data. Quantile-Quantile plots are used to evaluate the distribution and compare it to theoretical normal distribution.
+
+#### Summary
+
+This case study covers fundamental concepts in statistics such as type 1 error, alpha threshold, p-values, hypothesis testing, parametric two sample mean tests, and nonparametric two sample tests, as well as the assumptions of the various included statistical tests and what to do when data is paired. 
 
 ### Other notes and resources 
 
 **For users**: There is a `Makefile` in this folder that allows you to type `make` to knit the case study contained in the `index.Rmd` to `index.html` and it will also knit the `README.Rmd` to a markdown file (`README.md`). 
 
-**For instructors**: 
+**For instructors**: This case study includes suggested homework.
 
 
 
