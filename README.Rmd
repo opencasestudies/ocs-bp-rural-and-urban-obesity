@@ -61,15 +61,16 @@ library(here)
 knitr::include_graphics(here::here("img/first_page.png"))
 ```
 
-test
-```{r}
-knitr::include_graphics("img/first_page.png")
 
-```
+```{r}
+#knitr::include_graphics("img/first_page.png")
 
 #<img src="img/first_page.png">
 
-![](img/first_page.png)
+#![](img/first_page.png)
+```
+
+
 
 #### Data wrangling 
 
