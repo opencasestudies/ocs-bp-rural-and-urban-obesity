@@ -85,8 +85,9 @@ visualization methods using ggplot2.
 Data is imported from a PDF using `pdftools` to obtain data from the
 following table:
 
-<img src="img/first_page.png"> ![](%22img/first_page.png%22) \#\#\#\#
-Data wrangling
+<img src="img/first_page.png">
+
+#### Data wrangling
 
 This case study covers many wrangling techniques and largely involves
 using the package `stringr`.
