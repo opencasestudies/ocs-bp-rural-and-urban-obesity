@@ -53,6 +53,7 @@ In this case study, we will largly focus on methods for comparing two groups usi
 
 #### Data Import 
 
+<img src="img/first_page.png">
 Data is imported from a PDF using pdftools.
 ```{r, echo = FALSE, message=FALSE}
 library(here)
