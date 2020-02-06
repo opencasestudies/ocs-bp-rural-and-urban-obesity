@@ -750,17 +750,17 @@ norm_BMI_ex_data <- tibble(norm_data =rnorm(n = 200, mean = 24))
 # The rnorm() function allows us to make a vector of normally distributed data
 # centered around the mean of 24
 head(norm_BMI_ex_data)
-fig<-hist(norm_BMI_ex_data$norm_data)
-fig
+hist(norm_BMI_ex_data$norm_data)
+
 ```
 
 Alternatively we can plot this using the `geom_hist()` function of the `ggplot2` package. The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers. Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. With ggplot2 we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). In this case the `geom_histrogram()` function initiates the plotting of a histogram with the data that was identified in the `ggplot()` function. We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
 ```{r}
-ggplot_fig<-norm_BMI_ex_data %>% 
+norm_BMI_ex_data %>% 
   ggplot2::ggplot(aes(x = norm_data)) + 
   ggplot2::geom_histogram() 
-ggplot_fig
+
 # We are using the column called norm_data within norm_BMI_ex_data
 # With ggplot2 we must first specify the data with ggplot() 
 # The geom_histogram() function specifies what type of plot to create
