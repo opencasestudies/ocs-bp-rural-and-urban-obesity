@@ -190,7 +190,8 @@ pdf_obesity[2] # this looks like the second page
 ```
 
 ```{r, eval = FALSE}
-pdf_obesity[55] 
+options(width=10)
+print(pdf_obesity[55])
 # this looks like data in a the table we want
 ```
 
@@ -226,9 +227,10 @@ str(rural_urban)
 Let's check the first and last page:
 
 ```{r, eval=FALSE}
-cat(rural_urban[1]) 
-# Using the cat() function which stands for Concatenate And Print 
-# This will allow for the "\n" values to be shown as spaces
+options(width =10)
+print(rural_urban[1])
+# Using [1] shows just the first page of the 10 pages that contain the table
+# Notice the new line "\n" values
 ```
 
 
@@ -244,7 +246,7 @@ knitr::include_graphics(here::here("img","first_page.png"))
 This looks the same as the beginning... how about the end?
 
 ```{r, eval =FALSE}
-cat(rural_urban[10])
+rural_urban[10]
 ```
 
 
@@ -266,13 +268,14 @@ At this point we have large strings now for each page of the table, but this is 
 
 ### Separate the data into lines
 
-First it would be useful to separate the data into lines or rows of the table.
+First it would be useful to separate the data that is currently in 10 giant string chunks into individual lines or rows of the table. To do this we can use the `read_lines()` function of the `readr` package which will separate the lines based on the "\n" new line characters.
 ```{r}
+summary(rural_urban)
 rural_urban <-readr::read_lines(rural_urban)
-str(rural_urban) 
+summary(rural_urban) 
 # now we have 461 lines
 rural_urban[6] 
-# we can see that line 6 shows the data for females in Afghanistan  
+# we can see that each string in the rural_urban object is now a single line of the table. We can see that line 6 shows the data for females in Afghanistan  
 ```
 
 ### Removing excess white-space
@@ -296,13 +299,14 @@ Although the header was necessary on all of the pages of the pdf version of the 
 ### Removing unnecessary repeated header information
 
 So, let's remove all the header information and the page number lines from the rural_urban object, then we will make a single line header for the beginning.
-One way to do this is to find all lines that include either "women" or "men" and only keep this data.
-First let's see how many lines include "women" or "men". We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns.
+One way to do this is to find all lines that include either "Women" or "Men" and only keep this data.
+First let's see how many lines include "Women" or "Men". We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns. Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.
 
 ```{r}
 stringr::str_which(string = rural_urban, pattern = "Women|Men")
 length(stringr::str_which(string = rural_urban, pattern = "Women|Men"))
 # Here the "|" indicates that we are looking for either  "Women" or "Men"
+stringr::str_which(string = rural_urban, pattern = "women")
 ```
 
 OK, so this looks correct. This includes most lines but there are gaps where are header is located. It looks like there are 400 lines in our table that aren't headers.
