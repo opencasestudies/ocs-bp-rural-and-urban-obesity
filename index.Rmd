@@ -18,7 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
-                      message = FALSE, warning = FALSE, 
+                      message = FALSE, warning = FALSE, cache = TRUE,
                       fig.align = "center", out.width = '90%')
 library(here)
 library(knitr)
@@ -418,7 +418,7 @@ We do however need to add " Women" back to this data.
 To do this we will use the `glue()` function of the `glue` package. 
 
 ```{r}
-Women <-glue::glue("Women{Women_BMI$country_split}")
+Women <-glue::glue("Women{pull(Women_BMI,country_split)}")
 head(Women)
 # here we will paste " Women" in fromt of the Women_BMI data
 # note that there will be a space in between
