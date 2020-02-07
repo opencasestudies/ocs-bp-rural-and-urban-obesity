@@ -116,6 +116,7 @@ library(tidyr)
 library(ggplot2)
 library(ggrepel)
 library(cowplot)
+library(patchwork)
 ```
 
 
@@ -133,7 +134,8 @@ library(cowplot)
 [tidyr](https://tidyr.tidyverse.org/)      | to convert data from 'wide' to 'long' format
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
 [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figures not to overlap
-[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined **sch -- should we consider using patchwork or do we think cowplot is OK?**
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined
+[patchwork](https://github.com/thomasp85/patchwork)
 ___
 
 The first time we use a function, we will use the `::` to indicate which package we are using (e.g. `stringr::str_detect()`). Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
@@ -1829,8 +1831,12 @@ Means_plot <-Means_plot +
                        aes( fontface ="bold.italic", size = 13))
 
 cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
+```
 
-
+We could make a similar plot with the `patchwork` package:
+```{r}
+Means_plot +labs(tag = 'A') + Diff_plot+ labs(tag = 'B') +
+  plot_layout(guides = 'collect', ncol = 2)
 ```
 
 Great, now we have put two plots together using the `plot_grid()` function of the `cowplot` package. This way we can clearly communicate two messages. The first being that BMI has increased over time globally and that many countries including the United States of America are approaching a mean BMI that is above the obesity threshold of 30. We can also see that women on average have larger BMI values than males, but that both genders show increased levels over time. In the second plot we can see that the increase in BMI is not just happening in  urban communities, but in both rural and urban communities and particularly in women. 
@@ -1846,6 +1852,7 @@ Our plot visually explores all of our main questions:
 We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [t-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
 
 <u> We learned that the t-test relies on:</u>
+
 1) normality of the data for both groups (this is not as much of an issue if the number of observations is relatively large total n>30)
 2) equal variance between the two groups (make sure you do the correct test if the data is not normal)
 3) balanced sample sizes of the two groups
@@ -1854,6 +1861,7 @@ We have evaluated BMI average estimates from 200 different countries around the 
 We learned that we can evaluate if our data is [normally distributed](https://www.physiology.org/doi/full/10.1152/advan.00064.2017) by plotting the distribution and by creating Q-Q plots.
 
 <u>We learned that if our data is not normally distributed, we can consider these options:</u>
+
 1) We can still perform a t-test if our n is large
 2) We can transform the data before performing a t-test
 3) We can use a nonparametric test (Wilcoxon signed rank test, the Wilcoxon rank sum test, and the Two-sample Kolmogorov-Smirnov (KS) test)
