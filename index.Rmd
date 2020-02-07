@@ -18,7 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
-                      message = FALSE, warning = FALSE, cache = TRUE,
+                      message = FALSE, warning = FALSE, cache = FALSE,
                       fig.align = "center", out.width = '90%')
 library(here)
 library(knitr)
