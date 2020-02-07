@@ -244,15 +244,9 @@ knitr::include_graphics(here::here("img","first_page.png"))
 
 This looks the same as the beginning... how about the end?
 
-```{r, eval =FALSE}
+```{r}
 str(rural_urban[10], nchar.max = 1800)
 ```
-
-
-```{r, echo = FALSE, eval = FALSE}
-knitr::include_graphics(here::here("img","last_page_in_R.png"))
-```
-
 
 ```{r, echo = FALSE }
 knitr::include_graphics(here::here("img","last_page.png"))
@@ -339,7 +333,7 @@ knitr::include_graphics(here::here("img","last_page.png"))
 
 First let's try splitting our header-less data into columns based on spaces using the `str_split()` function, where we specify that we are splitting the data based on the pattern of a space (the space is included in quotes):
 ```{r}
-(str_split(string = rural_urban, pattern = " ", simplify = TRUE))[1:10,] 
+str_split(string = rural_urban, pattern = " ", simplify = TRUE)[1:10,] 
 # Here we will take a look at just the first 10 lines using the [1:10,]
 ```
 
@@ -632,7 +626,7 @@ BMI_numeric <- as_tibble(purrr::map(
 # as.numeric() function to all the selected columns of BMI 
 # We have selected those that dont contain CI, Sex, or Country in the column name 
 # If you are familiar with apply(), this function is very similar
-BMI_numeric %<>% mutate(Country =BMI$Country, Sex =BMI$Sex)
+BMI_numeric %<>% mutate(Country =pull(BMI,Country), Sex =pull(BMI,Sex))
 head(BMI_numeric)
 # In this case our numeric data is class dbl
 # This means double-precision floating point numbers (with decimals)
