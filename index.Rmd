@@ -53,7 +53,7 @@ knitr::include_graphics("http://content.everydayhealth.com/mayodiet/images/BMI-c
 
 ###### [[source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426)]
 
-Previous work has shown higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf), as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. **SCH -- maybe more refs and URLs here **?
+Previous work has shown higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf), as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. 
 
 Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in [*Nature*](https://www.nature.com) evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
 
@@ -69,7 +69,9 @@ NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the ma
 The article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. 
 This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. 
 However, the NCD-RisC argued that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. 
-Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions: <b>"We noted a persistently higher rural BMI, especially for women"</b>.
+Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions: 
+
+> "We noted a persistently higher rural BMI, especially for women."
 
 In this case study, we will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. 
 Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. 
@@ -133,18 +135,21 @@ library(cowplot)
 [tidyr](https://tidyr.tidyverse.org/)      | to convert data from 'wide' to 'long' format
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
 [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figures not to overlap
-[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined **sch -- should we consider using patchwork or do we think cowplot is OK?**
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined 
 ___
 
-The first time we use a function, we will use the `::` to indicate which package we are using (e.g. `stringr::str_detect()`). Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
+The first time we use a function, we will use the `::` to indicate which package we are using (e.g. `stringr::str_detect()`). 
+Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
 
 ### Context
 
-The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf) that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link) for risk for many diseases and conditions particularly when combined with other risk factor information.
+The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf) that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. 
+However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link) for risk for many diseases and conditions particularly when combined with other risk factor information.
 
 ## What are the data?
 
-We will be using data located within a table of the [supplementary material](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf) for the NCD-RisC paper referenced above. This is a pdf that can be found freely available online. Here is a screenshot of the first page of the PDF: 
+We will be using data located within a table of the [supplementary material](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf) for the NCD-RisC paper referenced above. 
+This is a pdf that can be found freely available online. Here is a screenshot of the first page of the PDF: 
 
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("img","first_page.png"))
@@ -182,7 +187,8 @@ Let's take a look at the data -- the `summary()` function from base R helps us t
 summary(pdf_obesity)
 ```
 
-We can see that we have 63 elements that are character strings. You may also notice that the original PDF has 63 pages. Let's take a look at some of these elements.
+We can see that we have 63 elements that are character strings. 
+You may also notice that the original PDF has 63 pages. Let's take a look at some of these elements.
 
 ```{r}
 pdf_obesity[1] # this looks like the first page
@@ -200,26 +206,31 @@ knitr::include_graphics(here::here("img", "page55.png"))
 ```
 
 
-We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
+We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. 
+Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
 
-We are interested in a supplementary Table 3. which has multiple pages and includes the same header on each page; we can use that to determine what elements of our `pdf_obesity` character strings include our table. We will use the `str_detect()` function from the `stringr` package to search for the elements that contain text that is consistently in the header. The output of of this function will show which elements of the object (in this case pages of the pdf) include this pattern indicated as a "TRUE" or "FALSE".
+We are interested in a supplementary Table 3, which has multiple pages and includes the same header on each page. 
+We can use that to determine what elements of our `pdf_obesity` character strings include our table. 
+We will use the `str_detect()` function from the `stringr` package to search for the elements that contain text that is consistently in the header. 
+The output of of this function will show which elements of the object (in this case pages of the pdf) include this pattern indicated as a `TRUE` or `FALSE`.
 
 ```{r}
-stringr::str_detect(pattern = "Age-standardised mean BMI", string = pdf_obesity)
-# "Age-standardised mean BMI" is part of the header in the table on every page.
-# This shows the pages that contain our table of interest (as TRUE values).
+stringr::str_detect(pattern = "Age-standardised mean BMI", 
+                    string = pdf_obesity)
 ```
+We note, the "Age-standardised mean BMI" is part of the header in the table on every page.
+The code above shows the pages that contain our table of interest (as `TRUE` values).
 
-Now we will extract just the data for the table now and call it rural_urban. To do this we will use the `str_subset()` function of the stringr package.
+Now we will extract just the data for the table now and call it `rural_urban`. 
+To do this we will use the `str_subset()` function of the `stringr` package.
 
 ```{r}
-rural_urban <-stringr::str_subset(pattern ="Age-standardised mean BMI", 
-                                  string =pdf_obesity)
+rural_urban <- stringr::str_subset(pattern = "Age-standardised mean BMI", 
+                                   string = pdf_obesity)
 
 str(rural_urban) 
 # The str() function is similar to the summary function
 # There are 10 pages worth of elements in our rural_urban object
-
 ```
 
 
@@ -258,17 +269,19 @@ knitr::include_graphics(here::here("img","last_page.png"))
 ```
 
 
-Great! Our rural_urban object looks like it contains the entire Supplementary 3 table, as both the beginning and the end include the data we expected.
+Great! Our `rural_urban` object looks like it contains the entire Supplementary 3 table, as both the beginning and the end include the data we expected.
 
 ## Data Wrangling
 
-At this point we have large strings now for each page of the table, but this is not very convenient to work with. Now we will wrangle the data into a more usable form. Ideally we would like our data to be in some sort of tabular form.
+At this point we have large strings now for each page of the table, but this is not very convenient to work with. 
+Now we will wrangle the data into a more usable form. 
+Ideally we would like our data to be in some sort of tabular form.
 
 ### Separate the data into lines
 
-First it would be useful to separate the data into lines or rows of the table.
+First, it would be useful to separate the data into lines or rows of the table.
 ```{r}
-rural_urban <-readr::read_lines(rural_urban)
+rural_urban <- readr::read_lines(rural_urban)
 str(rural_urban) 
 # now we have 461 lines
 rural_urban[6] 
@@ -280,7 +293,7 @@ rural_urban[6]
 We also have a lot of white-space... let's get rid of the excess white spaces using `str_squish()` also from the `stringr` package.
 
 ```{r}
-rural_urban<-stringr::str_squish(rural_urban) 
+rural_urban <- stringr::str_squish(rural_urban) 
 head(rural_urban)
 ```
 
@@ -295,9 +308,11 @@ Although the header was necessary on all of the pages of the pdf version of the 
 
 ### Removing unnecessary repeated header information
 
-So, let's remove all the header information and the page number lines from the rural_urban object, then we will make a single line header for the beginning.
+So, let's remove all the header information and the page number lines from the `rural_urban` object, then we will make a single line header for the beginning.
 One way to do this is to find all lines that include either "women" or "men" and only keep this data.
-First let's see how many lines include "women" or "men". We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns.
+First let's see how many lines include "women" or "men". 
+We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns.
+Note, we the `pattern` argument is case sensitive. 
 
 ```{r}
 stringr::str_which(string = rural_urban, pattern = "Women|Men")

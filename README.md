@@ -1,8 +1,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 OpenCaseStudies
 ===============
 
 <!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity.svg?branch=master)](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity)
 <!-- badges: end -->
@@ -120,9 +122,23 @@ when data is paired.
 
 ### Other notes and resources
 
-**For users**: There is a `Makefile` in this folder that allows you to
-type `make` to knit the case study contained in the `index.Rmd` to
-`index.html` and it will also knit the `README.Rmd` to a markdown file
-(`README.md`).
+#### For users
 
-**For instructors**: This case study includes suggested homework.
+There is a `Makefile` in this folder that allows you to type `make` to
+knit the case study contained in the `index.Rmd` to `index.html` and it
+will also knit the `README.Rmd` to a markdown file (`README.md`).
+
+#### For instructors
+
+Our goal is for instructors to use this case study as the starting point
+for a set of lectures. We provide one R Markdown file (`index.Rmd`) for
+an instructor to use. However, we anticipate the instructor to either
+break up into smaller R Markdown files for multiple lectures or extract
+only a portion of the material (e.g. the Data Wrangling or Data Analysis
+sections) to use in the classroom.
+
+#### Suggested homework
+
+Students can repeat a similar analysis, but evaluate the change in BMI
+over time using the global data available for each year between 2015 and
+2017.
