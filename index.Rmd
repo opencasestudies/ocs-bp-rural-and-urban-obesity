@@ -189,7 +189,7 @@ pdf_obesity[1] # this looks like the first page
 pdf_obesity[2] # this looks like the second page
 ```
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 options(width=10)
 print(pdf_obesity[55])
 # this looks like data in a the table we want
@@ -226,7 +226,7 @@ str(rural_urban)
 
 Let's check the first and last page:
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 options(width =10)
 print(rural_urban[1])
 # Using [1] shows just the first page of the 10 pages that contain the table
