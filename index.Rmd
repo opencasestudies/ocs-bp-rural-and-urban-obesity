@@ -926,10 +926,10 @@ Alternatively, we can use a nonparametric test which is model free and does not 
 Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
 If it were violated, we would want to consider using permutation methods which are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html).
 
-If we needed to check if our samples were imbalanced, we could use the `table()` function:
+If we needed to check if our samples were imbalanced, we could use the `count()` function of `dplyr`:
 
 ```{r}
-table(BMI_long$Sex, BMI_long$Region, BMI_long$Year)
+dplyr::count(BMI_long, Sex, Year, Region)
 ```
 
 We can see that the number of observations for each possible group of interest is the same.
