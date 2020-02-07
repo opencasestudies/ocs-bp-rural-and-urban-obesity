@@ -190,17 +190,16 @@ pdf_obesity[2] # this looks like the second page
 ```
 
 ```{r, eval = TRUE}
-str(pdf_obesity[55], nchar.max = 1600)
+str(pdf_obesity[52], nchar.max = 1600)
 # this looks like data in a the table we want
 # we are using the str() function to print just a portion of the data
-# print(pdf_obesity[55]) would show the entire contents of page 55 
+# print(pdf_obesity[52]) would show the entire contents of pthe first page of the table 
 ```
+Here is the PDF version again:
 
-```{r, echo = FALSE, out.width="100%"}
-library(here)
-knitr::include_graphics(here::here("img", "page55.png"))
+```{r, echo = FALSE}
+knitr::include_graphics(here::here("img","first_page.png"))
 ```
-
 
 We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
 
