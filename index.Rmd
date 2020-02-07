@@ -18,7 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
-                      message = FALSE, warning = FALSE, 
+                      message = FALSE, warning = FALSE, cache = FALSE,
                       fig.align = "center", out.width = '90%')
 library(here)
 library(knitr)
@@ -118,6 +118,7 @@ library(tidyr)
 library(ggplot2)
 library(ggrepel)
 library(cowplot)
+library(patchwork)
 ```
 
 
@@ -136,6 +137,8 @@ library(cowplot)
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
 [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figures not to overlap
 [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined 
+[patchwork](https://github.com/thomasp85/patchwork)
+
 ___
 
 The first time we use a function, we will use the `::` to indicate which package we are using (e.g. `stringr::str_detect()`). 
@@ -195,19 +198,19 @@ pdf_obesity[1] # this looks like the first page
 pdf_obesity[2] # this looks like the second page
 ```
 
-```{r, eval = FALSE}
-pdf_obesity[55] 
+```{r, eval = TRUE}
+str(pdf_obesity[52], nchar.max = 1600)
 # this looks like data in a the table we want
+# we are using the str() function to print just a portion of the data
+# print(pdf_obesity[52]) would show the entire contents of pthe first page of the table 
+```
+Here is the PDF version again:
+
+```{r, echo = FALSE}
+knitr::include_graphics(here::here("img","first_page.png"))
 ```
 
-```{r, echo = FALSE, out.width="100%"}
-library(here)
-knitr::include_graphics(here::here("img", "page55.png"))
-```
-
-
-We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. 
-Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
+We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
 
 We are interested in a supplementary Table 3, which has multiple pages and includes the same header on each page. 
 We can use that to determine what elements of our `pdf_obesity` character strings include our table. 
@@ -228,7 +231,7 @@ To do this we will use the `str_subset()` function of the `stringr` package.
 rural_urban <- stringr::str_subset(pattern = "Age-standardised mean BMI", 
                                    string = pdf_obesity)
 
-str(rural_urban) 
+summary(rural_urban) 
 # The str() function is similar to the summary function
 # There are 10 pages worth of elements in our rural_urban object
 ```
@@ -236,14 +239,14 @@ str(rural_urban)
 
 Let's check the first and last page:
 
-```{r, eval=FALSE}
-cat(rural_urban[1]) 
-# Using the cat() function which stands for Concatenate And Print 
-# This will allow for the "\n" values to be shown as spaces
+```{r, eval=TRUE}
+str(rural_urban[1], nchar.max = 1600)
+# Using [1] shows just the first page of the 10 pages that contain the table
+# Notice the new line "\n" values that indicate new lines
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = FALSE}
 knitr::include_graphics(here::here("img","first_page_in_R.png"))
 ```
 
@@ -254,15 +257,9 @@ knitr::include_graphics(here::here("img","first_page.png"))
 
 This looks the same as the beginning... how about the end?
 
-```{r, eval =FALSE}
-cat(rural_urban[10])
+```{r}
+str(rural_urban[10], nchar.max = 1800)
 ```
-
-
-```{r, echo = FALSE}
-knitr::include_graphics(here::here("img","last_page_in_R.png"))
-```
-
 
 ```{r, echo = FALSE }
 knitr::include_graphics(here::here("img","last_page.png"))
@@ -279,13 +276,14 @@ Ideally we would like our data to be in some sort of tabular form.
 
 ### Separate the data into lines
 
-First, it would be useful to separate the data into lines or rows of the table.
+First it would be useful to separate the data that is currently in 10 giant string chunks into individual lines or rows of the table. To do this we can use the `read_lines()` function of the `readr` package which will separate the lines based on the "\n" new line characters.
 ```{r}
-rural_urban <- readr::read_lines(rural_urban)
-str(rural_urban) 
+summary(rural_urban)
+rural_urban <-readr::read_lines(rural_urban)
+summary(rural_urban) 
 # now we have 461 lines
 rural_urban[6] 
-# we can see that line 6 shows the data for females in Afghanistan  
+# we can see that each string in the rural_urban object is now a single line of the table. We can see that line 6 shows the data for females in Afghanistan  
 ```
 
 ### Removing excess white-space
@@ -308,16 +306,15 @@ Although the header was necessary on all of the pages of the pdf version of the 
 
 ### Removing unnecessary repeated header information
 
-So, let's remove all the header information and the page number lines from the `rural_urban` object, then we will make a single line header for the beginning.
-One way to do this is to find all lines that include either "women" or "men" and only keep this data.
-First let's see how many lines include "women" or "men". 
-We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns.
-Note, we the `pattern` argument is case sensitive. 
+So, let's remove all the header information and the page number lines from the rural_urban object, then we will make a single line header for the beginning.
+One way to do this is to find all lines that include either "Women" or "Men" and only keep this data.
+First let's see how many lines include "Women" or "Men". We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns. Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.
 
 ```{r}
 stringr::str_which(string = rural_urban, pattern = "Women|Men")
 length(stringr::str_which(string = rural_urban, pattern = "Women|Men"))
 # Here the "|" indicates that we are looking for either  "Women" or "Men"
+stringr::str_which(string = rural_urban, pattern = "women")
 ```
 
 OK, so this looks correct. This includes most lines but there are gaps where are header is located. It looks like there are 400 lines in our table that aren't headers.
@@ -351,7 +348,7 @@ knitr::include_graphics(here::here("img","last_page.png"))
 
 First let's try splitting our header-less data into columns based on spaces using the `str_split()` function, where we specify that we are splitting the data based on the pattern of a space (the space is included in quotes):
 ```{r}
-(str_split(string = rural_urban, pattern = " ", simplify = TRUE))[1:10,] 
+str_split(string = rural_urban, pattern = " ", simplify = TRUE)[1:10,] 
 # Here we will take a look at just the first 10 lines using the [1:10,]
 ```
 
@@ -436,7 +433,7 @@ We do however need to add " Women" back to this data.
 To do this we will use the `glue()` function of the `glue` package. 
 
 ```{r}
-Women <-glue::glue("Women{Women_BMI$country_split}")
+Women <-glue::glue("Women{pull(Women_BMI,country_split)}")
 head(Women)
 # here we will paste " Women" in fromt of the Women_BMI data
 # note that there will be a space in between
@@ -644,7 +641,7 @@ BMI_numeric <- as_tibble(purrr::map(
 # as.numeric() function to all the selected columns of BMI 
 # We have selected those that dont contain CI, Sex, or Country in the column name 
 # If you are familiar with apply(), this function is very similar
-BMI_numeric %<>% mutate(Country =BMI$Country, Sex =BMI$Sex)
+BMI_numeric %<>% mutate(Country =pull(BMI,Country), Sex =pull(BMI,Sex))
 head(BMI_numeric)
 # In this case our numeric data is class dbl
 # This means double-precision floating point numbers (with decimals)
@@ -944,10 +941,10 @@ Alternatively, we can use a nonparametric test which is model free and does not 
 Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
 If it were violated, we would want to consider using permutation methods which are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html).
 
-If we needed to check if our samples were imbalanced, we could use the `table()` function:
+If we needed to check if our samples were imbalanced, we could use the `count()` function of `dplyr`:
 
 ```{r}
-table(BMI_long$Sex, BMI_long$Region, BMI_long$Year)
+dplyr::count(BMI_long, Sex, Year, Region)
 ```
 
 We can see that the number of observations for each possible group of interest is the same.
@@ -1847,8 +1844,12 @@ Means_plot <-Means_plot +
                        aes( fontface ="bold.italic", size = 13))
 
 cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
+```
 
-
+We could make a similar plot with the `patchwork` package:
+```{r}
+Means_plot +labs(tag = 'A') + Diff_plot+ labs(tag = 'B') +
+  plot_layout(guides = 'collect', ncol = 2)
 ```
 
 Great, now we have put two plots together using the `plot_grid()` function of the `cowplot` package. This way we can clearly communicate two messages. The first being that BMI has increased over time globally and that many countries including the United States of America are approaching a mean BMI that is above the obesity threshold of 30. We can also see that women on average have larger BMI values than males, but that both genders show increased levels over time. In the second plot we can see that the increase in BMI is not just happening in  urban communities, but in both rural and urban communities and particularly in women. 
@@ -1864,6 +1865,7 @@ Our plot visually explores all of our main questions:
 We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [t-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
 
 <u> We learned that the t-test relies on:</u>
+
 1) normality of the data for both groups (this is not as much of an issue if the number of observations is relatively large total n>30)
 2) equal variance between the two groups (make sure you do the correct test if the data is not normal)
 3) balanced sample sizes of the two groups
@@ -1872,6 +1874,7 @@ We have evaluated BMI average estimates from 200 different countries around the 
 We learned that we can evaluate if our data is [normally distributed](https://www.physiology.org/doi/full/10.1152/advan.00064.2017) by plotting the distribution and by creating Q-Q plots.
 
 <u>We learned that if our data is not normally distributed, we can consider these options:</u>
+
 1) We can still perform a t-test if our n is large
 2) We can transform the data before performing a t-test
 3) We can use a nonparametric test (Wilcoxon signed rank test, the Wilcoxon rank sum test, and the Two-sample Kolmogorov-Smirnov (KS) test)
