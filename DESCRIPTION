@@ -28,5 +28,6 @@ Imports:
     tibble,
     magrittr,
     glue,
-    purrr
+    purrr,
+    patchwork
 VignetteBuilder: knitr
