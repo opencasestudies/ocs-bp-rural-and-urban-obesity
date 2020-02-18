@@ -781,21 +781,28 @@ dim(BMI_long)
 
 ####
 
-
 Great! our data is very usable now in this format!
 
-
 ```{r, echo = FALSE}
-save(BMI_numeric, BMI_long, file = here("data","Wrangled_data.rda"))
+save(BMI_numeric, 
+     BMI_long, 
+     file = here("data", "Wrangled_data.rda"))
 
 ```
+
 ## Data Exploration
 
 Now that our data is clean and in a format that we can work with, we can start to take a look at the data and how different groups might compare.
 
-Statistically speaking there are tests that can allow us to evaluate if the means of the groups are different. First let's see how our data looks in general.
+Going back to one of original questions, 
+
+> Is there a difference between rural and urban BMI estimates around the world?
+
+we want to use a statistical test to identify if there differences in the average BMIs between e.g. rural and urban groups. 
+First, let's see how our data look in general.
 
 ### General summary
+
 Start here if not working through data import and wrangling
 
 ```{r, echo = FALSE}
@@ -804,24 +811,20 @@ load(here("data", "Wrangled_data.rda"))
 
 ```{r}
 summary(BMI_numeric)
-# We can see that the mean  BMI estimates are larger in 2017
-# Is this a meaningful increase?
 ```
-OK, so our means are fairly similar, but we can see some differences. 
-The question is if those differences are meaningful. 
+We can see that the mean BMI estimates are larger in 2017.
+However, is this a meaningful increase?
 This is difficult to determine without a statistical test.
 
-Lets look at the data separately by gender:
+Lets look at the data separately by sex:
 
 ```{r}
-#Women:
 BMI_numeric %>% 
   subset(Sex == "Women") %>% 
   summary()
 ```
 
 ```{r}
-#Men
 BMI_numeric %>% 
   subset(Sex == "Men") %>% 
   summary()
@@ -832,41 +835,51 @@ It looks like mean BMIs have increased in all regions for both men and women. It
 
 ### Distributions
 
-In order to apply a statistical test to compare the means, one of the first things  to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. To plot the distribution of a dataset we can use the `hist()` function to create a histogram.
+In order to apply a statistical test to compare the means, one of the first things to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. To plot the distribution of a dataset we can use the `hist()` function to create a histogram.
 
-If the data were what we call <b>normally distributed</b>  or  followed a <b> Gaussian distribution </b> then the distribution should be equally centered around the mean and would look something like this:
+If the data were what we call <b>normally distributed</b> or followed a <b> Gaussian distribution </b> then the distribution should be equally centered around the mean and would look something like this:
 
 ```{r}
-norm_BMI_ex_data <- tibble(norm_data =rnorm(n = 200, mean = 24))
-# The rnorm() function allows us to make a vector of normally distributed data
-# centered around the mean of 24
+norm_BMI_ex_data <- 
+  tibble(norm_data = rnorm(n = 200, mean = 24))
+```
+The `rnorm()` function allows us to make a vector of normally distributed data centered around the mean of 24. 
+
+```{r}
 head(norm_BMI_ex_data)
 hist(norm_BMI_ex_data$norm_data)
-
 ```
 
-Alternatively we can plot this using the `geom_hist()` function of the `ggplot2` package. The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers. Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. With ggplot2 we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). In this case the `geom_histrogram()` function initiates the plotting of a histogram with the data that was identified in the `ggplot()` function. We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
+Alternatively, we can plot this using the `geom_hist()` function of the `ggplot2` package. 
+The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers.
+Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. 
+With ggplot2 we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
+In this case the `geom_histrogram()` function initiates the plotting of a histogram with the data that was identified in the `ggplot()` function. 
+We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
 ```{r}
 norm_BMI_ex_data %>% 
   ggplot2::ggplot(aes(x = norm_data)) + 
   ggplot2::geom_histogram() 
-
-# We are using the column called norm_data within norm_BMI_ex_data
-# With ggplot2 we must first specify the data with ggplot() 
-# The geom_histogram() function specifies what type of plot to create
 ```
 
-Let's see how our data looks:
+Here, we are using the column called `norm_data` within `norm_BMI_ex_data`.
+With `ggplot2` we must first specify the data with the `ggplot()` function. 
+Then, the `geom_*` function specifies what type of plot to create (e.g. `geom_histogram()` create a histogram). 
+
+Let's see how our data look:
 ```{r}
-BMI_long%>% 
+BMI_long %>% 
   ggplot(aes(x = BMI)) + 
   geom_histogram() 
 ```
 
-OK, so the data looks like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side), but it looks fairly normally distributed. See [here](http://onlinestatbook.com/2/glossary/skew.html) for more information about skewed distributions.
+OK, so the data looks like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side), but it looks fairly normally distributed. 
+See [here](http://onlinestatbook.com/2/glossary/skew.html) for more information about skewed distributions.
 
-If we parse our data, what does it look like? The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI data by year, gender, and region. We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
+If we parse our data, what does it look like? 
+The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI data by year, gender, and region.
+We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 
 ```{r, eval = TRUE}
 BMI_long %>%

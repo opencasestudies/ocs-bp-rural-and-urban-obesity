@@ -96,7 +96,10 @@ There is a [`Makefile`](Makefile) in this folder that allows you to type `make` 
 
 #### For instructors
 
-Our goal is for instructors to use this case study as the starting point for a set of lectures. We provide one R Markdown file ([`index.Rmd`](index.Rmd)) for an instructor to use. However, we anticipate the instructor to either break up into smaller R Markdown files for multiple lectures or extract only a portion of the material (e.g. the Data Wrangling or Data Analysis sections) to use in the classroom. 
+Our goal is for instructors to use this case study as the starting point for a set of lectures. 
+We provide one R Markdown file ([`index.Rmd`](index.Rmd)) for an instructor to use. 
+However, we anticipate the instructor to either break up into smaller R Markdown files for multiple lectures or extract only a portion of the material (e.g. the Data Wrangling or Data Analysis sections) to use in the classroom. 
+With the latter goal in mind, we save a `Wrangled_data.rda` object at the end of the Data Wrangling section, which is loaded at the start of the Data Exploration section. 
 
 #### Suggested homework
 

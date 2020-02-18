@@ -145,7 +145,9 @@ for a set of lectures. We provide one R Markdown file
 anticipate the instructor to either break up into smaller R Markdown
 files for multiple lectures or extract only a portion of the material
 (e.g. the Data Wrangling or Data Analysis sections) to use in the
-classroom.
+classroom. With the latter goal in mind, we save a `Wrangled_data.rda`
+object at the end of the Data Wrangling section, which is loaded at the
+start of the Data Exploration section.
 
 #### Suggested homework
 
