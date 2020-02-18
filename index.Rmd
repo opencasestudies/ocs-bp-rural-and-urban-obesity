@@ -454,21 +454,52 @@ We can do so with the `dim()` function, which shows us the dimensions of data ob
 ```{r}
 dim(Women_BMI)
 ```
-Great! There are 200 rows like we expected. 
+Great! There are 200 rows of characeter strings with the BMI data like we expected. 
 
 We do however need to add `" Women"` back to this data.
 To do this we will use the `glue()` function of the `glue` package. 
+
+Here is a simple example of how this function glues two things together.
+
 ```{r}
-Women <- glue::glue("Women{pull(Women_BMI,country_split)}")
+where <-"the moon"
+
+glue::glue("the cow jumped over {where}")
+
+```
+
+Now let's add  the word "Women" to each row of the Women_BMI data using `glue`.
+
+Let's use the `first()` function of the `dplyr` package to get a  reminder of what just the first row of the country_split column of the Women_BMI data looks like.
+
+First let's pull the country_split data out as a vector to make this simpler when we `glue`.
+
+```{r}
+women_data <- Women_BMI %>%
+  pull(country_split)
+
+dplyr::first(women_data)
+```
+
+Now we will paste the word "Women" in the beginning of each value in the vector using the `glue()` function.
+
+Note that there will be a space in between.
+This is because the space is already in front of the first BMI value.
+
+```{r}
+Women <-glue::glue("Women{women_data}")
 head(Women)
 ```
 
-Above, we paste `" Women"` in front of the `Women_BMI` data. 
-Note that there will be a space in between. 
-This is because the space is already in front of the first BMI value. 
+You could also do all of this in one step but its less obvious what is happening
+
+Here we pull the country_split data out of the Women_BMI object and then paste "Women" in front of each string in one command
+```{r}
+#Women <- glue("Women{pull(Women_BMI,country_split)}")
+```
+
 
 Next, let's grab the male data:
-
 
 ```{r}
 Men <- 
@@ -518,14 +549,17 @@ knitr::include_graphics(here::here("img","missing_pdf.png"))
 We need to replace our `na*` values with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. 
 Therefore, `na* na*` should work.
 
-So, in order to use the functions within the `stringr` package, our `Men` data needs to be of character class
+So, in order to use the functions within the `stringr` package, our `Men` data needs to be of character class, so let's check that now.
 
 ```{r}
 class(Men$rural_urban)
-Men <- as.character(Men$rural_urban) 
 ```
-The ` as.character()` function allows us to change the factor data within Men$rural_urban to the character class. 
-We are also changing the structure so that the data is not within a vector called `rural_urban`. 
+The ` as.character()` function allows us to change factor data within  to the character class.  We could use this if we needed it.
+
+We are also changing the structure so that the data is not within a column called `rural_urban`. 
+```{r}
+Men <- Men$rural_urban
+```
 
 ```{r}
 Men <- 
@@ -573,21 +607,22 @@ Note, here we need to use the column of `Men` that has the data
 ```{r}
 Women <- as_tibble(str_split(Women, " ", 
                              simplify = TRUE))
-# Note here we need to use the column of Women that has the data
 head(Women)
 Women[20:30,] 
 ```
+
 We can see that our `na` values look correct. 
+
 Looks good!
  
  
 ### Adding new header
 
-We can see from our pdf and our object called `header` what the header was like.
-Let's also make a new single line header, but let's wait to add `Country`:
+We can see from our pdf and our object called `header` what the header was like in the orginal pdf document. We need to add column names to our data based on the orginal data.
+
+Let' wait to add `Country` to the header.
 
 ```{r}
-#header
 new_header <- c("Sex","National_BMI_1985", 
                 "National_BMI_1985_CI", "Rural_BMI_1985", 
                "Rural_BMI_1985_CI", "Urban_BMI_1985",
