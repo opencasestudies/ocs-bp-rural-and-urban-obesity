@@ -1,10 +1,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 OpenCaseStudies
 ===============
 
 <!-- badges: start -->
-
 [![Travis build
 status](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity.svg?branch=master)](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity)
 <!-- badges: end -->
@@ -16,7 +14,7 @@ Studies](https://opencasestudies.github.io) project is **to demonstrate
 the use of various data science methods, tools, and software in the
 context of messy, real-world data**. A given case study does not cover
 all aspects of the research process, is not claiming to be the most
-approrpriate way to analyze a given dataset, and should not be used in
+appropriate way to analyze a given dataset, and should not be used in
 the context of making policy decisions without external consultation
 from scientific experts.
 
@@ -41,7 +39,7 @@ and rural obesity across time (Version v1.0.0). Zenodo.
 
 Exploring Global Patterns of Obesity from 1985 to 2017
 
-### Motiviation
+### Motivation
 
 Body Mass Index (BMI) is often used a proxy for adiposity with
 classifications based on BMI to define “underweight”, “normal”,
@@ -85,15 +83,15 @@ This article can be found freely available online.
 
 ### Analysis
 
-In this case study, we will largly focus on methods for comparing two
+In this case study, we will largely focus on methods for comparing two
 groups using hypothesis testing and parametric and nonparametric tests.
 We also cover multiple testing correction and fairly advanced data
 visualization methods using ggplot2.
 
 #### Data import
 
-Data is imported from a PDF using `pdftools` to obtain data from the
-following table:
+Data is imported from a PDF using `pdftools` to obtain data from a large
+table. The beginning of this table looks like this:
 
 ![](img/first_page.png)
 
@@ -106,7 +104,7 @@ using the package `stringr`.
 2.  Removing excess white-space
 3.  Removing redundant header information
 4.  Correcting spacing issues
-5.  Dealing with `NA` values that are labeled in an unusal manner
+5.  Dealing with `NA` values that are labeled in an unusual manner
 6.  Splitting the data into columns using a delimiter
 7.  Changing variable names
 8.  Sorting the data

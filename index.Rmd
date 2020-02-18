@@ -32,7 +32,7 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ## {.disclaimer_block}
 
-**Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io) project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most approrpriate way to analyze a given dataset, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
+**Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io) project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given dataset, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
 
 ## Motivation
 
@@ -91,7 +91,7 @@ To do this we will test if there is a difference between the average BMI for eac
 ### Learning Objectives 
 
 In this case study, we will walk you through importing data from a pdf, cleaning, wrangling and visualizing the data, and <b> comparing two groups </b> using well-established and commonly used packages, including `stringr`, `tidyr`, `dplyr`, `purrr`, and `ggplot2` from the [`tidyverse`](https://www.tidyverse.org/). 
-Specificially, the tidyverse is
+Specifically, the tidyverse is
 
 > "an opinionated collection of R packages designed for data science. All packages share an underlying philosophy and common APIs".
 
@@ -473,7 +473,7 @@ We can do so with the `dim()` function, which shows us the dimensions of data ob
 ```{r}
 dim(Women_BMI)
 ```
-Great! There are 200 rows of characeter strings with the BMI data like we expected. 
+Great! There are 200 rows of character strings with the BMI data like we expected. 
 
 We do however need to add `" Women"` back to this data.
 To do this we will use the `glue()` function of the `glue` package. 
@@ -558,7 +558,7 @@ tibble::as_tibble(str_split(unknown$rural_urban, " ",
 
 ### Dealing with NA values
 
-So close! Notice that the `"na*"` valueshave shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals.
+So close! Notice that the `"na*"` values have shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals.
 Here we can see this data in our original pdf:
 
 ```{r, echo = FALSE, out.width="100%"}
@@ -637,7 +637,7 @@ Looks good!
  
 ### Adding new header
 
-We can see from our pdf and our object called `header` what the header was like in the orginal pdf document. We need to add column names to our data based on the orginal data.
+We can see from our pdf and our object called `header` what the header was like in the original pdf document. We need to add column names to our data based on the original data.
 
 Let' wait to add `Country` to the header.
 
@@ -760,7 +760,7 @@ BMI_numeric <-
 ```
 
 The `map()` function of the `purrr` package allows us to apply the `as.numeric()` function to all the selected columns of `BMI` dataset.  
-Above, we have selected those that dont contain `CI`, `Sex`, or `Country` in the column name. 
+Above, we have selected those that don't contain `CI`, `Sex`, or `Country` in the column name. 
 If you are familiar with `apply()`, this function is very similar.
 
 ```{r}
@@ -797,7 +797,7 @@ BMI_long <-
 ```
 The `data` value indicates what data you start with, the `key` indicates the new name of the column that will now contain information about the values of the columns we will put together. 
 The `value` is the name of the column for the values for all the columns that are being put together. 
-The `":"` can be used to indentify the start and end of the column names that you are putting together. 
+The `":"` can be used to identify the start and end of the column names that you are putting together. 
 The `factor_key` argument determines if the newly created key column should be evaluated as a factor or not. 
 
 ```{r}
