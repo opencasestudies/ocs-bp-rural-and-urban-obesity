@@ -200,19 +200,20 @@ pdf_obesity[2] # this looks like the second page
 
 ```{r, eval = TRUE}
 str(pdf_obesity[52], nchar.max = 1600)
-# this looks like data in a the table we want
-# we are using the str() function to print just a portion of the data
-# print(pdf_obesity[52]) would show the entire contents of pthe first page of the table 
 ```
-Here is the PDF version again:
+Yes, this looks like data in a the table we want. 
+We are using the `str()` function to print just a portion of the data. 
+Note `print(pdf_obesity[52])` would show the entire contents of the first page of the table. 
 
+Here is the PDF version again:
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("img","first_page.png"))
 ```
 
-We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
+We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. 
+Note that the way the data is displayed is partially influenced by the width setting of the RStudio window.  
 
-We are interested in a supplementary Table 3, which has multiple pages and includes the same header on each page. 
+Now, we are interested in a supplementary Table 3, which has multiple pages and includes the same header on each page. 
 We can use that to determine what elements of our `pdf_obesity` character strings include our table. 
 We will use the `str_detect()` function from the `stringr` package to search for the elements that contain text that is consistently in the header. 
 The output of of this function will show which elements of the object (in this case pages of the pdf) include this pattern indicated as a `TRUE` or `FALSE`.
@@ -232,19 +233,18 @@ rural_urban <- stringr::str_subset(pattern = "Age-standardised mean BMI",
                                    string = pdf_obesity)
 
 summary(rural_urban) 
-# The str() function is similar to the summary function
-# There are 10 pages worth of elements in our rural_urban object
 ```
+The `str()` function is similar to the `summary()` function.
+Here, we see there are 10 pages worth of elements in our `rural_urban` object. 
 
 
 Let's check the first and last page:
 
 ```{r, eval=TRUE}
 str(rural_urban[1], nchar.max = 1600)
-# Using [1] shows just the first page of the 10 pages that contain the table
-# Notice the new line "\n" values that indicate new lines
 ```
-
+Using `[1]` shows just the first page of the 10 pages that contain the table. 
+Also, notice the new line `"\n"` values that indicate new lines. 
 
 ```{r, echo = FALSE, eval = FALSE}
 knitr::include_graphics(here::here("img","first_page_in_R.png"))
@@ -271,20 +271,25 @@ Great! Our `rural_urban` object looks like it contains the entire Supplementary 
 ## Data Wrangling
 
 At this point we have large strings now for each page of the table, but this is not very convenient to work with. 
-Now we will wrangle the data into a more usable form. 
-Ideally we would like our data to be in some sort of tabular form.
+Now, we will wrangle the data into a more usable form. 
+Ideally, we would like our data to be in some sort of tabular form.
 
 ### Separate the data into lines
 
-First it would be useful to separate the data that is currently in 10 giant string chunks into individual lines or rows of the table. To do this we can use the `read_lines()` function of the `readr` package which will separate the lines based on the "\n" new line characters.
+First, it would be useful to separate the data that is currently in 10 giant string chunks into individual lines or rows of the table. To do this we can use the `read_lines()` function of the `readr` package which will separate the lines based on the `"\n"` new line characters.
 ```{r}
 summary(rural_urban)
-rural_urban <-readr::read_lines(rural_urban)
+rural_urban <- readr::read_lines(rural_urban)
 summary(rural_urban) 
 # now we have 461 lines
-rural_urban[6] 
-# we can see that each string in the rural_urban object is now a single line of the table. We can see that line 6 shows the data for females in Afghanistan  
 ```
+We can see that each string in the `rural_urban` object is now a single line of the table.
+
+For example, in line 6 shows the data for females in Afghanistan.
+```{r}
+rural_urban[6] 
+```
+
 
 ### Removing excess white-space
 
@@ -306,29 +311,40 @@ Although the header was necessary on all of the pages of the pdf version of the 
 
 ### Removing unnecessary repeated header information
 
-So, let's remove all the header information and the page number lines from the rural_urban object, then we will make a single line header for the beginning.
+So, let's remove all the header information and the page number lines from the `rural_urban` object, then we will make a single line header for the beginning.
 One way to do this is to find all lines that include either "Women" or "Men" and only keep this data.
-First let's see how many lines include "Women" or "Men". We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns. Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.
+
+First, let's see how many lines include "Women" or "Men". 
+We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns. 
+Note, the `"|"` indicates that we are looking for either "Women" or "Men".
 
 ```{r}
-stringr::str_which(string = rural_urban, pattern = "Women|Men")
-length(stringr::str_which(string = rural_urban, pattern = "Women|Men"))
-# Here the "|" indicates that we are looking for either  "Women" or "Men"
+stringr::str_which(string = rural_urban, 
+                   pattern = "Women|Men")
+length(stringr::str_which(string = rural_urban, 
+                          pattern = "Women|Men"))
+```
+
+Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.
+
+```{r}
 stringr::str_which(string = rural_urban, pattern = "women")
 ```
 
-OK, so this looks correct. This includes most lines but there are gaps where are header is located. It looks like there are 400 lines in our table that aren't headers.
+OK, so this looks correct. 
+This includes most lines but there are gaps where the header is located. It looks like there are 400 lines in our table that aren't headers.
 
 ```{r}
-rural_urban <- str_subset(string = rural_urban, pattern = "Women|Men")
+rural_urban <- str_subset(string = rural_urban, 
+                          pattern = "Women|Men")
 ```
 
-We can check our data now using either head() or glimpse().
+We can check our data now using either `head()` from base R or `glimpse()` from the `dplyr` package.
 ```{r}
 dplyr::glimpse(rural_urban)
 ```
 
-Great, now our rural_urban object 400 lines instead of 461, like it did before when it contained the redundant header information.
+Great, now our `rural_urban` object 400 lines instead of 461, like it did before when it contained the redundant header information.
 
 ```{r}
 head(rural_urban)
@@ -340,58 +356,69 @@ Great! So now our data looks much better but we need to add back our header and 
 
 Here is what our header used to look like:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,  out.width = '100%'}
 knitr::include_graphics(here::here("img","last_page.png"))
 ```
 
 ### Dealing with spacing
 
 First let's try splitting our header-less data into columns based on spaces using the `str_split()` function, where we specify that we are splitting the data based on the pattern of a space (the space is included in quotes):
+
+Here, we will take a look at just the first 10 lines using the `[1:10,]` syntax: 
+
 ```{r}
-str_split(string = rural_urban, pattern = " ", simplify = TRUE)[1:10,] 
-# Here we will take a look at just the first 10 lines using the [1:10,]
+str_split(string = rural_urban, 
+          pattern = " ", 
+          simplify = TRUE)[1:10,] 
 ```
 
-This almost worked, but unfortunately country names that have spaces will be a problem. We can see that American Samoa has been divided into two columns and all subsequent columns are shifted.
+This almost worked, but unfortunately country names that have spaces will be a problem. 
+For example, we can see that "American Samoa" has been divided into two columns and all subsequent columns are shifted.
 
+Let's try this another way.
+Instead, let's try to extract the country information by separating the country information from the sex information when the sex is female.
+To do this, we start by noticing that the sex always starts with either a capital "W" if the gender is female. Note, we need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
 
-So now let's try to extract the country information, by separating the country information from the sex information when the sex is female. 
+Here, we will also introduce the concept of piping, which uses the `%>%` from the `magrittr` package, which allows us to pipe the output from one function to input to another function.
+This is really useful when we have multiple steps, which we will show soon.
 
-Sex always starts with either a capital "W" if the gender is female. #We need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
-
-Here we will also introduce the concept of piping, which uses the `%>%`. This is really useful when we have multiple steps, which we will show soon.
-
-So first we will select just the data for Women and then split this data based on the pattern " Women" (Note that the space is included - so that it is not within the country data).
-
+First, we will select just the data for Women
 ```{r}
+Women <- str_subset(string = rural_urban, 
+                    pattern = "Women") 
+```
 
-Women <- str_subset(string = rural_urban, pattern = "Women") 
-# First let's subset the data to only the lines that contain "Women"
-
-country_split <-Women %>%
-  stringr::str_split(pattern= " Women") %>%
+And then split this data based on the pattern `pattern = " Women"` (Note that the space is included - so that it is not within the country data).
+```{r}
+country_split <- 
+  Women %>%
+  stringr::str_split(pattern = " Women") %>%
   unlist() 
+```
 
+However, we can also do the same thing with two pipes:
 
-#we can do the same thing with two pipes:
-# first we select the "Women" data and then we split the data by " Women"
-# finally we assign the output of both steps to the object country_split
-
-country_split <- str_subset(string = rural_urban, pattern = "Women") %>%
+1. First, we select the "Women" and then we split the data by " Women"
+2. Second, we assign the output of both steps to the object country_split
+```{r}
+country_split <- 
+  str_subset(string = rural_urban,
+             pattern = "Women") %>%
   stringr::str_split(pattern= " Women") %>%
   unlist()
 
 head(country_split)
 ```
 
-Now we can see that Country is always the odd rows and the rest of the data is the rest of the rows. 
+Now, we can see that `Country` is always the odd rows and the rest of the data is the rest of the rows. 
 We can select the odd rows using the <b> Modulus (Remainder from division) operator</b>. 
 This operator looks like this `%%`. 
 All odd values such as 3, 7, or 15 when divided by 2 would leave a remainder of 1. 
 We will select just these rows using the `filter()` function of `dplyr`.
 
 ```{r}
-country <-tibble(country_split) %>% 
+country <- 
+  tibble(country_split) %>% 
   dplyr::filter(row_number() %% 2 == 1) 
 ```
 
@@ -412,13 +439,14 @@ The even rows are the rows with the data for women.
 These row values have a remainder of 0 when divided by 2.
 
 ```{r}
-Women_BMI <-tibble(country_split) %>% 
+Women_BMI <- 
+  tibble(country_split) %>% 
   dplyr::filter(row_number() %% 2 == 0)
+
 head(Women_BMI)
 ```
 
 Great! Now we have a list of the countries that can be used for both the male and female data. 
-
 
 It's always a good idea to check that your data objects are the size you expect when wrangling. 
 We can do so with the `dim()` function, which shows us the dimensions of data objects.
@@ -428,67 +456,83 @@ dim(Women_BMI)
 ```
 Great! There are 200 rows like we expected. 
 
-We do however need to add " Women" back to this data.
-
+We do however need to add `" Women"` back to this data.
 To do this we will use the `glue()` function of the `glue` package. 
-
 ```{r}
-Women <-glue::glue("Women{pull(Women_BMI,country_split)}")
+Women <- glue::glue("Women{pull(Women_BMI,country_split)}")
 head(Women)
-# here we will paste " Women" in fromt of the Women_BMI data
-# note that there will be a space in between
-# This is because the space is already in front of the first BMI value
 ```
 
+Above, we paste `" Women"` in front of the `Women_BMI` data. 
+Note that there will be a space in between. 
+This is because the space is already in front of the first BMI value. 
 
-Let's grab the male data:
+Next, let's grab the male data:
+
 
 ```{r}
-# remember our rural_urban object contains male data for the odd rows
-
-Men <-tibble(rural_urban) %>% 
+Men <- 
+  tibble(rural_urban) %>% 
   dplyr::filter(row_number() %% 2 == 1) 
+```
+Remember our `rural_urban` object contains male data for the odd rows. 
+
+```{r}
 head(Men$rural_urban)
+```
 
-# Again let's make sure we have the correct number of rows 
-
+Again let's make sure we have the correct number of rows 
+```{r}
 dim(Men) 
 ```
 How about our number of columns? 
 
-If we try splitting our data by space again, will it have the expected number of columns? What about the rows that contain na* values?
-```{r}
-# Let's just take the Men data that contains na* values
-# This column is called rural_urban
-unknown <-Men %>%filter(str_detect(pattern ="na\\*", string = rural_urban)) 
+If we try splitting our data by space again, will it have the expected number of columns? What about the rows that contain `na*` values?
 
-# Now we can try splitting by a space
-tibble::as_tibble(str_split(unknown$rural_urban, " ", simplify = TRUE))
+Let's just take the Men data that contains na* values. 
+This column is called `rural_urban`
+
+```{r}
+unknown <- 
+  Men %>% 
+  filter(str_detect(pattern ="na\\*", 
+                    string = rural_urban)) 
+```
+
+Now we can try splitting by a space
+```{r}
+tibble::as_tibble(str_split(unknown$rural_urban, " ",
+                            simplify = TRUE))
 
 ```
 
 ### Dealing with NA values
 
-So close! Notice that the "na*" values  have shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals. Here we can see this data in our original pdf:
+So close! Notice that the `"na*"` valueshave shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals.
+Here we can see this data in our original pdf:
 
 ```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics(here::here("img","missing_pdf.png"))
 ```
 
-We need to replace our na* values  with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an na* . Therefore, na* na* should work.
+We need to replace our `na*` values with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. 
+Therefore, `na* na*` should work.
+
+So, in order to use the functions within the `stringr` package, our `Men` data needs to be of character class
 
 ```{r}
 class(Men$rural_urban)
-# In order to use the functions within the stringr package, 
-# our Men data needs to be of character class
-Men<-as.character(Men$rural_urban) 
-# This function allows us to change the factor data 
-# within Men$rural_urban to the character class
-# We are also changing the structure so that the data 
-# is not within a vector called rural_urban
-Men<-stringr::str_replace_all(string = Men, 
-                              pattern = "na\\*", 
-                              replacement = "na\\* na\\*") 
+Men <- as.character(Men$rural_urban) 
+```
+The ` as.character()` function allows us to change the factor data within Men$rural_urban to the character class. 
+We are also changing the structure so that the data is not within a vector called `rural_urban`. 
+
+```{r}
+Men <- 
+  stringr::str_replace_all(string = Men, 
+                           pattern = "na\\*", 
+                           replacement = "na\\* na\\*") 
+
 # The \\ are necessary because the * is a special character 
 # The * would typically indicate any possible value, 
 # but here we actually want a "*" instead
@@ -508,64 +552,79 @@ Now for the Women data object
 ```{r}
 class(Women)
 # the female data is already character type
-Women<-stringr::str_replace_all(string = Women, 
-                                pattern = "na\\*", 
-                                replacement = "na\\* na\\*") 
+Women <- 
+  stringr::str_replace_all(string = Women, 
+                           pattern = "na\\*", 
+                           replacement = "na\\* na\\*") 
 Women[20:30]
 ```
-
 
 Great, now we can split our data by spaces.
 
 ### Splitting the data
 
+```{r}
+Men <- tibble::as_tibble(str_split(Men, " ", 
+                                   simplify = TRUE))
+head(Men)
+```
+Note, here we need to use the column of `Men` that has the data
 
 ```{r}
-Men <-tibble::as_tibble(str_split(Men, " ", simplify = TRUE))
-# Note here we need to use the column of Women that has the data
-head(Men)
-Women<-as_tibble(str_split(Women, " ", simplify = TRUE))
+Women <- as_tibble(str_split(Women, " ", 
+                             simplify = TRUE))
 # Note here we need to use the column of Women that has the data
 head(Women)
 Women[20:30,] 
-# We can see that our na values look correct
 ```
- Looks good!
+We can see that our `na` values look correct. 
+Looks good!
  
  
 ### Adding new header
 
-We can see from our pdf and our object called header what the header was like. Let's also make a new single line header, but let's wait to add Country:
+We can see from our pdf and our object called `header` what the header was like.
+Let's also make a new single line header, but let's wait to add `Country`:
 
 ```{r}
 #header
-new_header <-c("Sex","National_BMI_1985", "National_BMI_1985_CI", "Rural_BMI_1985", 
-               "Rural_BMI_1985_CI", "Urban_BMI_1985", "Urban_BMI_1985_CI", "National_BMI_2017",
-               "National_BMI_2017_CI","Rural_BMI_2017", "Rural_BMI_2017_CI", "Urban_BMI_2017", 
+new_header <- c("Sex","National_BMI_1985", 
+                "National_BMI_1985_CI", "Rural_BMI_1985", 
+               "Rural_BMI_1985_CI", "Urban_BMI_1985",
+               "Urban_BMI_1985_CI", "National_BMI_2017",
+               "National_BMI_2017_CI","Rural_BMI_2017",
+               "Rural_BMI_2017_CI", "Urban_BMI_2017", 
                "Urban_BMI_2017_CI")
 ```
 
-
-Let's change the names of our columns of our tibbles to this new header for our Men and Women data
+Let's change the names of our columns of our tibbles to this new header for our `Men` and `Women` data
 
 ```{r}
-names(Women)<-new_header
-names(Men)<-new_header
+names(Women) <- new_header
+names(Men) <- new_header
 ```
 
-
-Now we will add our country data to both our Men and Women tibbles using the `bind_cols()` function:
+Now we will add our country data to both our `Men` and `Women` tibbles using the `bind_cols()` function:
 
 ```{r}
 Women <- dplyr::bind_cols(country, Women)
-# This will add the country as a new column to the Women data object on the left 
-Men <- dplyr::bind_cols(country, Men) 
-# This will add the country as a new column to the Men data object on the left 
 head(Women)
 ```
+This will add the `country` as a new column to the `Women` data object on the left. 
+
+Similarly, 
+```{r}
+Men <- dplyr::bind_cols(country, Men) 
+```
+This will add the `country` as a new column to the `Men` data object on the left. 
 
 ### Changing variable names
-Here we will change the variable name of the country data to country, currently it is called country_split. Here we will also introduce the concept of the assignment pipe. In this case our pipe operator looks like this `%<>%` .  Using this fancier pipe requires another package,  called `magrittr`. The other simpler pipe options from this package are loaded with `tidyverse` (if you used `library(tidyverse)` which loads most tidyverse packages), but not this fancier version. 
+
+Here, we will change the variable name in the `country` dataset to `country` (currently it is called `country_split`). 
+We will also introduce the concept of the assignment pipe. 
+In this case our pipe operator looks like this `%<>%`. 
+Using this additional pipe requires another package, called `magrittr`. 
+The other simpler pipe options from this package are loaded with `tidyverse` (if you used `library(tidyverse)` which loads most tidyverse packages), but not this version. 
 
 The `>` portion of the pipe still behaves like a normal pipe, while the `<` portion of the pipe makes an assignment to whatever the `<`is pointing to, just like when we use the typical assignment operator `<-`. 
 
@@ -575,126 +634,146 @@ The `>` portion of the pipe still behaves like a normal pipe, while the `<` port
 # We have already done this but we include this for illustrative purposes.
 # Here we will just use the traditional assignment strategy
 
-Women<-dplyr::rename(Women, Country = country_split) 
-# We have renamed the country_split variable to be called Country
-
-# Here we reassign Men using the pipe strategy
-Men %<>%rename(Country = country_split) 
-# We have renamed the country_split variable to to be called country
-# We have also reassigned Men to the data object 
-# which has the country variable renamed
+Women <- dplyr::rename(Women, Country = country_split) 
 ```
+Here, we have renamed the `country_split` variable to be called `Country`. 
 
+Here, we reassign `Men` using the pipe strategy. 
+```{r}
+Men %<>% rename(Country = country_split) 
+```
+We have renamed the `country_split` variable to to be called `Country`. 
+We have also reassigned `Men` to the same data object. which has the `Country` variable renamed. 
 
 ### Joining the data
 
-Now we can combine our Men and Women data using the `full_join()` function of `dplyr`. 
-This will put all the male data first (x) and all the female data second (y).
+Now, we can combine our `Men` and `Women` data using the `full_join()` function of `dplyr`. 
+This will put all the male data first (`x`) and all the female data second (`y`).
 
 ```{r}
-BMI<-dplyr::full_join(x = Men, y = Women)
-# Let's check the size of our BMI data... it should have 400 rows (obs).
+BMI <- dplyr::full_join(x = Men, y = Women)
+```
+
+Let's check the size of our BMI data... it should have 400 rows (obs).
+```{r}
 str(BMI)
 ```
 
-
 ### Sorting the data
 
-Now Lets sort the data by country:
-
+Now, let's sort the data by `Country` using the `arrange()` function from the `dplyr` package
 ```{r}
-BMI <-dplyr::arrange(BMI, Country)
+BMI <- dplyr::arrange(BMI, Country)
 head(BMI)
-
 ```
 
 Our data is looking great! 
 
-Now we might want to make sure that our observations for each variable look the way we want. 
-In other words, if we want to make plots about National BMI in 1985 then we would need our values to be numeric. Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the ":" colon. Looks like none of our BMI data is actually numeric, but of the class character. Let's change that now.
+Now, we might want to make sure that our observations for each variable look the way we want. 
+In other words, if we want to make plots about National BMI in 1985 then we would need our values to be numeric. 
+Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the ":" colon. 
 
 ```{r, warning=FALSE, eval}
 str(BMI)
 ```
 
-We could change these values to be numeric with 6 lines of code like this:
+Looks like none of our BMI data is actually numeric, but of the class character. 
+Let's change that now.
+
+To start, we could change these values to be numeric with 6 lines of code like this:
 
 ```{r, eval = TRUE}
-BMI$National_BMI_1985%<>% as.numeric
-BMI$Rural_BMI_1985%<>% as.numeric
-BMI$Urban_BMI_1985%<>% as.numeric
+BMI$National_BMI_1985 %<>% as.numeric
+BMI$Rural_BMI_1985 %<>% as.numeric
+BMI$Urban_BMI_1985 %<>% as.numeric
 
-BMI$National_BMI_2017%<>% as.numeric
-BMI$Rural_BMI_2017%<>% as.numeric
-BMI$Urban_BMI_2017%<>% as.numeric
+BMI$National_BMI_2017 %<>% as.numeric
+BMI$Rural_BMI_2017 %<>% as.numeric
+BMI$Urban_BMI_2017 %<>% as.numeric
+```
 
-#  And if we did this we would see these variables 
-#  show as "num" which stands for numeric
+And if we did this we would see these variables show as `"num"` which stands for a numeric type of variable.
+```{r}
 str(BMI)
 ```
 
 Or we can use a more automated way with the `map()` function of the `purrr` package:
 ```{r}
-BMI_numeric <- as_tibble(purrr::map(
-  (BMI %>% select(-matches("CI|Sex|Country"))), as.numeric)) 
-# The map function of the purrr package allows us to apply the 
-# as.numeric() function to all the selected columns of BMI 
-# We have selected those that dont contain CI, Sex, or Country in the column name 
-# If you are familiar with apply(), this function is very similar
-BMI_numeric %<>% mutate(Country =pull(BMI,Country), Sex =pull(BMI,Sex))
-head(BMI_numeric)
-# In this case our numeric data is class dbl
-# This means double-precision floating point numbers (with decimals)
-# The alternative numeric option is the integar class
+BMI_numeric <- 
+  purrr::map((BMI %>% select(-matches("CI|Sex|Country"))),
+             as.numeric) %>% 
+  as_tibble()
 ```
 
+The `map()` function of the `purrr` package allows us to apply the `as.numeric()` function to all the selected columns of `BMI` dataset.  
+Above, we have selected those that dont contain `CI`, `Sex`, or `Country` in the column name. 
+If you are familiar with `apply()`, this function is very similar.
+
+```{r}
+BMI_numeric %<>% 
+  mutate(Country = pull(BMI, Country), 
+         Sex = pull(BMI, Sex))
+head(BMI_numeric)
+```
+In this case our numeric data is of a class `dbl`. 
+This means double-precision floating point numbers (with decimals).
+The alternative numeric option is the integer class. 
+
+### Transforming to long format
 
 It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularly for plotting. 
 
 For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
-Basically what the long format will have more rows and fewer columns.
-Thus we can combine or "gather" some columns together.
-In our case we can put all the different BMI data together in one long column.
+Basically, the long format will have more rows and fewer columns.
+Thus, we can combine or `"gather"` some columns together.
+In our case, we can put all the different BMI data together in one long column.
 We will create a new column that tells us what each row of the new BMI column represents.
 In other words, it will tell us what the original column was.
 
 To do this we will use the `gather()` function of the `tidyr` package:
 
 ```{r}
-BMI_long <-tidyr::gather(data =BMI_numeric, key = class_BMI, value = BMI, National_BMI_1985:Urban_BMI_2017, factor_key = FALSE) 
-# The data value indicates what data you start with
-# The key indicates the new name of the column that will now contain 
-# information about the values of the columns we will put together
-# The value is the name of the column for the values for 
-# all the columns that are being put together
-# The ":" can be used to indentify the start and end of the column names
-# that you are putting together
-# The factor_key paramater determines if the newly created key column 
-# should be evaluated as a factor or not
+BMI_long <-
+  tidyr::gather(data = BMI_numeric, 
+                key = class_BMI, 
+                value = BMI, 
+                National_BMI_1985:Urban_BMI_2017, 
+                factor_key = FALSE) 
+```
+The `data` value indicates what data you start with, the `key` indicates the new name of the column that will now contain information about the values of the columns we will put together. 
+The `value` is the name of the column for the values for all the columns that are being put together. 
+The `":"` can be used to indentify the start and end of the column names that you are putting together. 
+The `factor_key` argument determines if the newly created key column should be evaluated as a factor or not. 
+
+```{r}
 head(BMI_long)
 ```
 
-It would be useful to parse the 1985 and the 2017 data. We can do so by separating the parts of the class_BMI column using the `separate()` function of the `tidyr` package. 
-In our case we will replace the class_BMI column with two new columns.
+It would be useful to parse the 1985 and the 2017 data. We can do so by separating the parts of the `class_BMI` column using the `separate()` function of the `tidyr` package. 
+In our case we will replace the `class_BMI` column with two new columns.
 
 ```{r}
-BMI_long%<>% tidyr::separate(class_BMI, c("Region", NA, "Year")) 
-# We will separate the class_BMI column of the BMI_long tibble
-# This is based on the underscores and create two new columns
-# The first column will be called Region
-# It will contain the 1st part of the class_BMI data before the 1st underscore
-# The 2nd column will be called Year
-# It will contain the 3rd part of the data based on underscores
-# The middle part of the column will not be used to create any new columns
+BMI_long %<>% 
+  tidyr::separate(class_BMI, 
+                  c("Region", NA, "Year")) 
+```
+Here, we separate the `class_BMI` column of the `BMI_long` tibble. 
+This is based on the underscores and create two new columns. 
+The first column will be called `Region`. 
+It will contain the 1st part of the `class_BMI` data before the 1st underscore. 
+The 2nd column will be called `Year`.
+It will contain the 3rd part of the data based on underscores
+The middle part of the column will not be used to create any new columns. 
+
+```{r}
 head(BMI_long)
+```
 
-# Let's see how the dimensions of the BMI data have changed in long format:
-
+Let's see how the dimensions of the `BMI` data have changed in long format:
+```{r}
 dim(BMI_numeric)
 dim(BMI_long)
-
-
 ```
 
 #### {.question_block}

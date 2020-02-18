@@ -1,8 +1,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 OpenCaseStudies
 ===============
 
 <!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity.svg?branch=master)](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity)
 <!-- badges: end -->
@@ -30,9 +32,16 @@ United States License.
 
 To cite this case study:
 
+Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie.
+(2020, February 28).
+opencasestudies/Bloomberg-ocs-rural-and-urban-obesity: Exploring urban
+and rural obesity across time (Version v1.0.0). Zenodo.
+
 ### Title
 
 Exploring Global Patterns of Obesity from 1985 to 2017
+
+### Motiviation
 
 Body Mass Index (BMI) is often used a proxy for adiposity with
 classifications based on BMI to define “underweight”, “normal”,
@@ -44,8 +53,9 @@ that contrary to a widely reported view (that urbanization is one of the
 most important drivers in the global rise of obesity), in fact BMI is
 increasing at the same rate or faster in rural areas (compared to
 cities), in particular in low- and middle-income regions. Also, there a
-gender-discrepancy (women have a higher BMI in rural communities). Here,
-we explore this data to understand global patters in obesity. This
+gender-discrepancy (women have a higher BMI in rural communities).
+
+Here, we explore this data to understand global patters in obesity. This
 analysis is important because it demonstrates the need to provide better
 access (financial and physical access) to healthy foods in rural
 communities, especially in low-income countries to address the obesity
@@ -80,7 +90,7 @@ groups using hypothesis testing and parametric and nonparametric tests.
 We also cover multiple testing correction and fairly advanced data
 visualization methods using ggplot2.
 
-#### Data Import
+#### Data import
 
 Data is imported from a PDF using `pdftools` to obtain data from the
 following table:
@@ -96,21 +106,21 @@ using the package `stringr`.
 2.  Removing excess white-space
 3.  Removing redundant header information
 4.  Correcting spacing issues
-5.  Dealing with NA values that are labeled in an unusal manner
+5.  Dealing with `NA` values that are labeled in an unusal manner
 6.  Splitting the data into columns using a delimiter
 7.  Changing variable names
 8.  Sorting the data
 9.  Converting to long format
 10. Separating a column into multiple columns
 
-#### Data exploration (exploratory analysis)
+#### Data exploration
 
 To explore the data we use the `summarize()` function and plot the data
 to look at the distribution of the data. Quantile-Quantile plots are
 used to evaluate the distribution and compare it to theoretical normal
 distribution.
 
-#### Summary
+#### Statistical concepts
 
 This case study covers fundamental concepts in statistics such as type 1
 error, alpha threshold, p-values, hypothesis testing, parametric two
@@ -122,18 +132,20 @@ when data is paired.
 
 #### For users
 
-There is a `Makefile` in this folder that allows you to type `make` to
-knit the case study contained in the `index.Rmd` to `index.html` and it
-will also knit the `README.Rmd` to a markdown file (`README.md`).
+There is a [`Makefile`](Makefile) in this folder that allows you to type
+`make` to knit the case study contained in the `index.Rmd` to
+`index.html` and it will also knit the [`README.Rmd`](README.Rmd) to a
+markdown file (`README.md`).
 
 #### For instructors
 
 Our goal is for instructors to use this case study as the starting point
-for a set of lectures. We provide one R Markdown file (`index.Rmd`) for
-an instructor to use. However, we anticipate the instructor to either
-break up into smaller R Markdown files for multiple lectures or extract
-only a portion of the material (e.g. the Data Wrangling or Data Analysis
-sections) to use in the classroom.
+for a set of lectures. We provide one R Markdown file
+([`index.Rmd`](index.Rmd)) for an instructor to use. However, we
+anticipate the instructor to either break up into smaller R Markdown
+files for multiple lectures or extract only a portion of the material
+(e.g. the Data Wrangling or Data Analysis sections) to use in the
+classroom.
 
 #### Suggested homework
 
