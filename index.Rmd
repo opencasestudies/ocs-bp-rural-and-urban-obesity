@@ -883,15 +883,26 @@ BMI_numeric %>%
 
 It looks like mean BMIs have increased in all regions for both men and women. It is unclear though if this change is statistically significant.
 
-
 ### Distributions
 
 In order to apply a statistical test to compare the means, one of the first things to do is to explore the frequency of the different observed values. 
-This is called a <b>frequency distribution</b>, which can be shown in a table or a plot. 
+One way to summarize the frequency of different values is the <b>frequency distribution</b>, which can be shown in a table or a plot. 
 See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. 
 To plot the frequency distribution of a dataset we can use the `hist()` function to create a histogram.
 
 There are other types of distributions too, such as <b>probability distributions</b>, which describes the probability the occurrence of different possible outcomes. 
+Probability distributions can be defined for discrete data (e.g. flipping a coin as heads or tails) and continuous data (e.g. BMI estimates). 
+If we are talking about discrete data, the relative frequency of the different categories (heads or tails) can be used to define a <b>discrete probability distribution</b>. 
+We can simply assign a probability to each category. 
+
+<b>Continuous probability distributions</b> work in a similar way, except instead of assigning a probability to each category (e.g. heads or tails), we assign a probability to an interval of values (e.g. BMI between 22 and 26). 
+This is because it's not useful to construct a distribution that assigns a probaiblity to each possible outcome (e.g. 22.11, 22.12, etc) with such high precision. In this case, we would have to assign a very small probability to every possible BMI. 
+
+Now, the <b>normal (or Gaussian) distribution</b> is a type of <b>theortical continuous probability distribution</b> that is frequently used to approximate many naturally occurring distributions, including that of BMI. 
+We say that a random quantity is normally distributed with average m and standard deviation s if its probability distribution is defined by:
+
+**add equation here**
+
 For example, if our data followed a <b>normal (or Gaussian) distribution</b> with mean of 24 and standard deviation of 1, then the probability of different outcomes should be equally centered around the mean and would look something like this:
 
 ```{r}
@@ -921,7 +932,7 @@ Here, we are using the column called `norm_data` within `norm_BMI_ex_data`.
 As we noted, with `ggplot2` we must first specify the data to plot with the `ggplot()` function. 
 Then, the `geom_*` function specifies what type of plot to create (e.g. `geom_histogram()` create a histogram). 
 
-We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
+We will see later how we can add many layers to plots with `ggplot2`. For additional information on using `ggplot2`, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
 
 Let's see how our data look:
@@ -935,7 +946,7 @@ OK, so the data looks like it is what we call <b>right-skewed</b> because the ta
 See [here](http://onlinestatbook.com/2/glossary/skew.html) for more information about skewed distributions.
 
 If we split (or `facet`) our data by `Sex`, what do the frequency distributions look like? 
-The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI data by year, gender, and region.
+The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI estimates stratified by `Year`, `Sex`, and `Region`.
 We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 
 ```{r, eval = TRUE}
@@ -962,7 +973,8 @@ These plots show what is called a [bimodal distribution](http://onlinestatbook.c
 
 ### Quantile-Quantile Plots
 
-Let's use a method called the  quantile-quantile plot to determine if the data is indeed normally distributed. These plots are called <b>Q-Q plots</b>. This method allows us to test the fit of known theoretical distributions (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a <b>quantile</b>? This is a division of the data distribution into roughly equal portions. See [here](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html) for more information about Q-Q plots.
+Let's use a plot called a "quantile-quantile" plot (or <b>Q-Q plots</b> for short) to determine if the data are indeed normally distributed. 
+This plot allows us to compare two distributions: (1)  the fit of a known theoretical distribution (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a <b>quantile</b>? This is a division of the data distribution into roughly equal portions. See [here](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html) for more information about Q-Q plots.
 
 Here is an example of a Q-Q plot for the normally distributed data that we just created using the `stat_qq()` function of  the `ggplot2` package:
 
