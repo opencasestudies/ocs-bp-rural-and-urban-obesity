@@ -136,8 +136,8 @@ library(patchwork)
 [tidyr](https://tidyr.tidyverse.org/)      | to convert data from 'wide' to 'long' format
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
 [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figures not to overlap
-[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) | to allow plots to be combined 
-[patchwork](https://github.com/thomasp85/patchwork)
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) and [patchwork](https://github.com/thomasp85/patchwork) | to allow plots to be combined 
+
 
 ___
 
@@ -160,7 +160,7 @@ knitr::include_graphics(here::here("img","first_page.png"))
 
 You can see that the data contain average BMI estimates for both men and women in countries at the national level, as well as the average BMI estimates for the rural and urban areas of these countries in both 1985 and 2017.
 
-The data within the parentheses are the 95% [**credible interval**](https://en.wikipedia.org/wiki/Credible_interval) (CIs) ranges for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence.
+The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval) (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence.
 
 <u>Note:</u> While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/) and [sex](https://www.who.int/genomics/gender/en/index1.html) are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
 
@@ -234,9 +234,9 @@ rural_urban <- stringr::str_subset(pattern = "Age-standardised mean BMI",
 
 summary(rural_urban) 
 ```
-The `str()` function is similar to the `summary()` function.
+Similar to the `summary()` function, the `str()` function compactly displays the structure of arbitrary R objects. 
+The `nchar.max` argument let's us define the maximal number of characters to show. 
 Here, we see there are 10 pages worth of elements in our `rural_urban` object. 
-
 
 Let's check the first and last page:
 
@@ -304,9 +304,7 @@ Now it is much easier to see the data.
 
 If we look at the end of the first page of the table and the start of the second we can see that the header information is repeated, as well as a line with the page number and an empty line, and a line that says "2 2".
 
-
 #### {.scrollable }
-
 ```{r}
 rural_urban[44:56] # scroll through!
 ```
@@ -328,7 +326,6 @@ Note, the `"|"` indicates that we are looking for either "Women" or "Men".
 #scroll through the output!
 stringr::str_which(string = rural_urban, 
                    pattern = "Women|Men")
-
 ```
 ####
 
@@ -341,7 +338,8 @@ length(stringr::str_which(string = rural_urban,
 Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.
 
 ```{r}
-stringr::str_which(string = rural_urban, pattern = "women")
+stringr::str_which(string = rural_urban, 
+                   pattern = "women")
 ```
 
 OK, so this looks correct. 
@@ -352,7 +350,7 @@ rural_urban <- str_subset(string = rural_urban,
                           pattern = "Women|Men")
 ```
 
-We can check our data now using either `head()` from base R or `glimpse()` from the `dplyr` package.
+We can check our data now using either `head()` from base R or `glimpse()` from the `tibble` package.
 ```{r}
 dplyr::glimpse(rural_urban)
 ```
@@ -381,7 +379,6 @@ Here, we will take a look at just the first 10 lines using the `[1:10,]` syntax:
 
 
 #### {.scrollable }
-
 ```{r}
 str_split(string = rural_urban, 
           pattern = " ", 
@@ -487,11 +484,11 @@ glue::glue("the cow jumped over {where}")
 
 ```
 
-Now let's add  the word "Women" to each row of the Women_BMI data using `glue`.
+Now let's add  the word "Women" to each row of the `Women_BMI` data using `glue`.
 
-Let's use the `first()` function of the `dplyr` package to get a  reminder of what just the first row of the country_split column of the Women_BMI data looks like.
+First let's pull the `country_split` data out as a vector to make this simpler when we `glue`.
+Then, let's use the `first()` function of the `dplyr` package to get a reminder of what just the first row of the `country_split` column of the `Women_BMI` data looks like.
 
-First let's pull the country_split data out as a vector to make this simpler when we `glue`.
 
 ```{r}
 women_data <- Women_BMI %>%
@@ -500,21 +497,21 @@ women_data <- Women_BMI %>%
 dplyr::first(women_data)
 ```
 
-Now we will paste the word "Women" in the beginning of each value in the vector using the `glue()` function.
+Now we will paste the word `"Women"` in the beginning of each value in the vector using the `glue()` function.
 
 Note that there will be a space in between.
 This is because the space is already in front of the first BMI value.
 
 ```{r}
-Women <-glue::glue("Women{women_data}")
+Women <- glue::glue("Women{women_data}")
 head(Women)
 ```
 
 You could also do all of this in one step but its less obvious what is happening
 
-Here we pull the country_split data out of the Women_BMI object and then paste "Women" in front of each string in one command
+Here we pull the `country_split` data out of the `Women_BMI` object and then paste `"Women"` in front of each string in one command
 ```{r}
-#Women <- glue("Women{pull(Women_BMI,country_split)}")
+# Women <- glue("Women{pull(Women_BMI,country_split)}")
 ```
 
 
@@ -539,8 +536,8 @@ How about our number of columns?
 
 If we try splitting our data by space again, will it have the expected number of columns? What about the rows that contain `na*` values?
 
-Let's just take the Men data that contains na* values. 
-This column is called `rural_urban`
+Let's just take the `Men` data that contains `na*` values. 
+This column is called `rural_urban`. 
 
 ```{r}
 unknown <- 
@@ -568,7 +565,7 @@ knitr::include_graphics(here::here("img","missing_pdf.png"))
 We need to replace our `na*` values with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. 
 Therefore, `na* na*` should work.
 
-So, in order to use the functions within the `stringr` package, our `Men` data needs to be of character class, so let's check that now.
+So, in order to use the functions within the `stringr` package, our `Men` data needs to be of `character` class, so let's check that now.
 
 ```{r}
 class(Men$rural_urban)
@@ -644,11 +641,11 @@ Let' wait to add `Country` to the header.
 ```{r}
 new_header <- c("Sex","National_BMI_1985", 
                 "National_BMI_1985_CI", "Rural_BMI_1985", 
-               "Rural_BMI_1985_CI", "Urban_BMI_1985",
-               "Urban_BMI_1985_CI", "National_BMI_2017",
-               "National_BMI_2017_CI","Rural_BMI_2017",
-               "Rural_BMI_2017_CI", "Urban_BMI_2017", 
-               "Urban_BMI_2017_CI")
+                "Rural_BMI_1985_CI", "Urban_BMI_1985",
+                "Urban_BMI_1985_CI", "National_BMI_2017",
+                "National_BMI_2017_CI","Rural_BMI_2017",
+                "Rural_BMI_2017_CI", "Urban_BMI_2017", 
+                "Urban_BMI_2017_CI")
 ```
 
 Let's change the names of our columns of our tibbles to this new header for our `Men` and `Women` data
@@ -715,7 +712,7 @@ str(BMI)
 
 ### Sorting the data
 
-Now, let's sort the data by `Country` using the `arrange()` function from the `dplyr` package
+Now, let's sort the data alphabetically by `Country` using the `arrange()` function from the `dplyr` package
 ```{r}
 BMI <- dplyr::arrange(BMI, Country)
 head(BMI)
@@ -725,13 +722,13 @@ Our data is looking great!
 
 Now, we might want to make sure that our observations for each variable look the way we want. 
 In other words, if we want to make plots about National BMI in 1985 then we would need our values to be numeric. 
-Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the ":" colon. 
+Looking at our BMI data using `str()`, we can see the type of data for each of our variables listed just after variable name and the `":"` colon. 
 
 ```{r, warning=FALSE, eval}
 str(BMI)
 ```
 
-Looks like none of our BMI data is actually numeric, but of the class character. 
+Looks like none of our BMI data is actually `numeric` (or `num`), but of the class `character` (or `chr`). 
 Let's change that now.
 
 To start, we could change these values to be numeric with 6 lines of code like this:
@@ -754,12 +751,13 @@ str(BMI)
 Or we can use a more automated way with the `map()` function of the `purrr` package:
 ```{r}
 BMI_numeric <- 
-  purrr::map((BMI %>% select(-matches("CI|Sex|Country"))),
+  purrr::map((BMI %>% 
+                select(-matches("CI|Sex|Country"))),
              as.numeric) %>% 
   as_tibble()
 ```
 
-The `map()` function of the `purrr` package allows us to apply the `as.numeric()` function to all the selected columns of `BMI` dataset.  
+The `map()` function of the `purrr` package allows us to apply the `as.numeric()` function to all the selected columns of `BMI` dataset.
 Above, we have selected those that don't contain `CI`, `Sex`, or `Country` in the column name. 
 If you are familiar with `apply()`, this function is very similar.
 
@@ -817,7 +815,7 @@ This is based on the underscores and create two new columns.
 The first column will be called `Region`. 
 It will contain the 1st part of the `class_BMI` data before the 1st underscore. 
 The 2nd column will be called `Year`.
-It will contain the 3rd part of the data based on underscores
+It will contain the 3rd part of the data based on underscores.
 The middle part of the column will not be used to create any new columns. 
 
 ```{r}
@@ -848,18 +846,17 @@ save(BMI_numeric,
 
 Now that our data is clean and in a format that we can work with, we can start to take a look at the data and how different groups might compare.
 
-Going back to one of original questions, 
+Going back to one of our original questions, 
 
 > Is there a difference between rural and urban BMI estimates around the world?
 
-we want to use a statistical test to identify if there differences in the average BMIs between e.g. rural and urban groups. 
-First, let's see how our data look in general.
+We want to use a statistical test to identify if there are differences in the average BMI estimates between e.g. rural and urban groups. 
+First, let's explore our data a bit. 
 
 ### General summary
 
-Start here if not working through data import and wrangling
-
 ```{r, echo = FALSE}
+# Start here if not working through data import and wrangling
 load(here("data", "Wrangled_data.rda"))
 ```
 
@@ -870,7 +867,7 @@ We can see that the mean BMI estimates are larger in 2017.
 However, is this a meaningful increase?
 This is difficult to determine without a statistical test.
 
-Lets look at the data separately by sex:
+Lets look at the data stratified by `Sex`:
 
 ```{r}
 BMI_numeric %>% 
@@ -889,14 +886,19 @@ It looks like mean BMIs have increased in all regions for both men and women. It
 
 ### Distributions
 
-In order to apply a statistical test to compare the means, one of the first things to do is to plot the frequency of the different possible values. This is called a <b>distribution</b>. See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. To plot the distribution of a dataset we can use the `hist()` function to create a histogram.
+In order to apply a statistical test to compare the means, one of the first things to do is to explore the frequency of the different observed values. 
+This is called a <b>frequency distribution</b>, which can be shown in a table or a plot. 
+See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. 
+To plot the frequency distribution of a dataset we can use the `hist()` function to create a histogram.
 
-If the data were what we call <b>normally distributed</b> or followed a <b> Gaussian distribution </b> then the distribution should be equally centered around the mean and would look something like this:
+There are other types of distributions too, such as <b>probability distributions</b>, which describes the probability the occurrence of different possible outcomes. 
+For example, if our data followed a <b>normal (or Gaussian) distribution</b> with mean of 24 and standard deviation of 1, then the probability of different outcomes should be equally centered around the mean and would look something like this:
 
 ```{r}
 norm_BMI_ex_data <- 
-  tibble(norm_data = rnorm(n = 200, mean = 24))
+  tibble(norm_data = rnorm(n = 200, mean = 24, sd = 1))
 ```
+
 The `rnorm()` function allows us to make a vector of normally distributed data centered around the mean of 24. 
 
 ```{r}
@@ -907,9 +909,7 @@ hist(norm_BMI_ex_data$norm_data)
 Alternatively, we can plot this using the `geom_hist()` function of the `ggplot2` package. 
 The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers.
 Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. 
-With ggplot2 we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
-In this case the `geom_histrogram()` function initiates the plotting of a histogram with the data that was identified in the `ggplot()` function. 
-We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
+With `ggplot2` we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
 
 ```{r}
 norm_BMI_ex_data %>% 
@@ -918,8 +918,11 @@ norm_BMI_ex_data %>%
 ```
 
 Here, we are using the column called `norm_data` within `norm_BMI_ex_data`.
-With `ggplot2` we must first specify the data with the `ggplot()` function. 
+As we noted, with `ggplot2` we must first specify the data to plot with the `ggplot()` function. 
 Then, the `geom_*` function specifies what type of plot to create (e.g. `geom_histogram()` create a histogram). 
+
+We will see later how we can add many layers to plots with `ggplot2`. For additional information on using ggplot2, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
+
 
 Let's see how our data look:
 ```{r}
@@ -928,10 +931,10 @@ BMI_long %>%
   geom_histogram() 
 ```
 
-OK, so the data looks like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side), but it looks fairly normally distributed. 
+OK, so the data looks like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side), but it looks fairly centered. 
 See [here](http://onlinestatbook.com/2/glossary/skew.html) for more information about skewed distributions.
 
-If we parse our data, what does it look like? 
+If we split (or `facet`) our data by `Sex`, what do the frequency distributions look like? 
 The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI data by year, gender, and region.
 We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 
@@ -953,8 +956,9 @@ BMI_long %>%
 
 ```
 
-OK, so some of these plots look pretty similar to our normal distribution plot, like the Women 2017 Urban plot (although it is right-skewed).
-However some of the other plots, like the Men 2017 Urban plot, look very different. These plots show what is called a [bimodal distribution](http://onlinestatbook.com/2/introduction/distributions.html), meaning that there appear to be two peaks, or in other words two different values (and values near each of these) that are the most frequent.
+OK, so some of these plots look pretty similar to a normal distribution, like the `Women 2017 Urban` plot (although it is right-skewed).
+However some of the other plots, like the `Men 2017 Urban` plot, look very different. 
+These plots show what is called a [bimodal distribution](http://onlinestatbook.com/2/introduction/distributions.html), meaning that there appear to be two peaks (or modes), or in other words two different values (and values near each of these) that are the most frequent.
 
 ### Quantile-Quantile Plots
 

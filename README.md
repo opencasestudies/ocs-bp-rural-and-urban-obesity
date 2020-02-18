@@ -1,8 +1,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 OpenCaseStudies
 ===============
 
 <!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity.svg?branch=master)](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity)
 <!-- badges: end -->
