@@ -350,7 +350,8 @@ rural_urban <- str_subset(string = rural_urban,
                           pattern = "Women|Men")
 ```
 
-We can check our data now using either `head()` from base R or `glimpse()` from the `tibble` package.
+We can check our data now using either `head()` from base R or `glimpse()` from the `tibble`  and `dplyr` package. (Yup, the same function is available from both packages)
+
 ```{r}
 dplyr::glimpse(rural_urban)
 ```
@@ -380,10 +381,10 @@ Here, we will take a look at just the first 10 lines using the `[1:10,]` syntax:
 
 #### {.scrollable }
 ```{r}
+#scroll through the output!
 str_split(string = rural_urban, 
           pattern = " ", 
           simplify = TRUE)[1:10,] 
-#scroll through the output!
 ```
 ####
 
@@ -503,15 +504,15 @@ Note that there will be a space in between.
 This is because the space is already in front of the first BMI value.
 
 ```{r}
-Women <- glue::glue("Women{women_data}")
+Women <- glue("Women{women_data}")
 head(Women)
 ```
 
-You could also do all of this in one step but its less obvious what is happening
+You could also do all of this in one step but its less obvious what is happening.
 
-Here we pull the `country_split` data out of the `Women_BMI` object and then paste `"Women"` in front of each string in one command
-```{r}
-# Women <- glue("Women{pull(Women_BMI,country_split)}")
+Here we can pull the `country_split` data out of the `Women_BMI` object and then paste `"Women"` in front of each string in one command.
+```{r, eval = FALSE}
+Women <- glue("Women{pull(Women_BMI,country_split)}")
 ```
 
 
@@ -570,7 +571,7 @@ So, in order to use the functions within the `stringr` package, our `Men` data n
 ```{r}
 class(Men$rural_urban)
 ```
-The ` as.character()` function allows us to change factor data within  to the character class.  We could use this if we needed it.
+The ` as.character()` function allows us to change factor data within to the character class.  We could use this if we needed it, but it looks like our data is already `character`.
 
 We are also changing the structure so that the data is not within a column called `rural_urban`. 
 ```{r}
@@ -712,7 +713,8 @@ str(BMI)
 
 ### Sorting the data
 
-Now, let's sort the data alphabetically by `Country` using the `arrange()` function from the `dplyr` package
+Now, let's sort the data alphabetically by `Country` using the `arrange()` function from the `dplyr` package:
+
 ```{r}
 BMI <- dplyr::arrange(BMI, Country)
 head(BMI)
@@ -896,9 +898,9 @@ If we are talking about discrete data, the relative frequency of the different c
 We can simply assign a probability to each category, e.g. $P(heads) = 0.5$ and $P(tails) = 0.5$. 
 
 <b>Continuous probability distributions</b> work in a similar way, except instead of assigning a probability to each category or type of observation (e.g. heads or tails), we assign a probability to an interval of continuous values (e.g. BMI between 22 and 26). 
-This is because it's not useful to construct a distribution that assigns a probablity to each possible outcome (e.g. a BMI of 22.11, 22.12, etc) with such high precision. In this case, we would have to assign a very small probability to every possible BMI outcome. 
+This is because it's not useful to construct a distribution that assigns a probability to each possible outcome (e.g. a BMI of 22.11, 22.12, etc) with such high precision. In this case, we would have to assign a very small probability to every possible BMI outcome. 
 
-Now, the <b>normal (or Gaussian) distribution</b> is a type of <b>theortical continuous probability distribution</b> that is frequently used to approximate many naturally occurring distributions, such as that of BMI. 
+Now, the <b>normal (or Gaussian) distribution</b> is a type of <b>theoretical continuous probability distribution</b> that is frequently used to approximate many naturally occurring distributions, such as that of BMI. 
 We say that a random quantity $X$ (e.g. BMI) is normally distributed with average $m$ and standard deviation $s$ if the proportion of values in a given interval $(a,b)$ can be computed using this mathematical formula: 
 
 $$P(a < x < b) = \int_a^b \frac{1}{\sqrt{2\pi} s} e^{-\frac{1}{2}\big(\frac{x-m}{s}\big)^2}  $$
