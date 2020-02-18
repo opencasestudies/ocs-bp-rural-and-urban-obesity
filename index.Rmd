@@ -886,24 +886,24 @@ It looks like mean BMIs have increased in all regions for both men and women. It
 ### Distributions
 
 In order to apply a statistical test to compare the means, one of the first things to do is to explore the frequency of the different observed values. 
-One way to summarize the frequency of different values is the <b>frequency distribution</b>, which can be shown in a table or a plot. 
+One way to summarize the frequency of different observed values is the <b>frequency distribution</b>, which can be shown in a table or a plot. 
 See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. 
-To plot the frequency distribution of a dataset we can use the `hist()` function to create a histogram.
+For example, to plot the frequency distribution of a dataset we can use the `hist()` function to create a histogram.
 
 There are other types of distributions too, such as <b>probability distributions</b>, which describes the probability the occurrence of different possible outcomes. 
 Probability distributions can be defined for discrete data (e.g. flipping a coin as heads or tails) and continuous data (e.g. BMI estimates). 
 If we are talking about discrete data, the relative frequency of the different categories (heads or tails) can be used to define a <b>discrete probability distribution</b>. 
-We can simply assign a probability to each category. 
+We can simply assign a probability to each category, e.g. $P(heads) = 0.5$ and $P(tails) = 0.5$. 
 
-<b>Continuous probability distributions</b> work in a similar way, except instead of assigning a probability to each category (e.g. heads or tails), we assign a probability to an interval of values (e.g. BMI between 22 and 26). 
-This is because it's not useful to construct a distribution that assigns a probaiblity to each possible outcome (e.g. 22.11, 22.12, etc) with such high precision. In this case, we would have to assign a very small probability to every possible BMI. 
+<b>Continuous probability distributions</b> work in a similar way, except instead of assigning a probability to each category or type of observation (e.g. heads or tails), we assign a probability to an interval of continuous values (e.g. BMI between 22 and 26). 
+This is because it's not useful to construct a distribution that assigns a probablity to each possible outcome (e.g. a BMI of 22.11, 22.12, etc) with such high precision. In this case, we would have to assign a very small probability to every possible BMI outcome. 
 
-Now, the <b>normal (or Gaussian) distribution</b> is a type of <b>theortical continuous probability distribution</b> that is frequently used to approximate many naturally occurring distributions, including that of BMI. 
-We say that a random quantity is normally distributed with average m and standard deviation s if its probability distribution is defined by:
+Now, the <b>normal (or Gaussian) distribution</b> is a type of <b>theortical continuous probability distribution</b> that is frequently used to approximate many naturally occurring distributions, such as that of BMI. 
+We say that a random quantity $X$ (e.g. BMI) is normally distributed with average $m$ and standard deviation $s$ if the proportion of values in a given interval $(a,b)$ can be computed using this mathematical formula: 
 
-**add equation here**
+$$P(a < x < b) = \int_a^b \frac{1}{\sqrt{2\pi} s} e^{-\frac{1}{2}\big(\frac{x-m}{s}\big)^2}  $$
 
-For example, if our data followed a <b>normal (or Gaussian) distribution</b> with mean of 24 and standard deviation of 1, then the probability of different outcomes should be equally centered around the mean and would look something like this:
+Translating this to our case study, if we say our data follow a normal distribution with mean of $m = 24$ and standard deviation of $s = 1$, then the probability of different BMI outcomes should be equally centered around the mean and would look something like this:
 
 ```{r}
 norm_BMI_ex_data <- 
@@ -913,11 +913,10 @@ norm_BMI_ex_data <-
 The `rnorm()` function allows us to make a vector of normally distributed data centered around the mean of 24. 
 
 ```{r}
-head(norm_BMI_ex_data)
 hist(norm_BMI_ex_data$norm_data)
 ```
 
-Alternatively, we can plot this using the `geom_hist()` function of the `ggplot2` package. 
+Alternatively to using base R, we can plot this using the `geom_hist()` function of the `ggplot2` R package. 
 The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers.
 Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. 
 With `ggplot2` we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
