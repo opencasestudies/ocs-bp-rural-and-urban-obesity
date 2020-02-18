@@ -49,6 +49,7 @@ li.toctree-l2:first-child {
 
 .scrollable {
    white-space: pre !important;
+   max-height: 400px;
    overflow-y: scroll !important;
    height: 50vh !important;
 }

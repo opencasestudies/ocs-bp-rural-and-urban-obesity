@@ -303,9 +303,14 @@ head(rural_urban)
 Now it is much easier to see the data.
 
 If we look at the end of the first page of the table and the start of the second we can see that the header information is repeated, as well as a line with the page number and an empty line, and a line that says "2 2".
+
+
+#### {.scrollable }
+
 ```{r}
-rural_urban[44:56]
+rural_urban[44:56] # scroll through!
 ```
+####
 
 Although the header was necessary on all of the pages of the pdf version of the table, we only need that information once in our data.
 
@@ -318,11 +323,19 @@ First, let's see how many lines include "Women" or "Men".
 We can do this by first identifying the lines that contain these patterns and then check the length of the resulting vector for the line numbers that contain these patterns. 
 Note, the `"|"` indicates that we are looking for either "Women" or "Men".
 
+#### {.scrollable }
 ```{r}
+#scroll through the output!
 stringr::str_which(string = rural_urban, 
                    pattern = "Women|Men")
+
+```
+####
+
+```{r}
 length(stringr::str_which(string = rural_urban, 
                           pattern = "Women|Men"))
+
 ```
 
 Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.
@@ -366,11 +379,16 @@ First let's try splitting our header-less data into columns based on spaces usin
 
 Here, we will take a look at just the first 10 lines using the `[1:10,]` syntax: 
 
+
+#### {.scrollable }
+
 ```{r}
 str_split(string = rural_urban, 
           pattern = " ", 
           simplify = TRUE)[1:10,] 
+#scroll through the output!
 ```
+####
 
 This almost worked, but unfortunately country names that have spaces will be a problem. 
 For example, we can see that "American Samoa" has been divided into two columns and all subsequent columns are shifted.
@@ -422,14 +440,15 @@ country <-
   dplyr::filter(row_number() %% 2 == 1) 
 ```
 
-We can take a look to make sure that all the country names look as expected:
+We can take a look to make sure that all the country names look as expected. You can scroll through the country names if you hover over the data.
+
 ```{r, eval= FALSE}
 country
 ```
 
 #### {.scrollable }
 ```{r, echo = FALSE}
-country
+as.data.frame(country)
 ```
 ####
 
@@ -2050,4 +2069,6 @@ Students can evaluate the change in BMI over time using the global data availabl
 [p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8)  
 [Multiple Testing](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf)    
 [Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html)
+
+
 
