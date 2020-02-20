@@ -892,7 +892,7 @@ One way to summarize the frequency of different observed values is the <b>freque
 See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. 
 For example, to plot the frequency distribution of a dataset we can use the `hist()` function to create a histogram.
 
-There are other types of distributions too, such as <b>probability distributions</b>, which describes the probability the occurrence of different possible outcomes. 
+There are other types of distributions too, such as <b>probability distributions</b>, which describe the probability the occurrence of different possible outcomes. 
 Probability distributions can be defined for discrete data (e.g. flipping a coin as heads or tails) and continuous data (e.g. BMI estimates). 
 If we are talking about discrete data, the relative frequency of the different categories (heads or tails) can be used to define a <b>discrete probability distribution</b>. 
 We can simply assign a probability to each category, e.g. $P(heads) = 0.5$ and $P(tails) = 0.5$. 
@@ -901,7 +901,7 @@ We can simply assign a probability to each category, e.g. $P(heads) = 0.5$ and $
 This is because it's not useful to construct a distribution that assigns a probability to each possible outcome (e.g. a BMI of 22.11, 22.12, etc) with such high precision. In this case, we would have to assign a very small probability to every possible BMI outcome. 
 
 Now, the <b>normal (or Gaussian) distribution</b> is a type of <b>theoretical continuous probability distribution</b> that is frequently used to approximate many naturally occurring distributions, such as that of BMI. 
-We say that a random quantity $X$ (e.g. BMI) is normally distributed with average $m$ and standard deviation $s$ if the proportion of values in a given interval $(a,b)$ can be computed using this mathematical formula: 
+We say that a random quantity $X$ (e.g. BMI) is normally distributed with average $m$ and standard deviation $s$ if the proportion of values in a given interval $(a,b)$ (e.g. BMI between 22 ans 26) can be computed using this mathematical formula: 
 
 $$P(a < x < b) = \int_a^b \frac{1}{\sqrt{2\pi} s} e^{-\frac{1}{2}\big(\frac{x-m}{s}\big)^2}  $$
 
@@ -910,15 +910,12 @@ Translating this to our case study, if we say our data follow a normal distribut
 ```{r}
 norm_BMI_ex_data <- 
   tibble(norm_data = rnorm(n = 200, mean = 24, sd = 1))
-```
-
-The `rnorm()` function allows us to make a vector of normally distributed data centered around the mean of 24. 
-
-```{r}
 hist(norm_BMI_ex_data$norm_data)
 ```
 
-Alternatively to using base R, we can plot this using the `geom_hist()` function of the `ggplot2` R package. 
+Here we are simulating 200 observations from a normal distribution with a mean of $m = 24$ and standard deviation of $s = 1$ using the `rnorm()` function. 
+
+Alternatively to using base R, we can plot the frequency of simulated observations using the `geom_hist()` function of the `ggplot2` R package. 
 The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers.
 Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. 
 With `ggplot2` we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
@@ -936,17 +933,17 @@ Then, the `geom_*` function specifies what type of plot to create (e.g. `geom_hi
 We will see later how we can add many layers to plots with `ggplot2`. For additional information on using `ggplot2`, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
 
 
-Let's see how our data look:
+Ok so instead of using simulated data from a normal distribution, let's make a histogram of our BMI data
 ```{r}
 BMI_long %>% 
   ggplot(aes(x = BMI)) + 
   geom_histogram() 
 ```
 
-OK, so the data looks like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side), but it looks fairly centered. 
+Interesting! The data looks like it has one mode, but like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side). 
 See [here](http://onlinestatbook.com/2/glossary/skew.html) for more information about skewed distributions.
 
-If we split (or `facet`) our data by `Sex`, what do the frequency distributions look like? 
+If we split (or "facet") our data by `Sex`, what do the frequency distributions look like? 
 The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI estimates stratified by `Year`, `Sex`, and `Region`.
 We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 
@@ -974,84 +971,87 @@ These plots show what is called a [bimodal distribution](http://onlinestatbook.c
 
 ### Quantile-Quantile Plots
 
-Let's use a plot called a "quantile-quantile" plot (or <b>Q-Q plots</b> for short) to determine if the data are indeed normally distributed. 
-This plot allows us to compare two distributions: (1)  the fit of a known theoretical distribution (like the normal distribution) with our observed distribution. To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. What exactly is a <b>quantile</b>? This is a division of the data distribution into roughly equal portions. See [here](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html) for more information about Q-Q plots.
+Another useful plot to create when exploring distributions is something called a "quantile-quantile" plot (or <b>Q-Q plots</b> for short). When we talk about a <b>quantile</b>, we are talking about dividing up the distribution of the data into roughly equal portions. For example, if you divide your data into 100 quantiles, you can think about this as percentiles, but you could also divide your data into 10 quantiles and this would be called deciles. 
 
-Here is an example of a Q-Q plot for the normally distributed data that we just created using the `stat_qq()` function of  the `ggplot2` package:
+<b>Why Q-Q plots?</b> This plot allows us to compare the quantiles of two distributions together: (1) quantiles from a known theoretical distribution (like the normal distribution) compared (2) quantiles the distribution of our data. This is useful because if the quantiles line up between the two distributions in the plot, then that is a visual piece of evidence that our data follow that theoretical distribution (like the normal distribution).  
 
+<b>How does this work?</b> To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. See [here](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html) for more information about Q-Q plots.
+
+Using the `stat_qq()` function of the `ggplot2` package, we can easily create a Q-Q plot for our data randomly sampled from a normal distribution ("sample") and compare it to the quantiles from a normal distribution ("theoretical")
 ```{r}
-
 norm_BMI_ex_data %>%
-  ggplot(aes(sample =norm_data)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
+  ggplot(aes(sample = norm_data)) +
+  stat_qq() + 
   stat_qq_line()
-
-
-
 ```
 
-Here we can see that the quantiles are fairly similar between the observed and theoretical data. We see that the points mostly fall on the line, however there are some points that are a bit further from the line as we get to the extreme quantiles. Notice that the sample quantiles (which will be fairly similar to our real BMI data quantiles) on the y-axis has the same range as the values that we created. So values that are bellow 22 for example are represented as the points bellow 22 on the y-axis. As expected we see that about half the points are bellow our mean of 24.
+The `stat_qq_line()` function is used to add a line (computes the slope an intercept) on the plot. 
+Not surprisingly, we see that the quantiles are fairly similar between the observed and theoretical data.
+We see that the points mostly fall on the line, however there are some points that are a bit further from the line as we get to the extreme quantiles. 
+Notice that the sample quantiles (y-axis are in a fairly similar range to our real BMI data quantiles. 
+So values that are below 22, for example, are represented as the points below 22 on the y-axis. 
+As expected we see that about half the points are below our mean of 24.
 
-If we were to use different data that had a range of different values our y-axis would shift according to the range of values. For example the Orange data within the installation of R includes data about the circumference of orange trees in millimeters. Here we can see that the quantiles are quite different but reflect the range of orange tree circumferences.
+If we were to use different data that had a range of different values our y-axis would shift according to the range of values. 
+For example, the `Orange` data (within the installation of R) includes data about the circumference of orange trees in millimeters. 
+Here, we can see that the quantiles are quite different but reflect the range of orange tree circumferences.
 ```{r}
 range(Orange$circumference)
-Orange%>%
-  ggplot(aes(sample =circumference)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
+Orange %>%
+  ggplot(aes(sample = circumference)) +
+  stat_qq() +
   stat_qq_line()
 ```
 
-
-Let's take a look at our BMI data:
-
+Now, let's take a look at our actual BMI data:
 ```{r}
-
 BMI_long %>%
   ggplot(aes(sample =BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq() + 
   stat_qq_line() +
   facet_wrap(~ Sex + Year + Region)
 ```
-This is a little hard to see, some plots look pretty good, but while others seem to be skewed, lets take a closer look.
+This is a little hard to see, some plots suggest those subsets of the data are similar to a normal distribution, but others seem to be skewed. Let's take a closer look.
 
-For the sake of simplicity, we are going to focus on the data from the women.  This is because women were identified in the paper to have larger increases in BMI. If we want to perform tests on these groups (women in each region and year) specifically, then we need to look at the distribution of each of these subsets.
+For the sake of simplicity, we are going to focus on the subset of data for the women. 
+This is because women were identified in the paper to have fastest increases in BMI over time.
+If we want to compare two subsets of women (e.g. 1985 versus 2017 or rural versus urban), then we need to look at the distribution of each of these subsets.
 
 ```{r}
-
 BMI_long %>%
   filter(Sex == "Women") %>%
-  ggplot(aes(sample =BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
+  ggplot(aes(sample = BMI)) +
+  stat_qq() + 
   stat_qq_line() +
   facet_wrap(~ Year + Region)
 ```
 
+We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. 
+We can can also see that our data is right- or positive-skewed, because the extreme values are above the line that indicates a perfect match between the theoretical and observed data.
 
+The rural data looks more normal than the urban data. 
+You might be asking, why do we care if the data look more normal or not? 
+It turns out if you want to ask questions like "Is there statistically significant differnce in the average BMI estimates from women in 1985 compared to women in 2017?", we will need to use some of type of statistical test. 
+The most commonly used statistical tests that can answer that question rely on an assumption about the data you have, namely that your data have a similar shape as a theoretical normal distribution. 
+So, if we want to use those powerful statistical tests that relay on this assumption of "normality", then we need to check that assumption before using those tests. 
 
-We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. We can can also determine that our data is right- or positive-skewed because the extreme values are above the line that indicates a perfect match between the theoretical and observed data.
-
- The rural data looks more normal than the urban data, but if we were to use statistical tests that rely on normality, this would require that both groups are normally distributed. 
- 
-Finally, some statisticians also use the [Shapiro-Wilk test for normality](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html) when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
+One way to do that is to use Q-Q plots. 
+Another way to do that is to use the [Shapiro-Wilk test for normality](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html) when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
 
 ### Shapiro-Wilk test
 
-For illustrative purposes we will show how we can use the `dplyr` `summarize()` and `group_by()` functions to perform the Shapiro-Wilk test for all the subsets we are interested in.
+For illustrative purposes we will show how we can use the `summarize()` and `group_by()` functions from `dplyr` to perform the Shapiro-Wilk test for all the subsets we are interested in.
 
 ```{r}
-
-norm_BMI_ex_data$norm_data %>% 
-  shapiro.test() 
-# example of the test output for normal data - the p value is not < 0.05
-
 BMI_long %>% 
   filter(Sex == "Women") %>% 
   group_by(Year, Region) %>% 
   summarize(shapiro_test = shapiro.test(BMI)$p.value)
-
 ```
 
-We see that all the data does not appear to be normally distributed.
+Here, we see that all of the subsets of our data do not appear to be normally distributedexample of the test output for normal data - the p value is not < 0.05
+
+We .
 
 ## Data Analysis
 
