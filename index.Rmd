@@ -947,7 +947,7 @@ If we split (or "facet") our data by `Sex`, what do the frequency distributions 
 The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI estimates stratified by `Year`, `Sex`, and `Region`.
 We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 
-```{r, eval = TRUE}
+```{r}
 BMI_long %>%
   ggplot(aes(x=BMI)) +
   geom_histogram() +
@@ -962,7 +962,6 @@ BMI_long %>%
   ggplot(aes(x=BMI)) +
   geom_histogram() +
   facet_wrap(~ Sex + Year + Region) 
-
 ```
 
 OK, so some of these plots look pretty similar to a normal distribution, like the `Women 2017 Urban` plot (although it is right-skewed).
@@ -1089,8 +1088,17 @@ For example, in our data, we can estimate difference in the average BMI estimate
 
 ```{r}
 BMI_long %>% 
-  filter(Sex == "Women") %>% 
-  group_by(Year)
+  filter(Sex == "Women", Region != "National") %>% 
+  group_by(Region) %>%
+  summarize(avg_bmi = mean(BMI, na.rm = TRUE)) 
+
+BMI_long %>% 
+  filter(Sex == "Women", Region != "National") %>% 
+  group_by(Region) %>%
+  summarize(avg_bmi = mean(BMI, na.rm = TRUE)) %>% 
+  mutate(diff = avg_bmi - lag(avg_bmi)) %>% 
+  drop_na() %>%
+  pull(diff)
 ```
 
 
