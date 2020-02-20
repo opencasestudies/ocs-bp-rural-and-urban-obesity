@@ -1040,7 +1040,7 @@ Another way to do that is to use the [Shapiro-Wilk test for normality](http://ww
 
 ### Shapiro-Wilk test
 
-For illustrative purposes we will show how we can use the `summarize()` and `group_by()` functions from `dplyr` to perform the Shapiro-Wilk test for all the subsets we are interested in.
+Here, we are using the `summarize()` and `group_by()` functions from `dplyr` to perform the Shapiro-Wilk test for all the subsets we are interested in.
 
 ```{r}
 BMI_long %>% 
@@ -1049,31 +1049,54 @@ BMI_long %>%
   summarize(shapiro_test = shapiro.test(BMI)$p.value)
 ```
 
-Here, we see that all of the subsets of our data do not appear to be normally distributedexample of the test output for normal data - the p value is not < 0.05
-
-We .
+We can see that all of the subsets of our data do not appear to be normally distributed because the $p$-value is less than 0.05 for all subsets. 
+This is not suprising as the Q-Q plots suggested the same thing. 
 
 ## Data Analysis
 
-We can use statistical tests like the [student t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) to determine if [two means are significantly different](http://onlinestatbook.com/2/estimation/difference_means.html).
+In the previous section, we hinted at the existance of statistical tests to be able to assess if there is a statistically significant difference in the average BMI estimates between two groups (e.g. women in and 2017). 
+For example, one test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) which can be used to determine if [two sample means are significantly different](http://onlinestatbook.com/2/estimation/difference_means.html).
+However, this test depends on certain assumption of our data. 
+
+In this section, we are going to talk about this test and other tests that do not have assumptions about the data. 
 
 ### Hypothesis testing
-With the t-test, we perform what is called <b> two means hypothesis tests </b>.
-We define what is called the <b> null hypothesis </b>, which is what we assume by default or the baseline, that there is no difference in the two means:
 
-                                        Ho: μ1 = μ2
-                                        
-                               μ1 is the true mean of one group
-                               μ2 is the true mean of the other group
-                               
-Thus like in law, we fail to reject the null this null hypothesis, unless we have enough evidence to suggest that we should reject it - similarly to the idea that we by default assume that individuals are not guilty until proven otherwise. If we reject the null hypothesis, we then accept an <b> alternative hypothesis </b>, this can vary for different statistical tests, but in the case of the t-test we evaluate if the two means are not equal:
-                                        
-                                        Ha: μ1 ≠ μ2
-                                        
-Remember that we can't know the true mean for our populations of interest, instead we approximate or estimate our means based on the sample that we have in our data.
+Let's remind ourselves of one of our original questions, 
 
-When we use a statistical test to evaluate hypotheses like these, we use what we call the p-value. The p-value is a measure of the strength of the evidence for our null hypothesis. It is common practice to consider a p-value < 0.05 a strong enough evidence against the null hypothesis to reject it. Alternatively if the p-value > 0.5 then there is not enough evidence to reject the null hypothesis. We will use the p-values from our statistical tests to decide how to interpret the results of our tests.
-    
+> Is there a difference between rural and urban BMI estimates around the world?
+
+In hypothesis testing, we are interested in comparing two different hypotheses: a "null" hypothesis (can be thought of like a baseline e.g. the means between two groups are the same) compared to an "alternative" hypothesis (e.g. the means between two groups are different), where we are going to ask if there is enough in our data to reject the null hypothesis. 
+Let's try to formalize this a bit. 
+
+We want to perform what is called <b>two means hypothesis tests</b> using a statistical test (e.g. a Student's $t$-test). 
+To do this, we define what is called the <b>null hypothesis</b> that there is no difference in the two means:
+
+$$ H_0: \mu_1 = \mu_2 $$
+where $\mu_1$ and $\mu_2$ are the true unknown means of group 1 and group 2, respectively. 
+In contrast, we also define an <b>alternative hypothesis</b> that there is a difference between the two means: 
+
+$$ H_a: \mu_1 \neq \mu_2 $$
+
+The way it works is that we assume the null hypothesis is true and we use our data to help us identify if there is enough evidence to _reject the null hypothesis_. 
+This is similar to the idea of assuming that individuals are not guilt until proven otherwise.
+If there is not enough evidence in the data, then we say we "fail to reject the null hypothesis", or another way of stating it is that there was not enough evidence in the data to "reject the null hypothesis". 
+
+You might be asking, "but we do not know what the true group means are?". 
+That is true. 
+To address this, we estimate the averages based on our data that we have.
+For example, in our data, we can estimate difference in the average BMI estimates for women in 1985 and 2017. 
+
+```{r}
+BMI_long %>% 
+  filter(Sex == "Women") %>% 
+  group_by(Year)
+```
+
+
+A t-test is most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. When the scaling term is unknown and is replaced by an estimate based on the data, the test statistics (under certain conditions) follow a Student's t distribution. The t-test can be used, for example, to determine if the means of two sets of data are significantly different from each other.
+
+
 
 We are interested in comparing the means of female rural and urban BMI measurements for both years. 
 
