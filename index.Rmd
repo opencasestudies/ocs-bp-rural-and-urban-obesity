@@ -1084,45 +1084,50 @@ If there is not enough evidence in the data, then we say we "fail to reject the 
 You might be asking, "but we do not know what the true group means are?". 
 That is true. 
 To address this, we estimate the averages based on our data that we have.
-For example, in our data, we can estimate difference in the average BMI estimates for women in 1985 and 2017. 
+For example, in our data, we can estimate difference in the average BMI estimates for women in rural and urban regions in the two different years. 
 
 ```{r}
 BMI_long %>% 
   filter(Sex == "Women", Region != "National") %>% 
-  group_by(Region) %>%
+  group_by(Region, Year) %>%
   summarize(avg_bmi = mean(BMI, na.rm = TRUE)) 
 
 BMI_long %>% 
   filter(Sex == "Women", Region != "National") %>% 
-  group_by(Region) %>%
+  group_by(Region, Year) %>%
   summarize(avg_bmi = mean(BMI, na.rm = TRUE)) %>% 
   mutate(diff = avg_bmi - lag(avg_bmi)) %>% 
   drop_na() %>%
   pull(diff)
 ```
 
-
-A t-test is most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. When the scaling term is unknown and is replaced by an estimate based on the data, the test statistics (under certain conditions) follow a Student's t distribution. The t-test can be used, for example, to determine if the means of two sets of data are significantly different from each other.
-
-
-
-We are interested in comparing the means of female rural and urban BMI measurements for both years. 
+Next, we can use a statistical test (e.g. a Student's $t$-test) to assess if these differences are statistically meaningful or if these differences could be found due to random change. 
 
 There are two possible classes of statistical tests that we could run to compare the means of these two groups:
 
-1) Parametric
-2) Nonparametric
+1. Parametric
+2. Nonparametric
 
-Parametric tests are based on assumptions about the distribution of the data, while Nonparametric tests do not rely on this assumption. It is called "parametric" because aspects about the distribution of the data like the mean are called <b>parameters</b> when we describe a population. In parametric tests we estimate the parameters of the true population of interest using a sample of that population. These estimates are called <b>statistics</b>. See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) for more information about the difference between these two classes of tests.
+<b>Parametric tests</b> are based on assumptions about the distribution of the data, while <b>nonparametric tests</b> do not rely on this assumption. 
+It is called "parametric" because aspects about the distribution of the data, like the mean, are called <b>parameters</b> of a mathematical function when we describe a population. 
+In parametric tests, we estimate the parameters of the true population of interest using a sample of that population. 
+These estimates are called <b>statistics</b>. 
+See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) for more information about the difference between these two classes of tests.
 
-### Parametric two sample mean tests
+### Parametric two-sample $t$-test
 
-Often when comparing two groups we might perform a two sample t-test to determine if the means of each group is different. The two sample t-test however, relies on several <u><b>assumptions</b></u>:
+Often when comparing two groups we might perform a two-sample $t$-test to determine if the means of each group is different. 
+The two-sample $t$-test however, relies on several <u><b>assumptions</b></u>:
 
 1) The data for both groups is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html)
 2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance) of both groups is similar
 3) The number of observations is similar for both groups - thus they are [balanced](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/)
 4) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf) (meaning that observations do not influence each other)
+
+A $t$-test is most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. When the scaling term is unknown and is replaced by an estimate based on the data, the test statistics (under certain conditions) follow a Student's t distribution. The t-test can be used, for example, to determine if the means of two sets of data are significantly different from each other.
+
+
+
 
 If these assumptions are violated, this doesn't necessarily mean we can't perform a t-test. It just means we may need to consider the following options:
 

@@ -101,6 +101,10 @@ We provide one R Markdown file ([`index.Rmd`](index.Rmd)) for an instructor to u
 However, we anticipate the instructor to either break up into smaller R Markdown files for multiple lectures or extract only a portion of the material (e.g. the Data Wrangling or Data Analysis sections) to use in the classroom. 
 With the latter goal in mind, we save a `Wrangled_data.rda` object at the end of the Data Wrangling section, which is loaded at the start of the Data Exploration section. 
 
+#### Target audience 
+
+This case study is designed for undergraduate students who have not taken a statistics course. While we do not disucss the theoretical aspects of the statistics concepts used in this case study, the case study discusses the motivation behind them.
+
 #### Suggested homework
 
 Students can repeat a similar analysis, but evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. 

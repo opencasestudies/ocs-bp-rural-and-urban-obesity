@@ -149,6 +149,13 @@ classroom. With the latter goal in mind, we save a `Wrangled_data.rda`
 object at the end of the Data Wrangling section, which is loaded at the
 start of the Data Exploration section.
 
+#### Target audience
+
+This case study is designed for undergraduate students who have not
+taken a statistics course. While we do not disucss the theoretical
+aspects of the statistics concepts used in this case study, the case
+study discusses the motivation behind them.
+
 #### Suggested homework
 
 Students can repeat a similar analysis, but evaluate the change in BMI
