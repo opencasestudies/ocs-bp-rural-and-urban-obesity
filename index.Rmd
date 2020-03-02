@@ -32,30 +32,30 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ## {.disclaimer_block}
 
-**Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io) project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given dataset, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
+**Disclaimer**: The purpose of the [Open Case Studies](https://opencasestudies.github.io){target="_blank"} project is **to demonstrate the use of various data science methods, tools, and software in the context of messy, real-world data**. A given case study does not cover all aspects of the research process, is not claiming to be the most appropriate way to analyze a given dataset, and should not be used in the context of making policy decisions without external consultation from scientific experts. 
 
 ## Motivation
 
-Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)) is often used as a proxy for **adiposity** and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
-There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi) (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html), and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf). 
+Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)){target="_blank"} is often used as a proxy for **adiposity** and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
+There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi){target="_blank"} (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html){target="_blank"}, and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}. 
 For example, these are the categories defined by the WHO: 
 
 ```{r, echo=FALSE}
 knitr::include_graphics("https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg")
 ```
 
-###### [[source](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg)]
+###### [[source](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg){target="_blank"}]
 
 The following chart can help you identify your estimate of BMI:
 ```{r, echo=FALSE}
 knitr::include_graphics("http://content.everydayhealth.com/mayodiet/images/BMI-chart.jpg")
 ```
 
-###### [[source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426)]
+###### [[source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426){target="_blank"}]
 
-Previous work has shown higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf), as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. 
+Previous work has shown higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}, as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. 
 
-Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) published in [*Nature*](https://www.nature.com) evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
+Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} published in [*Nature*](https://www.nature.com){target="_blank"} evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
 
 ```{r,  echo=FALSE, out.width='100%'}
 knitr::include_graphics(here::here("img", "paper.png"))
@@ -90,7 +90,7 @@ To do this we will test if there is a difference between the average BMI for eac
 
 ### Learning Objectives 
 
-In this case study, we will walk you through importing data from a pdf, cleaning, wrangling and visualizing the data, and <b> comparing two groups </b> using well-established and commonly used packages, including `stringr`, `tidyr`, `dplyr`, `purrr`, and `ggplot2` from the [`tidyverse`](https://www.tidyverse.org/). 
+In this case study, we will walk you through importing data from a pdf, cleaning, wrangling and visualizing the data, and <b> comparing two groups </b> using well-established and commonly used packages, including `stringr`, `tidyr`, `dplyr`, `purrr`, and `ggplot2` from the [`tidyverse`](https://www.tidyverse.org/){target="_blank"}. 
 Specifically, the tidyverse is
 
 > "an opinionated collection of R packages designed for data science. All packages share an underlying philosophy and common APIs".
@@ -124,19 +124,19 @@ library(patchwork)
 
  Package   | Use                                                                         
 ---------- |-------------
-[here](https://github.com/jennybc/here_here)       | to easily load and save data with relative paths
-[pdftools](https://cran.r-project.org/web/packages/pdftools/pdftools.pdf)   | to read a text from pdf into R   
-[stringr](https://stringr.tidyverse.org/articles/stringr.html)    | to manipulate the text data
-[readr](https://readr.tidyverse.org/)      | to manipulate the text data within the pdf into individual lines  
-[dplyr](https://dplyr.tidyverse.org/)      | to arrange/filter/select subsets of the data 
-[tibble](https://tibble.tidyverse.org/)     | to create data objects that we can manipulate with `dplyr`/`stringr`/`tidyr`/`purrr`
-[magrittr](https://magrittr.tidyverse.org/articles/magrittr.html)   | to use the `%<>%` piping operator
-[glue](https://www.tidyverse.org/blog/2017/10/glue-1.2.0/)  | to paste or combine character strings and data together
-[purrr](https://purrr.tidyverse.org/)      | to perform functions on all columns of a tibble
-[tidyr](https://tidyr.tidyverse.org/)      | to convert data from 'wide' to 'long' format
+[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data with relative paths
+[pdftools](https://cran.r-project.org/web/packages/pdftools/pdftools.pdf){target="_blank"}   | to read a text from pdf into R   
+[stringr](https://stringr.tidyverse.org/articles/stringr.html){target="_blank"}    | to manipulate the text data
+[readr](https://readr.tidyverse.org/){target="_blank"}      | to manipulate the text data within the pdf into individual lines  
+[dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to arrange/filter/select subsets of the data 
+[tibble](https://tibble.tidyverse.org/){target="_blank"}     | to create data objects that we can manipulate with `dplyr`/`stringr`/`tidyr`/`purrr`
+[magrittr](https://magrittr.tidyverse.org/articles/magrittr.html){target="_blank"}   | to use the `%<>%` piping operator
+[glue](https://www.tidyverse.org/blog/2017/10/glue-1.2.0/){target="_blank"}  | to paste or combine character strings and data together
+[purrr](https://purrr.tidyverse.org/){target="_blank"}      | to perform functions on all columns of a tibble
+[tidyr](https://tidyr.tidyverse.org/){target="_blank"}      | to convert data from 'wide' to 'long' format
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
-[ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html)    | to allow labels in figures not to overlap
-[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) and [patchwork](https://github.com/thomasp85/patchwork) | to allow plots to be combined 
+[ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html){target="_blank"}    | to allow labels in figures not to overlap
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html){target="_blank"} and [patchwork](https://github.com/thomasp85/patchwork){target="_blank"} | to allow plots to be combined 
 
 
 ___
@@ -146,12 +146,12 @@ Unless we have overlapping function names, this is not necessary, but we will in
 
 ### Context
 
-The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf) that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. 
-However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link) for risk for many diseases and conditions particularly when combined with other risk factor information.
+The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf){target="_blank"} that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. 
+However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link){target="_blank"} for risk for many diseases and conditions particularly when combined with other risk factor information.
 
 ## What are the data?
 
-We will be using data located within a table of the [supplementary material](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf) for the NCD-RisC paper referenced above. 
+We will be using data located within a table of the [supplementary material](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf){target="_blank"} for the NCD-RisC paper referenced above. 
 This is a pdf that can be found freely available online. Here is a screenshot of the first page of the PDF: 
 
 ```{r, echo = FALSE}
@@ -160,9 +160,9 @@ knitr::include_graphics(here::here("img","first_page.png"))
 
 You can see that the data contain average BMI estimates for both men and women in countries at the national level, as well as the average BMI estimates for the rural and urban areas of these countries in both 1985 and 2017.
 
-The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval) (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence.
+The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval){target="_blank"} (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence.
 
-<u>Note:</u> While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/) and [sex](https://www.who.int/genomics/gender/en/index1.html) are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
+<u>Note:</u> While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
 
 ## Data Import
 
@@ -777,7 +777,7 @@ The alternative numeric option is the integer class.
 
 It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularly for plotting. 
 
-For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
+For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}.
 
 Basically, the long format will have more rows and fewer columns.
 Thus, we can combine or `"gather"` some columns together.
@@ -889,7 +889,7 @@ It looks like mean BMIs have increased in all regions for both men and women. It
 
 In order to apply a statistical test to compare the means, one of the first things to do is to explore the frequency of the different observed values. 
 One way to summarize the frequency of different observed values is the <b>frequency distribution</b>, which can be shown in a table or a plot. 
-See [here](http://onlinestatbook.com/2/introduction/distributions.html) for more information about distributions. 
+See [here](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"} for more information about distributions. 
 For example, to plot the frequency distribution of a dataset we can use the `hist()` function to create a histogram.
 
 There are other types of distributions too, such as <b>probability distributions</b>, which describe the probability the occurrence of different possible outcomes. 
@@ -916,7 +916,7 @@ hist(norm_BMI_ex_data$norm_data)
 Here we are simulating 200 observations from a normal distribution with a mean of $m = 24$ and standard deviation of $s = 1$ using the `rnorm()` function. 
 
 Alternatively to using base R, we can plot the frequency of simulated observations using the `geom_hist()` function of the `ggplot2` R package. 
-The [ggplot2](https://ggplot2.tidyverse.org/) package creates plots by using layers.
+The [ggplot2](https://ggplot2.tidyverse.org/){target="_blank"} package creates plots by using layers.
 Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. 
 With `ggplot2` we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
 
@@ -930,7 +930,7 @@ Here, we are using the column called `norm_data` within `norm_BMI_ex_data`.
 As we noted, with `ggplot2` we must first specify the data to plot with the `ggplot()` function. 
 Then, the `geom_*` function specifies what type of plot to create (e.g. `geom_histogram()` create a histogram). 
 
-We will see later how we can add many layers to plots with `ggplot2`. For additional information on using `ggplot2`, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html).
+We will see later how we can add many layers to plots with `ggplot2`. For additional information on using `ggplot2`, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}.
 
 
 Ok so instead of using simulated data from a normal distribution, let's make a histogram of our BMI data
@@ -941,7 +941,7 @@ BMI_long %>%
 ```
 
 Interesting! The data looks like it has one mode, but like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side). 
-See [here](http://onlinestatbook.com/2/glossary/skew.html) for more information about skewed distributions.
+See [here](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} for more information about skewed distributions.
 
 If we split (or "facet") our data by `Sex`, what do the frequency distributions look like? 
 The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI estimates stratified by `Year`, `Sex`, and `Region`.
@@ -966,7 +966,7 @@ BMI_long %>%
 
 OK, so some of these plots look pretty similar to a normal distribution, like the `Women 2017 Urban` plot (although it is right-skewed).
 However some of the other plots, like the `Men 2017 Urban` plot, look very different. 
-These plots show what is called a [bimodal distribution](http://onlinestatbook.com/2/introduction/distributions.html), meaning that there appear to be two peaks (or modes), or in other words two different values (and values near each of these) that are the most frequent.
+These plots show what is called a [bimodal distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}, meaning that there appear to be two peaks (or modes), or in other words two different values (and values near each of these) that are the most frequent.
 
 ### Quantile-Quantile Plots
 
@@ -974,7 +974,7 @@ Another useful plot to create when exploring distributions is something called a
 
 <b>Why Q-Q plots?</b> This plot allows us to compare the quantiles of two distributions together: (1) quantiles from a known theoretical distribution (like the normal distribution) compared (2) quantiles the distribution of our data. This is useful because if the quantiles line up between the two distributions in the plot, then that is a visual piece of evidence that our data follow that theoretical distribution (like the normal distribution).  
 
-<b>How does this work?</b> To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. See [here](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html) for more information about Q-Q plots.
+<b>How does this work?</b> To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. See [here](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html){target="_blank"} for more information about Q-Q plots.
 
 Using the `stat_qq()` function of the `ggplot2` package, we can easily create a Q-Q plot for our data randomly sampled from a normal distribution ("sample") and compare it to the quantiles from a normal distribution ("theoretical")
 ```{r}
@@ -1035,7 +1035,7 @@ The most commonly used statistical tests that can answer that question rely on a
 So, if we want to use those powerful statistical tests that relay on this assumption of "normality", then we need to check that assumption before using those tests. 
 
 One way to do that is to use Q-Q plots. 
-Another way to do that is to use the [Shapiro-Wilk test for normality](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html) when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
+Another way to do that is to use the [Shapiro-Wilk test for normality](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html){target="_blank"} when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
 
 ### Shapiro-Wilk test
 
@@ -1054,7 +1054,7 @@ This is not suprising as the Q-Q plots suggested the same thing.
 ## Data Analysis
 
 In the previous section, we hinted at the existance of statistical tests to be able to assess if there is a statistically significant difference in the average BMI estimates between two groups (e.g. women in and 2017). 
-For example, one test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) which can be used to determine if [two sample means are significantly different](http://onlinestatbook.com/2/estimation/difference_means.html).
+For example, one test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} which can be used to determine if [two sample means are significantly different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
 However, this test depends on certain assumption of our data. 
 
 In this section, we are going to talk about this test and other tests that do not have assumptions about the data. 
@@ -1112,33 +1112,33 @@ There are two possible classes of statistical tests that we could run to compare
 It is called "parametric" because aspects about the distribution of the data, like the mean, are called <b>parameters</b> of a mathematical function when we describe a population. 
 In parametric tests, we estimate the parameters of the true population of interest using a sample of that population. 
 These estimates are called <b>statistics</b>. 
-See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) for more information about the difference between these two classes of tests.
+See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} for more information about the difference between these two classes of tests.
 
 ### Parametric two-sample $t$-test
 
 Often when comparing two groups we might perform a two-sample $t$-test to determine if the means of each group is different. 
 The two-sample $t$-test however, relies on several <u><b>assumptions</b></u>:
 
-1) The data for both groups is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html)
-2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance) of both groups is similar
-3) The number of observations is similar for both groups - thus they are [balanced](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/)
-4) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf) (meaning that observations do not influence each other)
+1) The data for both groups is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
+2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"} of both groups is similar
+3) The number of observations is similar for both groups - thus they are [balanced](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"}
+4) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other)
 
-A $t$-test is most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. When the scaling term is unknown and is replaced by an estimate based on the data, the test statistics (under certain conditions) follow a Student's t distribution. The t-test can be used, for example, to determine if the means of two sets of data are significantly different from each other.
-
-
+A $t$-test is most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. When the scaling term is unknown and is replaced by an estimate based on the data, the test statistics (under certain conditions) follow a Student's t distribution. The $t$-test can be used, for example, to determine if the means of two sets of data are significantly different from each other.
 
 
-If these assumptions are violated, this doesn't necessarily mean we can't perform a t-test. It just means we may need to consider the following options:
 
-1) [Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/) of the data to make it more normally distributed
-2) [Welch's t-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/) also call the unequal variance t-test we may need to modify the way we perform the [t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) to account for the difference in the variance in the two groups
-3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html) to deal with violations of normality or imbalance.
+
+If these assumptions are violated, this doesn't necessarily mean we can't perform a $t$-test. It just means we may need to consider the following options:
+
+1) [Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed
+2) [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} also call the unequal variance $t$-test we may need to modify the way we perform the [$t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} to account for the difference in the variance in the two groups
+3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"} to deal with violations of normality or imbalance.
 
 Alternatively, we can use a nonparametric test which is model free and does not rely on assumptions about the parameters of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
 
 Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
-If it were violated, we would want to consider using permutation methods which are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html).
+If it were violated, we would want to consider using permutation methods which are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}.
 
 If we needed to check if our samples were imbalanced, we could use the `count()` function of `dplyr`:
 
@@ -1148,12 +1148,12 @@ dplyr::count(BMI_long, Sex, Year, Region)
 
 We can see that the number of observations for each possible group of interest is the same.
 
-The t-test is also fairly robust to non-normality if the data is relatively large, due to what is called the [central limit theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/), which states that as samples get larger, they approximate a normal distribution.
+The $t$-test is also fairly robust to non-normality if the data is relatively large, due to what is called the [central limit theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/){target="_blank"}, which states that as samples get larger, they approximate a normal distribution.
 
 We have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
 
 
-Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the [Mood's two-sample test for a difference in scale parameters](https://files.eric.ed.gov/fulltext/ED065559.pdf) and does not assume that the data is normally distributed. We will also introduce the `pull()` function of the `dplyr` package.
+Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the [Mood's two-sample test for a difference in scale parameters](https://files.eric.ed.gov/fulltext/ED065559.pdf){target="_blank"} and does not assume that the data is normally distributed. We will also introduce the `pull()` function of the `dplyr` package.
 
 ```{r}
 
@@ -1206,9 +1206,9 @@ Our p value is less than .05 for both tests, thus we reject our null hypothesis 
 
 We will perform a special t.test where we account for the fact that our variance is not equal. 
 
-Another important consideration is that the data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/), meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to perform the Welch's or paired t-test.
+Another important consideration is that the data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}, meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to perform the Welch's or paired $t$-test.
 
-When we perform a paired t-test our hypothesis is slightly different from the typical student's t-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. Our null hypothesis is that the mean of the differences is equal to zero:
+When we perform a paired $t$-test our hypothesis is slightly different from the typical student's $t$-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. Our null hypothesis is that the mean of the differences is equal to zero:
 
                                         Ho: μd = 0
                                         
@@ -1302,9 +1302,9 @@ BMI_long %>%
 
 ```
 
-The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the t-test is generally quite robust to violations of normality with large n, thus the modified t-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
+The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the $t$-test is generally quite robust to violations of normality with large n, thus the modified $t$-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
 
-Let's see the results of the t-test with the transformed data:
+Let's see the results of the $t$-test with the transformed data:
 
 ```{r}
 
@@ -1349,13 +1349,13 @@ t.test(pull(filter(BMI_long_log, Sex == "Women",
 We can see that our results are quite similar to that of the original data, however the t values are slightly smaller. In other cases we may see a much more dramatic influence of transforming our data.
 
 
-Now, let's take a look at nonparametric tests, which are also a great option when the assumptions of the t-test are violated. 
+Now, let's take a look at nonparametric tests, which are also a great option when the assumptions of the $t$-test are violated. 
 
 ### Nonparametric two sample tests
 
-There are multiple nonparametric options to consider when the assumptions of the [t-test] are violated. The [Wilcoxon signed rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html) (for paired data - the alternative is [Wilcoxon rank sum test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html) (also called the Mann-Whitney U test) for independent samples) and the [two-sample Kolmogorov-Smirnov test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm) (KS) both do not assume normality (has both paired and unpaired methods). Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
+There are multiple nonparametric options to consider when the assumptions of the [$t$-test] are violated. The [Wilcoxon signed rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html){target="_blank"} (for paired data - the alternative is [Wilcoxon rank sum test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html){target="_blank"} (also called the Mann-Whitney U test) for independent samples) and the [two-sample Kolmogorov-Smirnov test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm){target="_blank"} (KS) both do not assume normality (has both paired and unpaired methods). Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
 
-Importantly the KS test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between some of our groups of interest, the KS test would be more appropriate. Both the t-test and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
+Importantly the KS test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between some of our groups of interest, the KS test would be more appropriate. Both the $t$-test and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
 
 ```{r}
 
@@ -1399,7 +1399,7 @@ wilcox.test(pull(filter(BMI_long, Sex == "Women",
            paired = TRUE)
 
 ```
-There is a significant difference across time for both regions, as we saw with the t-test. There is also a significant difference by region for each year. However, the p-values are a bit larger for the KS test results than we saw with the t-test.
+There is a significant difference across time for both regions, as we saw with the $t$-test. There is also a significant difference by region for each year. However, the p-values are a bit larger for the KS test results than we saw with the $t$-test.
 
 ### Multiple Testing Correction
 
@@ -1417,7 +1417,7 @@ It's important to note that ultimately we wanted to test 4 different tests to an
 
 When we test multiple questions like this, we need to correct for the multiple tests that we are performing.
 
-The more we test data, the more likely we are to see a significant finding just by [random chance](https://www.stat.berkeley.edu/~mgoldman/Section0402.pdf) even when the finding is in fact not real. It all comes down to probability.
+The more we test data, the more likely we are to see a significant finding just by [random chance](https://www.stat.berkeley.edu/~mgoldman/Section0402.pdf){target="_blank"} even when the finding is in fact not real. It all comes down to probability.
 
 #### Probability
 
@@ -1446,7 +1446,7 @@ If we think about the probability of getting significant or nonsignificant resul
 
 ### Alpha
 
-Alpha is the amount of risk that you are willing to accept that a statistical test result is actually a false positive, in other words we reject the null hypothesis when the null hypothesis is true. This is also called [type 1 error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html). A significance threshold of .05 is customary and it means that we are accepting a 5% chance that our result is actually a false positive.
+Alpha is the amount of risk that you are willing to accept that a statistical test result is actually a false positive, in other words we reject the null hypothesis when the null hypothesis is true. This is also called [type 1 error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html){target="_blank"}. A significance threshold of .05 is customary and it means that we are accepting a 5% chance that our result is actually a false positive.
 
                                  alpha = probability of false significant results 
                                            or
@@ -1455,11 +1455,11 @@ Alpha is the amount of risk that you are willing to accept that a statistical te
 Remember that in our statistical tests if the p-value < alpha it is considered significant and if p-value > alpha it is considered not significant
 
 
-But what really is the [p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8)?
+But what really is the [p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8){target="_blank"}?
 
 ### p-values
 
-The p in p-value stands for <b>probability</b> - the probability that we would obtain the statistics (for example the t in our student t-tests based on the means of our groups of comparison) just by random chance alone. Therefore a p-value of 0.02 means that there is a 2 percent chance that out data may look the way it does just because of random chance and not because there is really a difference in the means of the groups of interest.
+The p in p-value stands for <b>probability</b> - the probability that we would obtain the statistics (for example the t in our student $t$-tests based on the means of our groups of comparison) just by random chance alone. Therefore a p-value of 0.02 means that there is a 2 percent chance that out data may look the way it does just because of random chance and not because there is really a difference in the means of the groups of interest.
 
 So then if alpha is the threshold for the p-value for obtaining false significant results then the probability of not making incorrect conclusions is 1 - alpha:
 
@@ -1485,7 +1485,7 @@ Here we can see that this checks out:
 
 So what happens if we perform multiple tests?
 
-The probability of not making a type 1 error would remain the same for each test. Therefore we need to multiply the probabilities together each time to determine the over all probability of making an error across multiple tests. See [here](http://mathforum.org/library/drmath/view/74065.html) about why we multiply probabilities together.
+The probability of not making a type 1 error would remain the same for each test. Therefore we need to multiply the probabilities together each time to determine the over all probability of making an error across multiple tests. See [here](http://mathforum.org/library/drmath/view/74065.html){target="_blank"} about why we multiply probabilities together.
 
         P(Not making an error in m tests) = (1 - α)^m
     P(Making at least 1 error in m tests) = 1 - (1 - α)^m
@@ -1512,10 +1512,10 @@ What about 100 tests?
                         
 Yikes!! That is almost a 100% chance that there will be a significant finding simply due to chance alone!
 
-Much of this explanation is described in this [lecture](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf)
+Much of this explanation is described in this [lecture](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf){target="_blank"}.
 
 
-One way to correct for this is multiple testing issue is using the [Bonferroni method](http://mathworld.wolfram.com/BonferroniCorrection.html). 
+One way to correct for this is multiple testing issue is using the [Bonferroni method](http://mathworld.wolfram.com/BonferroniCorrection.html){target="_blank"}. 
 
 In this method we would divide our significance threshold (generally 0.05) by the number of tests.
 
@@ -1528,7 +1528,7 @@ Thus our p-values should be less than this value for us to reject the null that 
 In all cases, our p-values were less than 0.0125.
 So we see a significant difference in the means of the groups after multiple testing correction for our different tests.
 
-Again, it would be reasonable to use the t-test because it is robust to deviations in normality when samples are relatively large. 
+Again, it would be reasonable to use the $t$-test because it is robust to deviations in normality when samples are relatively large. 
 We can see that we obtained the same results regardless of the test that we used.
 However, if sample sizes are small (generally speaking n<15 for each group), then these nonparametric options are useful to know.
 
@@ -1538,7 +1538,7 @@ In these tests the p-value was also smaller.
 
 ## Data Visualization
 
-Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html). The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
+Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}. The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
 
 Our first main question was: Is there a difference between rural and urban BMI estimates around the world?
 Let's look at the national mean BMI estimates for each of the years:
@@ -2061,67 +2061,67 @@ Our plot visually explores all of our main questions:
 
 ## Summary
 
-We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [t-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test) and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960) tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
+We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [$t$-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
 
-<u> We learned that the t-test relies on:</u>
+<u> We learned that the $t$-test relies on:</u>
 
 1) normality of the data for both groups (this is not as much of an issue if the number of observations is relatively large total n>30)
 2) equal variance between the two groups (make sure you do the correct test if the data is not normal)
 3) balanced sample sizes of the two groups
 4) independent observations (or independent paired observations)
 
-We learned that we can evaluate if our data is [normally distributed](https://www.physiology.org/doi/full/10.1152/advan.00064.2017) by plotting the distribution and by creating Q-Q plots.
+We learned that we can evaluate if our data is [normally distributed](https://www.physiology.org/doi/full/10.1152/advan.00064.2017){target="_blank"} by plotting the distribution and by creating Q-Q plots.
 
 <u>We learned that if our data is not normally distributed, we can consider these options:</u>
 
-1) We can still perform a t-test if our n is large
-2) We can transform the data before performing a t-test
+1) We can still perform a $t$-test if our n is large
+2) We can transform the data before performing a $t$-test
 3) We can use a nonparametric test (Wilcoxon signed rank test, the Wilcoxon rank sum test, and the Two-sample Kolmogorov-Smirnov (KS) test)
-4) We can perform a t-test with resampling methods (which should be especially considered when the groups are imbalanced)
+4) We can perform a $t$-test with resampling methods (which should be especially considered when the groups are imbalanced)
 
-We learned that if our groups do not have equal variance, that we need to use a modified t-test to account for this or the correct nonparametric test that does not rely on this assumption (Two-sample Kolmogorov-Smirnov test).
+We learned that if our groups do not have equal variance, that we need to use a modified $t$-test to account for this or the correct nonparametric test that does not rely on this assumption (Two-sample Kolmogorov-Smirnov test).
 
 We also learned that if our groups are not well balanced, that we can consider resampling methods.
 
-Finally its also important to remember that when we have [paired data](https://www.statisticshowto.datasciencecentral.com/paired-data/) and intend to compare means, we should perform a paired test ([paired t-test](https://stattrek.com/hypothesis-test/paired-means.aspx#example1), Wilcoxon signed rank test, or paired KS test). Our data used in this case study was paired because observations were taken for the same countries for different categories of populations - thus, we wanted to compare these populations within the same country (male vs female, rural vs urban etc.). Other examples would be in a case-control study (if samples are matched for various demographics) or a study with repeated measures (for example, symptom measures from the same individual before and after a treatment). 
+Finally its also important to remember that when we have [paired data](https://www.statisticshowto.datasciencecentral.com/paired-data/){target="_blank"} and intend to compare means, we should perform a paired test ([paired $t$-test](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"}, Wilcoxon signed rank test, or paired KS test). Our data used in this case study was paired because observations were taken for the same countries for different categories of populations - thus, we wanted to compare these populations within the same country (male vs female, rural vs urban etc.). Other examples would be in a case-control study (if samples are matched for various demographics) or a study with repeated measures (for example, symptom measures from the same individual before and after a treatment). 
 
 
-Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. We were also able to identify how the US compared to other countries and which countries showed the largest increase in BMI over time. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges. You can see in the [article](https://www.nature.com/articles/s41586-019-1171-x.pdf) that this data came from that many additional considerations would be involved to perform such an analysis.
+Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. We were also able to identify how the US compared to other countries and which countries showed the largest increase in BMI over time. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges. You can see in the [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} that this data came from that many additional considerations would be involved to perform such an analysis.
 
 
 ### Suggested Homework
 
-Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. The data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv).
+Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. The data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv){target="_blank"}.
 
 ### Helpful Links
 
-[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)  
-[Long and Wide Data Formats](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html)  
-[Distributions](http://onlinestatbook.com/2/introduction/distributions.html)
-[Normal Distribution](http://onlinestatbook.com/2/introduction/distributions.html)
-[Skewed Distributions](http://onlinestatbook.com/2/glossary/skew.html)  
-[Bimodal Distribution](http://onlinestatbook.com/2/introduction/distributions.html)  
-[ggplot2](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html)    
-[Q-Q Plots](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html)  
+[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}  
+[Long and Wide Data Formats](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}  
+[Distributions](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
+[Normal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
+[Skewed Distributions](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} 
+[Bimodal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"} 
+[ggplot2](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}    
+[Q-Q Plots](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html){target="_blank"}  
 [Shapiro-Wilk Test](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html)  
-[Student t-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)   
-[Paired Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/)  
-[Welch's t-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/)    
+[Student $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)   
+[Paired Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}  
+[Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"}    
 [Parametric and Nonparametric Methods](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960)  
-[Variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance)  
-[Balanced Study Design](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/)  
-[Independent Observations](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf)  
-[Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/)  
-[Permutation/Resampling Methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html)   
-[Central Limit Theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/)  
-[Mood's Two-Sample Scale Test](https://files.eric.ed.gov/fulltext/ED065559.pdf)  
+[Variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"}  
+[Balanced Study Design](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"}  
+[Independent Observations](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"}  
+[Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"}  
+[Permutation/Resampling Methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}   
+[Central Limit Theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/){target="_blank"}  
+[Mood's Two-Sample Scale Test](https://files.eric.ed.gov/fulltext/ED065559.pdf){target="_blank"}  
 [Wilcoxon Signed Rank Test](http://www.biostathandbook.com/wilcoxonsignedrank.html)   
-[Wilcoxon Rank Sum Test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html)  
-[Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm)  
-[Type 1 Error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html)  
-[p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8)  
-[Multiple Testing](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf)    
-[Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html)
+[Wilcoxon Rank Sum Test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html){target="_blank"}  
+[Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm){target="_blank"}  
+[Type 1 Error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html){target="_blank"}  
+[p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8){target="_blank"}  
+[Multiple Testing](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf){target="_blank"}    
+[Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html){target="_blank"}
 
 
 
