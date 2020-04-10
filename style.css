@@ -53,3 +53,12 @@ li.toctree-l2:first-child {
    overflow-y: scroll !important;
    height: 50vh !important;
 }
+
+
+.outline {
+   padding: .1em;
+   border: 1px solid black;
+   background-color: #000000;
+   display: inline-block;
+}
+

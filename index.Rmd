@@ -34,7 +34,7 @@ library(knitr)
 ```
 
  
-
+#### {.outline }
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("img", "mainplot.png"))
 ```
