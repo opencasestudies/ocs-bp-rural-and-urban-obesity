@@ -42,8 +42,8 @@ Exploring Global Patterns of Obesity from 1985 to 2017
 ### Motivation
 
 Body Mass Index (BMI) is often used as a proxy for adiposity with
-classifications based on BMI to define “underweight”, “normal”,
-“overweight” and “obese”, where higher BMI has been associated with
+classifications based on BMI to define "underweight", "normal",
+"overweight" and "obese", where higher BMI has been associated with
 increased mortality, rates of type 2 diabetes, cancer, heart disease,
 and stroke. A recent
 [paper](https://www.nature.com/articles/s41586-019-1171-x.pdf) showed
@@ -53,17 +53,19 @@ increasing at the same rate or faster in rural areas (compared to
 cities), in particular in low- and middle-income regions. Also, there a
 gender-discrepancy (women have a higher BMI in rural communities).
 
-Here, we explore this data to understand global patterns in obesity. This
-analysis is important because it may indicate the need to provide better
-access (financial and physical access) to healthy foods in rural
+Here, we explore this data to understand global patterns in obesity.
+This analysis is important because it may indicate the need to provide
+better access (financial and physical access) to healthy foods in rural
 communities, especially in low-income countries, to address the obesity
 crisis.
 
 ### Motivating questions
 
 1.  Is there a difference between rural and urban BMI estimates around
-    the world? In particular, what does this difference look like for women?
-2.  How have BMI estimates changed from 1985 to 2017? In particular, what do these patterns over time look like for women?
+    the world? In particular, what does this difference look like for
+    women?
+2.  How have BMI estimates changed from 1985 to 2017? In particular,
+    what do these patterns over time look like for women?
 3.  How do different countries compare for BMI estimates? In particular,
     how does the United States compare to the rest of the world?
 
@@ -83,9 +85,9 @@ This article can be found freely available online.
 ### Analysis
 
 In this case study, we will largely focus on methods for comparing two
-groups using parametric and non-parametric hypothesis tests.
-We also cover multiple testing correction and fairly advanced data
-visualization methods using ggplot2.
+groups using parametric and nonparametric hypothesis tests. We also
+cover multiple testing correction and fairly advanced data visualization
+methods using ggplot2.
 
 #### Data import
 
@@ -114,8 +116,8 @@ using the package `stringr`.
 
 To explore the data we use the `summarize()` function as well as plots
 to look at the distribution of the data. Quantile-Quantile plots are
-used to evaluate the distribution and compare it to the theoretical normal
-distribution.
+used to evaluate the distribution and compare it to the theoretical
+normal distribution.
 
 #### Statistical concepts
 
@@ -139,12 +141,12 @@ markdown file (`README.md`).
 Our goal is for instructors to use this case study as the starting point
 for a set of lectures. We provide one R Markdown file
 ([`index.Rmd`](index.Rmd)) for an instructor to use. However, we
-anticipate the instructor may either break this file up into smaller R Markdown
-files for multiple lectures or extract only a portion of the material
-(e.g. the Data Wrangling or Data Analysis sections) to use in the
-classroom. With the latter goal in mind, we save a `Wrangled_data.rda`
-object at the end of the Data Wrangling section, which is loaded at the
-start of the Data Exploration section.
+anticipate the instructor may either break this file up into smaller R
+Markdown files for multiple lectures or extract only a portion of the
+material (e.g. the Data Wrangling or Data Analysis sections) to use in
+the classroom. With the latter goal in mind, we save a
+`Wrangled_data.rda` object at the end of the Data Wrangling section,
+which is loaded at the start of the Data Exploration section.
 
 #### Target audience
 
