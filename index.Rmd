@@ -45,7 +45,7 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ## Motivation
 
-Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)){target="_blank"} is often used as a proxy for **adiposity** and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
+Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)){target="_blank"} is often used as a proxy for **adiposity** and is measured as an individual's weight in kilograms (kg) divided by the individual's height in meters ($m^2$) squared.
 There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi){target="_blank"} (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html){target="_blank"}, and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}. 
 For example, these are the categories defined by the WHO: 
 
@@ -77,13 +77,13 @@ NCD Risk Factor Collaboration (NCD-RisC). Rising rural body-mass index is the ma
 
 The article challenged the widely-held view that increased urbanization was one of the major reasons for increased global obesity rates. 
 This view came about because many countries around the world have shown increased urbanization levels in parallel with increased obesity rates. 
-However, the NCD-RisC argued that this might not be the case; and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. 
+In this article, however, the NCD-RisC argued that this might not be the case and that in fact for most regions around the world, BMI measurements are increasing in rural populations just as much, if not more so, than urban populations. 
 Furthermore, this study suggested that obesity has particularly increased in female populations in rural regions: 
 
 > "We noted a persistently higher rural BMI, especially for women."
 
 In this case study, we will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. 
-Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. 
+Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for women. 
 To do this we will test if there is a difference between the average BMI for each group.
 
 ### Main Questions
@@ -91,15 +91,17 @@ To do this we will test if there is a difference between the average BMI for eac
 
 <b><u> Our main questions are: </u></b>
 
-1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
-2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
+1) Is there a difference between rural and urban BMI estimates around the world? In particular, what does this difference look like for women?
+2) How have BMI estimates changed from 1985 to 2017? In particular, what does this change over time look like for women?
 3) How do different countries vary in terms of estimates of BMI? In particular, how does the United States compare to the rest of the world?
 
 ####
 
 ### Learning Objectives 
 
-In this case study, we will walk you through importing data from a pdf, cleaning, wrangling and visualizing the data, and <b> comparing two groups </b> using well-established and commonly used packages, including `stringr`, `tidyr`, `dplyr`, `purrr`, and `ggplot2` from the [`tidyverse`](https://www.tidyverse.org/){target="_blank"}. 
+In this case study, we will walk you through importing data from a pdf, cleaning, wrangling and visualizing the data, and <b> comparing two groups </b>.  
+
+We will use well-established and commonly used packages, including `stringr`, `tidyr`, `dplyr`, `purrr`, and `ggplot2` from the [`tidyverse`](https://www.tidyverse.org/){target="_blank"}. 
 Specifically, the tidyverse is
 
 > "an opinionated collection of R packages designed for data science. All packages share an underlying philosophy and common APIs".
@@ -161,7 +163,7 @@ However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-
 ## What are the data?
 
 We will be using data located within a table of the [supplementary material](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf){target="_blank"} for the NCD-RisC paper referenced above. 
-This is a pdf that can be found freely available online. Here is a screenshot of the first page of the PDF: 
+This is a pdf that can be found freely available online. Here is a screenshot of the first few rows of this table: 
 
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("img","first_page.png"))
@@ -200,7 +202,7 @@ summary(pdf_obesity)
 ```
 
 We can see that we have 63 elements that are character strings. 
-You may also notice that the original PDF has 63 pages. Let's take a look at some of these elements.
+You may also notice that the original PDF has 63 pages. Let's take a look at some of these elements and compare them to the pages in the original document.
 
 ```{r}
 pdf_obesity[1] # this looks like the first page
@@ -211,8 +213,9 @@ pdf_obesity[2] # this looks like the second page
 str(pdf_obesity[52], nchar.max = 1600)
 ```
 Yes, this looks like data in a the table we want. 
-We are using the `str()` function to print just a portion of the data. 
-Note `print(pdf_obesity[52])` would show the entire contents of the first page of the table. 
+We are using the `str()` function to print just a portion of the data. The `str()` function compactly displays the structure of arbitrary R objects. 
+The `nchar.max` argument let's us define the maximal number of characters to show. 
+Note `print(pdf_obesity[52])` would show the entire contents of the this page of the table. 
 
 Here is the PDF version again:
 ```{r, echo = FALSE}
@@ -243,8 +246,7 @@ rural_urban <- stringr::str_subset(pattern = "Age-standardised mean BMI",
 
 summary(rural_urban) 
 ```
-Similar to the `summary()` function, the `str()` function compactly displays the structure of arbitrary R objects. 
-The `nchar.max` argument let's us define the maximal number of characters to show. 
+
 Here, we see there are 10 pages worth of elements in our `rural_urban` object. 
 
 Let's check the first and last page:
@@ -292,9 +294,9 @@ rural_urban <- readr::read_lines(rural_urban)
 summary(rural_urban) 
 # now we have 461 lines
 ```
-We can see that each string in the `rural_urban` object is now a single line of the table.
+We can see that each string in the `rural_urban` object is now a single line from the table.
 
-For example, in line 6 shows the data for females in Afghanistan.
+For example, line 6 shows the data for women in Afghanistan.
 ```{r}
 rural_urban[6] 
 ```
@@ -302,7 +304,7 @@ rural_urban[6]
 
 ### Removing excess white-space
 
-We also have a lot of white-space... let's get rid of the excess white spaces using `str_squish()` also from the `stringr` package.
+We also have a lot of white-space. Let's get rid of the excess white spaces using `str_squish()` also from the `stringr` package.
 
 ```{r}
 rural_urban <- stringr::str_squish(rural_urban) 
@@ -311,7 +313,7 @@ head(rural_urban)
 
 Now it is much easier to see the data.
 
-If we look at the end of the first page of the table and the start of the second we can see that the header information is repeated, as well as a line with the page number and an empty line, and a line that says "2 2".
+If we look at the part of our data that contains the end of the first page of the table and the start of the second we can see that the header information is repeated, as well as a line with the page number and an empty line, and a line that says "2 2".
 
 #### {.scrollable }
 ```{r}
@@ -344,42 +346,37 @@ length(stringr::str_which(string = rural_urban,
 
 ```
 
-Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.
-
-```{r}
-stringr::str_which(string = rural_urban, 
-                   pattern = "women")
-```
+Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.  Try this out with `pattern = "women"` and `pattern = "men"` to see the result!
 
 OK, so this looks correct. 
-This includes most lines but there are gaps where the header is located. It looks like there are 400 lines in our table that aren't headers.
+This includes most lines but there are gaps where the header is located. It looks like out of the original 461 lines, there are 400 lines in our table that aren't headers.
 
 ```{r}
 rural_urban <- str_subset(string = rural_urban, 
                           pattern = "Women|Men")
 ```
 
-We can check our data now using either `head()` from base R or `glimpse()` from the `tibble`  and `dplyr` package. (Yup, the same function is available from both packages)
+We can check our data now using either `head()` from base R or `glimpse()` from the `tibble`  and `dplyr` package. (Yup, the same function is available from both packages!)  The `head()` function shows us the first rows or lines of the data, while the `glimpse()` function provides us information about the total size of the object and shows us the first line or row.
 
 ```{r}
 dplyr::glimpse(rural_urban)
 ```
 
-Great, now our `rural_urban` object 400 lines instead of 461, like it did before when it contained the redundant header information.
+Now our `rural_urban` object 400 lines instead of 461, like it did before when it contained the redundant header information.
 
 ```{r}
 head(rural_urban)
 ```
 
-The `head()` function shows us the first rows or lines of the data, while the `glimpse()` function provides us information about the total size of the object and shows us the first line or row.
-
 Great! So now our data looks much better but we need to add back our header and we would like this to only be a single line to make it easy to transform our data into a table or table-like object.
 
-Here is what our header used to look like:
+As a reminder, here is what our header used to look like:
 
 ```{r, echo = FALSE,  out.width = '100%'}
 knitr::include_graphics(here::here("img","last_page.png"))
 ```
+
+We will add a new header after first dealing with some additional spacing and missing data issues.
 
 ### Dealing with spacing
 
@@ -404,7 +401,7 @@ Let's try this another way.
 Instead, let's try to extract the country information by separating the country information from the sex information when the sex is female.
 To do this, we start by noticing that the sex always starts with either a capital "W" if the gender is female. Note, we need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
 
-Here, we will also introduce the concept of piping, which uses the `%>%` from the `magrittr` package, which allows us to pipe the output from one function to input to another function.
+Here, we will also introduce the concept of piping, which uses the `%>%` from the `magrittr` package, which allows us to pipe the output from one function to the input for another function.
 This is really useful when we have multiple steps, which we will show soon.
 
 First, we will select just the data for Women
@@ -413,7 +410,7 @@ Women <- str_subset(string = rural_urban,
                     pattern = "Women") 
 ```
 
-And then split this data based on the pattern `pattern = " Women"` (Note that the space is included - so that it is not within the country data).
+And then split this data based on the pattern `pattern = " Women"` (Note that the space is included - so that it is not within the country data).  Here we take our `Women` dataset and pipe it into the first argument of the `str_split()` function, where then we can split on the pattern `" Women"`.  We then pipe through thr `unlist()` function so that the results is a vector instead of a list.  We assign this new result to the `country_split` object.
 ```{r}
 country_split <- 
   Women %>%
@@ -421,10 +418,7 @@ country_split <-
   unlist() 
 ```
 
-However, we can also do the same thing with two pipes:
-
-1. First, we select the "Women" and then we split the data by " Women"
-2. Second, we assign the output of both steps to the object country_split
+However, we can also do the same thing in a single step, where we replace the `Women` dataset with the code we used to create that dataset.  So first, we select the "Women" and then we split the data by " Women" to create a new dataset all within the same chunk of code.
 ```{r}
 country_split <- 
   str_subset(string = rural_urban,
@@ -459,7 +453,7 @@ as.data.frame(country)
 ```
 ####
 
-Looks good!
+Looks good!  We have 200 countries represented in our dataset.
 
 The even rows are the rows with the data for women.
 These row values have a remainder of 0 when divided by 2.
@@ -480,7 +474,7 @@ We can do so with the `dim()` function, which shows us the dimensions of data ob
 ```{r}
 dim(Women_BMI)
 ```
-Great! There are 200 rows of character strings with the BMI data like we expected. 
+Great! There are 200 rows of character strings with the BMI data like we expected to match the 200 countries in our data.
 
 We do however need to add `" Women"` back to this data.
 To do this we will use the `glue()` function of the `glue` package. 
@@ -532,7 +526,7 @@ Men <-
   tibble(rural_urban) %>% 
   dplyr::filter(row_number() %% 2 == 1) 
 ```
-Remember our `rural_urban` object contains male data for the odd rows. 
+Remember our `rural_urban` object contains male data for the odd rows (those rows with remainder 1 when divided by 2). 
 
 ```{r}
 head(Men$rural_urban)
@@ -646,7 +640,7 @@ Looks good!
 
 We can see from our pdf and our object called `header` what the header was like in the original pdf document. We need to add column names to our data based on the original data.
 
-Let' wait to add `Country` to the header.
+We'll wait to add `Country` to the header untill we add the country information to our data.
 
 ```{r}
 new_header <- c("Sex","National_BMI_1985", 
@@ -772,12 +766,15 @@ The `map()` function of the `purrr` package allows us to apply the `as.numeric()
 Above, we have selected those that don't contain `CI`, `Sex`, or `Country` in the column name. 
 If you are familiar with `apply()`, this function is very similar.
 
+Now we need to add the `Country` and `Sex` variables back to our new numeric dataset.
+
 ```{r}
 BMI_numeric %<>% 
   mutate(Country = pull(BMI, Country), 
          Sex = pull(BMI, Sex))
 head(BMI_numeric)
 ```
+
 In this case our numeric data is of a class `dbl`. 
 This means double-precision floating point numbers (with decimals).
 The alternative numeric option is the integer class. 
@@ -899,7 +896,6 @@ It looks like mean BMIs have increased in all regions for both men and women. It
 In order to apply a statistical test to compare the means, one of the first things to do is to explore the frequency of the different observed values. 
 One way to summarize the frequency of different observed values is the <b>frequency distribution</b>, which can be shown in a table or a plot. 
 See [here](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"} for more information about distributions. 
-For example, to plot the frequency distribution of a dataset we can use the `hist()` function to create a histogram.
 
 There are other types of distributions too, such as <b>probability distributions</b>, which describe the probability the occurrence of different possible outcomes. 
 Probability distributions can be defined for discrete data (e.g. flipping a coin as heads or tails) and continuous data (e.g. BMI estimates). 
@@ -909,12 +905,12 @@ We can simply assign a probability to each category, e.g. $P(heads) = 0.5$ and $
 <b>Continuous probability distributions</b> work in a similar way, except instead of assigning a probability to each category or type of observation (e.g. heads or tails), we assign a probability to an interval of continuous values (e.g. BMI between 22 and 26). 
 This is because it's not useful to construct a distribution that assigns a probability to each possible outcome (e.g. a BMI of 22.11, 22.12, etc) with such high precision. In this case, we would have to assign a very small probability to every possible BMI outcome. 
 
-Now, the <b>normal (or Gaussian) distribution</b> is a type of <b>theoretical continuous probability distribution</b> that is frequently used to approximate many naturally occurring distributions, such as that of BMI. 
-We say that a random quantity $X$ (e.g. BMI) is normally distributed with average $m$ and standard deviation $s$ if the proportion of values in a given interval $(a,b)$ (e.g. BMI between 22 ans 26) can be computed using this mathematical formula: 
+The <b>normal (or Gaussian) distribution</b> is a type of <b>theoretical continuous probability distribution</b> that is frequently used to approximate the distribution of many naturally occurring measurements, such as that of BMI. 
+We say that a random quantity $X$ (e.g. BMI) is normally distributed with mean $m$ and standard deviation $s$ if the proportion of values in a given interval $(a,b)$ (e.g. BMI between 22 and 26) can be computed using this mathematical formula: 
 
 $$P(a < x < b) = \int_a^b \frac{1}{\sqrt{2\pi} s} e^{-\frac{1}{2}\big(\frac{x-m}{s}\big)^2}  $$
 
-Translating this to our case study, if we say our data follow a normal distribution with mean of $m = 24$ and standard deviation of $s = 1$, then the probability of different BMI outcomes should be equally centered around the mean and would look something like this:
+Translating this to our case study, if our BMI data follow a normal distribution with mean of $m = 24$ and standard deviation of $s = 1$, then the distribution of different BMI outcomes should be centered around that mean value of 24 and would look something like this:
 
 ```{r}
 norm_BMI_ex_data <- 
@@ -928,10 +924,8 @@ Alternatively to using base R, we can plot the frequency of simulated observatio
 The [ggplot2](https://ggplot2.tidyverse.org/){target="_blank"} package creates plots by using layers.
 Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. 
 With `ggplot2` we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
-
 ```{r}
-norm_BMI_ex_data %>% 
-  ggplot2::ggplot(aes(x = norm_data)) + 
+  ggplot2::ggplot(norm_BMI_ex_data, aes(x = norm_data)) + 
   ggplot2::geom_histogram() 
 ```
 
@@ -939,10 +933,17 @@ Here, we are using the column called `norm_data` within `norm_BMI_ex_data`.
 As we noted, with `ggplot2` we must first specify the data to plot with the `ggplot()` function. 
 Then, the `geom_*` function specifies what type of plot to create (e.g. `geom_histogram()` create a histogram). 
 
+We could also make this same plot by piping the `norm_BMI_ex_data` data into the `ggplot()` function:
+```{r}
+norm_BMI_ex_data %>% 
+  ggplot2::ggplot(aes(x = norm_data)) + 
+  ggplot2::geom_histogram() 
+```
+
 We will see later how we can add many layers to plots with `ggplot2`. For additional information on using `ggplot2`, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}.
 
 
-Ok so instead of using simulated data from a normal distribution, let's make a histogram of our BMI data
+Now instead of using simulated data from a normal distribution, let's make a histogram of our BMI data:
 ```{r}
 BMI_long %>% 
   ggplot(aes(x = BMI)) + 
@@ -973,19 +974,19 @@ BMI_long %>%
   facet_wrap(~ Sex + Year + Region) 
 ```
 
-OK, so some of these plots look pretty similar to a normal distribution, like the `Women 2017 Urban` plot (although it is right-skewed).
+Some of these plots look pretty similar to a normal distribution, like the `Women 2017 Urban` plot (although it is right-skewed).
 However some of the other plots, like the `Men 2017 Urban` plot, look very different. 
 These plots show what is called a [bimodal distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}, meaning that there appear to be two peaks (or modes), or in other words two different values (and values near each of these) that are the most frequent.
 
 ### Quantile-Quantile Plots
 
-Another useful plot to create when exploring distributions is something called a "quantile-quantile" plot (or <b>Q-Q plots</b> for short). When we talk about a <b>quantile</b>, we are talking about dividing up the distribution of the data into roughly equal portions. For example, if you divide your data into 100 quantiles, you can think about this as percentiles, but you could also divide your data into 10 quantiles and this would be called deciles. 
+Another useful plot to create when exploring distributions is something called a "quantile-quantile" plot (or <b>Q-Q plot</b> for short). When we talk about a <b>quantile</b>, we are talking about dividing up the distribution of the data into roughly equal portions where roughly the same number of observations fall into each portion. For example, if you divide your data into 100 quantiles, you can think about this as percentiles, but you could also divide your data into 10 quantiles and these would be called deciles. 
 
-<b>Why Q-Q plots?</b> This plot allows us to compare the quantiles of two distributions together: (1) quantiles from a known theoretical distribution (like the normal distribution) compared (2) quantiles the distribution of our data. This is useful because if the quantiles line up between the two distributions in the plot, then that is a visual piece of evidence that our data follow that theoretical distribution (like the normal distribution).  
+<b>Why Q-Q plots?</b> This plot allows us to compare the quantiles of two distributions together: (1) quantiles of a known theoretical distribution (like the normal distribution) compared to (2) quantiles of the distribution of our data.  If the quantiles from these two distributions line up in the plot, then that is a visual piece of evidence that our data follow that theoretical distribution (like the normal distribution).  
 
 <b>How does this work?</b> To do this we will plot the quantiles of our data on the y-axis and the quantiles of the theoretical normal distribution on the x-axis. If the quantiles line up then we can say that our data is fairly normal. See [here](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html){target="_blank"} for more information about Q-Q plots.
 
-Using the `stat_qq()` function of the `ggplot2` package, we can easily create a Q-Q plot for our data randomly sampled from a normal distribution ("sample") and compare it to the quantiles from a normal distribution ("theoretical")
+Using the `stat_qq()` function of the `ggplot2` package, we can easily create a Q-Q plot for our data randomly sampled from a normal distribution ("sample") and compare it to the quantiles from a normal distribution ("theoretical").  The default comparison distribution for these functions is the normal distribution, so we don't need to specify it in our code.
 ```{r}
 norm_BMI_ex_data %>%
   ggplot(aes(sample = norm_data)) +
@@ -994,11 +995,19 @@ norm_BMI_ex_data %>%
 ```
 
 The `stat_qq_line()` function is used to add a line (computes the slope an intercept) on the plot. 
-Not surprisingly, we see that the quantiles are fairly similar between the observed and theoretical data.
-We see that the points mostly fall on the line, however there are some points that are a bit further from the line as we get to the extreme quantiles. 
+Not surprisingly, we see that the points mostly fall on the line, indicating that the quantiles are fairly similar between the observed and theoretical data.
+There are some points that are a bit further from the line as we get to the extreme quantiles. 
 Notice that the sample quantiles (y-axis are in a fairly similar range to our real BMI data quantiles. 
-So values that are below 22, for example, are represented as the points below 22 on the y-axis. 
-As expected we see that about half the points are below our mean of 24.
+So values that are below 22, for example, are represented as the points below 22 on the y-axis.  As expected we see that about half the points are below our mean of 24.  Note that this plot is comparing our data which was randomly sampled from a normal distribution with mean 24 and standard deviation 1 to a *standard normal distribution* with mean 0 and standard deviation 1, which is why the values on the x-axis are -3 to 3 instead of 21 to 27.  If the points lie on a straight line, this is evidence that the data have a normal distribution, not that the data have a particular normal distribution.
+
+We can specify a specific mean and standard deviation for our theoretical distribution in our Q-Q plot; here we specify a normal distribution with mean 24 and standard deviation 1:
+```{r}
+norm_BMI_ex_data %>%
+  ggplot(aes(sample = norm_data)) +
+  stat_qq(distribution = qnorm, dparams = c(mean = 24, sd = 1)) + 
+  stat_qq_line(distribution = qnorm, dparams = c(mean = 24, sd = 1))
+```
+Notice that the plot looks the same except for the values on the x-axis have changed, meaning our interpretation will be the same -- it looks like the values are consistent with a normal distribution.
 
 If we were to use different data that had a range of different values our y-axis would shift according to the range of values. 
 For example, the `Orange` data (within the installation of R) includes data about the circumference of orange trees in millimeters. 
@@ -1039,9 +1048,9 @@ We can can also see that our data is right- or positive-skewed, because the extr
 
 The rural data looks more normal than the urban data. 
 You might be asking, why do we care if the data look more normal or not? 
-It turns out if you want to ask questions like "Is there statistically significant differnce in the average BMI estimates from women in 1985 compared to women in 2017?", we will need to use some of type of statistical test. 
+It turns out if you want to ask questions like "Is there a difference in the average BMI estimates from women in 1985 compared to women in 2017?", we will need to use some of type of statistical test. 
 The most commonly used statistical tests that can answer that question rely on an assumption about the data you have, namely that your data have a similar shape as a theoretical normal distribution. 
-So, if we want to use those powerful statistical tests that relay on this assumption of "normality", then we need to check that assumption before using those tests. 
+So, if we want to use those powerful statistical tests that rely on this assumption of "normality", then we need to check that assumption before using those tests. 
 
 One way to do that is to use Q-Q plots. 
 Another way to do that is to use the [Shapiro-Wilk test for normality](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html){target="_blank"} when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
@@ -1062,11 +1071,11 @@ This is not suprising as the Q-Q plots suggested the same thing.
 
 ## Data Analysis
 
-In the previous section, we hinted at the existance of statistical tests to be able to assess if there is a statistically significant difference in the average BMI estimates between two groups (e.g. women in and 2017). 
-For example, one test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} which can be used to determine if [two sample means are significantly different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
-However, this test depends on certain assumption of our data. 
+In the previous section, we hinted at the existance of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. women in 1985 and women in 2017). 
+One such test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"}, which can be used to determine if [two group means are different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
+However, as mentioned before, this test depends on certain assumption of our data. 
 
-In this section, we are going to talk about this test and other tests that do not have assumptions about the data. 
+In this section, we are going to talk about this test and other tests that do not require assumptions about our data. 
 
 ### Hypothesis testing
 
@@ -1074,26 +1083,24 @@ Let's remind ourselves of one of our original questions,
 
 > Is there a difference between rural and urban BMI estimates around the world?
 
-In hypothesis testing, we are interested in comparing two different hypotheses: a "null" hypothesis (can be thought of like a baseline e.g. the means between two groups are the same) compared to an "alternative" hypothesis (e.g. the means between two groups are different), where we are going to ask if there is enough in our data to reject the null hypothesis. 
+In hypothesis testing, we are interested in comparing two different hypotheses: a "null" hypothesis (can be thought of like a baseline e.g. the means between two groups are the same) compared to an "alternative" hypothesis (e.g. the means between two groups are different). We are going to ask if there is enough evidence in our data to reject the null hypothesis.  
 Let's try to formalize this a bit. 
 
-We want to perform what is called <b>two means hypothesis tests</b> using a statistical test (e.g. a Student's $t$-test). 
-To do this, we define what is called the <b>null hypothesis</b> that there is no difference in the two means:
+In our case, we want to perform what is called a <b>two means hypothesis test</b> using a statistical test (e.g. a Student's $t$-test). Suppose we call the true unknown means of the two groups $\mu_1$ and $\mu_2$, for group 1 and group 2, respectively.
+Then we can define the <b>null hypothesis</b> that there is no difference in the two means:
 
 $$ H_0: \mu_1 = \mu_2 $$
-where $\mu_1$ and $\mu_2$ are the true unknown means of group 1 and group 2, respectively. 
 In contrast, we also define an <b>alternative hypothesis</b> that there is a difference between the two means: 
 
 $$ H_a: \mu_1 \neq \mu_2 $$
 
-The way it works is that we assume the null hypothesis is true and we use our data to help us identify if there is enough evidence to _reject the null hypothesis_. 
-This is similar to the idea of assuming that individuals are not guilt until proven otherwise.
-If there is not enough evidence in the data, then we say we "fail to reject the null hypothesis", or another way of stating it is that there was not enough evidence in the data to "reject the null hypothesis". 
+The idea behind a hypothesis test is that we assume the null hypothesis is true and we use our data to help us identify if there is enough evidence to _reject the null hypothesis_. 
+This is similar to the idea of assuming that individuals are not guilty until proven otherwise.
+If there is not enough evidence in the data, then we say we "fail to reject the null hypothesis".
 
-You might be asking, "but we do not know what the true group means are?". 
-That is true. 
-To address this, we estimate the averages based on our data that we have.
-For example, in our data, we can estimate difference in the average BMI estimates for women in rural and urban regions in the two different years. 
+You might be asking, "But we do not know what the true group means are?" 
+That is correct.  Instead, we must estimate these means based on the data that we have.
+For example, in our data, we can estimate differences in the average BMI estimates for women in rural and urban regions in the two different years. 
 
 ```{r}
 BMI_long %>% 
@@ -1105,19 +1112,18 @@ BMI_long %>%
   filter(Sex == "Women", Region != "National") %>% 
   group_by(Region, Year) %>%
   summarize(avg_bmi = mean(BMI, na.rm = TRUE)) %>% 
-  mutate(diff = avg_bmi - lag(avg_bmi)) %>% 
-  drop_na() %>%
-  pull(diff)
+  mutate(diff = avg_bmi - lag(avg_bmi)) 
 ```
 
-Next, we can use a statistical test (e.g. a Student's $t$-test) to assess if these differences are statistically meaningful or if these differences could be found due to random change. 
+Here we see that that BMI estimates increased by 2.39 points within rural regions and increased by 2.21 points within urban regions.  
+Next, we can use a statistical test (e.g. a Student's $t$-test) to assess if these differences are statistically meaningful or if these differences could be found due to random chance. 
 
 There are two possible classes of statistical tests that we could run to compare the means of these two groups:
 
 1. Parametric
 2. Nonparametric
 
-<b>Parametric tests</b> are based on assumptions about the distribution of the data, while <b>nonparametric tests</b> do not rely on this assumption. 
+<b>Parametric tests</b> are based on assumptions about the distribution of the underlying data, while <b>nonparametric tests</b> do not rely on these distributional assumptions. 
 It is called "parametric" because aspects about the distribution of the data, like the mean, are called <b>parameters</b> of a mathematical function when we describe a population. 
 In parametric tests, we estimate the parameters of the true population of interest using a sample of that population. 
 These estimates are called <b>statistics</b>. 
@@ -1125,10 +1131,10 @@ See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-
 
 ### Parametric two-sample $t$-test
 
-Often when comparing two groups we might perform a two-sample $t$-test to determine if the means of each group is different. 
+The two-sample $t$-test is a common way to determine if the means of two groups are different. 
 The two-sample $t$-test however, relies on several <u><b>assumptions</b></u>:
 
-1) The data for both groups is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
+1) The data for each group is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
 2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"} of both groups is similar
 3) The number of observations is similar for both groups - thus they are [balanced](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"}
 4) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other)
@@ -1144,7 +1150,7 @@ If these assumptions are violated, this doesn't necessarily mean we can't perfor
 2) [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} also call the unequal variance $t$-test we may need to modify the way we perform the [$t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} to account for the difference in the variance in the two groups
 3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"} to deal with violations of normality or imbalance.
 
-Alternatively, we can use a nonparametric test which is model free and does not rely on assumptions about the parameters of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
+Alternatively, we can use a nonparametric test which does not rely on assumptions about the parameters of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
 
 Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
 If it were violated, we would want to consider using permutation methods which are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}.

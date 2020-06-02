@@ -65,7 +65,7 @@ crisis.
     the world? In particular, what does this difference look like for
     women?
 2.  How have BMI estimates changed from 1985 to 2017? In particular,
-    what do these patterns over time look like for women?
+    what does this change over time look like for women?
 3.  How do different countries compare for BMI estimates? In particular,
     how does the United States compare to the rest of the world?
 
