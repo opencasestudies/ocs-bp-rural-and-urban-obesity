@@ -403,20 +403,32 @@ For example, we can see that "American Samoa" has been divided into two columns 
 
 Let's try this another way.  
 
-Let's try to extract the country information by separating the country information from the sex information when the sex is female.
-To do this, we start by noticing that the sex always starts with either a capital "W" if the gender is female. Note, we need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
+As we can see by looking at our `rural_ubran` data, the country information is only present when the sex is Women. Let's try to extract the country information from the rows that contain data about Women.
+
+```{r}
+head(rural_urban)
+```
+To do this, we start by noticing that the sex always starts with either a capital "W" if the sex is female. Note, we need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
 
 Here, we will also introduce the concept of piping, which uses the `%>%` from the `magrittr` package, which allows us to pipe the output from one function to the input for another function.
 This is really useful when we have multiple steps, which we will show soon.
 
-First, we will select just the data for Women
+First, we will select just the data for Women and Men separately:
+
 ```{r}
+
 Women <- str_subset(string = rural_urban, 
                     pattern = "Women") 
+Men <- str_subset(string = rural_urban, 
+                    pattern = "Men")
+
+
+head(Women)
+head(Men)
 ```
 
 
-And then split this data based on the pattern `pattern = " Women"` (Note that the space before the word "Women" is included - so that it is not within the country data).
+And then split the `Women` data based on the pattern `pattern = " Women"` (Note that the space before the word "Women" is included - so that it is not within the country data).
 Here we take our `Women` dataset and pipe it into the first argument of the `str_split()` function, where then we can split on the pattern `" Women"`.  We then pipe through thr `unlist()` function so that the results is a vector instead of a list.  We assign this new result to the `country_split` object.
 
 ```{r}
@@ -424,6 +436,8 @@ country_split <-
   Women %>%
   stringr::str_split(pattern = " Women") %>%
   unlist() 
+
+head(country_split)
 ```
 
 However, we can also do the same thing in a single step, where we replace the `Women` dataset with the code we used to create that dataset.  So first, we select the "Women" and then we split the data by " Women" to create a new dataset all within the same chunk of code.
@@ -437,7 +451,7 @@ country_split <-
 head(country_split)
 ```
 
-Now, we can see that `Country` is always the odd rows and the rest of the data is the rest of the rows. 
+Now, we can see that `Country` is always the odd rows and the  BMI data for Women is the even rows. 
 We can select the odd rows using the <b> Modulus (Remainder from division) operator</b>. 
 This operator looks like this `%%`. 
 All odd values such as 3, 7, or 15 when divided by 2 would leave a remainder of 1. 
@@ -463,8 +477,12 @@ as.data.frame(country)
 
 Looks good!  We have 200 countries represented in our dataset.
 
-The even rows are the rows with the data for women.
+Great! Now we have a list of the countries that can be used for both the male and female data. 
+
+
+Remeber the even rows are the rows with the BMI data for women.
 These row values have a remainder of 0 when divided by 2.
+Let's select that data too.
 
 ```{r}
 Women_BMI <- 
@@ -473,18 +491,41 @@ Women_BMI <-
 
 head(Women_BMI)
 ```
+This looks similar to our `Men` data (although slightly different):
 
-Great! Now we have a list of the countries that can be used for both the male and female data. 
+```{r}
+head(Men)
+```
+
+Notice how the data in each row is in quotes. This is because these are character strings. We can check this by using the base `class()` function.
+
+```{r}
+class(Men)
+```
+
+Whereas the `Women_BMI` data is a tibble.
+```{r}
+class(Women_BMI)
+```
+
+Let's make the `Men` data into a tibble as well:
+```{r}
+Men <-tibble(Men)
+
+```
 
 It's always a good idea to check that your data objects are the size you expect when wrangling. 
 We can do so with the `dim()` function, which shows us the dimensions of data objects.
 
 ```{r}
 dim(Women_BMI)
+dim(Men)
+head(Women_BMI)
+head(Men)
 ```
 Great! There are 200 rows of character strings with the BMI data like we expected to match the 200 countries in our data.
 
-We do however need to add `" Women"` back to this data.
+We do however need to add the word `" Women"` back to the `Women_BMI` data.
 To do this we will use the `glue()` function of the `glue` package. 
 
 Here is a simple example of how this function glues two things together.
@@ -528,26 +569,6 @@ Women <- glue("Women{pull(Women_BMI,country_split)}")
 ```
 
 
-Next, let's grab the male data:
-
-```{r}
-Men <- 
-  tibble(rural_urban) %>% 
-  dplyr::filter(row_number() %% 2 == 1) 
-```
-
-Remember our `rural_urban` object contains male data for the odd rows (those rows with remainder 1 when divided by 2). 
-
-
-```{r}
-head(Men)
-```
-
-Again let's make sure we have the correct number of rows 
-```{r}
-dim(Men) 
-```
-How about our number of columns? 
 
 If we try splitting our data by space again, will it have the expected number of columns? What about the rows that contain `na*` values?
 
@@ -556,19 +577,19 @@ This column is called `rural_urban`.
 
 ```{r}
 unknown <- 
-  Men %>% 
+  Men%>% 
   filter(str_detect(pattern ="na\\*", 
-                    string = rural_urban)) 
+                    string = Men)) 
+
+head(unknown)
 ```
 
 Now we can try splitting by a space
 ```{r}
-tibble::as_tibble(str_split(pull(unknown, rural_urban), " ",
+tibble::as_tibble(str_split(pull(unknown, Men), " ",
                             simplify = TRUE))
 
 ```
-
-### Dealing with NA values
 
 So close! Notice that the `"na*"` values have shifted the subsequent values within the columns because typically there is a space between the BMI and the credible intervals.
 Here we can see this data in our original pdf:
@@ -577,19 +598,24 @@ Here we can see this data in our original pdf:
 knitr::include_graphics(here::here("img","missing_pdf.png"))
 ```
 
+
+### Dealing with NA values
+
 We need to replace our `na*` values with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. 
 Therefore, `na* na*` should work.
 
 So, in order to use the functions within the `stringr` package, our `Men` data needs to be of `character` class, so let's check that now.
 
 ```{r}
-class(pull(Men, rural_urban))
+class(pull(Men, Men))
 ```
 The ` as.character()` function allows us to change factor data within to the character class.  We could use this if we needed it, but it looks like our data is already `character`.
 
-We are also changing the structure so that the data is not within a column called `rural_urban`. 
+We are also changing the structure so that the data is not within a column called `Men`. 
 ```{r}
-Men <- pull(Men, rural_urban)
+head(Men)
+Men <- pull(Men, Men)
+head(Men)
 ```
 
 ```{r}
@@ -628,12 +654,15 @@ Great, now we can split our data by spaces.
 
 ### Splitting the data
 
+We will split our data finally by spaces using the `str_split()` function of the `stringr` package. We can check the rows with NA values by looking at rows 20-30.
 ```{r}
 Men <- tibble::as_tibble(str_split(Men, " ", 
                                    simplify = TRUE))
-head(Men)
+Men[20:30,]
 ```
-Note, here we need to use the column of `Men` that has the data
+Great! It looks good!
+
+Now for the `Women` data.
 
 ```{r}
 Women <- as_tibble(str_split(Women, " ", 
@@ -668,6 +697,9 @@ Let's change the names of our columns of our tibbles to this new header for our 
 ```{r}
 names(Women) <- new_header
 names(Men) <- new_header
+
+head(Women)
+head(Men)
 ```
 
 Now we will add our country data to both our `Men` and `Women` tibbles using the `bind_cols()` function. This will add the `country` as a new column to the `Women` data object on the left. 
@@ -681,6 +713,7 @@ head(Women)
 Similarly, for the data about Men, this will add the `country` as a new column to the `Men` data object on the left. 
 ```{r}
 Men <- dplyr::bind_cols(country, Men) 
+head(Men)
 ```
 
 
@@ -719,16 +752,17 @@ head(Men)
 ```
 ### Joining the data
 
-Now that both of these tibbles have the same structure, we can combine our `Men` and `Women` data using the `full_join()` function of `dplyr`. 
-This will put all the male data first (`x`) and all the female data second (`y`).
+Now that both of these tibbles have the same structure, we can combine our `Men` and `Women` data using the `bind_rows()` function of `dplyr`. This will combine all of the rows based on their similar column structure.
+All of the male data  will be first and all the female data will be second.
 
 ```{r}
-BMI <- dplyr::full_join(x = Men, y = Women)
+BMI <- dplyr::bind_rows(Men, Women)
 ```
 
-Let's check the size of our BMI data... it should have 400 rows (obs).
+Let's check the size of our BMI data... it should have 400 rows (obs). We can see the end of the `BMI` data using the  `tail()` function:
 ```{r}
 str(BMI)
+tail(BMI)
 ```
 
 ### Sorting the data
