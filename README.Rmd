@@ -52,6 +52,8 @@ The data used in this analysis comes from a [supplementary table](https://static
 
 This article can be found freely available online.
 
+While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women.
+
 ### Analysis 
 
 In this case study, we will largely focus on methods for comparing two groups using hypothesis testing and parametric and nonparametric tests. We also cover multiple testing correction and fairly advanced data visualization methods using ggplot2.

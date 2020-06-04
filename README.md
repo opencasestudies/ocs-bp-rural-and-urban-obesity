@@ -81,6 +81,14 @@ is the main driver of the global obesity epidemic in adults. *Nature*
 
 This article can be found freely available online.
 
+While
+<a href="https://www.genderspectrum.org/quick-links/understanding-gender/" target="_blank">gender</a>
+and
+<a href="https://www.who.int/genomics/gender/en/index1.html" target="_blank">sex</a>
+are not actually binary, the data presented that is used in this
+analysis only contain data for groups of individuals described as men or
+women.
+
 ### Analysis
 
 In this case study, we will largely focus on methods for comparing two

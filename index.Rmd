@@ -36,7 +36,7 @@ library(knitr)
  
 #### {.outline }
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "mainplot.png"))
+knitr::include_graphics(here::here("img", "main_plot.png"))
 ```
 
 ## {.disclaimer_block}
@@ -45,7 +45,8 @@ knitr::include_graphics(here::here("img", "mainplot.png"))
 
 ## Motivation
 
-Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)){target="_blank"} is often used as a proxy for **adiposity** and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
+
+Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)){target="_blank"} is often used as a proxy for **adiposity** (the condition of having excess body fat) and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
 There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi){target="_blank"} (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html){target="_blank"}, and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}. 
 For example, these are the categories defined by the WHO: 
 
@@ -85,6 +86,8 @@ Furthermore, this study suggested that obesity has particularly increased in fem
 In this case study, we will evaluate the data reported in this article to explore regional and gender specific differences in the obesity rates around the world in 1985 and 2017. 
 Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for females. 
 To do this we will test if there is a difference between the average BMI for each group.
+
+While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
 
 ### Main Questions
 #### {.main_question_block}
@@ -161,6 +164,7 @@ However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-
 ## What are the data?
 
 We will be using data located within a table of the [supplementary material](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf){target="_blank"} for the NCD-RisC paper referenced above. 
+
 This is a pdf that can be found freely available online. Here is a screenshot of the first page of the PDF: 
 
 ```{r, echo = FALSE}
@@ -169,15 +173,14 @@ knitr::include_graphics(here::here("img","first_page.png"))
 
 You can see that the data contain average BMI estimates for both men and women in countries at the national level, as well as the average BMI estimates for the rural and urban areas of these countries in both 1985 and 2017.
 
-The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval){target="_blank"} (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence.
+The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval){target="_blank"} (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence. Notice that the mean BMI values are "age-standardized," this means that the mean values were adjusted for the different age distributions of the various countries so that the countries can be more fairly compared. For example, if one country has a population that is considerably younger, the mean BMI might be quite low (as younger individuals tend to have lower BMI values due to faster metabolic rates). One might falsely conclude that people in that country generally have lower BMI values than people in most other countries, however the lower overall BMI mean might simply be due to the fact that the country has a younger population than those other countries.
 
-<u>Note:</u> While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
 
 ## Data Import
 
 First let's download the data from the PDF file. 
 We use `file.exists()` from base R to check if the file we want to download already exists. 
-If not, then we download it using the function `utils::download.file()`. 
+If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory` of the directory where our open Rstudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
 
 ```{r}
 if(!file.exists(here("docs", "paper_supplement.pdf"))){
@@ -400,8 +403,9 @@ str_split(string = rural_urban,
 This almost worked, but unfortunately country names that have spaces will be a problem. 
 For example, we can see that "American Samoa" has been divided into two columns and all subsequent columns are shifted.
 
-Let's try this another way.
-Instead, let's try to extract the country information by separating the country information from the sex information when the sex is female.
+Let's try this another way.  
+
+Let's try to extract the country information by separating the country information from the sex information when the sex is female.
 To do this, we start by noticing that the sex always starts with either a capital "W" if the gender is female. Note, we need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
 
 Here, we will also introduce the concept of piping, which uses the `%>%` from the `magrittr` package, which allows us to pipe the output from one function to input to another function.
@@ -413,7 +417,7 @@ Women <- str_subset(string = rural_urban,
                     pattern = "Women") 
 ```
 
-And then split this data based on the pattern `pattern = " Women"` (Note that the space is included - so that it is not within the country data).
+And then split this data based on the pattern `pattern = " Women"` (Note that the space before the word "Women" is included - so that it is not within the country data).
 ```{r}
 country_split <- 
   Women %>%
@@ -496,7 +500,8 @@ glue::glue("the cow jumped over {where}")
 
 Now let's add  the word "Women" to each row of the `Women_BMI` data using `glue`.
 
-First let's pull the `country_split` data out as a vector to make this simpler when we `glue`.
+First let's pull the `country_split` data out as a vector to make this simpler when we `glue`. To do this we will use the `pull()` function of the `dplyr` package. This function will allow us to extract or pull out the single variable called `country_split` which contains the BMI values for women from within the tibble called `Women_BMI` which we just created by grabbing only the even rows of our original `country_split` tibble.
+
 Then, let's use the `first()` function of the `dplyr` package to get a reminder of what just the first row of the `country_split` column of the `Women_BMI` data looks like.
 
 
@@ -532,10 +537,11 @@ Men <-
   tibble(rural_urban) %>% 
   dplyr::filter(row_number() %% 2 == 1) 
 ```
+
 Remember our `rural_urban` object contains male data for the odd rows. 
 
 ```{r}
-head(Men$rural_urban)
+head(Men)
 ```
 
 Again let's make sure we have the correct number of rows 
@@ -558,7 +564,7 @@ unknown <-
 
 Now we can try splitting by a space
 ```{r}
-tibble::as_tibble(str_split(unknown$rural_urban, " ",
+tibble::as_tibble(str_split(pull(unknown, rural_urban), " ",
                             simplify = TRUE))
 
 ```
@@ -578,13 +584,13 @@ Therefore, `na* na*` should work.
 So, in order to use the functions within the `stringr` package, our `Men` data needs to be of `character` class, so let's check that now.
 
 ```{r}
-class(Men$rural_urban)
+class(pull(Men, rural_urban))
 ```
 The ` as.character()` function allows us to change factor data within to the character class.  We could use this if we needed it, but it looks like our data is already `character`.
 
 We are also changing the structure so that the data is not within a column called `rural_urban`. 
 ```{r}
-Men <- Men$rural_urban
+Men <- pull(Men, rural_urban)
 ```
 
 ```{r}
@@ -665,19 +671,19 @@ names(Women) <- new_header
 names(Men) <- new_header
 ```
 
-Now we will add our country data to both our `Men` and `Women` tibbles using the `bind_cols()` function:
+Now we will add our country data to both our `Men` and `Women` tibbles using the `bind_cols()` function. This will add the `country` as a new column to the `Women` data object on the left. 
 
 ```{r}
 Women <- dplyr::bind_cols(country, Women)
 head(Women)
 ```
-This will add the `country` as a new column to the `Women` data object on the left. 
 
-Similarly, 
+
+Similarly, for the data about Men, this will add the `country` as a new column to the `Men` data object on the left. 
 ```{r}
 Men <- dplyr::bind_cols(country, Men) 
 ```
-This will add the `country` as a new column to the `Men` data object on the left. 
+
 
 ### Changing variable names
 
@@ -706,9 +712,15 @@ Men %<>% rename(Country = country_split)
 We have renamed the `country_split` variable to to be called `Country`. 
 We have also reassigned `Men` to the same data object. which has the `Country` variable renamed. 
 
+Let's take a look at our data for `Men` and `Women`:
+
+```{r}
+head(Women)
+head(Men)
+```
 ### Joining the data
 
-Now, we can combine our `Men` and `Women` data using the `full_join()` function of `dplyr`. 
+Now that both of these tibbles have the same structure, we can combine our `Men` and `Women` data using the `full_join()` function of `dplyr`. 
 This will put all the male data first (`x`) and all the female data second (`y`).
 
 ```{r}
@@ -919,7 +931,7 @@ Translating this to our case study, if we say our data follow a normal distribut
 ```{r}
 norm_BMI_ex_data <- 
   tibble(norm_data = rnorm(n = 200, mean = 24, sd = 1))
-hist(norm_BMI_ex_data$norm_data)
+hist(pull(norm_BMI_ex_data, norm_data))
 ```
 
 Here we are simulating 200 observations from a normal distribution with a mean of $m = 24$ and standard deviation of $s = 1$ using the `rnorm()` function. 
@@ -1004,7 +1016,7 @@ If we were to use different data that had a range of different values our y-axis
 For example, the `Orange` data (within the installation of R) includes data about the circumference of orange trees in millimeters. 
 Here, we can see that the quantiles are quite different but reflect the range of orange tree circumferences.
 ```{r}
-range(Orange$circumference)
+range(pull(Orange, circumference))
 Orange %>%
   ggplot(aes(sample = circumference)) +
   stat_qq() +
@@ -1048,13 +1060,15 @@ Another way to do that is to use the [Shapiro-Wilk test for normality](http://ww
 
 ### Shapiro-Wilk test
 
-Here, we are using the `summarize()` and `group_by()` functions from `dplyr` to perform the Shapiro-Wilk test for all the subsets we are interested in.
+Here, we are using the `summarize()` and `group_by()` functions from `dplyr` to perform the Shapiro-Wilk test for all the subsets we are interested in. In this case the `$` is used to grab the `p.value` from the `shapirotest()` output.
 
 ```{r}
 BMI_long %>% 
   filter(Sex == "Women") %>% 
   group_by(Year, Region) %>% 
   summarize(shapiro_test = shapiro.test(BMI)$p.value)
+
+
 ```
 
 We can see that all of the subsets of our data do not appear to be normally distributed because the $p$-value is less than 0.05 for all subsets. 
@@ -1699,7 +1713,7 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Region)) +
 
 That's useful, but let's look at the individual points and include our country labels, to do so lets change our United States of America label to USA:
 ```{r}
-BMI_long$Country <-BMI_long$Country %>%
+BMI_long[["Country"]] <-BMI_long[["Country"]] %>%
   str_replace( pattern = "United States of America", replacement = "USA")
 
 
@@ -1747,14 +1761,14 @@ How does the rate of change in BMI differ between groups? Which group might espe
 First let's calculate the differences in BMI from 2017 and 1985 and add this to our BMI_long data object:
 ```{r}
 
-BMI_numeric$Rural_difference <- 
-     BMI_numeric$Rural_BMI_2017 - BMI_numeric$Rural_BMI_1985
+BMI_numeric[["Rural_difference"]] <- 
+     BMI_numeric[["Rural_BMI_2017"]] - BMI_numeric[["Rural_BMI_1985"]]
 
-BMI_numeric$Urban_difference <- 
-     BMI_numeric$Urban_BMI_2017 - BMI_numeric$Urban_BMI_1985
+BMI_numeric[["Urban_difference"]] <- 
+     BMI_numeric[["Urban_BMI_2017"]] - BMI_numeric[["Urban_BMI_1985"]]
 
 BMI_numeric$National_difference <- 
-     BMI_numeric$National_BMI_2017 - BMI_numeric$National_BMI_1985
+     BMI_numeric[["National_BMI_2017"]] - BMI_numeric[["National_BMI_1985"]]
 
 BMI_diff_long <- BMI_numeric %>% 
   select(Country: National_difference) %>% 
@@ -1767,7 +1781,7 @@ Let's replace "United states of America" with "USA" and make a plot with this da
 
 ```{r}
 
-BMI_diff_long$Country <-BMI_diff_long$Country %>%
+BMI_diff_long[["Country"]] <-BMI_diff_long[["Country"]] %>%
   str_replace( pattern = "United States of America", replacement = "USA")
 
 
@@ -2067,7 +2081,16 @@ Our plot visually explores all of our main questions:
 2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
 3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
 
+Now let's save our plotas a png using the `png()` function:
 
+```{r}
+png(here::here("img", "main_plot.png"), height = 1500, width = 2000, res = 300)
+Means_plot +labs(tag = 'A') + Diff_plot+ labs(tag = 'B') +
+  plot_layout(guides = 'collect', ncol = 2)
+dev.off()
+
+
+```
 ## Summary
 
 We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [$t$-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
