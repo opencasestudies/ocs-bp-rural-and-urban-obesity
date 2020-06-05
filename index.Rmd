@@ -787,16 +787,17 @@ str(BMI)
 Looks like none of our BMI data is actually `numeric` (or `num`), but of the class `character` (or `chr`). 
 Let's change that now.
 
-To start, we could change these values to be numeric with 6 lines of code like this:
+To start, we could change these values to be numeric with 6 lines of code like this, where the double brackets`[[]]` and quotes are used to select the specific varaible within the `BMI` tibble. In this case we need to use the brackets instead of `pull()` becuase we can't start a command with `pull()` to reassign values in a variable.
 
 ```{r, eval = TRUE}
-BMI$National_BMI_1985 %<>% as.numeric
-BMI$Rural_BMI_1985 %<>% as.numeric
-BMI$Urban_BMI_1985 %<>% as.numeric
+#pull(BMI, National_BMI_1985)%<>% as.numeric #This will not work
+BMI[["National_BMI_1985"]] %<>% as.numeric
+BMI[["Rural_BMI_1985"]] %<>% as.numeric
+BMI[["Urban_BMI_1985"]] %<>% as.numeric
 
-BMI$National_BMI_2017 %<>% as.numeric
-BMI$Rural_BMI_2017 %<>% as.numeric
-BMI$Urban_BMI_2017 %<>% as.numeric
+BMI[["National_BMI_2017"]] %<>% as.numeric
+BMI[["Rural_BMI_2017"]] %<>% as.numeric
+BMI[["Urban_BMI_2017"]] %<>% as.numeric
 ```
 
 And if we did this we would see these variables show as `"num"` which stands for a numeric type of variable.
@@ -830,45 +831,37 @@ In this case our numeric data is of a class `dbl`.
 This means double-precision floating point numbers (with decimals).
 The alternative numeric option is the integer class. 
 
-### Transforming to long format
+### Transforming to tidy data
 
 It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularly for plotting. 
 
 For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}.
 
-Basically, the long format will have more rows and fewer columns.
-Thus, we can combine or `"gather"` some columns together.
+Basically, the long format has more rows and fewer columns.
+Thus, we can combine some columns together.
 In our case, we can put all the different BMI data together in one long column.
 We will create a new column that tells us what each row of the new BMI column represents.
 In other words, it will tell us what the original column was.
 
-To do this we will use the `gather()` function of the `tidyr` package:
+To do this we will use the `pivot_longer()` function of the `tidyr` package. The `data` argument specifies what data we want to work with, the `cols` argument specifies the names of the columns or variables that we want to combine and change to one long format variable, and the `names_to` argument specifies the name for the new variable that we are creating. The `:` is used to indicate that we want to combine the columns or variables between `National_BMI_1985` and `Urban_BMI_2017`.
 
 ```{r}
 BMI_long <-
-  tidyr::gather(data = BMI_numeric, 
-                key = class_BMI, 
-                value = BMI, 
-                National_BMI_1985:Urban_BMI_2017, 
-                factor_key = FALSE) 
-```
-The `data` value indicates what data you start with, the `key` indicates the new name of the column that will now contain information about the values of the columns we will put together. 
-The `value` is the name of the column for the values for all the columns that are being put together. 
-The `":"` can be used to identify the start and end of the column names that you are putting together. 
-The `factor_key` argument determines if the newly created key column should be evaluated as a factor or not. 
+  tidyr::pivot_longer(data = BMI_numeric, 
+                      cols = National_BMI_1985:Urban_BMI_2017, 
+                      names_to = "class_BMI")
 
-```{r}
 head(BMI_long)
 ```
 
-It would be useful to parse the 1985 and the 2017 data. We can do so by separating the parts of the `class_BMI` column using the `separate()` function of the `tidyr` package. 
-In our case we will replace the `class_BMI` column with two new columns.
+We really want to promote the idea of working with [tidy data](https://r4ds.had.co.nz/tidy-data.html){target="_blank"}. Tidy data is data that is structured in a way that makes it especially usable. One of the rules of tidy data, is that each column or variable should have only one type of data. Currently we have two types of data in the `BMI_class` variable: the type of BMI measurement ( Rural, Urban, or National), and the year (1985 and 2017).  We can separate these two data types of the `class_BMI` column using the `separate()` function of the `tidyr` package to replace the `class_BMI` column with two new columns.
 
 ```{r}
 BMI_long %<>% 
   tidyr::separate(class_BMI, 
                   c("Region", NA, "Year")) 
 ```
+
 Here, we separate the `class_BMI` column of the `BMI_long` tibble. 
 This is based on the underscores and create two new columns. 
 The first column will be called `Region`. 
@@ -886,13 +879,21 @@ Let's see how the dimensions of the `BMI` data have changed in long format:
 dim(BMI_numeric)
 dim(BMI_long)
 ```
+Let's rename the `value` column to something more informative. We can use the `rename()` function of the `dplyr` package to do this. Notice that the value we want to replace is listed second after the `=` sign.
 
+```{r}
+
+BMI_long %<>% 
+  rename(BMI = value)
+head(BMI_long)
+
+```
 #### {.question_block}
 <u>Question opportunity:</u> Why exactly are there 2,400 rows now?
 
 ####
 
-Great! our data is very usable now in this format!
+Great! Our data is very usable now in this format!
 
 ```{r, echo = FALSE}
 save(BMI_numeric, 
@@ -1812,7 +1813,7 @@ BMI_numeric[["Rural_difference"]] <-
 BMI_numeric[["Urban_difference"]] <- 
      BMI_numeric[["Urban_BMI_2017"]] - BMI_numeric[["Urban_BMI_1985"]]
 
-BMI_numeric$National_difference <- 
+BMI_numeric[["National_difference"]] <- 
      BMI_numeric[["National_BMI_2017"]] - BMI_numeric[["National_BMI_1985"]]
 
 BMI_diff_long <- BMI_numeric %>% 
@@ -2044,7 +2045,7 @@ ggplot(aes(x = Sex, y = BMI)) +
         strip.text.x = element_text(size = 15))
    
 #Simplified difference plot 
-BMI_diff_long$Type <-BMI_diff_long$Type %>%
+BMI_diff_long[["Type"]] <-BMI_diff_long[["Type"]]%>%
   str_replace( pattern = "_difference", replacement = "")
 
 Diff_plot<-BMI_diff_long %>% 
