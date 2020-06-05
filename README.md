@@ -42,8 +42,8 @@ Exploring Global Patterns of Obesity from 1985 to 2017
 ### Motivation
 
 Body Mass Index (BMI) is often used as a proxy for adiposity with
-classifications based on BMI to define "underweight", "normal",
-"overweight" and "obese", where higher BMI has been associated with
+classifications based on BMI to define “underweight”, “normal”,
+“overweight” and “obese”, where higher BMI has been associated with
 increased mortality, rates of type 2 diabetes, cancer, heart disease,
 and stroke. A recent
 [paper](https://www.nature.com/articles/s41586-019-1171-x.pdf) showed
@@ -151,7 +151,7 @@ for a set of lectures. We provide one R Markdown file
 ([`index.Rmd`](index.Rmd)) for an instructor to use. However, we
 anticipate the instructor may either break this file up into smaller R
 Markdown files for multiple lectures or extract only a portion of the
-material (e.g. the Data Wrangling or Data Analysis sections) to use in
+material (e.g. the Data Wrangling or Data Analysis sections) to use in
 the classroom. With the latter goal in mind, we save a
 `Wrangled_data.rda` object at the end of the Data Wrangling section,
 which is loaded at the start of the Data Exploration section.
