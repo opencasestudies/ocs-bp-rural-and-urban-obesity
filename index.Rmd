@@ -1004,12 +1004,12 @@ BMI_long %>%
 
 Interesting! The data looks like it has one mode, but it does not look completely symmetric. In fact it looks like it might be what is called right skewed. See [here](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} for more information about skewed distributions.
 
-To check we can calculate the mean and median of the BMI data using the base `summarise()` function of the `dplyr` package. If the mean and median are very similar, then we will know that the data isn't skewed. Note that it is necessary to filter out the NA values first.
+To check we can calculate the mean and median of the BMI data using the base `summarize()` function of the `dplyr` package. If the mean and median are very similar, then we will know that the data isn't skewed. Note that it is necessary to filter out the NA values first.
 
 ```{r}
 BMI_long %>%
   filter(!is.na(BMI))%>%
-  summarise(mean = mean(BMI), median = median(BMI))
+  summarize(mean = mean(BMI), median = median(BMI))
 ```
 OK, so they are essentially the same, mean= 24.87 and median = 24.9, so this does not fit the hallmark of right-skewed data where the the mean is greater than the median. 
 
@@ -1729,13 +1729,14 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Region)) +
 ```
 
 That's useful, but let's look at the individual points and include our country labels, to do so lets change our United States of America label to USA:
+
 ```{r}
 BMI_long[["Country"]] <-BMI_long[["Country"]] %>%
   str_replace( pattern = "United States of America", replacement = "USA")
 
 
 ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) + 
-  geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Year)) + 
+  geom_boxplot(outlier.shape = NA, color = "black" , aes(fill = Sex)) + 
   facet_grid(~ Sex + Region) + 
   geom_hline(yintercept=30, linetype="dashed", color = "red", size =1) + 
   # This will add a horizontal dashed line to indicate the obesity BMI threshold
@@ -1762,10 +1763,9 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
         axis.title.x = element_text(size =15), 
         strip.text.x = element_text(size = 15)) +
   # This changes the size of x axis labels for the facet 
-        ggtitle( "Differences in BMI Over Time and Across Region Type and Gender") 
+        ggtitle( "Differences in BMI Over Time and Across Region Type and Gender") +
   # Add a  plot title
-   
-
+        scale_fill_manual(values=c("dodgerblue", "orchid2"))
 
 ```
 
@@ -1788,7 +1788,7 @@ BMI_numeric[["National_difference"]] <-
      BMI_numeric[["National_BMI_2017"]] - BMI_numeric[["National_BMI_1985"]]
 
 BMI_diff_long <- BMI_numeric %>% 
-  select(Country: National_difference) %>% 
+  select(Country:National_difference) %>% 
 gather(key = Type, value = Difference , Rural_difference:National_difference)
 
 
@@ -1843,6 +1843,8 @@ ggplot(BMI_diff_long, aes(x = Difference, y = value, col = Difference)) +
 
 We can now see that the rate of change from 1985 to 2017 appears to be larger in the women compared to the men in all regions. The group with the largest increase in the USA is the women living in rural areas.
 
+
+
 Let's check the difference with some statistical tests:
 
 ```{r}
@@ -1864,7 +1866,7 @@ BMI_diff_long %>%
 
 # Let's look at Q-Q plots:
 BMI_diff_long %>%
-  ggplot(aes(sample =value)) +
+  ggplot(aes(sample = value)) +
   stat_qq() + # to add the line we need to also include stat_qq_line()
   stat_qq_line() +
   facet_wrap(~ Sex + Difference)
@@ -1927,6 +1929,7 @@ ks.test(pull(filter(BMI_diff_long,
         paired = TRUE)
 
 ```
+
 Now we have performed seven comparisons (4 earlier) so we should apply our multiple testing correction
 ```{r}
 .05/7
@@ -1955,7 +1958,7 @@ BMI_diff_long %>%
 ```
 
 
-However it is important to see what the mean BMI values are were for these countries in 2017. 
+However it is important to see what the mean BMI values were for these countries in 2017. 
 It could be that the average was underweight in 1985... let's take a look.
 
 ```{r}
@@ -2074,7 +2077,7 @@ Diff_plot<-Diff_plot +
         theme(title = element_text (size = 12, face = "bold"))
 
 Means_plot <-Means_plot + 
-        labs(title = "Mean BMI over time", 
+        labs(title = "Mean National BMI over time", 
              x = "", 
              y = "Mean BMI") +
         theme(title = element_text (size = 12, face = "bold"))
@@ -2105,16 +2108,65 @@ Our plot visually explores all of our main questions:
 2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
 3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
 
-Now let's save our plot as a png using the `png()` function:
+Now let's save our plot as a png file using the `png()` function:
 
 ```{r}
 png(here::here("img", "main_plot.png"), height = 1500, width = 2000, res = 300)
 Means_plot +labs(tag = 'A') + Diff_plot+ labs(tag = 'B') +
   plot_layout(guides = 'collect', ncol = 2)
 dev.off()
-
-
 ```
+
+You might think that these two plots look a bit odd together, that if you look at the change in the boxplots in part A, that the data for Men shows a bigger change, however, we can't tell from this plot how the individual countries are changing. Part B of the figure looks at the specific change for each country.
+
+We could check our plot using the following code:
+```{r}
+BMI_diff_long %>%
+  group_by(Sex, Difference) %>%
+  filter(!is.na(value))%>%
+  filter(Country == "USA") %>%
+  summarize(mean = mean(value), median = median(value))
+
+BMI_diff_long %>%
+  group_by(Sex, Difference) %>%
+  filter(!is.na(value))%>%
+  summarize(mean = mean(value), median = median(value))
+
+BMI_long %>%
+  group_by(Sex, Year, Region) %>%
+  filter(!is.na(BMI))%>%
+  filter(Country == "USA") %>%
+  summarize(mean = mean(BMI), median = median(BMI))
+
+BMI_long %>%
+  group_by(Sex, Year, Region) %>%
+  filter(!is.na(BMI))%>%
+  summarize(mean = mean(BMI), median = median(BMI))
+
+BMI_numeric %>%
+    group_by(Sex)%>%
+  summarize(Nat_mean1985 = mean(National_BMI_1985), Nat_mean2017 = mean(National_BMI_2017))
+
+BMI_numeric %>%
+    group_by(Sex)%>%
+  summarize(Nat_med1985 = median(National_BMI_1985), Nat_med2017 = median(National_BMI_2017))
+```
+
+
+We can see that the largest changes occur for Women.
+
+Scroll through the output!
+
+#### {.scrollable }
+```{r}
+BMI_diff_long %>%
+  filter(value>3.5) %>%
+  arrange(-value) %>%
+  # this allows us to show the full output
+  print(n = 1e3)
+```
+####
+
 ## Summary
 
 We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [$t$-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
