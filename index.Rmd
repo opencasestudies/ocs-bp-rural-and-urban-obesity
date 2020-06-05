@@ -176,14 +176,14 @@ knitr::include_graphics(here::here("img","first_page.png"))
 
 You can see that the data contain average BMI estimates for both men and women in countries at the national level, as well as the average BMI estimates for the rural and urban areas of these countries in both 1985 and 2017.
 
-The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval){target="_blank"} (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence. Notice that the mean BMI values are "age-standardized," this means that the mean values were adjusted for the different age distributions of the various countries so that the countries can be more fairly compared. For example, if one country has a population that is considerably younger, the mean BMI might be quite low (as younger individuals tend to have lower BMI values due to faster metabolic rates). One might falsely conclude that people in that country generally have lower BMI values than people in most other countries, however the lower overall BMI mean might simply be due to the fact that the country has a younger population than those other countries.
+The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval){target="_blank"} (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence. Notice that the mean BMI values are "age-standardised," this means that the mean values were adjusted for the different age distributions of the various countries so that the countries can be more fairly compared. For example, if one country has a population that is considerably younger, the mean BMI might be quite low (as younger individuals tend to have lower BMI values due to faster metabolic rates). One might falsely conclude that people in that country generally have lower BMI values than people in most other countries, however the lower overall BMI mean might simply be due to the fact that the country has a younger population than those other countries.
 
 
 ## Data Import
 
 First let's download the data from the PDF file. 
 We use `file.exists()` from base R to check if the file we want to download already exists. 
-If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory` of the directory where our open Rstudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
+If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory` of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
 
 ```{r}
 if(!file.exists(here("docs", "paper_supplement.pdf"))){
@@ -429,7 +429,7 @@ head(Men)
 
 
 And then split the `Women` data based on the pattern `pattern = " Women"` (Note that the space before the word "Women" is included - so that it is not within the country data).
-Here we take our `Women` dataset and pipe it into the first argument of the `str_split()` function, where then we can split on the pattern `" Women"`.  We then pipe through thr `unlist()` function so that the results is a vector instead of a list.  We assign this new result to the `country_split` object.
+Here we take our `Women` dataset and pipe it into the first argument of the `str_split()` function, where then we can split on the pattern `" Women"`.  We then pipe through the `unlist()` function so that the results is a vector instead of a list.  We assign this new result to the `country_split` object.
 
 ```{r}
 country_split <- 
@@ -480,7 +480,7 @@ Looks good!  We have 200 countries represented in our dataset.
 Great! Now we have a list of the countries that can be used for both the male and female data. 
 
 
-Remeber the even rows are the rows with the BMI data for women.
+Remember the even rows are the rows with the BMI data for women.
 These row values have a remainder of 0 when divided by 2.
 Let's select that data too.
 
@@ -680,7 +680,7 @@ Looks good!
 
 We can see from our pdf and our object called `header` what the header was like in the original pdf document. We need to add column names to our data based on the original data.
 
-We'll wait to add `Country` to the header untill we add the country information to our data.
+We'll wait to add `Country` to the header until we add the country information to our data.
 
 ```{r}
 new_header <- c("Sex","National_BMI_1985", 
@@ -787,7 +787,7 @@ str(BMI)
 Looks like none of our BMI data is actually `numeric` (or `num`), but of the class `character` (or `chr`). 
 Let's change that now.
 
-To start, we could change these values to be numeric with 6 lines of code like this, where the double brackets`[[]]` and quotes are used to select the specific varaible within the `BMI` tibble. In this case we need to use the brackets instead of `pull()` becuase we can't start a command with `pull()` to reassign values in a variable.
+To start, we could change these values to be numeric with 6 lines of code like this, where the double brackets`[[]]` and quotes are used to select the specific variable within the `BMI` tibble. In this case we need to use the brackets instead of `pull()` because we can't start a command with `pull()` to reassign values in a variable.
 
 ```{r, eval = TRUE}
 #pull(BMI, National_BMI_1985)%<>% as.numeric #This will not work
@@ -941,7 +941,7 @@ BMI_numeric %>%
   summary()
 ```
 
-It looks like mean BMIs have increased in all regions for both men and women. It is unclear though if this change is statistically significant.
+It looks like mean BMIs have increased in all regions for both men and women, but let's look deeper with some statistical tests.
 
 ### Distributions
 
@@ -1002,7 +1002,7 @@ BMI_long %>%
   geom_histogram() 
 ```
 
-Interesting! The data looks like it has one mode, but it doesn’t look to be completely symmetric. In fact it looks like it might be what is called right skewed. See [here](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} for more information about skewed distributions.
+Interesting! The data looks like it has one mode, but it does not look completely symmetric. In fact it looks like it might be what is called right skewed. See [here](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} for more information about skewed distributions.
 
 To check we can calculate the mean and median of the BMI data using the base `summarise()` function of the `dplyr` package. If the mean and median are very similar, then we will know that the data isn't skewed. Note that it is necessary to filter out the NA values first.
 
@@ -1011,7 +1011,7 @@ BMI_long %>%
   filter(!is.na(BMI))%>%
   summarise(mean = mean(BMI), median = median(BMI))
 ```
-Ok, so they are essentially the same, mean= 24.87 and median = 24.9, so this doesn’t fit the  hallmark of right-skewed data where the the mean is greater than the median. 
+OK, so they are essentially the same, mean= 24.87 and median = 24.9, so this does not fit the hallmark of right-skewed data where the the mean is greater than the median. 
 
 
 However so far we have made a histogram of the BMI data in the long format which combines BMI estimates for different subgroups of people, so rural women, rural men, urban women, urban men, etc. are all combined. If we want to make group comparisons, we need to look at the distributions for the specific groups that we are evaluating. So, we need to pick a particular population of individuals and graph their BMI, for example just the national estimates for women and for men in 1985.  
@@ -1103,7 +1103,7 @@ We can conclude from these plots that the assumption of normality appears to be 
 
 ## Data Analysis
 
-In the previous section, we hinted at the existance of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. national BMI values of women in 1985 and women in 2017). 
+In the previous section, we hinted at the existence of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. national BMI values of women in 1985 and women in 2017). 
 One such test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"}, which can be used to determine if [two group means are different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
 However, as mentioned before, this test depends on certain assumption of our data. 
 
@@ -1167,25 +1167,23 @@ See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-
 The two-sample $t$-test is a common way to determine if the means of two groups are different. 
 The two-sample $t$-test however, relies on several <u><b>assumptions</b></u>:
 
-1) The data for each group is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
-2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"} of both groups is similar
-3) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other)
-
-A $t$-test is most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. When the scaling term is unknown and is replaced by an estimate based on the data, the test statistics (under certain conditions) follow a Student's t distribution. The $t$-test can be used, for example, to determine if the means of two sets of data are significantly different from each other.
-
+1) The data for each group is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}.
+2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"} of both groups is similar.
+3) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other).
 
 
 If these assumptions are violated, this doesn't necessarily mean we can't perform a $t$-test. It just means we may need to consider the following options:
 
-1) [Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed
-2) [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} also call the unequal variance $t$-test we may need to modify the way we perform the [$t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} to account for the difference in the variance in the two groups
+1) [Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed.
+2) [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} also called the unequal variance $t$-test.  We may need to modify the way we perform the [$t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} to account for the difference in the variance in the two groups.
 3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"} to deal with violations of normality.
+4) If we have data that is not independent and is what we call paired, we should considered the [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"} ]. We will explain this in more detail.
 
-Alternatively, we can use a nonparametric test which does not rely on assumptions about the parameters of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
+We can use a nonparametric test which does not rely on assumptions about the normality of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
 
 It is also important to note that our data has a balance of observations for both groups - in fact they are equal. [Balanced designs](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"} typically make the tests comparing means more powerful.
 
-If our design was not balanced, we would want to consider using permutation methods to improve power, these methods are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}.
+If our design was not balanced, we might want to consider using permutation methods to improve power, these methods are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}.
 
 If we needed to check if our samples were imbalanced, we could use the `count()` function of `dplyr`:
 
@@ -1253,7 +1251,7 @@ Our p value is less than .05 for both tests, thus we reject our null hypothesis 
 
 We will perform a special t.test where we account for the fact that our variance is not equal. 
 
-Another important consideration is that the data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}, meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to perform the Welch's or paired $t$-test.
+Another very important consideration is that the our data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}, meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to perform the paired $t$-test.
 
 When we perform a paired $t$-test our hypothesis is slightly different from the typical student's $t$-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. Our null hypothesis is that the mean of the differences is equal to zero:
 
@@ -1334,24 +1332,19 @@ BMI_long_log %>%
   stat_qq_line() +
   facet_wrap(~ Year + Region)
 
-BMI_long_log %>% 
-  filter(Sex == "Women") %>% 
-  group_by(Year, Region) %>% 
-  summarize(shapiro_test = shapiro.test(log_BMI)$p.value)
-
-# recall what it was before
-BMI_long %>% 
-  filter(Sex == "Women") %>% 
-  group_by(Year, Region) %>% 
-  summarize(shapiro_test = shapiro.test(BMI)$p.value)
-
-
+#recall what it looked like before:
+BMI_long %>%
+  filter(Sex == "Women") %>%
+  ggplot(aes(sample =BMI)) +
+  stat_qq() + # to add the line we need to also include stat_qq_line()
+  stat_qq_line() +
+  facet_wrap(~ Year + Region)
 
 ```
 
-The data appears to be more similar to the normal distribution, although not quite. Again, our sample size of 200 is quite large and the $t$-test is generally quite robust to violations of normality with large n, thus the modified $t$-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
+The data appears to be more similar to the normal distribution than it did before, although it still looks different from the theoretical normal distribution. Again however, our sample size of 200 is quite large and the $t$-test is generally quite robust to violations of normality with large n, thus the modified $t$-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
 
-Let's see the results of the $t$-test with the transformed data:
+Let's see the results of the paired $t$-test with the transformed data:
 
 ```{r}
 
@@ -2105,7 +2098,7 @@ Our plot visually explores all of our main questions:
 2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
 3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
 
-Now let's save our plotas a png using the `png()` function:
+Now let's save our plot as a png using the `png()` function:
 
 ```{r}
 png(here::here("img", "main_plot.png"), height = 1500, width = 2000, res = 300)
@@ -2157,7 +2150,6 @@ Students can evaluate the change in BMI over time using the global data availabl
 [Bimodal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"} 
 [ggplot2](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}    
 [Q-Q Plots](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html){target="_blank"}  
-[Shapiro-Wilk Test](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html)  
 [Student $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)   
 [Paired Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}  
 [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"}    
