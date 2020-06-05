@@ -931,13 +931,13 @@ Lets look at the data stratified by `Sex`:
 
 ```{r}
 BMI_numeric %>% 
-  subset(Sex == "Women") %>% 
+  filter(Sex == "Women") %>% 
   summary()
 ```
 
 ```{r}
 BMI_numeric %>% 
-  subset(Sex == "Men") %>% 
+  filter(Sex == "Men") %>% 
   summary()
 ```
 
@@ -1002,10 +1002,20 @@ BMI_long %>%
   geom_histogram() 
 ```
 
-Interesting! The data looks like it has one mode, but like it is what we call <b>right-skewed</b> because the tail of the distribution is longer on the right side (in other words, it is a bit wider on that side). 
-See [here](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} for more information about skewed distributions.
+Interesting! The data looks like it has one mode, but it doesn’t look to be completely symmetric. In fact it looks like it might be what is called right skewed. See [here](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} for more information about skewed distributions.
 
-If we split (or "facet") our data by `Sex`, what do the frequency distributions look like? 
+To check we can calculate the mean and median of the BMI data using the base `summarise()` function of the `dplyr` package. If the mean and median are very similar, then we will know that the data isn't skewed. Note that it is necessary to filter out the NA values first.
+
+```{r}
+BMI_long %>%
+  filter(!is.na(BMI))%>%
+  summarise(mean = mean(BMI), median = median(BMI))
+```
+Ok, so they are essentially the same, mean= 24.87 and median = 24.9, so this doesn’t fit the  hallmark of right-skewed data where the the mean is greater than the median. 
+
+
+However so far we have made a histogram of the BMI data in the long format which combines BMI estimates for different subgroups of people, so rural women, rural men, urban women, urban men, etc. are all combined. If we want to make group comparisons, we need to look at the distributions for the specific groups that we are evaluating. So, we need to pick a particular population of individuals and graph their BMI, for example just the national estimates for women and for men in 1985.  
+
 The easiest way to do this is to use some other functions of the `ggplot2` package, particularly the `facet_wrap()` function, which will allow us to look at differences in the distribution of the BMI estimates stratified by `Year`, `Sex`, and `Region`.
 We can sequentially divide our plots by deeper levels using multiple variables and the `+` plus sign within `facet_wrap()`.
 
@@ -1013,20 +1023,10 @@ We can sequentially divide our plots by deeper levels using multiple variables a
 BMI_long %>%
   ggplot(aes(x=BMI)) +
   geom_histogram() +
-  facet_wrap(~ Sex)
-
-BMI_long %>%
-  ggplot(aes(x=BMI)) +
-  geom_histogram() +
-  facet_wrap(~ Sex + Year) 
-
-BMI_long %>%
-  ggplot(aes(x=BMI)) +
-  geom_histogram() +
   facet_wrap(~ Sex + Year + Region) 
 ```
 
-Some of these plots look pretty similar to a normal distribution, like the `Women 2017 Urban` plot (although it is right-skewed).
+Some of these plots look pretty similar to a normal distribution, like the `Women 2017 Urban` plot (although it might be right-skewed, again we could check the mean and median to determine that).
 However some of the other plots, like the `Men 2017 Urban` plot, look very different. 
 These plots show what is called a [bimodal distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}, meaning that there appear to be two peaks (or modes), or in other words two different values (and values near each of these) that are the most frequent.
 
@@ -1046,13 +1046,16 @@ norm_BMI_ex_data %>%
   stat_qq_line()
 ```
 
-The `stat_qq_line()` function is used to add a line (computes the slope an intercept) on the plot. 
+The `stat_qq_line()` function is used to add a line (computes the slope an intercept) on the plot. If the points lie on this straight line, this is evidence that the data have a normal distribution, not that the data have a particular normal distribution.
 Not surprisingly, we see that the points mostly fall on the line, indicating that the quantiles are fairly similar between the observed and theoretical data.
-There are some points that are a bit further from the line as we get to the extreme quantiles. 
-Notice that the sample quantiles (y-axis are in a fairly similar range to our real BMI data quantiles. 
-So values that are below 22, for example, are represented as the points below 22 on the y-axis.  As expected we see that about half the points are below our mean of 24.  Note that this plot is comparing our data which was randomly sampled from a normal distribution with mean 24 and standard deviation 1 to a *standard normal distribution* with mean 0 and standard deviation 1, which is why the values on the x-axis are -3 to 3 instead of 21 to 27.  If the points lie on a straight line, this is evidence that the data have a normal distribution, not that the data have a particular normal distribution.
 
-We can specify a specific mean and standard deviation for our theoretical distribution in our Q-Q plot; here we specify a normal distribution with mean 24 and standard deviation 1:
+There are some points that are a bit further from the line as we get to the extreme quantiles.
+
+Note that this plot is comparing our `norm_BMI_ex_data` which was randomly sampled from a normal distribution with mean 24 and standard deviation 1 to a *standard normal distribution* with mean 0 and standard deviation 1, which is why the values on the x-axis are -3 to 3 instead of 21 to 27. 
+
+As expected we see that about half the points are below our mean of 24 on the y-axis.  
+
+We can specify a specific mean and standard deviation for our theoretical distribution in our Q-Q plot; here we specify a normal distribution with mean 24 and standard deviation 1 (so that the theoretical distribution looks more like our data):
 ```{r}
 norm_BMI_ex_data %>%
   ggplot(aes(sample = norm_data)) +
@@ -1061,16 +1064,6 @@ norm_BMI_ex_data %>%
 ```
 Notice that the plot looks the same except for the values on the x-axis have changed, meaning our interpretation will be the same -- it looks like the values are consistent with a normal distribution.
 
-If we were to use different data that had a range of different values our y-axis would shift according to the range of values. 
-For example, the `Orange` data (within the installation of R) includes data about the circumference of orange trees in millimeters. 
-Here, we can see that the quantiles are quite different but reflect the range of orange tree circumferences.
-```{r}
-range(pull(Orange, circumference))
-Orange %>%
-  ggplot(aes(sample = circumference)) +
-  stat_qq() +
-  stat_qq_line()
-```
 
 Now, let's take a look at our actual BMI data:
 ```{r}
