@@ -1073,6 +1073,7 @@ BMI_long %>%
   stat_qq_line() +
   facet_wrap(~ Sex + Year + Region)
 ```
+
 This is a little hard to see, some plots suggest those subsets of the data are similar to a normal distribution, but others seem to be skewed. Let's take a closer look.
 
 For the sake of simplicity, we are going to focus on the subset of data for the women. 
@@ -1089,7 +1090,7 @@ BMI_long %>%
 ```
 
 We can see that at the extremes of our quantiles, for most of our data, our tails are not very similar to the theoretical distribution. 
-We can can also see that our data is right- or positive-skewed, because the extreme values are above the line that indicates a perfect match between the theoretical and observed data.
+We can can also see that our data is right- or positive-skewed, because the extreme values are above the line.
 
 The rural data looks more normal than the urban data. 
 You might be asking, why do we care if the data look more normal or not? 
@@ -1097,32 +1098,16 @@ It turns out if you want to ask questions like "Is there a difference in the ave
 The most commonly used statistical tests that can answer that question rely on an assumption about the data you have, namely that your data have a similar shape as a theoretical normal distribution. 
 So, if we want to use those powerful statistical tests that rely on this assumption of "normality", then we need to check that assumption before using those tests. 
 
-One way to do that is to use Q-Q plots. 
-Another way to do that is to use the [Shapiro-Wilk test for normality](http://www.statistics4u.info/fundstat_eng/ee_shapiro_wilk_test.html){target="_blank"} when the Q-Q plot is a bit unclear. Many statisticians however would conclude from the Q-Q plots that normality appears to be violated in our data. 
+We can conclude from these plots that the assumption of normality appears to be violated in our data.
 
-### Shapiro-Wilk test
-
-Here, we are using the `summarize()` and `group_by()` functions from `dplyr` to perform the Shapiro-Wilk test for all the subsets we are interested in. In this case the `$` is used to grab the `p.value` from the `shapirotest()` output.
-
-```{r}
-BMI_long %>% 
-  filter(Sex == "Women") %>% 
-  group_by(Year, Region) %>% 
-  summarize(shapiro_test = shapiro.test(BMI)$p.value)
-
-
-```
-
-We can see that all of the subsets of our data do not appear to be normally distributed because the $p$-value is less than 0.05 for all subsets. 
-This is not suprising as the Q-Q plots suggested the same thing. 
 
 ## Data Analysis
 
-In the previous section, we hinted at the existance of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. women in 1985 and women in 2017). 
+In the previous section, we hinted at the existance of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. national BMI values of women in 1985 and women in 2017). 
 One such test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"}, which can be used to determine if [two group means are different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
 However, as mentioned before, this test depends on certain assumption of our data. 
 
-In this section, we are going to talk about this test and other tests that do not require assumptions about our data. 
+In this section, we are going to talk about this test and other tests that do not require the same assumptions about our data. 
 
 ### Hypothesis testing
 
@@ -1131,23 +1116,26 @@ Let's remind ourselves of one of our original questions,
 > Is there a difference between rural and urban BMI estimates around the world?
 
 In hypothesis testing, we are interested in comparing two different hypotheses: a "null" hypothesis (can be thought of like a baseline e.g. the means between two groups are the same) compared to an "alternative" hypothesis (e.g. the means between two groups are different). We are going to ask if there is enough evidence in our data to reject the null hypothesis.  
+
 Let's try to formalize this a bit. 
 
 In our case, we want to perform what is called a <b>two means hypothesis test</b> using a statistical test (e.g. a Student's $t$-test). Suppose we call the true unknown means of the two groups $\mu_1$ and $\mu_2$, for group 1 and group 2, respectively.
 Then we can define the <b>null hypothesis</b> that there is no difference in the two means:
 
-$$ H_0: \mu_1 = \mu_2 $$
+$$ H_0: \mu_1 = \mu_2 $$  
+
 In contrast, we also define an <b>alternative hypothesis</b> that there is a difference between the two means: 
 
 $$ H_a: \mu_1 \neq \mu_2 $$
 
 The idea behind a hypothesis test is that we assume the null hypothesis is true and we use our data to help us identify if there is enough evidence to _reject the null hypothesis_. 
+
 This is similar to the idea of assuming that individuals are not guilty until proven otherwise.
 If there is not enough evidence in the data, then we say we "fail to reject the null hypothesis".
 
 You might be asking, "But we do not know what the true group means are?" 
-That is correct.  Instead, we must estimate these means based on the data that we have.
-For example, in our data, we can estimate differences in the average BMI estimates for women in rural and urban regions in the two different years. 
+That is correct. Instead, we must estimate these means based on the data that we have.
+For example, in our data, we can estimate differences in the average BMI estimates for women in rural and urban regions in the two different years. Here we will use the `summarize()` function from the `dplyr` package again, this time using the argument `na.rm = TRUE` to remove NA values.
 
 ```{r}
 BMI_long %>% 
@@ -1171,9 +1159,7 @@ There are two possible classes of statistical tests that we could run to compare
 2. Nonparametric
 
 <b>Parametric tests</b> are based on assumptions about the distribution of the underlying data, while <b>nonparametric tests</b> do not rely on these distributional assumptions. 
-It is called "parametric" because aspects about the distribution of the data, like the mean, are called <b>parameters</b> of a mathematical function when we describe a population. 
-In parametric tests, we estimate the parameters of the true population of interest using a sample of that population. 
-These estimates are called <b>statistics</b>. 
+
 See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} for more information about the difference between these two classes of tests.
 
 ### Parametric two-sample $t$-test
@@ -1183,11 +1169,9 @@ The two-sample $t$-test however, relies on several <u><b>assumptions</b></u>:
 
 1) The data for each group is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
 2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"} of both groups is similar
-3) The number of observations is similar for both groups - thus they are [balanced](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"}
-4) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other)
+3) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other)
 
 A $t$-test is most commonly applied when the test statistic would follow a normal distribution if the value of a scaling term in the test statistic were known. When the scaling term is unknown and is replaced by an estimate based on the data, the test statistics (under certain conditions) follow a Student's t distribution. The $t$-test can be used, for example, to determine if the means of two sets of data are significantly different from each other.
-
 
 
 
@@ -1195,12 +1179,13 @@ If these assumptions are violated, this doesn't necessarily mean we can't perfor
 
 1) [Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed
 2) [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} also call the unequal variance $t$-test we may need to modify the way we perform the [$t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} to account for the difference in the variance in the two groups
-3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"} to deal with violations of normality or imbalance.
+3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"} to deal with violations of normality.
 
 Alternatively, we can use a nonparametric test which does not rely on assumptions about the parameters of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
 
-Our data has a balance of observations for both groups - in fact they are equal, thus that assumption is not violated.
-If it were violated, we would want to consider using permutation methods which are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}.
+It is also important to note that our data has a balance of observations for both groups - in fact they are equal. [Balanced designs](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"} typically make the tests comparing means more powerful.
+
+If our design was not balanced, we would want to consider using permutation methods to improve power, these methods are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}.
 
 If we needed to check if our samples were imbalanced, we could use the `count()` function of `dplyr`:
 
@@ -2138,8 +2123,7 @@ We have evaluated BMI average estimates from 200 different countries around the 
 
 1) normality of the data for both groups (this is not as much of an issue if the number of observations is relatively large total n>30)
 2) equal variance between the two groups (make sure you do the correct test if the data is not normal)
-3) balanced sample sizes of the two groups
-4) independent observations (or independent paired observations)
+3) independent observations (or independent paired observations)
 
 We learned that we can evaluate if our data is [normally distributed](https://www.physiology.org/doi/full/10.1152/advan.00064.2017){target="_blank"} by plotting the distribution and by creating Q-Q plots.
 
@@ -2148,11 +2132,10 @@ We learned that we can evaluate if our data is [normally distributed](https://ww
 1) We can still perform a $t$-test if our n is large
 2) We can transform the data before performing a $t$-test
 3) We can use a nonparametric test (Wilcoxon signed rank test, the Wilcoxon rank sum test, and the Two-sample Kolmogorov-Smirnov (KS) test)
-4) We can perform a $t$-test with resampling methods (which should be especially considered when the groups are imbalanced)
+4) We can perform a $t$-test with resampling methods for violations of normality (which should be especially considered when the groups are imbalanced)
 
 We learned that if our groups do not have equal variance, that we need to use a modified $t$-test to account for this or the correct nonparametric test that does not rely on this assumption (Two-sample Kolmogorov-Smirnov test).
 
-We also learned that if our groups are not well balanced, that we can consider resampling methods.
 
 Finally its also important to remember that when we have [paired data](https://www.statisticshowto.datasciencecentral.com/paired-data/){target="_blank"} and intend to compare means, we should perform a paired test ([paired $t$-test](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"}, Wilcoxon signed rank test, or paired KS test). Our data used in this case study was paired because observations were taken for the same countries for different categories of populations - thus, we wanted to compare these populations within the same country (male vs female, rural vs urban etc.). Other examples would be in a case-control study (if samples are matched for various demographics) or a study with repeated measures (for example, symptom measures from the same individual before and after a treatment). 
 
