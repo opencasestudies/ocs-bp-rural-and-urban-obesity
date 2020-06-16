@@ -1742,9 +1742,6 @@ ggplot(BMI_diff_long, aes(x = Difference, y = value, col = Difference)) +
         strip.text.x = element_text(size = 15)) +
         # this changes the size of x axis labels for the facet
         ggtitle( "Change in BMI Over Time and Across Region Type and Gender")
-        # Add a plot title  
-
-
 
 ```
 
