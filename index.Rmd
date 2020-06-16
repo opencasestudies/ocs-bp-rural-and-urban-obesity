@@ -1103,7 +1103,7 @@ We can conclude from these plots that the assumption of normality appears to be 
 
 ## Data Analysis
 
-In the previous section, we hinted at the existence of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. national BMI values of women in 1985 and women in 2017). 
+In the previous section, we hinted at the existence of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. national BMI estimates in rural areas and national BMI estimates in urban areas). 
 One such test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"}, which can be used to determine if [two group means are different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
 However, as mentioned before, this test depends on certain assumption of our data. 
 
@@ -1119,14 +1119,13 @@ In hypothesis testing, we are interested in comparing two different hypotheses: 
 
 Let's try to formalize this a bit. 
 
-In our case, we want to perform what is called a <b>two means hypothesis test</b> using a statistical test (e.g. a Student's $t$-test). Suppose we call the true unknown means of the two groups $\mu_1$ and $\mu_2$, for group 1 and group 2, respectively.
-Then we can define the <b>null hypothesis</b> that there is no difference in the two means:
+Suppose we want to test whether there is a difference between rural and urban BMI estimates using the data from 1985.  In our case, then, we want to test whether the mean BMI estimate among the rural areas is the same as the mean BMI estimate in the urban areas. If we call the true unknown means of the two groups $\mu_U$ and $\mu_R$, for the urban and rural areas, respectively, then we can define the <b>null hypothesis</b> that there is no difference in the two means:
 
-$$ H_0: \mu_1 = \mu_2 $$  
+$$ H_0: \mu_U = \mu_R $$  
 
-In contrast, we also define an <b>alternative hypothesis</b> that there is a difference between the two means: 
+In contrast, we also define an <b>alternative hypothesis</b> that there is a difference between the mean BMI esimates: 
 
-$$ H_a: \mu_1 \neq \mu_2 $$
+$$ H_a: \mu_U \neq \mu_R $$
 
 The idea behind a hypothesis test is that we assume the null hypothesis is true and we use our data to help us identify if there is enough evidence to _reject the null hypothesis_. 
 
@@ -1135,180 +1134,90 @@ If there is not enough evidence in the data, then we say we "fail to reject the 
 
 You might be asking, "But we do not know what the true group means are?" 
 That is correct. Instead, we must estimate these means based on the data that we have.
-For example, in our data, we can estimate differences in the average BMI estimates for women in rural and urban regions in the two different years. Here we will use the `summarize()` function from the `dplyr` package again, this time using the argument `na.rm = TRUE` to remove NA values.
+For example, in our data, we can estimate the average BMI estimates for women in rural and urban regions in 1985. Here we will use the `summarize()` function from the `dplyr` package again, this time using the argument `na.rm = TRUE` to remove NA values.
 
 ```{r}
 BMI_long %>% 
-  filter(Sex == "Women", Region != "National") %>% 
-  group_by(Region, Year) %>%
+  filter(Year == 1985, Sex == "Women", Region != "National") %>% 
+  group_by(Region) %>%
   summarize(avg_bmi = mean(BMI, na.rm = TRUE)) 
-
-BMI_long %>% 
-  filter(Sex == "Women", Region != "National") %>% 
-  group_by(Region, Year) %>%
-  summarize(avg_bmi = mean(BMI, na.rm = TRUE)) %>% 
-  mutate(diff = avg_bmi - lag(avg_bmi)) 
 ```
 
-Here we see that that BMI estimates increased by 2.39 points within rural regions and increased by 2.21 points within urban regions.  
-Next, we can use a statistical test (e.g. a Student's $t$-test) to assess if these differences are statistically meaningful or if these differences could be found due to random chance. 
+Here we see that that in 1985, the average BMI estimate for women across urban areas is 24.6 compared to 23.6 across rural areas.  It looks like BMI estimates are, on average, higher in urban areas compared to rural areas.  However, now we want to use a statistical test to assess if this difference is statistically meaningful or a difference of this size could be found due to random chance. 
 
-There are two possible classes of statistical tests that we could run to compare the means of these two groups:
+### Two-sample t-test
 
-1. Parametric
-2. Nonparametric
+The two-sample $t$-test is a common way to determine if the means of two groups are different. It does this by calculating a observed test-statistic, $t$, that looks at the difference in the sample means of the two groups divided by an estimate of the variability in the difference in sample means.  Here $s_{pooled}$ is standard deviation of the data when pooling the samples together.
+$$
+t = \frac{\bar{X}_U-\bar{X}_R}{s_{pooled}\sqrt{\frac{1}{n_U} + \frac{1}{n_R}}}
+$$
+If the null hypothesis is true, and the means for urban and rural areas are the same, then the sample means in the numerator will be similar and this test statistic will be close to 0.  However, if the test statistic is not close to 0, this provides evidence the means for the urban and rural areas are difference, and so we may choose to reject the null hypothesis.  
 
-<b>Parametric tests</b> are based on assumptions about the distribution of the underlying data, while <b>nonparametric tests</b> do not rely on these distributional assumptions. 
+To formally decide whether to reject the null hypothesis, we compare the observed test statistic to the distribution of possible test statistics that could occur if the null hypothesis were true using what we call a **p-value**.  The p-value tells us the probability of observing a test statistic as or more extreme than the one we observed if the null hypothesis is true.  If the p-value is small, say less than 0.05, then our observed test statistic is pretty rare if the null hypothesis is true.  This would lead us to reject the null hypothesis and conclude that the means of the two groups are different. We will talk more about p-values, and in particular our choice of 0.05 as a comparison for the p-value, a little later.
 
-See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} for more information about the difference between these two classes of tests.
+Here we perform a two-sample $t$-test comparing estimate for rural women in 1985 to estimates for urban women in 1985.  We use the `var.equal = TRUE` option here to use the pooled standard deviation $s_{pooled}$ from the formula above.
+```{r}
+t.test(pull(filter(BMI_long, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Rural"), BMI), 
+       pull(filter(BMI_long, Sex == "Women", 
+                   Year == "1985", 
+                   Region == "Urban"), BMI), 
+       var.equal = TRUE)
+# means are different - p value <.05 reject the null: no difference in the means
+```
 
-### Parametric two-sample $t$-test
+In this case the p-value for the test is 0.00012, which is quite small.  Here would would reject the null hypthesis that the means in the two groups are equal and conclude there are differences in mean BMI estimates for women in urban and rural areas.  
 
-The two-sample $t$-test is a common way to determine if the means of two groups are different. 
-The two-sample $t$-test however, relies on several <u><b>assumptions</b></u>:
+But wait!  We need to check the assumptions of the statistical test we used to be sure it is valid.  The two-sample $t$-test relies on several <u><b>assumptions</b></u>:
 
 1) The data for each group is [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}.
 2) The [variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"} of both groups is similar.
-3) The observations are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other).
+3) The observations from the two groups are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other).
+4) The observations within each group are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other).
 
 
-If these assumptions are violated, this doesn't necessarily mean we can't perform a $t$-test. It just means we may need to consider the following options:
+If these assumptions are violated, this doesn't necessarily mean we can't perform a statistical test. It just means we may need to consider the following options:
 
-1) [Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed.
-2) [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} also called the unequal variance $t$-test.  We may need to modify the way we perform the [$t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} to account for the difference in the variance in the two groups.
-3) [Permutation/resampling methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"} to deal with violations of normality.
-4) If we have data that is not independent and is what we call paired, we should considered the [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"} ]. We will explain this in more detail.
+1) If the data isn't normally distributed, we may need to consider either a [transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed or a [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} test which doesn't rely on the normality assumption.
+2) If the variances of the two groups aren't similar, we can to a [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} (also called the unequal variance $t$-test) to account for difference variances.  This modifies the denominator of the test statistic to no longer use the standard deviation from pooling the samples.  We can do this in `R` by using the `var.equal = TRUE` option in the `t.test()` function.
+3) If the data in the two samples are not independent and are instead what we call paired, we should use the [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
+4) If the data within a group is not independent, we would need to consider methods beyond the scope of this case study.
 
-We can use a nonparametric test which does not rely on assumptions about the normality of the data. These tests are often a good option when multiple assumptions are violated are when sample sizes are small. We will explore these options.
+Are these assumptions met in our case?  We've already seen, using Q-Q plots, that these BMI estimates may not be normally distributed.  We haven't checked the assumption of equal variance yet.  But it seems clear that the last assumption (of independent samples) is violated in our case!  The BMI data for rural areas comes from the same countries and the BMI data for urban areas, meaning the samples are not independent and are instead what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}. We need to account for this because paired values may be more similar to one another because they come from the same country. Note that this would also be true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. 
 
-It is also important to note that our data has a balance of observations for both groups - in fact they are equal. [Balanced designs](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"} typically make the tests comparing means more powerful.
+### Paired t-test
 
-If our design was not balanced, we might want to consider using permutation methods to improve power, these methods are also a good option for violations of normality. To learn more about these methods see [here](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}.
-
-If we needed to check if our samples were imbalanced, we could use the `count()` function of `dplyr`:
-
+When we perform a paired $t$-test, instead of looking at the means of the two samples separately, we combine observations in a pair (from the same country in our case) to calculate a difference in values between the two samples.  For example, we are really testing the `bmi_diff` column in the data below:
 ```{r}
-dplyr::count(BMI_long, Sex, Year, Region)
+BMI_long %>% 
+  filter(Year == 1985, Sex == "Women", Region != "National") %>% 
+  group_by(Country) %>%
+  summarize(bmi_rural = BMI[Region == "Rural"],
+            bmi_urban = BMI[Region == "Urban"],
+            bmi_diff = bmi_rural - bmi_urban) 
 ```
 
-We can see that the number of observations for each possible group of interest is the same.
+This means our hypotheses are slightly different from the two-sample $t$-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. (A mean difference of zero would mean the BMI estimates are the same in the rural and urban areas.) If we let $\mu_d$ represent the true mean difference between the paired observations of the two groups, then our null hypothesis is that the mean of the differences is equal to zero:
+$$
+                                        H_0 : \mu_d = 0
+$$                                        
 
-The $t$-test is also fairly robust to non-normality if the data is relatively large, due to what is called the [central limit theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/){target="_blank"}, which states that as samples get larger, they approximate a normal distribution.
+And the alternative hypothesis is that the mean of the differences is not equal to zero:
+$$
+                                        H_a : \mu_d \neq 0
+$$                                      
 
-We have an n of 200, which should be sufficient but let's investigate the nonparametric tests further. 
-
-
-Often we would check if the variance of the rural and urban data is equal using the `var.test()` function. However this is an F test and assumes that the data is normally distributed. Instead we will use the `mood.test()` function which performs the [Mood's two-sample test for a difference in scale parameters](https://files.eric.ed.gov/fulltext/ED065559.pdf){target="_blank"} and does not assume that the data is normally distributed. We will also introduce the `pull()` function of the `dplyr` package.
-
+We can perform a paired $t$-test by adding the option `paired = TRUE` to the `t.test()` command.  Note that we don't need to specify anything about equality of variances now, because there is only one variance, the variance of the paired differences!
 ```{r}
-
-#pull() will allow us to take the BMI column after we filter BMI_long
-
-mood.test(dplyr::pull(filter(BMI_long, 
-                             Sex == "Women", 
-                             Year == "2017", 
-                             Region == "Rural"), BMI), 
-          dplyr::pull(filter(BMI_long,
-                             Sex == "Women", 
-                             Year == "2017", 
-                             Region == "Urban"), BMI))
-# p value <.05, conclude that variance is not equal
-# reject the null: no difference in the spread of the distributions
-
-mood.test(pull(filter(BMI_long, Sex == "Women", 
-                      Year == "1985", 
-                      Region == "Rural"), BMI), 
-          pull(filter(BMI_long, 
-                      Sex == "Women", 
-                      Year == "1985", 
-                      Region == "Urban"), BMI))
-# p value <.05, conclude that variance is not equal
-# reject the null: no difference in the variance of the distributions
-
-mood.test(pull(filter(BMI_long, 
-                      Sex == "Women", 
-                      Year == "1985", 
-                      Region == "Rural"), BMI), 
-          pull(filter(BMI_long, Sex == "Women", 
-                      Year == "2017", 
-                      Region == "Rural"), BMI))
-# p value >.05, conclude that variance is equal
-# fail to reject the null the null: no difference in the variance of the distributions
-
-mood.test(pull(filter(BMI_long, 
-                      Sex == "Women", 
-                      Year == "1985", 
-                      Region == "Urban"), BMI), 
-          pull(filter(BMI_long, Sex == "Women", 
-                      Year == "2017", 
-                      Region == "Urban"), BMI))
-# p value >.05, conclude that variance is equal
-# fail to reject the null the null: no difference in the variance of the distributions
-
-```
-
-Our p value is less than .05 for both tests, thus we reject our null hypothesis that there is no difference in the variance. Therefore, we conclude that the variance is not equal and that our data also violates this assumption.
-
-We will perform a special t.test where we account for the fact that our variance is not equal. 
-
-Another very important consideration is that the our data is what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}, meaning that the measurements from the rural and urban areas are not independent. That is because we have a rural and urban measurement mean for nearly every country. Thus these values may be more similar to one another if they come from the same country. This is also true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. However, we are assuming that measurements between different countries are independent, thus this assumption is not violated, making it reasonable to perform the paired $t$-test.
-
-When we perform a paired $t$-test our hypothesis is slightly different from the typical student's $t$-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero. Our null hypothesis is that the mean of the differences is equal to zero:
-
-                                        Ho: μd = 0
-                                        
-                               μd is the true mean differences 
-                               between paired observations of the two groups
-
-The alternative hypothesis is that the mean of the differences is not equal to zero
-
-                                        Ha: μd ≠ 0
-                                        
-                               μd is the true mean differences 
-                               between paired observations of the two groups
-
-```{r}
-
-t.test(pull(filter(BMI_long, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Rural"), BMI), 
-       pull(filter(BMI_long, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Urban"), BMI), 
-       var.equal = FALSE, paired = TRUE)
-# means are different - p value <.05 reject the null: no difference in the means
-
-t.test(pull(filter(BMI_long, Sex == "Women", 
-                   Year == "1985",
-                   Region == "Rural"), BMI), 
-       pull(filter(BMI_long, Sex == "Women", 
-                   Year == "1985", 
-                   Region == "Urban"), BMI),
-       var.equal = FALSE, paired = TRUE)
-# means are different - p value <.05 reject the null: no difference in the means
-
 t.test(pull(filter(BMI_long, Sex == "Women", 
                    Year == "1985", 
                    Region == "Rural"), BMI), 
        pull(filter(BMI_long, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Rural"), BMI),
-       var.equal = TRUE, paired = TRUE)
-# means are different - p value <.05 reject the null: no difference in the means
-
-t.test(pull(filter(BMI_long, Sex == "Women", 
                    Year == "1985", 
                    Region == "Urban"), BMI), 
-       pull(filter(BMI_long, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Urban"), BMI),
-       var.equal = TRUE, paired = TRUE)
+       paired = TRUE)
 # means are different - p value <.05 reject the null: no difference in the means
-# the t value shows us that the directionality of the difference
-# the t value was negative thus BMI was lower in 1985 (1st group) 
-# compared to 2017 (2nd group)
-
-
 ```
 
 #### {.question_block}
@@ -1317,110 +1226,133 @@ Looking at the t value, was global BMI lower in Rural or Urban areas in 1985?
 
 ####
 
-Now we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values. Then we will see how this influences the results. Again we will focus on the data for women.
+Let's come back to the other $t$-test assumptions now.  With a paired $t$-test, we no longer need to assess the assumption about equal variance, since we are really testing the mean of one sample (of paired differences) rather than comparing two samples.  However, we still have to check normality and independence of observations.  We can rephrase these now to be about the paired differences rather than the two separate samples:
 
+1) The paired differences are [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}.
+2) The paired differences are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other).
+
+If we assume that measurements between different countries are independent, this second assumption is not violated.  Therefore, we only now need to check normality of these paired differences.
+
+We can start by making a Q-Q plot of the paired differences.
 ```{r}
-
-# create a new column with the log version of the BMI variable using mutate()
-
-BMI_long_log <- mutate(BMI_long, log_BMI=log(pull(BMI_long,BMI)))
-
-BMI_long_log %>%
-  filter(Sex == "Women") %>%
-  ggplot(aes(sample =log_BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  facet_wrap(~ Year + Region)
-
-#recall what it looked like before:
-BMI_long %>%
-  filter(Sex == "Women") %>%
-  ggplot(aes(sample =BMI)) +
-  stat_qq() + # to add the line we need to also include stat_qq_line()
-  stat_qq_line() +
-  facet_wrap(~ Year + Region)
-
+BMI_long %>% 
+  filter(Year == 1985, Sex == "Women", Region != "National") %>% 
+  group_by(Country) %>%
+  summarize(bmi_rural = BMI[Region == "Rural"],
+            bmi_urban = BMI[Region == "Urban"],
+            bmi_diff = bmi_rural - bmi_urban)  %>%
+  ggplot(aes(sample = bmi_diff)) +
+  stat_qq() +
+  stat_qq_line()
 ```
 
-The data appears to be more similar to the normal distribution than it did before, although it still looks different from the theoretical normal distribution. Again however, our sample size of 200 is quite large and the $t$-test is generally quite robust to violations of normality with large n, thus the modified $t$-test to account for unequal variance might be a good option using the log normalized data, as it is at least more normally distributed.
-
-Let's see the results of the paired $t$-test with the transformed data:
-
+We see that these paired differences do not appear to be normally distributed because the points do not lie on the straight line.  We can also see this by making a histogram of these paired differences:
 ```{r}
-
-t.test(pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Rural"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Urban"), log_BMI), 
-       var.equal = FALSE, paired = TRUE)
-# means are different - p value <.05 reject the null: no difference in the means
-
-t.test(pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "1985", 
-                   Region == "Rural"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "1985", 
-                   Region == "Urban"), log_BMI),
-       var.equal = FALSE, paired = TRUE)
-# means are different - p value <.05 reject the null: no difference in the means
-
-t.test(pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "1985", 
-                   Region == "Rural"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Rural"), log_BMI),
-       var.equal = TRUE, paired = TRUE)
-# means are different - p value <.05 reject the null: no difference in the means
-
-t.test(pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "1985", 
-                   Region == "Urban"), log_BMI), 
-       pull(filter(BMI_long_log, Sex == "Women", 
-                   Year == "2017", 
-                   Region == "Urban"), log_BMI),
-       var.equal = TRUE, paired = TRUE)
-# means are different - p value <.05 reject the null: no difference in the means
-
+BMI_long %>% 
+  filter(Year == 1985, Sex == "Women", Region != "National") %>% 
+  group_by(Country) %>%
+  summarize(bmi_rural = BMI[Region == "Rural"],
+            bmi_urban = BMI[Region == "Urban"],
+            bmi_diff = bmi_rural - bmi_urban)  %>%
+  ggplot(aes(x = bmi_diff)) +
+  geom_histogram()
 ```
 
-We can see that our results are quite similar to that of the original data, however the t values are slightly smaller. In other cases we may see a much more dramatic influence of transforming our data.
+This histogram appears to show show a bimodal distribution, meaning two groups of countries -- most countries have a rural BMI estimates lower than urban BMI estimates (`bmi_diff` < 0), while a smaller group of countries have urban BMI esimates higher than urban BMI estimates (`bmi_diff` >0).
 
-
-Now, let's take a look at nonparametric tests, which are also a great option when the assumptions of the $t$-test are violated. 
-
-### Nonparametric two sample tests
-
-There are multiple nonparametric options to consider when the assumptions of the [$t$-test] are violated. The [Wilcoxon signed rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html){target="_blank"} (for paired data - the alternative is [Wilcoxon rank sum test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html){target="_blank"} (also called the Mann-Whitney U test) for independent samples) and the [two-sample Kolmogorov-Smirnov test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm){target="_blank"} (KS) both do not assume normality (has both paired and unpaired methods). Thus these tests should be considered when the data of either groups does not appear to be normally distributed and particularly when the number of samples is low.
-
-Importantly the KS test does not assume normality or equal variance, while the Wilcoxon signed rank test does assume equal variance. Here is how you would perform these tests. However in our case, because the variance is not equal between some of our groups of interest, the KS test would be more appropriate. Both the $t$-test and the KS test evaluate if the distributions of the two groups are identical, however the KS test does not particularly test any aspect of the distribution like the mean, therefore there are no confidence intervals in the output using this test. 
+First we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values. Logarithms make extreme values less extreme, so can be helpful when data has a right skew.
 
 ```{r}
-
-ks.test(pull(filter(BMI_long, Sex == "Women", 
-                    Year == "2017", 
-                    Region == "Rural"), BMI), 
-        pull(filter(BMI_long, Sex == "Women", 
-                    Year == "2017", 
-                    Region == "Urban"), BMI),
-        paired = TRUE)
-
-ks.test(pull(filter(BMI_long, Sex == "Women", 
-                    Year == "1985", 
-                    Region == "Rural"), BMI), 
-        pull(filter(BMI_long, Sex == "Women", 
-                    Year == "1985", 
-                    Region == "Urban"), BMI),
-        paired = TRUE)
+# create a new dataset with the paired differences
+# create a log version of the difference variable using mutate()
+BMI_diff_log <- BMI_long %>%
+  filter(Year == 1985, Sex == "Women", Region != "National") %>% 
+  group_by(Country) %>%
+  summarize(bmi_rural = BMI[Region == "Rural"],
+            bmi_urban = BMI[Region == "Urban"],
+            bmi_diff = bmi_rural - bmi_urban) %>%  
+  mutate(log_diff=log(bmi_diff))
 ```
 
-
-What about the difference in female BMI from 1985 to 2017 for both regions?
-Recall that the variance was equal for these comparisons.
-
+Notice the warning message that `In log(bmi_diff) :  NaNs produced`.  This is because some of our differences were less than zero, and the logarithm of a negative number is not defined.  We can fix this issue by adding the same positive number, say 5, to each difference before taking the logarithm:
 ```{r}
+BMI_diff_log <- BMI_long %>%
+  filter(Year == 1985, Sex == "Women", Region != "National") %>% 
+  group_by(Country) %>%
+  summarize(bmi_rural = BMI[Region == "Rural"],
+            bmi_urban = BMI[Region == "Urban"],
+            bmi_diff = bmi_rural - bmi_urban) %>%  
+  mutate(log_diff=log(bmi_diff + 5))
+```
+
+Let's look at a Q-Q plot and histogram of this transformed data:
+```{r}
+BMI_diff_log %>% 
+  ggplot(aes(sample = log_diff)) +
+  stat_qq() +
+  stat_qq_line()
+
+BMI_diff_log %>% 
+  ggplot(aes(x = log_diff)) +
+  geom_histogram()
+```
+
+The transformed data still does not appear to be normally distributed and the bimodal nature of the distribution is still apparent in the histogram.  What should we do?  The $t$-test is fairly **robust** to violations of the normality assumption if the sample size is relatively large, due to what is called the [central limit theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/){target="_blank"}, which states that as samples get larger, the sample mean has an approximate normal distribution.  
+
+With our sample size of 200, we could consider using the paired $t$-test even with our non-normal data.  However, if we had a smaller sample, we might still need to consider another alternative since the log-transformed data still doesn't look normal.  We might want to consider a non-parametric test in that case.
+
+### Nonparametric tests
+
+When the normality assumption of a paired $t$-test is violated, we can consider a nonparametric alternative instead.  What's a non-parametric test?  <b>Parametric tests</b> are based on assumptions about the distribution of the underlying data, while <b>nonparametric tests</b> do not rely on these distributional assumptions. 
+
+See [here](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} for more information about the difference between these two classes of tests.
+
+The nonparametric alternative to the paired $t$-test is called the [Wilcoxon signed-rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html){target="_blank"}.  This test doesn't require the same normality assumption as the $t$-test, so can be considered with the data does not appear to be normally distributed and particularly when the number of samples is low. The null hypothesis for this test is that the **median** of the paired differences is 0.
+
+To do a Wilcoxon test, we use the `wilcox.test()` function:
+```{r}
+wilcox.test(pull(filter(BMI_long, Sex == "Women", 
+                        Year == "1985", 
+                        Region == "Rural"), BMI),
+           pull(filter(BMI_long, Sex == "Women", 
+                       Year == "1985", 
+                       Region == "Urban"), BMI),
+           paired = TRUE)
+```
+
+With this nonparametric test, we still see a small p-value, indicating that BMI estimates between urban and rural areas are different. We would conclude that there's a difference in the median BMI estimates between these types of regions.
+
+### Multiple Testing Correction
+
+Let's take a look back at the questions we wanted to answer:
+1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
+2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
+3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
+
+It's important to note that ultimately we wanted to test 4 different tests to answer question 1 and 2:
+
+1) Is there a difference in mean BMI for women between Rural and Urban areas in 1985?
+2) Is there a difference in mean BMI for women between Rural and Urban areas in 2017?
+3) Is there a difference in mean BMI for women between 1985 and 2017 in Rural areas?
+4) Is there a difference in mean BMI for women between 1985 and 2017 in Urban areas?
+
+So far we have only looked at the first test.  Let's perform all 4 of these tests using the non-parametric Wilcoxon signed-rank test:
+```{r}
+wilcox.test(pull(filter(BMI_long, Sex == "Women", 
+                        Year == "1985", 
+                        Region == "Rural"), BMI),
+           pull(filter(BMI_long, Sex == "Women", 
+                       Year == "1985", 
+                       Region == "Urban"), BMI),
+           paired = TRUE)
+
+wilcox.test(pull(filter(BMI_long, Sex == "Women", 
+                        Year == "2017", 
+                        Region == "Rural"), BMI),
+           pull(filter(BMI_long, Sex == "Women", 
+                       Year == "2017", 
+                       Region == "Urban"), BMI),
+           paired = TRUE)
 
 wilcox.test(pull(filter(BMI_long, Sex == "Women", 
                         Year == "1985", 
@@ -1437,25 +1369,8 @@ wilcox.test(pull(filter(BMI_long, Sex == "Women",
                        Year == "2017", 
                        Region == "Urban"), BMI),
            paired = TRUE)
-
 ```
-There is a significant difference across time for both regions, as we saw with the $t$-test. There is also a significant difference by region for each year. However, the p-values are a bit larger for the KS test results than we saw with the $t$-test.
-
-### Multiple Testing Correction
-
-Let's take a look back at the questions we wanted to answer:
-1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
-2) How have BMI estimates changed from 1985 to 2017? Again, In particular, how does this look for females?
-3) How do different countries compare for BMI estimates? In particular, how does the United States compare to the rest of the world?
-
-It's important to note that ultimately we wanted to test 4 different tests to answer question 1 and 2:
-
-1) Is there a difference in mean BMI for women between Rural and Urban areas in 1985?
-2) Is there a difference in mean BMI for women between Rural and Urban areas in 2017?
-3) Is there a difference in mean BMI for women between 1985 and 2017 in Rural areas?
-4) Is there a difference in mean BMI for women between 1985 and 2017 in Urban areas?
-
-When we test multiple questions like this, we need to correct for the multiple tests that we are performing.
+In each of these tests, the very small p-value that would lead us to conclude that there is a difference between the two groups we are comparing.  However, when we test multiple questions like this, we need to correct for the multiple tests that we are performing.
 
 The more we test data, the more likely we are to see a significant finding just by [random chance](https://www.stat.berkeley.edu/~mgoldman/Section0402.pdf){target="_blank"} even when the finding is in fact not real. It all comes down to probability.
 
@@ -1565,16 +1480,8 @@ In this method we would divide our significance threshold (generally 0.05) by th
 
 Our new significance threshold is now 0.0125. 
 Thus our p-values should be less than this value for us to reject the null that there is no difference in means.
-In all cases, our p-values were less than 0.0125.
-So we see a significant difference in the means of the groups after multiple testing correction for our different tests.
-
-Again, it would be reasonable to use the $t$-test because it is robust to deviations in normality when samples are relatively large. 
-We can see that we obtained the same results regardless of the test that we used.
-However, if sample sizes are small (generally speaking n<15 for each group), then these nonparametric options are useful to know.
-
-The D values in the output of our KS tests, show the magnitude of distance in the difference between the distributions of the groups tested.
-You may notice that the D value is larger for the tests of BMI across time rather then across region.
-In these tests the p-value was also smaller.
+In our 4 Wilcoxon tests, our p-values were less than 0.0125.
+So we see a significant difference in the means of the groups after multiple testing correction for our four different tests.
 
 ## Data Visualization
 
