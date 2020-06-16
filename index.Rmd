@@ -1122,7 +1122,7 @@ Suppose we want to test whether there is a difference between rural and urban BM
 
 $$ H_0: \mu_U = \mu_R $$  
 
-In contrast, we also define an <b>alternative hypothesis</b> that there is a difference between the mean BMI esimates: 
+In contrast, we also define an <b>alternative hypothesis</b> that there is a difference between the mean BMI estimates: 
 
 $$ H_a: \mu_U \neq \mu_R $$
 
@@ -1166,7 +1166,7 @@ t.test(pull(filter(BMI_long, Sex == "Women",
 # means are different - p value <.05 reject the null: no difference in the means
 ```
 
-In this case the p-value for the test is 0.00012, which is quite small.  Here would would reject the null hypthesis that the means in the two groups are equal and conclude there are differences in mean BMI estimates for women in urban and rural areas.  
+In this case the p-value for the test is 0.00012, which is quite small.  Here would would reject the null hypothesis that the means in the two groups are equal and conclude there are differences in mean BMI estimates for women in urban and rural areas.  
 
 But wait!  We need to check the assumptions of the statistical test we used to be sure it is valid.  The two-sample $t$-test relies on several <u><b>assumptions</b></u>:
 
@@ -1258,7 +1258,7 @@ BMI_long %>%
   geom_histogram()
 ```
 
-This histogram appears to show show a bimodal distribution, meaning two groups of countries -- most countries have a rural BMI estimates lower than urban BMI estimates (`bmi_diff` < 0), while a smaller group of countries have urban BMI esimates higher than urban BMI estimates (`bmi_diff` >0).
+This histogram appears to show show a bimodal distribution, meaning two groups of countries -- most countries have a rural BMI estimates lower than urban BMI estimates (`bmi_diff` < 0), while a smaller group of countries have urban BMI estimates higher than urban BMI estimates (`bmi_diff` >0).
 
 First we will try transform our data to make it more normally distributed. One way to do this is to take the logarithm of the data values. Logarithms make extreme values less extreme, so can be helpful when data has a right skew.
 
@@ -1830,7 +1830,7 @@ BMI_diff_long %>%
 
 In fact for these countries, the difference between rural and urban areas for men is higher than the difference for women for almost all of the countries!
 
-We can look to see which countries have such a large difference for men:
+We can look to see which countries have such a large difference in change over time between rural and urban areas for men:
 ```{r}
 BMI_diff_long %>%
   filter(Sex == "Men", Difference != "National_difference") %>%
@@ -1842,7 +1842,7 @@ BMI_diff_long %>%
 ```
 
 
-For women, we did see a difference in the change over time between urban and rural areas.  There appear to be specific countries where BMI shows a particular increase especially for women. Which countries are those? how does that compare with the US? Clearly the US is among the countries with the highest differences. 
+For women, we did see a difference in the change over time between urban and rural areas.  There appear to be specific countries where BMI shows a particular increase especially for women. Which countries are those? How does that compare with the US? Clearly the US is among the countries with the highest differences. 
 
 ```{r}
 BMI_diff_long %>% 
@@ -1852,12 +1852,12 @@ BMI_diff_long %>%
 
 In the US, focus should be placed on <b> both urban and rural </b> women to improve this public health issue. 
 
-Here we can see the countries have the largest differences in BMI from 1985-2017:
+Here we can see the countries that have the largest differences in BMI from 1985-2017:
 
 ```{r}
 BMI_diff_long %>%
-  filter(value>4.9) %>%
-  arrange(-value)
+  filter(value > 4.9) %>%
+  arrange(- value)
 #here we sorted by the highest to lowest values of BMI Difference
 ```
 
@@ -1866,16 +1866,17 @@ It could be that the average was underweight in 1985... let's take a look.
 
 ```{r}
 BMI_long %>% 
-  filter(Country %in% pull(filter(BMI_diff_long, value>4.9), Country), 
-                    Sex %in% pull(filter(BMI_diff_long, value>4.9), Sex),
+  filter(Country %in% pull(filter(BMI_diff_long, value > 4.9), Country), 
+                    Sex %in% pull(filter(BMI_diff_long, value > 4.9), Sex),
                     Year =="2017") %>%
-  arrange(-BMI)
+  arrange(- BMI)
 
 #Here is the data just for the changes in BMI in Egypt
 filter(BMI_diff_long, Country == "Egypt") %>% 
-  arrange(-value)
+  arrange(- value)
 
 ```
+
 Thus rural women in Egypt had the greatest increase in BMI from 1985 to 2017 in this data (5.9) and the average BMI is now over the obesity threshold of 30.
 
 The data suggests that rural women in Egypt and other countries may especially benefit from dietary resources and our interventions and programs to assist with weight management.
