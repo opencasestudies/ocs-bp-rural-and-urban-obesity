@@ -2018,9 +2018,8 @@ Our plot visually explores all of our main questions:
 Now let's save our plot as a png file using the `png()` function:
 
 ```{r}
-png(here::here("img", "main_plot.png"), height = 1500, width = 2000, res = 300)
-Means_plot +labs(tag = 'A') + Diff_plot+ labs(tag = 'B') +
-  plot_layout(guides = 'collect', ncol = 2)
+png(here::here("img", "main_plot.png"), height = 1500, width = 2300, res = 300)
+cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
 dev.off()
 ```
 
