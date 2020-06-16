@@ -2136,5 +2136,7 @@ Students can evaluate the change in BMI over time using the global data availabl
 [Multiple Testing](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf){target="_blank"}    
 [Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html){target="_blank"}
 
+### Session info
+
 
 
