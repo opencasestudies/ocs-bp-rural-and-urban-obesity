@@ -45,7 +45,7 @@ knitr::include_graphics(here::here("img", "main_plot.png"))
 
 ## Motivation
 
-Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html)){target="_blank"} is often used as a proxy for **adiposity** (the condition of having excess body fat) and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
+Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}) is often used as a proxy for **adiposity** (the condition of having excess body fat) and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
 
 There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi){target="_blank"} (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html){target="_blank"}, and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}. 
 For example, these are the categories defined by the WHO: 
@@ -510,8 +510,7 @@ class(Women_BMI)
 
 Let's make the `Men` data into a tibble as well:
 ```{r}
-Men <-tibble(Men)
-
+Men <- tibble(Men)
 ```
 
 It's always a good idea to check that your data objects are the size you expect when wrangling. 
@@ -1380,7 +1379,7 @@ You may recall that probability is the chance that an event will happen and it r
 You can also think of it as a percentage of 0% (probability =0) to 100% (probability = 1) of chance that an event will happen.
 
 ![](https://www.mathsisfun.com/data/images/probability-line.svg)
-https://www.mathsisfun.com/data/images/probability-line.svg
+[[source](https://www.mathsisfun.com/data/images/probability-line.svg){target="_blank"}]
 
 If we consider flipping a coin, the probability of an event happening (heads) is always equal to  1 ( or 100% chance) minus the probability of the event not happening (tails instead of heads) because the total probability can not exceed 100%.
 
