@@ -1144,7 +1144,7 @@ BMI_long %>%
 
 Here we see that that in 1985, the average BMI estimate for women across urban areas is 24.6 compared to 23.6 across rural areas.  It looks like BMI estimates are, on average, higher in urban areas compared to rural areas.  However, now we want to use a statistical test to assess if this difference is statistically meaningful or a difference of this size could be found due to random chance. 
 
-### Two-sample t-test
+### Two-sample $t$-test
 
 The two-sample $t$-test is a common way to determine if the means of two groups are different. It does this by calculating a observed test-statistic, $t$, that looks at the difference in the sample means of the two groups divided by an estimate of the variability in the difference in sample means.  Here $s_{pooled}$ is standard deviation of the data when pooling the samples together.
 $$
@@ -1179,15 +1179,16 @@ But wait!  We need to check the assumptions of the statistical test we used to b
 If these assumptions are violated, this doesn't necessarily mean we can't perform a statistical test. It just means we may need to consider the following options:
 
 1) If the data isn't normally distributed, we may need to consider either a [transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed or a [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} test which doesn't rely on the normality assumption.
-2) If the variances of the two groups aren't similar, we can to a [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} (also called the unequal variance $t$-test) to account for difference variances.  This modifies the denominator of the test statistic to no longer use the standard deviation from pooling the samples.  We can do this in `R` by using the `var.equal = TRUE` option in the `t.test()` function.
+2) If the variances of the two groups aren't similar, we can perform a [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} (also called the unequal variance $t$-test) to account for difference variances.  This modifies the denominator of the test statistic to no longer use the standard deviation from pooling the samples.  We can do this in `R` by using the `var.equal = TRUE` option in the `t.test()` function.
 3) If the data in the two samples are not independent and are instead what we call paired, we should use the [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
 4) If the data within a group is not independent, we would need to consider methods beyond the scope of this case study.
 
 Are these assumptions met in our case?  We've already seen, using Q-Q plots, that these BMI estimates may not be normally distributed.  We haven't checked the assumption of equal variance yet.  But it seems clear that the last assumption (of independent samples) is violated in our case!  The BMI data for rural areas comes from the same countries and the BMI data for urban areas, meaning the samples are not independent and are instead what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}. We need to account for this because paired values may be more similar to one another because they come from the same country. Note that this would also be true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. 
 
-### Paired t-test
+### Paired $t$-test
 
 When we perform a paired $t$-test, instead of looking at the means of the two samples separately, we combine observations in a pair (from the same country in our case) to calculate a difference in values between the two samples.  For example, we are really testing the `bmi_diff` column in the data below:
+
 ```{r}
 BMI_long %>% 
   filter(Year == 1985, Sex == "Women", Region != "National") %>% 
@@ -2075,13 +2076,13 @@ BMI_diff_long %>%
 
 ## Summary
 
-We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [$t$-tests](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"} and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
+We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [paired $t$-tests](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"} and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
 
-<u> We learned that the $t$-test relies on:</u>
+<u> We learned that the two sample $t$-test relies on:</u>
 
 1) normality of the data for both groups (this is not as much of an issue if the number of observations is relatively large total n>30)
 2) equal variance between the two groups (make sure you do the correct test if the data is not normal)
-3) independent observations (or independent paired observations)
+3) independent observations
 
 We learned that we can evaluate if our data is [normally distributed](https://www.physiology.org/doi/full/10.1152/advan.00064.2017){target="_blank"} by plotting the distribution and by creating Q-Q plots.
 
@@ -2089,14 +2090,19 @@ We learned that we can evaluate if our data is [normally distributed](https://ww
 
 1) We can still perform a $t$-test if our n is large
 2) We can transform the data before performing a $t$-test
-3) We can use a nonparametric test (Wilcoxon signed rank test, the Wilcoxon rank sum test, and the Two-sample Kolmogorov-Smirnov (KS) test)
-4) We can perform a $t$-test with resampling methods for violations of normality (which should be especially considered when the groups are imbalanced)
 
-We learned that if our groups do not have equal variance, that we need to use a modified $t$-test to account for this or the correct nonparametric test that does not rely on this assumption (Two-sample Kolmogorov-Smirnov test).
+We learned that if our data has unequal variance, we can consider using the [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"}.
 
 
-Finally its also important to remember that when we have [paired data](https://www.statisticshowto.datasciencecentral.com/paired-data/){target="_blank"} and intend to compare means, we should perform a paired test ([paired $t$-test](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"}, Wilcoxon signed rank test, or paired KS test). Our data used in this case study was paired because observations were taken for the same countries for different categories of populations - thus, we wanted to compare these populations within the same country (male vs female, rural vs urban etc.). Other examples would be in a case-control study (if samples are matched for various demographics) or a study with repeated measures (for example, symptom measures from the same individual before and after a treatment). 
+Importantly, we learned that when we have [paired data](https://www.statisticshowto.datasciencecentral.com/paired-data/){target="_blank"} (are observations are not independent) and  we intend to compare means, we should perform a paired test ([paired $t$-test](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"} or the nonparametric Wilcoxon signed rank test. Our data used in this case study was paired because observations were taken for the same countries for different categories of populations - thus, we wanted to compare these populations within the same country (male vs female, rural vs urban etc.). Other examples would be in a case-control study (if samples are matched for various demographics) or a study with repeated measures (for example, symptom measures from the same individual before and after a treatment). We learned that [paired $t$-test](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"} tests a different hypothesis the two-sample $t$-test. In this case we are testing the differences among the pairs of observations and how close these differences are to zero, thus there is only one variance, the variance of the paired differences and therefore, we do not need to worry about the equality of variance assumption like we do with the two-sample $t$test.
+We learned that we can perform a paired $t$-test by adding the option `paired = TRUE` to the `t.test()` command.
 
+The paired $t$-test assumes that:
+
+1) The paired differences are [normally distributed](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}, which we can evaluate using Q-Q plots or plotting the distribution of the differences.
+2) The paired differences are [independent](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"} (meaning that observations do not influence each other).
+
+We learned that if the normality assumption is violated, we can use the Wilcoxon signed rank test, or if our data is large enough, due to the central limit theorem, the paired $t$-test should still be robust to deviations from normality.
 
 Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. We were also able to identify how the US compared to other countries and which countries showed the largest increase in BMI over time. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges. You can see in the [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} that this data came from that many additional considerations would be involved to perform such an analysis.
 
