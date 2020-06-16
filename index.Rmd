@@ -2138,5 +2138,8 @@ Students can evaluate the change in BMI over time using the global data availabl
 
 ### Session info
 
+```{r}
+sessionInfo()
+```
 
 
