@@ -1752,66 +1752,48 @@ We can now see that the rate of change from 1985 to 2017 appears to be larger in
 
 
 
-Let's check the difference with some statistical tests:
+Let's check the difference with some statistical tests.  Remember that these rural differences are measured on the same countries as the urban differences, so we will need to use paired tests to make these comparisons.  We can either consider the paired $t$-test or the Wilcoxon signed-rank test.  To decide between them, we'll look at the normality of the paired differences in change over time.
+
+Let's compare the change over time in rural communities to the change in urban communities among women and separately among men.
 
 ```{r}
-#first lets look at the normality of the difference in BMI
+# lets look at the normality of these paired differences
+# first we need to calculate the paired differences of change over time
 BMI_diff_long %>%
-  ggplot(aes(x=value)) +
+  filter(Difference != "National_difference") %>%
+  group_by(Country, Sex) %>%
+  summarize(change_rural = value[Difference == "Rural_difference"],
+            change_urban = value[Difference == "Urban_difference"],
+            change_diff = change_rural - change_urban) %>%
+  ggplot(aes(x=change_diff)) +
   geom_histogram() +
-  facet_wrap(~ Sex + Difference)
-# interesting...the spread of difference is much broader for women than for men 
-# some women in some countries especially need help with obesity
-# while other countries are actually showing a loss of BMI
-# these countries are the points on our previous plot with a difference below 0
+  facet_wrap(~ Sex)
+# interesting...the spread of the difference in change over time is much 
+# broader for women than for men
+# for women, the differences look reasonably normal, spread between -1 and +1
+# for men there appear to be two groups of countries; one with difference in change over time
+# centered around 0 and the other with difference in change over time between 1 and 2.
 
-#Let's see who:
-BMI_diff_long %>% 
-  arrange(value)
-
-# In general, people appear to have lost weight in Greece
 
 # Let's look at Q-Q plots:
 BMI_diff_long %>%
-  ggplot(aes(sample = value)) +
+  filter(Difference != "National_difference") %>%
+  group_by(Country, Sex) %>%
+  summarize(change_rural = value[Difference == "Rural_difference"],
+            change_urban = value[Difference == "Urban_difference"],
+            change_diff = change_rural - change_urban) %>%
+  ggplot(aes(sample = change_diff)) +
   stat_qq() + # to add the line we need to also include stat_qq_line()
   stat_qq_line() +
-  facet_wrap(~ Sex + Difference)
+  facet_wrap(~ Sex)
 
-# ok so some of the data for Men looks fairly normal but not as much for Women
+# the distribution of differences in change over time does not appear normal
+# for either men or women
+```
 
-# Now we will check the variance
-
-mood.test(pull(filter(BMI_diff_long, 
-                      Sex == "Women", 
-                      Difference == "Rural_difference"), value), 
-          pull(filter(BMI_diff_long, 
-                      Sex == "Women", 
-                      Difference == "Urban_difference"), value))
-#reject the null - conclude that variance is not equal
-
-mood.test(pull(filter(BMI_diff_long, 
-                      Sex == "Men", 
-                      Difference == "Rural_difference"), value), 
-          pull(filter(BMI_diff_long, 
-                      Sex == "Men", 
-                      Difference == "Urban_difference"), value))
-#fail to reject the null the null - conclude that variance is equal
-
-mood.test(pull(filter(BMI_diff_long, 
-                      Sex == "Women", 
-                      Difference == "Rural_difference"), value), 
-          pull(filter(BMI_diff_long, 
-                      Sex == "Men", 
-                      Difference == "Rural_difference"), value))
-#reject the null - conclude that variance is not equal
-
-
-# let's compare the groups
-# this is again still paired data
-# this is because each value of "Rural_difference" and "Urban_difference" correspond to the same country
-
-ks.test(pull(filter(BMI_diff_long, 
+Based on the non-normality of these paired differences, we will use a Wilcoxon signed-rank test to compare changes over time between urban and rural areas separately for men and women:
+```{r}
+wilcox.test(pull(filter(BMI_diff_long, 
                     Sex == "Women",  
                     Difference == "Rural_difference"), value), 
         pull(filter(BMI_diff_long,
@@ -1819,33 +1801,51 @@ ks.test(pull(filter(BMI_diff_long,
                     Difference == "Urban_difference"), value),
         paired = TRUE)
 
-ks.test(pull(filter(BMI_diff_long,
+wilcox.test(pull(filter(BMI_diff_long,
                     Sex == "Men",
                     Difference == "Rural_difference"), value), 
         pull(filter(BMI_diff_long,
                     Sex == "Men", 
                     Difference == "Urban_difference"), value),
         paired = TRUE)
-
-ks.test(pull(filter(BMI_diff_long,
-                    Sex == "Men", 
-                    Difference == "Rural_difference"), value), 
-        pull(filter(BMI_diff_long, 
-                    Sex == "Women",  
-                    Difference == "Rural_difference"), value),
-        paired = TRUE)
-
 ```
+Using a p-value threshold of 0.05, we would conclude there's a difference in change over time between urban and rural areas for women (p = 0.00327) but not for men (p = 0.08256).  
 
-Now we have performed seven comparisons (4 earlier) so we should apply our multiple testing correction
+However, now we have performed six comparisons (4 earlier) so we should apply our multiple testing correction and use a new p-value threshold of:
 ```{r}
-.05/7
-
+.05/6
 ```
 
-We see that there is a significant difference in the change in BMI Rural communities between men and women. This change is larger for women.
+With the threshold adjusted for multiple comparisons, we would still conclude there's a difference in the change over time between urban and rural areas for women but not for men.
 
-Importantly- we noticed that it appears to be specific countries where BMI shows a particular increase especially for women. Which countries are those? how does that compare with the US? Clearly the US is among the countries with the highest differences. 
+Interestingly, although we don't see a difference in change over time for men, our histogram of the differences between urban and rural areas for men highlighted two groups of countries -- one centered around zero (no difference) and one above 1 (showing a difference):  
+```{r}
+BMI_diff_long %>%
+  filter(Difference != "National_difference") %>%
+  group_by(Country, Sex) %>%
+  summarize(change_rural = value[Difference == "Rural_difference"],
+            change_urban = value[Difference == "Urban_difference"],
+            change_diff = change_rural - change_urban) %>%
+  ggplot(aes(x=change_diff)) +
+  geom_histogram() +
+  facet_wrap(~ Sex)
+```
+
+In fact for these countries, the difference between rural and urban areas for men is higher than the difference for women for almost all of the countries!
+
+We can look to see which countries have such a large difference for men:
+```{r}
+BMI_diff_long %>%
+  filter(Sex == "Men", Difference != "National_difference") %>%
+  group_by(Country) %>%
+  summarize(change_rural = value[Difference == "Rural_difference"],
+            change_urban = value[Difference == "Urban_difference"],
+            change_diff = change_rural - change_urban) %>%
+  filter(change_diff > 1)
+```
+
+
+For women, we did see a difference in the change over time between urban and rural areas.  There appear to be specific countries where BMI shows a particular increase especially for women. Which countries are those? how does that compare with the US? Clearly the US is among the countries with the highest differences. 
 
 ```{r}
 BMI_diff_long %>% 
@@ -1863,7 +1863,6 @@ BMI_diff_long %>%
   arrange(-value)
 #here we sorted by the highest to lowest values of BMI Difference
 ```
-
 
 However it is important to see what the mean BMI values were for these countries in 2017. 
 It could be that the average was underweight in 1985... let's take a look.
