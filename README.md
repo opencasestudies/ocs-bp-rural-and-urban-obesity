@@ -1,8 +1,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 OpenCaseStudies
 ===============
 
 <!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity.svg?branch=master)](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity)
 <!-- badges: end -->
@@ -31,9 +33,8 @@ United States License.
 To cite this case study:
 
 Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie.
-(2020, February 28).
-opencasestudies/Bloomberg-ocs-rural-and-urban-obesity: Exploring urban
-and rural obesity across time (Version v1.0.0). Zenodo.
+(2020, February 28). opencasestudies/ocs-bp-rural-and-urban-obesity:
+Exploring urban and rural obesity across time (Version v1.0.0). Zenodo.
 
 ### Title
 

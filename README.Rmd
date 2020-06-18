@@ -29,7 +29,7 @@ This case study is part of the [OpenCaseStudies](https://opencasestudies.github.
 
 To cite this case study:
 
-Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020, February 28). opencasestudies/Bloomberg-ocs-rural-and-urban-obesity: Exploring urban and rural obesity across time (Version v1.0.0). Zenodo.
+Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020, February 28). opencasestudies/ocs-bp-rural-and-urban-obesity: Exploring urban and rural obesity across time (Version v1.0.0). Zenodo.
 
 ### Title 
 
