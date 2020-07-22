@@ -4,6 +4,8 @@ language: r
 warnings_are_errors: false
 cache: packages
 
+before_install: R -e 'source("https://install-github.me/r-lib/remotes")'
+
 r_github_packages: rstudio/rmarkdown
 
 script:
