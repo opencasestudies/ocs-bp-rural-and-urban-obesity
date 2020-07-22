@@ -9,6 +9,7 @@ Title: Open Case Studies
 Version: 0.0.1
 Depends: R (>= 3.6.0)
 Imports:
+    remotes
     qpdf,
     Rcpp,
     jpeg, 
