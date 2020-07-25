@@ -34,6 +34,15 @@ Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie.
 (2020, February 28). opencasestudies/ocs-bp-rural-and-urban-obesity:
 Exploring urban and rural obesity across time (Version v1.0.0). Zenodo.
 
+### Acknowledgements
+
+We would like to acknowledge [Jessica
+Fanzo](https://www.jhsph.edu/faculty/directory/profile/3380/jessica-fanzo)
+for assisting in framing the major direction of the case study.
+
+We would also like to acknowledge the [Bloomberg American Health
+Initiative](https://americanhealth.jhu.edu/) for funding this work.
+
 ### Title
 
 Exploring Global Patterns of Obesity from 1985 to 2017

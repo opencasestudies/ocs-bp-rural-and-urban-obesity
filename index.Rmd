@@ -2142,4 +2142,8 @@ Students can evaluate the change in BMI over time using the global data availabl
 sessionInfo()
 ```
 
+### Acknowledgements
 
+We would like to acknowledge [Jessica Fanzo](https://www.jhsph.edu/faculty/directory/profile/3380/jessica-fanzo) for assisting in framing the major direction of the case study.
+
+We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
