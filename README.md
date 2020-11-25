@@ -31,8 +31,10 @@ United States License.
 To cite this case study:
 
 Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie.
-(2020, February 28). opencasestudies/ocs-bp-rural-and-urban-obesity:
-Exploring urban and rural obesity across time (Version v1.0.0). Zenodo.
+(2020).
+<a href="https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity" class="uri">https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity</a>.
+Exploring global patterns of obesity across rural and urban regions
+(Version v1.0.0).
 
 ### Acknowledgements
 
@@ -98,6 +100,38 @@ are not actually binary, the data presented that is used in this
 analysis only contain data for groups of individuals described as men or
 women.
 
+#### Learning Objectives
+
+The skills, methods, and concepts that students will be familiar with by
+the end of this case study are:
+
+<u>**Data science Learning Objectives:**</u>
+
+1.  Importing data from a PDF (`pdftools`).
+2.  Subsetting and filtering data (`dplyr`).
+3.  Working with character strings (`stringr`).
+4.  Reshaping data into different formats (`tidyr`).
+5.  Applying functions to all columns of a tibble (`purrr`)
+6.  Creating data visualizations (`ggplot2`) with labels (`ggrepel`).
+7.  Combining multiple plots (`cowplot` and `patchwork`).
+
+<u>**Statistical Learning Objectives:**</u>
+
+1.  Familiarity with the use of Quantile-Quantile plots to assess
+    normality.
+2.  Define and understand the utility of alpha and the p value.
+3.  Describe the difference between nonparametric and parametric tests.
+4.  Be able to identify paired data.
+5.  Implementation of a
+    <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/" target="_blank">Paired <span class="math inline"><em>t</em></span>-test</a>.
+6.  Interpretation of a
+    <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/" target="_blank">Paired <span class="math inline"><em>t</em></span>-test</a>.
+7.  Implementation of a
+    <a href="http://www.biostathandbook.com/wilcoxonsignedrank.html" target="_blank">Wilcoxon signed-rank test</a>
+    8.Interpretation of a
+    <a href="http://www.biostathandbook.com/wilcoxonsignedrank.html" target="_blank">Wilcoxon signed-rank test</a>
+8.  Understanding of the need for multiple testing correction.
+
 ### Analysis
 
 In this case study, we will largely focus on methods for comparing two
@@ -145,6 +179,105 @@ when data is paired.
 
 ### Other notes and resources
 
+<a href="https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html" target="_blank">BMI</a>  
+<a href="https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html" target="_blank">Long and Wide Data Formats</a>  
+<a href="http://onlinestatbook.com/2/introduction/distributions.html" target="_blank">Distributions</a>
+<a href="http://onlinestatbook.com/2/introduction/distributions.html" target="_blank">Normal Distribution</a>
+<a href="http://onlinestatbook.com/2/glossary/skew.html" target="_blank">Skewed Distributions</a>
+<a href="http://onlinestatbook.com/2/introduction/distributions.html" target="_blank">Bimodal Distribution</a>
+<a href="https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html" target="_blank">ggplot2</a>  
+<a href="http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html" target="_blank">Q-Q Plots</a>  
+[Student
+*t*-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)  
+<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/" target="_blank">Paired Data</a>  
+<a href="https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/" target="_blank">Welch’s <span class="math inline"><em>t</em></span>-test</a>  
+[Parametric and Nonparametric
+Methods](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960)  
+<a href="https://stattrek.com/statistics/dictionary.aspx?definition=variance" target="_blank">Variance</a>  
+<a href="https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/" target="_blank">Balanced Study Design</a>  
+<a href="https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf" target="_blank">Independent Observations</a>  
+<a href="https://www.statisticshowto.datasciencecentral.com/transformation-statistics/" target="_blank">Transformation</a>  
+<a href="https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html" target="_blank">Permutation/Resampling Methods</a>  
+<a href="https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/" target="_blank">Central Limit Theorem</a>  
+<a href="https://files.eric.ed.gov/fulltext/ED065559.pdf" target="_blank">Mood’s Two-Sample Scale Test</a>  
+[Wilcoxon Signed Rank
+Test](http://www.biostathandbook.com/wilcoxonsignedrank.html)  
+<a href="http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html" target="_blank">Wilcoxon Rank Sum Test</a>  
+<a href="https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm" target="_blank">Two-sample Kolmogorov-Smirnov Test</a>  
+<a href="https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html" target="_blank">Type 1 Error</a>  
+<a href="https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8" target="_blank">p-value</a>  
+<a href="https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf" target="_blank">Multiple Testing</a>  
+<a href="http://mathworld.wolfram.com/BonferroniCorrection.html" target="_blank">Bonferroni Method of Multiple Testing Correction</a>
+
+<u>**Packages used in this case study:** </u>
+
+<table>
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Use in this case study</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/jennybc/here_here" target="_blank">here</a></td>
+<td>to easily load and save data with relative paths</td>
+</tr>
+<tr class="even">
+<td><a href="https://cran.r-project.org/web/packages/pdftools/pdftools.pdf" target="_blank">pdftools</a></td>
+<td>to read a text from pdf into R</td>
+</tr>
+<tr class="odd">
+<td><a href="https://stringr.tidyverse.org/articles/stringr.html" target="_blank">stringr</a></td>
+<td>to manipulate the text data</td>
+</tr>
+<tr class="even">
+<td><a href="https://readr.tidyverse.org/" target="_blank">readr</a></td>
+<td>to manipulate the text data within the pdf into individual lines</td>
+</tr>
+<tr class="odd">
+<td><a href="https://dplyr.tidyverse.org/" target="_blank">dplyr</a></td>
+<td>to arrange/filter/select subsets of the data</td>
+</tr>
+<tr class="even">
+<td><a href="https://tibble.tidyverse.org/" target="_blank">tibble</a></td>
+<td>to create data objects that we can manipulate with <code>dplyr</code>/<code>stringr</code>/<code>tidyr</code>/<code>purrr</code></td>
+</tr>
+<tr class="odd">
+<td><a href="https://magrittr.tidyverse.org/articles/magrittr.html" target="_blank">magrittr</a></td>
+<td>to use the <code>%&lt;&gt;%</code> piping operator</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.tidyverse.org/blog/2017/10/glue-1.2.0/" target="_blank">glue</a></td>
+<td>to paste or combine character strings and data together</td>
+</tr>
+<tr class="odd">
+<td><a href="https://purrr.tidyverse.org/" target="_blank">purrr</a></td>
+<td>to perform functions on all columns of a tibble</td>
+</tr>
+<tr class="even">
+<td><a href="https://tidyr.tidyverse.org/" target="_blank">tidyr</a></td>
+<td>to convert data from ‘wide’ to ‘long’ format</td>
+</tr>
+<tr class="odd">
+<td><a href="https://ggplot2.tidyverse.org/">ggplot2</a></td>
+<td>to make visualizations with multiple layers</td>
+</tr>
+<tr class="even">
+<td><a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html" target="_blank">ggrepel</a></td>
+<td>to allow labels in figures not to overlap</td>
+</tr>
+<tr class="odd">
+<td><a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html" target="_blank">cowplot</a> and <a href="https://github.com/thomasp85/patchwork" target="_blank">patchwork</a></td>
+<td>to allow plots to be combined</td>
+</tr>
+</tbody>
+</table>
+
 #### For users
 
 There is a [`Makefile`](Makefile) in this folder that allows you to type
@@ -167,7 +300,7 @@ which is loaded at the start of the Data Exploration section.
 #### Target audience
 
 This case study is designed for undergraduate students who have not
-taken a statistics course. While we do not disucss the theoretical
+taken a statistics course. While we do not discuss the theoretical
 aspects of the statistics concepts used in this case study, the case
 study discusses the motivation behind them.
 

@@ -29,7 +29,7 @@ This case study is part of the [OpenCaseStudies](https://opencasestudies.github.
 
 To cite this case study:
 
-Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020, February 28). opencasestudies/ocs-bp-rural-and-urban-obesity: Exploring urban and rural obesity across time (Version v1.0.0). Zenodo.
+Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity. Exploring global patterns of obesity across rural and urban regions (Version v1.0.0).
 
 ### Acknowledgements
 
@@ -66,6 +66,32 @@ The data used in this analysis comes from a [supplementary table](https://static
 This article can be found freely available online.
 
 While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women.
+
+#### Learning Objectives
+
+The skills, methods, and concepts that students will be familiar with by the end of this case study are:
+
+<u>**Data science Learning Objectives:**</u>
+
+1. Importing data from a PDF (`pdftools`).
+2. Subsetting and filtering data (`dplyr`).
+3. Working with character strings (`stringr`).
+4. Reshaping data into different formats (`tidyr`).
+5. Applying functions to all columns of a tibble (`purrr`)
+6. Creating data visualizations (`ggplot2`) with labels (`ggrepel`).
+7. Combining multiple plots (`cowplot` and `patchwork`).
+
+<u>**Statistical Learning Objectives:**</u> 
+
+1. Familiarity with the use of Quantile-Quantile plots to assess normality.
+2. Define and understand the utility of alpha and the p value. 
+3. Describe the difference between nonparametric and parametric tests.
+4. Be able to identify paired data.
+5. Implementation of a [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
+6. Interpretation of a [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
+7. Implementation of a [Wilcoxon signed-rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html){target="_blank"}
+8.Interpretation of a [Wilcoxon signed-rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html){target="_blank"}
+9. Understanding of the need for multiple testing correction.
 
 ### Analysis 
 
@@ -105,6 +131,53 @@ This case study covers fundamental concepts in statistics such as type 1 error, 
 
 ### Other notes and resources 
 
+[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}  
+[Long and Wide Data Formats](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}  
+[Distributions](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
+[Normal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
+[Skewed Distributions](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} 
+[Bimodal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"} 
+[ggplot2](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}    
+[Q-Q Plots](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html){target="_blank"}  
+[Student $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)   
+[Paired Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}  
+[Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"}    
+[Parametric and Nonparametric Methods](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960)  
+[Variance](https://stattrek.com/statistics/dictionary.aspx?definition=variance){target="_blank"}  
+[Balanced Study Design](https://www.statisticshowto.datasciencecentral.com/balanced-and-unbalanced-designs/){target="_blank"}  
+[Independent Observations](https://www.stat.cmu.edu/~cshalizi/36-220/lecture-5.pdf){target="_blank"}  
+[Transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"}  
+[Permutation/Resampling Methods](https://jhu-advdatasci.github.io/2019/lectures/21-resampling-techniques.html){target="_blank"}   
+[Central Limit Theorem](https://www.analyticsvidhya.com/blog/2019/05/statistics-101-introduction-central-limit-theorem/){target="_blank"}  
+[Mood's Two-Sample Scale Test](https://files.eric.ed.gov/fulltext/ED065559.pdf){target="_blank"}  
+[Wilcoxon Signed Rank Test](http://www.biostathandbook.com/wilcoxonsignedrank.html)   
+[Wilcoxon Rank Sum Test](http://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_nonparametric/BS704_Nonparametric4.html){target="_blank"}  
+[Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm){target="_blank"}  
+[Type 1 Error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html){target="_blank"}  
+[p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8){target="_blank"}  
+[Multiple Testing](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf){target="_blank"}    
+[Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html){target="_blank"}
+
+
+<u>**Packages used in this case study:** </u>
+
+Package   | Use in this case study                                                                         
+---------- |-------------
+[here](https://github.com/jennybc/here_here){target="_blank"}       | to easily load and save data with relative paths
+[pdftools](https://cran.r-project.org/web/packages/pdftools/pdftools.pdf){target="_blank"}   | to read a text from pdf into R   
+[stringr](https://stringr.tidyverse.org/articles/stringr.html){target="_blank"}    | to manipulate the text data
+[readr](https://readr.tidyverse.org/){target="_blank"}      | to manipulate the text data within the pdf into individual lines  
+[dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to arrange/filter/select subsets of the data 
+[tibble](https://tibble.tidyverse.org/){target="_blank"}     | to create data objects that we can manipulate with `dplyr`/`stringr`/`tidyr`/`purrr`
+[magrittr](https://magrittr.tidyverse.org/articles/magrittr.html){target="_blank"}   | to use the `%<>%` piping operator
+[glue](https://www.tidyverse.org/blog/2017/10/glue-1.2.0/){target="_blank"}  | to paste or combine character strings and data together
+[purrr](https://purrr.tidyverse.org/){target="_blank"}      | to perform functions on all columns of a tibble
+[tidyr](https://tidyr.tidyverse.org/){target="_blank"}      | to convert data from 'wide' to 'long' format
+[ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
+[ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html){target="_blank"}    | to allow labels in figures not to overlap
+[cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html){target="_blank"} and [patchwork](https://github.com/thomasp85/patchwork){target="_blank"} | to allow plots to be combined 
+
+
 #### For users 
 
 There is a [`Makefile`](Makefile) in this folder that allows you to type `make` to knit the case study contained in the `index.Rmd` to `index.html` and it will also knit the [`README.Rmd`](README.Rmd) to a markdown file (`README.md`). 
@@ -118,7 +191,7 @@ With the latter goal in mind, we save a `Wrangled_data.rda` object at the end of
 
 #### Target audience 
 
-This case study is designed for undergraduate students who have not taken a statistics course. While we do not disucss the theoretical aspects of the statistics concepts used in this case study, the case study discusses the motivation behind them.
+This case study is designed for undergraduate students who have not taken a statistics course. While we do not discuss the theoretical aspects of the statistics concepts used in this case study, the case study discusses the motivation behind them.
 
 #### Suggested homework
 
