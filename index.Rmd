@@ -140,8 +140,8 @@ The skills, methods, and concepts that students will be familiar with by the end
 2. Define and understand the utility of alpha and the p value. 
 3. Describe the difference between nonparametric and parametric tests.
 4. Be able to identify paired data.
-5. Implementation of a [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
-6. Interpretation of a [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
+5. Implementation of a [paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
+6. Interpretation of a [paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
 7. Implementation of a [Wilcoxon signed-rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html){target="_blank"}
 8.Interpretation of a [Wilcoxon signed-rank test](http://www.biostathandbook.com/wilcoxonsignedrank.html){target="_blank"}
 9. Understanding of the need for multiple testing correction.

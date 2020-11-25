@@ -118,18 +118,15 @@ the end of this case study are:
 <u>**Statistical Learning Objectives:**</u>
 
 1.  Familiarity with the use of Quantile-Quantile plots to assess
-    normality.
-2.  Define and understand the utility of alpha and the p value.
-3.  Describe the difference between nonparametric and parametric tests.
-4.  Be able to identify paired data.
-5.  Implementation of a
-    <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/" target="_blank">Paired <span class="math inline"><em>t</em></span>-test</a>.
-6.  Interpretation of a
-    <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/" target="_blank">Paired <span class="math inline"><em>t</em></span>-test</a>.
-7.  Implementation of a
-    <a href="http://www.biostathandbook.com/wilcoxonsignedrank.html" target="_blank">Wilcoxon signed-rank test</a>
-    8.Interpretation of a
-    <a href="http://www.biostathandbook.com/wilcoxonsignedrank.html" target="_blank">Wilcoxon signed-rank test</a>
+    normality.  
+2.  Define and understand the utility of alpha and the p value.  
+3.  Describe the difference between nonparametric and parametric
+    tests.  
+4.  Be able to identify paired data.  
+5.  Implementation of a paired *t*-test.  
+6.  Interpretation of a paired *t*-test.  
+7.  Implementation of a Wilcoxon signed-rank test.  
+    8.Interpretation of a Wilcoxon signed-rank test.  
 8.  Understanding of the need for multiple testing correction.
 
 ### Analysis
