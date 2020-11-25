@@ -107,27 +107,26 @@ the end of this case study are:
 
 <u>**Data science Learning Objectives:**</u>
 
-1.  Importing data from a PDF (`pdftools`).
-2.  Subsetting and filtering data (`dplyr`).
-3.  Working with character strings (`stringr`).
-4.  Reshaping data into different formats (`tidyr`).
-5.  Applying functions to all columns of a tibble (`purrr`)
-6.  Creating data visualizations (`ggplot2`) with labels (`ggrepel`).
-7.  Combining multiple plots (`cowplot` and `patchwork`).
+1.  Importing data from a PDF (`pdftools`)  
+2.  Subsetting and filtering data (`dplyr`)  
+3.  Working with character strings (`stringr`)  
+4.  Reshaping data into different formats (`tidyr`)  
+5.  Applying functions to all columns of a tibble (`purrr`)  
+6.  Creating data visualizations (`ggplot2`) with labels (`ggrepel`)  
+7.  Combining multiple plots (`cowplot` and `patchwork`)
 
 <u>**Statistical Learning Objectives:**</u>
 
 1.  Familiarity with the use of Quantile-Quantile plots to assess
-    normality.  
-2.  Define and understand the utility of alpha and the p value.  
-3.  Describe the difference between nonparametric and parametric
-    tests.  
-4.  Be able to identify paired data.  
-5.  Implementation of a paired *t*-test.  
-6.  Interpretation of a paired *t*-test.  
-7.  Implementation of a Wilcoxon signed-rank test.  
-8.  Interpretation of a Wilcoxon signed-rank test.  
-9.  Understanding of the need for multiple testing correction.
+    normality  
+2.  Define and understand the utility of alpha and the p value  
+3.  Describe the difference between nonparametric and parametric tests  
+4.  Be able to identify paired data  
+5.  Implementation of a paired *t*-test  
+6.  Interpretation of a paired *t*-test  
+7.  Implementation of a Wilcoxon signed-rank test  
+8.  Interpretation of a Wilcoxon signed-rank test  
+9.  Understanding of the need for multiple testing correction
 
 ### Analysis
 
