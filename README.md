@@ -126,8 +126,8 @@ the end of this case study are:
 5.  Implementation of a paired *t*-test.  
 6.  Interpretation of a paired *t*-test.  
 7.  Implementation of a Wilcoxon signed-rank test.  
-    8.Interpretation of a Wilcoxon signed-rank test.  
-8.  Understanding of the need for multiple testing correction.
+8.  Interpretation of a Wilcoxon signed-rank test.  
+9.  Understanding of the need for multiple testing correction.
 
 ### Analysis
 
