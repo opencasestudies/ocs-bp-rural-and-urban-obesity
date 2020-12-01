@@ -18,7 +18,7 @@ output:
 
 <style>
 #TOC {
-  background: url("https://opencasestudies.github.io/img/logo.jpg");
+  background: url("https://opencasestudies.github.io/img/icon-bahi.png");
   background-size: contain;
   padding-top: 240px !important;
   background-repeat: no-repeat;
@@ -108,6 +108,8 @@ To do this we will test if there is a difference between the average BMI for eac
 While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
 
 ### **Main Questions**
+***
+
 #### {.main_question_block}
 
 <b><u> Our main questions are: </u></b>
@@ -119,6 +121,7 @@ While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/)
 ####
 
 ### **Learning Objectives** 
+***
 
 #### Learning Objectives
 
@@ -206,12 +209,12 @@ The first time we use a function, we will use the `::` to indicate which package
 Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
 
 ### **Context**
-
+***
 The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf){target="_blank"} that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. 
 However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link){target="_blank"} for risk for many diseases and conditions particularly when combined with other risk factor information.
 
 ## **What are the data?**
-
+***
 We will be using data located within a table of the [supplementary material](https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf){target="_blank"} for the NCD-RisC paper referenced above. 
 
 This is a pdf that can be found freely available online. Here is a screenshot of the first few rows of this table: 
@@ -227,7 +230,7 @@ The data within the parentheses are the 95% [credible intervals](https://en.wiki
 
 
 ## **Data Import**
-
+***
 First let's download the data from the PDF file. 
 We use `file.exists()` from base R to check if the file we want to download already exists. 
 If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory` of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
@@ -331,13 +334,13 @@ knitr::include_graphics(here::here("img","last_page.png"))
 Great! Our `rural_urban` object looks like it contains the entire Supplementary 3 table, as both the beginning and the end include the data we expected.
 
 ## **Data Wrangling**
-
+***
 At this point we have large strings now for each page of the table, but this is not very convenient to work with. 
 Now, we will wrangle the data into a more usable form. 
 Ideally, we would like our data to be in some sort of tabular form.
 
 ### **Separate the data into lines**
-
+***
 First, it would be useful to separate the data that is currently in 10 giant string chunks into individual lines or rows of the table. To do this we can use the `read_lines()` function of the `readr` package which will separate the lines based on the `"\n"` new line characters.
 ```{r}
 summary(rural_urban)
@@ -354,6 +357,7 @@ rural_urban[6]
 
 
 ### **Removing excess white-space**
+***
 
 We also have a lot of white-space. Let's get rid of the excess white spaces using `str_squish()` also from the `stringr` package.
 
@@ -375,7 +379,7 @@ rural_urban[44:56] # scroll through!
 Although the header was necessary on all of the pages of the pdf version of the table, we only need that information once in our data.
 
 ### **Removing unnecessary repeated header information**
-
+***
 So, let's remove all the header information and the page number lines from the `rural_urban` object, then we will make a single line header for the beginning.
 One way to do this is to find all lines that include either "Women" or "Men" and only keep this data.
 
@@ -430,7 +434,7 @@ knitr::include_graphics(here::here("img","last_page.png"))
 We will add a new header after first dealing with some additional spacing and missing data issues.
 
 ### **Dealing with spacing**
-
+***
 First let's try splitting our header-less data into columns based on spaces using the `str_split()` function, where we specify that we are splitting the data based on the pattern of a space (the space is included in quotes):
 
 Here, we will take a look at just the first 10 lines using the `[1:10,]` syntax: 
@@ -646,6 +650,7 @@ knitr::include_graphics(here::here("img","missing_pdf.png"))
 
 
 ### **Dealing with NA values**
+***
 
 We need to replace our `na*` values with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. 
 Therefore, `na* na*` should work.
@@ -699,7 +704,7 @@ Women[20:30]
 Great, now we can split our data by spaces.
 
 ### **Splitting the data**
-
+***
 We will split our data finally by spaces using the `str_split()` function of the `stringr` package. We can check the rows with NA values by looking at rows 20-30.
 ```{r}
 Men <- tibble::as_tibble(str_split(Men, " ", 
@@ -723,7 +728,7 @@ Looks good!
  
  
 ### **Adding new header**
-
+***
 We can see from our pdf and our object called `header` what the header was like in the original pdf document. We need to add column names to our data based on the original data.
 
 We'll wait to add `Country` to the header until we add the country information to our data.
@@ -764,7 +769,7 @@ head(Men)
 
 
 ### **Changing variable names**
-
+***
 Here, we will change the variable name in the `country` dataset to `country` (currently it is called `country_split`). 
 We will also introduce the concept of the assignment pipe. 
 In this case our pipe operator looks like this `%<>%`. 
@@ -797,7 +802,7 @@ head(Women)
 head(Men)
 ```
 ### **Joining the data**
-
+***
 Now that both of these tibbles have the same structure, we can combine our `Men` and `Women` data using the `bind_rows()` function of `dplyr`. This will combine all of the rows based on their similar column structure.
 All of the male data  will be first and all the female data will be second.
 
@@ -812,6 +817,7 @@ tail(BMI)
 ```
 
 ### **Sorting the data**
+***
 
 Now, let's sort the data alphabetically by `Country` using the `arrange()` function from the `dplyr` package:
 
@@ -878,6 +884,7 @@ This means double-precision floating point numbers (with decimals).
 The alternative numeric option is the integer class. 
 
 ### **Transforming to tidy data**
+***
 
 It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularly for plotting. 
 
@@ -949,7 +956,7 @@ save(BMI_numeric,
 ```
 
 ## **Data Exploration**
-
+***
 Now that our data is clean and in a format that we can work with, we can start to take a look at the data and how different groups might compare.
 
 Going back to one of our original questions, 
@@ -960,6 +967,7 @@ We want to use a statistical test to identify if there are differences in the av
 First, let's explore our data a bit. 
 
 ### **General summary**
+***
 
 ```{r, echo = FALSE}
 # Start here if not working through data import and wrangling
@@ -990,6 +998,7 @@ BMI_numeric %>%
 It looks like mean BMIs have increased in all regions for both men and women, but let's look deeper with some statistical tests.
 
 ### **Distribution**
+***
 
 In order to apply a statistical test to compare the means, one of the first things to do is to explore the frequency of the different observed values. 
 One way to summarize the frequency of different observed values is the <b>frequency distribution</b>, which can be shown in a table or a plot. 
@@ -1077,6 +1086,7 @@ However some of the other plots, like the `Men 2017 Urban` plot, look very diffe
 These plots show what is called a [bimodal distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}, meaning that there appear to be two peaks (or modes), or in other words two different values (and values near each of these) that are the most frequent.
 
 ### **Quantile-Quantile Plots**
+***
 
 Another useful plot to create when exploring distributions is something called a "quantile-quantile" plot (or <b>Q-Q plot</b> for short). When we talk about a <b>quantile</b>, we are talking about dividing up the distribution of the data into roughly equal portions where roughly the same number of observations fall into each portion. For example, if you divide your data into 100 quantiles, you can think about this as percentiles, but you could also divide your data into 10 quantiles and these would be called deciles. 
 
@@ -1148,7 +1158,7 @@ We can conclude from these plots that the assumption of normality appears to be 
 
 
 ## **Data Analysis**
-
+***
 In the previous section, we hinted at the existence of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. national BMI estimates in rural areas and national BMI estimates in urban areas). 
 One such test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"}, which can be used to determine if [two group means are different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
 However, as mentioned before, this test depends on certain assumption of our data. 
@@ -1156,6 +1166,7 @@ However, as mentioned before, this test depends on certain assumption of our dat
 In this section, we are going to talk about this test and other tests that do not require the same assumptions about our data. 
 
 ### **Hypothesis testing**
+***
 
 Let's remind ourselves of one of our original questions, 
 
@@ -1192,6 +1203,7 @@ BMI_long %>%
 Here we see that that in 1985, the average BMI estimate for women across urban areas is 24.6 compared to 23.6 across rural areas.  It looks like BMI estimates are, on average, higher in urban areas compared to rural areas.  However, now we want to use a statistical test to assess if this difference is statistically meaningful or a difference of this size could be found due to random chance. 
 
 ### **Two-sample $t$-test**
+***
 
 The two-sample $t$-test is a common way to determine if the means of two groups are different. It does this by calculating a observed test-statistic, $t$, that looks at the difference in the sample means of the two groups divided by an estimate of the variability in the difference in sample means.  Here $s_{pooled}$ is standard deviation of the data when pooling the samples together.
 $$
@@ -1233,6 +1245,7 @@ If these assumptions are violated, this doesn't necessarily mean we can't perfor
 Are these assumptions met in our case?  We've already seen, using Q-Q plots, that these BMI estimates may not be normally distributed.  We haven't checked the assumption of equal variance yet.  But it seems clear that the last assumption (of independent samples) is violated in our case!  The BMI data for rural areas comes from the same countries and the BMI data for urban areas, meaning the samples are not independent and are instead what we call [paired](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}. We need to account for this because paired values may be more similar to one another because they come from the same country. Note that this would also be true for the male and female measurements from the same country or the values in the same countries from 1985 and later in 2017. 
 
 ### **Paired $t$-test**
+***
 
 When we perform a paired $t$-test, instead of looking at the means of the two samples separately, we combine observations in a pair (from the same country in our case) to calculate a difference in values between the two samples.  For example, we are really testing the `bmi_diff` column in the data below:
 
@@ -1349,6 +1362,7 @@ The transformed data still does not appear to be normally distributed and the bi
 With our sample size of 200, we could consider using the paired $t$-test even with our non-normal data.  However, if we had a smaller sample, we might still need to consider another alternative since the log-transformed data still doesn't look normal.  We might want to consider a non-parametric test in that case.
 
 ### **Nonparametric tests**
+***
 
 When the normality assumption of a paired $t$-test is violated, we can consider a nonparametric alternative instead.  What's a non-parametric test?  <b>Parametric tests</b> are based on assumptions about the distribution of the underlying data, while <b>nonparametric tests</b> do not rely on these distributional assumptions. 
 
@@ -1370,6 +1384,7 @@ wilcox.test(pull(filter(BMI_long, Sex == "Women",
 With this nonparametric test, we still see a small p-value, indicating that BMI estimates between urban and rural areas are different. We would conclude that there's a difference in the median BMI estimates between these types of regions.
 
 ### **Multiple Testing Correction**
+***
 
 Let's take a look back at the questions we wanted to answer:
 1) Is there a difference between rural and urban BMI estimates around the world? In particular, how does this look for females?
@@ -1453,6 +1468,7 @@ If we think about the probability of getting significant or nonsignificant resul
                 P(significant results) = 1 - P(no significant results)
 
 ### **Alpha**
+***
 
 Alpha is the amount of risk that you are willing to accept that a statistical test result is actually a false positive, in other words we reject the null hypothesis when the null hypothesis is true. This is also called [type 1 error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html){target="_blank"}. A significance threshold of .05 is customary and it means that we are accepting a 5% chance that our result is actually a false positive.
 
@@ -1466,6 +1482,7 @@ Remember that in our statistical tests if the p-value < alpha it is considered s
 But what really is the [p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8){target="_blank"}?
 
 ### **p-values**
+***
 
 The p in p-value stands for <b>probability</b> - the probability that we would obtain the statistics (for example the t in our student $t$-tests based on the means of our groups of comparison) just by random chance alone. Therefore a p-value of 0.02 means that there is a 2 percent chance that out data may look the way it does just because of random chance and not because there is really a difference in the means of the groups of interest.
 
@@ -1537,6 +1554,7 @@ In our 4 Wilcoxon tests, our p-values were less than 0.0125.
 So we see a significant difference in the means of the groups after multiple testing correction for our four different tests.
 
 ## **Data Visualization**
+***
 
 Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}. The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
 
@@ -1680,6 +1698,7 @@ BMI_long %>%
 
 
 ### **Overall differences**
+***
 
 Let's take a look at all the data together, including the data for men:
 ```{r}
@@ -1732,6 +1751,7 @@ ggplot(BMI_long, aes(x = Year, y = BMI, col = Year)) +
 Here we can see that overall BMI appears to be increasing globally over time. Additionally we can see that this is occurring not just in urban areas, but also in rural areas. The US is consistently above the median in all strata of the data. In general, the female data shows higher BMI values than the male data. The rural USA BMI appears to be higher than the urban BMI for both men and women. Many countries have average BMI estimates above the obesity threshold of 30. Thus it appears that education and outreach programs for weight management should focus on both rural and urban areas and both genders. Education and assistance for women may be especially helpful. 
 
 ### **Differences in rate of change**
+***
 
 How does the rate of change in BMI differ between groups? Which group might especially need attention?
 
@@ -2124,6 +2144,7 @@ BMI_diff_long %>%
 ####
 
 ## **Summary**
+***
 
 We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [paired $t$-tests](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"} and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
 
@@ -2157,10 +2178,12 @@ Using the `ggplot2` package we were able to visualize trends in the data. Import
 
 
 ### **Suggested Homework**
+***
 
 Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. The data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv){target="_blank"}.
 
 ### **Helpful Links**
+***
 
 [BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}  
 [Long and Wide Data Formats](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}  
@@ -2209,12 +2232,14 @@ Students can evaluate the change in BMI over time using the global data availabl
 
 
 ### **Session info**
+***
 
 ```{r}
 sessionInfo()
 ```
 
 ### **Acknowledgements**
+***
 
 We would like to acknowledge [Jessica Fanzo](https://www.jhsph.edu/faculty/directory/profile/3380/jessica-fanzo) for assisting in framing the major direction of the case study.
 
