@@ -61,6 +61,10 @@ Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). 
 
 ####
 
+To access the GitHub Repository for this case study see here: https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity.
+
+This case study is part of a series of public health case studies for the [Bloomberg American Health  Initiative](https://americanhealth.jhu.edu/open-case-studies).
+
 ## **Motivation**
 
 Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}) is often used as a proxy for **adiposity** (the condition of having excess body fat) and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
@@ -81,7 +85,6 @@ knitr::include_graphics(here::here("img","BMIchart.jpeg"))
 
 ###### [[source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426){target="_blank"}]
 
-Previous work has shown higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}, as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. 
 
 Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} published in [*Nature*](https://www.nature.com){target="_blank"} evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
 
@@ -105,9 +108,8 @@ In this case study, we will evaluate the data reported in this article to explor
 Most importantly we will test if there is a difference in obesity rates between rural and urban communities and if there has been a change in obesity over time for these regions, particularly for women. 
 To do this we will test if there is a difference between the average BMI for each group.
 
-While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
 
-### **Main Questions**
+## **Main Questions**
 ***
 
 #### {.main_question_block}
@@ -120,10 +122,8 @@ While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/)
 
 ####
 
-### **Learning Objectives** 
+## **Learning Objectives** 
 ***
-
-#### Learning Objectives
 
 The skills, methods, and concepts that students will be familiar with by the end of this case study are:
 
@@ -208,10 +208,33 @@ ___
 The first time we use a function, we will use the `::` to indicate which package we are using (e.g. `stringr::str_detect()`). 
 Unless we have overlapping function names, this is not necessary, but we will include it here to be informative about where the functions we will use come from.
 
-### **Context**
+## **Context**
 ***
+
+Previous work has shown higher BMI (>30) is associated with [higher rates of all-causes of mortality](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}, as well as increased rates of type 2 diabetes, cancer, heart disease, and stroke. 
+
+However, there appears to be caveats associated with the use of a threshold like this to evaluate public health risk in various populations.
+
+According to this [report](https://www.who.int/nutrition/publications/bmi_asia_strategies.pdf){target="_blank"}:
+
+>...the associations between BMI, percentage of body fat, and body fat distribution differ across populations. 
+
+> In particular, in some Asian populations a specific BMI reflects a higher percentage of body fat.
+
+> Some Pacific populations also have a lower percentage of body fat at a given BMI.
+
+> The associations of BMI and comorbidities are probably not stable within populations over time.
+
+##### [[source]](https://www.who.int/nutrition/publications/bmi_asia_strategies.pdf)
+
+## **Limitations**
+***
+
 The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf){target="_blank"} that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. 
 However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link){target="_blank"} for risk for many diseases and conditions particularly when combined with other risk factor information.
+
+While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
+
 
 ## **What are the data?**
 ***
@@ -2177,10 +2200,13 @@ We learned that if the normality assumption is violated, we can use the Wilcoxon
 Using the `ggplot2` package we were able to visualize trends in the data. Importantly, the largest increase appears to be in the rural areas particularly for women. We were also able to identify how the US compared to other countries and which countries showed the largest increase in BMI over time. Analyses like this are important for defining which groups could benefit the most from interventions, education, and policy changes when attempting to mitigate public health challenges. You can see in the [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} that this data came from that many additional considerations would be involved to perform such an analysis.
 
 
-### **Suggested Homework**
+## **Suggested Homework**
 ***
 
 Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. The data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv){target="_blank"}.
+
+## **Additional Information**
+***
 
 ### **Helpful Links**
 ***
