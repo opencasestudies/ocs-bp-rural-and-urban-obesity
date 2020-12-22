@@ -38,7 +38,7 @@ To cite this case study:
 
 Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity. Exploring global patterns of obesity across rural and urban regions (Version v1.0.0).
 
-### Acknowledgements
+### Acknowledgments
 
 We would like to acknowledge [Jessica Fanzo](https://www.jhsph.edu/faculty/directory/profile/3380/jessica-fanzo) for assisting in framing the major direction of the case study.
 
