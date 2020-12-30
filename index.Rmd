@@ -1979,6 +1979,13 @@ Thus rural women in Egypt had the greatest increase in BMI from 1985 to 2017 in 
 
 The data suggests that rural women in Egypt and other countries may especially benefit from dietary resources and our interventions and programs to assist with weight management.
 
+
+
+## **Summary**
+***
+
+### **Summary Plot**
+***
 Now let's make a plot that summarizes our findings. To do this we will simplify the other plots we made and then combine them together.
 
 ```{r}
@@ -2168,7 +2175,7 @@ BMI_diff_long %>%
 ```
 ####
 
-## **Summary**
+### **Synopsis
 ***
 
 We have evaluated BMI average estimates from 200 different countries around the world. To do so we imported data from a pdf using the `pdftools` package. We used `tidyverse` packages such as `dplyr`, `stringr`, and `tidy` to clean the data and get it in a workable format. Our statistical analysis focused on evaluating differences in BMI in females around the world across time and between rural and urban areas. We found a significant difference both between years and between the type of community among women globally using [paired $t$-tests](https://stattrek.com/hypothesis-test/paired-means.aspx#example1){target="_blank"} and [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} tests. Thus BMI has increased in women since 1985. Although BMI estimates are significantly higher in Urban areas compared to rural areas, BMI estimates have increased in both regions. We learned that there are assumptions and considerations to keep in mind when performing tests that compare two groups. 
