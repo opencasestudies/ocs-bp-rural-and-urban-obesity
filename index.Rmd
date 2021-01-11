@@ -258,7 +258,7 @@ The data within the parentheses are the 95% [credible intervals](https://en.wiki
 ***
 First let's download the data from the PDF file. 
 We use `file.exists()` from base R to check if the file we want to download already exists. 
-If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory` of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
+If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
 
 ```{r}
 if(!file.exists(here("docs", "paper_supplement.pdf"))){
@@ -291,14 +291,14 @@ pdf_obesity[2] # this looks like the second page
 ```{r, eval = TRUE}
 str(pdf_obesity[52], nchar.max = 1600)
 ```
-Yes, this looks like data in a the table we want. 
+Yes, this looks like data in the table we want. 
 We are using the `str()` function to print just a portion of the data. The `str()` function compactly displays the structure of arbitrary R objects. 
-The `nchar.max` argument let's us define the maximal number of characters to show. 
-Note `print(pdf_obesity[52])` would show the entire contents of the this page of the table. 
+The `nchar.max` argument lets us define the maximal number of characters to show. 
+Note `print(pdf_obesity[52])` would show the entire contents of this page of the table. 
 
 Here is the PDF version again:
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img","first_page.png"))
+knitr::include_graphics(here::here("img", "first_page.png"))
 ```
 
 We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. 
@@ -479,7 +479,7 @@ For example, we can see that "American Samoa" has been divided into two columns 
 
 Let's try this another way.  
 
-As we can see by looking at our `rural_ubran` data, the country information is only present when the sex is Women. Let's try to extract the country information from the rows that contain data about Women.
+As we can see by looking at our `rural_urban` data, the country information is only present when the sex is Women. Let's try to extract the country information from the rows that contain data about Women.
 
 ```{r}
 head(rural_urban)
@@ -704,7 +704,7 @@ Men <-
 # The * would typically indicate any possible value, 
 # but here we actually want a "*" instead
 # Thus the double backslash does that for us
-# Here we are replacing all occurences of the na* values 
+# Here we are replacing all occurrences of the na* values 
 #(thus str_replace_all instead of str_replace) with na* na*. 
 ```
 
@@ -1477,7 +1477,7 @@ include_graphics(here::here("img", "probability-line.svg"))
 
 If we consider flipping a coin, the probability of an event happening (heads) is always equal to  1 ( or 100% chance) minus the probability of the event not happening (tails instead of heads) because the total probability can not exceed 100%.
 
-        probability of 1 (100% chance) = the probabilty of heads (50% chance)
+        probability of 1 (100% chance) = the probability of heads (50% chance)
                                          + the probability of tails (50% chance)
                                        
                                      1 = P(heads) + P(tails)
@@ -1488,7 +1488,7 @@ If we consider flipping a coin, the probability of an event happening (heads) is
 
 If we think about the probability of getting significant or nonsignificant results we can think of it like this:
 
-                                     1 = P(signifiant results) 
+                                     1 = P(significant results) 
                                           + P(no significant results)
                 P(significant results) = 1 - P(no significant results)
 
@@ -2024,7 +2024,7 @@ ggplot(aes(x = Sex, y = BMI)) +
                           color = "black") + 
   # This will add USA labels to the USA points
   theme_linedraw() +
-  # This will make thebackground of the plot white and the facet labels black
+  # This will make the background of the plot white and the facet labels black
   theme(legend.position = "none", 
   # This is useful for removing the legend
         axis.text.x = element_text(size = 15,angle = 30, vjust = 0.5), 
@@ -2272,6 +2272,7 @@ Students can evaluate the change in BMI over time using the global data availabl
 ```{r}
 sessionInfo()
 ```
+
 
 ### **Acknowledgments**
 ***
