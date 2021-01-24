@@ -88,7 +88,7 @@ knitr::include_graphics(here::here("img","BMIchart.jpeg"))
 ###### [[source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426){target="_blank"}]
 
 
-Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} published in [*Nature*](https://www.nature.com){target="_blank"} evaluated and compared the Body-Mass Index (BMI) of populations in rural and urban communities around the world: 
+Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} published in [*Nature*](https://www.nature.com){target="_blank"} evaluated and compared the BMI of populations in rural and urban communities around the world: 
 
 ```{r,  echo=FALSE, out.width='100%'}
 knitr::include_graphics(here::here("img", "paper.png"))
@@ -159,7 +159,7 @@ Specifically, the tidyverse is
 
 > "an opinionated collection of R packages designed for data science. All packages share an underlying philosophy and common APIs".
 
-Another way of putting it is that it's a set of packages that are useful specifically for data manipulation, exploration and visualization with a common philosophy.
+Another way of putting it is that it's a set of packages that are useful specifically for data manipulation, exploration, and visualization with a common philosophy.
 While some students may be familiar with previous packages from the R programming language, these packages make data science in R especially efficient.
 
 ```{r, echo = FALSE, out.width = "20%"}
@@ -251,14 +251,14 @@ knitr::include_graphics(here::here("img","first_page.png"))
 
 You can see that the data contain average BMI estimates for both men and women in countries at the national level, as well as the average BMI estimates for the rural and urban areas of these countries in both 1985 and 2017.
 
-The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval){target="_blank"} (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence. Notice that the mean BMI values are "age-standardised," this means that the mean values were adjusted for the different age distributions of the various countries so that the countries can be more fairly compared. For example, if one country has a population that is considerably younger, the mean BMI might be quite low (as younger individuals tend to have lower BMI values due to faster metabolic rates). One might falsely conclude that people in that country generally have lower BMI values than people in most other countries, however the lower overall BMI mean might simply be due to the fact that the country has a younger population than those other countries.
+The data within the parentheses are the 95% [credible intervals](https://en.wikipedia.org/wiki/Credible_interval){target="_blank"} (CIs) for the average BMI estimates. The authors provide these CIs as a guide to understand how likely the estimate is for the true population mean BMI. A wider range suggests that the estimate is less accurate, as there are more possible values for the true mean with credible evidence. Notice that the mean BMI values are "age-standardised," which means that the mean values were adjusted for the different age distributions of the various countries so that the countries can be more fairly compared. For example, if one country has a population that is considerably younger, the mean BMI might be quite low (as younger individuals tend to have lower BMI values due to faster metabolic rates). One might falsely conclude that people in that country generally have lower BMI values than people in most other countries, however the lower overall BMI mean might simply be due to the fact that the country has a younger population than those other countries.
 
 
 ## **Data Import**
 ***
 First let's download the data from the PDF file. 
 We use `file.exists()` from base R to check if the file we want to download already exists. 
-If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory` of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
+If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
 
 ```{r}
 if(!file.exists(here("docs", "paper_supplement.pdf"))){
@@ -291,14 +291,14 @@ pdf_obesity[2] # this looks like the second page
 ```{r, eval = TRUE}
 str(pdf_obesity[52], nchar.max = 1600)
 ```
-Yes, this looks like data in a the table we want. 
+Yes, this looks like data in the table we want. 
 We are using the `str()` function to print just a portion of the data. The `str()` function compactly displays the structure of arbitrary R objects. 
-The `nchar.max` argument let's us define the maximal number of characters to show. 
-Note `print(pdf_obesity[52])` would show the entire contents of the this page of the table. 
+The `nchar.max` argument lets us define the maximal number of characters to show. 
+Note `print(pdf_obesity[52])` would show the entire contents of this page of the table. 
 
 Here is the PDF version again:
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img","first_page.png"))
+knitr::include_graphics(here::here("img", "first_page.png"))
 ```
 
 We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. 
@@ -479,7 +479,7 @@ For example, we can see that "American Samoa" has been divided into two columns 
 
 Let's try this another way.  
 
-As we can see by looking at our `rural_ubran` data, the country information is only present when the sex is Women. Let's try to extract the country information from the rows that contain data about Women.
+As we can see by looking at our `rural_urban` data, the country information is only present when the sex is Women. Let's try to extract the country information from the rows that contain data about Women.
 
 ```{r}
 head(rural_urban)
@@ -505,7 +505,7 @@ head(Men)
 
 
 And then split the `Women` data based on the pattern `pattern = " Women"` (Note that the space before the word "Women" is included - so that it is not within the country data).
-Here we take our `Women` dataset and pipe it into the first argument of the `str_split()` function, where then we can split on the pattern `" Women"`.  We then pipe through the `unlist()` function so that the results is a vector instead of a list.  We assign this new result to the `country_split` object.
+Here we take our `Women` dataset and pipe it into the first argument of the `str_split()` function, where then we can split on the pattern `" Women"`.  We then pipe through the `unlist()` function so that the results are a vector instead of a list.  We assign this new result to the `country_split` object.
 
 ```{r}
 country_split <- 
@@ -647,7 +647,7 @@ Women <- glue("Women{pull(Women_BMI,country_split)}")
 
 If we try splitting our data by space again, will it have the expected number of columns? What about the rows that contain `na*` values?
 
-Let's just take the `Men` data that contains `na*` values. 
+Let's just take the `Men` data that contain `na*` values. 
 This column is called `rural_urban`. 
 
 ```{r}
@@ -677,7 +677,7 @@ knitr::include_graphics(here::here("img","missing_pdf.png"))
 ### **Dealing with NA values**
 ***
 
-We need to replace our `na*` values with something that includes a space so that when we separate our data by space we will have two values instead of one when we have an `na*`. 
+We need to replace our `na*` values with something that includes a space so that when we separate our data by space, we will have two values instead of one when we have an `na*`. 
 Therefore, `na* na*` should work.
 
 So, in order to use the functions within the `stringr` package, our `Men` data needs to be of `character` class, so let's check that now.
@@ -703,7 +703,7 @@ Men <-
 # The * would typically indicate any possible value, 
 # but here we actually want a "*" instead
 # Thus the double backslash does that for us
-# Here we are replacing all occurences of the na* values 
+# Here we are replacing all occurrences of the na* values 
 #(thus str_replace_all instead of str_replace) with na* na*. 
 ```
 
@@ -931,7 +931,7 @@ BMI_long <-
 head(BMI_long)
 ```
 
-We really want to promote the idea of working with [tidy data](https://r4ds.had.co.nz/tidy-data.html){target="_blank"}. Tidy data is data that is structured in a way that makes it especially usable. One of the rules of tidy data, is that each column or variable should have only one type of data. Currently we have two types of data in the `BMI_class` variable: the type of BMI measurement ( Rural, Urban, or National), and the year (1985 and 2017).  We can separate these two data types of the `class_BMI` column using the `separate()` function of the `tidyr` package to replace the `class_BMI` column with two new columns.
+We really want to promote the idea of working with [tidy data](https://r4ds.had.co.nz/tidy-data.html){target="_blank"}. Tidy data is data that is structured in a way that makes it especially usable. One of the rules of tidy data, is that each column or variable should have only one type of data. Currently we have two types of data in the `class_BMI` variable: the type of BMI measurement ( Rural, Urban, or National), and the year (1985 and 2017).  We can separate these two data types of the `class_BMI` column using the `separate()` function of the `tidyr` package to replace the `class_BMI` column with two new columns.
 
 ```{r}
 BMI_long %<>% 
@@ -1262,7 +1262,7 @@ But wait!  We need to check the assumptions of the statistical test we used to b
 If these assumptions are violated, this doesn't necessarily mean we can't perform a statistical test. It just means we may need to consider the following options:
 
 1) If the data isn't normally distributed, we may need to consider either a [transformation](https://www.statisticshowto.datasciencecentral.com/transformation-statistics/){target="_blank"} of the data to make it more normally distributed or a [nonparametric](https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960){target="_blank"} test which doesn't rely on the normality assumption.
-2) If the variances of the two groups aren't similar, we can perform a [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} (also called the unequal variance $t$-test) to account for difference variances.  This modifies the denominator of the test statistic to no longer use the standard deviation from pooling the samples.  We can do this in `R` by using the `var.equal = TRUE` option in the `t.test()` function.
+2) If the variances of the two groups aren't similar, we can perform a [Welch's $t$-test](https://www.statisticshowto.datasciencecentral.com/welchs-test-for-unequal-variances/){target="_blank"} (also called the unequal variance $t$-test) to account for difference variances.  This modifies the denominator of the test statistic to no longer use the standard deviation from pooling the samples.  We can do this in `R` by using the `var.equal = FALSE` option in the `t.test()` function.
 3) If the data in the two samples are not independent and are instead what we call paired, we should use the [Paired $t$-test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}.
 4) If the data within a group is not independent, we would need to consider methods beyond the scope of this case study.
 
@@ -1476,7 +1476,7 @@ include_graphics(here::here("img", "probability-line.svg"))
 
 If we consider flipping a coin, the probability of an event happening (heads) is always equal to  1 ( or 100% chance) minus the probability of the event not happening (tails instead of heads) because the total probability can not exceed 100%.
 
-        probability of 1 (100% chance) = the probabilty of heads (50% chance)
+        probability of 1 (100% chance) = the probability of heads (50% chance)
                                          + the probability of tails (50% chance)
                                        
                                      1 = P(heads) + P(tails)
@@ -1487,7 +1487,7 @@ If we consider flipping a coin, the probability of an event happening (heads) is
 
 If we think about the probability of getting significant or nonsignificant results we can think of it like this:
 
-                                     1 = P(signifiant results) 
+                                     1 = P(significant results) 
                                           + P(no significant results)
                 P(significant results) = 1 - P(no significant results)
 
@@ -2017,7 +2017,7 @@ ggplot(aes(x = Sex, y = BMI)) +
                           color = "black") + 
   # This will add USA labels to the USA points
   theme_linedraw() +
-  # This will make thebackground of the plot white and the facet labels black
+  # This will make the background of the plot white and the facet labels black
   theme(legend.position = "none", 
   # This is useful for removing the legend
         axis.text.x = element_text(size = 15,angle = 30, vjust = 0.5), 
@@ -2267,6 +2267,7 @@ Students can evaluate the change in BMI over time using the global data availabl
 ```{r}
 sessionInfo()
 ```
+
 
 ### **Acknowledgments**
 ***
