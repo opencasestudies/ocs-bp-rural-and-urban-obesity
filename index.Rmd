@@ -812,9 +812,14 @@ Women <- dplyr::rename(Women, Country = country_split)
 ```
 Here, we have renamed the `country_split` variable to be called `Country`. 
 
-Here, we reassign `Men` using the pipe strategy. 
+Here, we reassign `Men` using the pipe strategy.
 ```{r}
 Men %<>% rename(Country = country_split) 
+```
+
+This is equivalent to
+```{r, eval=FALSE}
+Men <- rename(Men, Country = country_split)
 ```
 We have renamed the `country_split` variable to to be called `Country`. 
 We have also reassigned `Men` to the same data object. which has the `Country` variable renamed. 
