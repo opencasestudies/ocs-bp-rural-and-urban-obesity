@@ -393,7 +393,7 @@ head(rural_urban)
 
 Now it is much easier to see the data.
 
-If we look at the part of our data that contains the end of the first page of the table and the start of the second we can see that the header information is repeated, as well as a line with the page number and an empty line, and a line that says "2 2".
+If we look at the part of our data that contains the end of the first page of the table and the start of the second we can see that the header information is repeated, as well as a line with the page number and an empty line, and a line that says "2 2". The "2 2" comes from importing the PDF file, these are the superscript "2"s in the $m^2$ strings in the table header - no need to worry about this. You may also notice some values that are `na*` and we will deal with this later.
 
 #### {.scrollable }
 ```{r}
@@ -460,7 +460,7 @@ We will add a new header after first dealing with some additional spacing and mi
 
 ### **Dealing with spacing**
 ***
-First let's try splitting our header-less data into columns based on spaces using the `str_split()` function, where we specify that we are splitting the data based on the pattern of a space (the space is included in quotes):
+First let's try splitting our header-less data into columns based on spaces using the `str_split()` function, where we specify that we are splitting the data based on the pattern of a space (the space is included in quotes). Referring to [str_split() documentation](https://www.rdocumentation.org/packages/stringr/versions/1.4.0/topics/str_split), the `simplify` argument is set to `FALSE` by default, where a list of character vectors is returned. If it is set to `TRUE` as we will be doing here, a character matrix is returned.
 
 Here, we will take a look at just the first 10 lines using the `[1:10,]` syntax: 
 
@@ -683,13 +683,12 @@ Therefore, `na* na*` should work.
 So, in order to use the functions within the `stringr` package, our `Men` data needs to be of `character` class, so let's check that now.
 
 ```{r}
-class(pull(Men, Men))
+head(Men)
 ```
-The ` as.character()` function allows us to change factor data within to the character class.  We could use this if we needed it, but it looks like our data is already `character`.
+The `<chr>` indicates that our `Men` data is already `character`. But if this is not the case, we could use the ` as.character()` function that allows us to change factor data within to the character class.
 
 We are also changing the structure so that the data is not within a column called `Men`. 
 ```{r}
-head(Men)
 Men <- pull(Men, Men)
 head(Men)
 ```
@@ -895,7 +894,7 @@ The `map()` function of the `purrr` package allows us to apply the `as.numeric()
 Above, we have selected those that don't contain `CI`, `Sex`, or `Country` in the column name. 
 If you are familiar with `apply()`, this function is very similar.
 
-Now we need to add the `Country` and `Sex` variables back to our new numeric dataset.
+Now we need to add the `Country` and `Sex` variables back to our new numeric dataset. To do this we will use the `mutate()` function from the `dplyr` package. This function allows us to create and modify variables.
 
 ```{r}
 BMI_numeric %<>% 
@@ -941,12 +940,12 @@ BMI_long %<>%
 ```
 
 Here, we separate the `class_BMI` column of the `BMI_long` tibble. 
-This is based on the underscores and create two new columns. 
+This is based on the underscores (“_”) and creates two new columns. 
 The first column will be called `Region`. 
 It will contain the 1st part of the `class_BMI` data before the 1st underscore. 
 The 2nd column will be called `Year`.
 It will contain the 3rd part of the data based on underscores.
-The middle part of the column will not be used to create any new columns. 
+The `NA` in our code is for removing the middle part of the column (“BMI”). Thus, this part will not be used to create any new columns.
 
 ```{r}
 head(BMI_long)
@@ -1782,25 +1781,19 @@ How does the rate of change in BMI differ between groups? Which group might espe
 
 First let's calculate the differences in BMI from 2017 and 1985 and add this to our BMI_long data object. This will create new variables called `Rural_difference,` `Urban_difference`, and `National_difference`.
 ```{r}
-
-BMI_numeric[["Rural_difference"]] <- 
-     BMI_numeric[["Rural_BMI_2017"]] - BMI_numeric[["Rural_BMI_1985"]]
-
-BMI_numeric[["Urban_difference"]] <- 
-     BMI_numeric[["Urban_BMI_2017"]] - BMI_numeric[["Urban_BMI_1985"]]
-
-BMI_numeric[["National_difference"]] <- 
-     BMI_numeric[["National_BMI_2017"]] - BMI_numeric[["National_BMI_1985"]]
+BMI_numeric  %<>% 
+  mutate(Rural_difference = Rural_BMI_2017 - Rural_BMI_1985) %>%
+  mutate(Urban_difference = Urban_BMI_2017 - Urban_BMI_1985) %>%
+  mutate(National_difference = National_BMI_2017 - National_BMI_1985)
 
 BMI_diff_long <- BMI_numeric %>% 
   select(Country:National_difference) %>% 
-gather(key = Type, value = Difference , Rural_difference:National_difference)
+  gather(key = Type, value = Difference , Rural_difference:National_difference)
 
 
 BMI_diff_long <- BMI_numeric %>% 
   select(Country: National_difference) %>% 
-pivot_longer( names_to = "Difference" , cols = Rural_difference:National_difference)
-
+  pivot_longer( names_to = "Difference" , cols = Rural_difference:National_difference)
 
 
 head(BMI_diff_long)
@@ -2152,12 +2145,14 @@ BMI_long %>%
   summarize(mean = mean(BMI), median = median(BMI))
 
 BMI_numeric %>%
-    group_by(Sex)%>%
-  summarize(Nat_mean1985 = mean(National_BMI_1985), Nat_mean2017 = mean(National_BMI_2017))
+  group_by(Sex)%>%
+  summarize(Nat_mean1985 = mean(National_BMI_1985), 
+            Nat_mean2017 = mean(National_BMI_2017))
 
 BMI_numeric %>%
-    group_by(Sex)%>%
-  summarize(Nat_med1985 = median(National_BMI_1985), Nat_med2017 = median(National_BMI_2017))
+  group_by(Sex)%>%
+  summarize(Nat_med1985 = median(National_BMI_1985), 
+            Nat_med2017 = median(National_BMI_2017))
 ```
 
 
