@@ -917,7 +917,7 @@ The alternative numeric option is the integer class.
 
 It is generally useful to get the data in what is called <b>long</b> format for other analyses, and particularly for plotting. 
 
-For a more detailed description about this, please see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}.
+For a more detailed description about this, please see the Data Visualization section of this [case study](https://www.opencasestudies.org/ocs-bp-opioid-rural-urban/#Rural_and_Urban_areas/#:~:text=%20the%20data%20was%20presented%20in%20a%20format%20that%20is%20called%20long%20format.){target="_blank"}.
 
 Basically, the long format has more rows and fewer columns.
 Thus, we can combine some columns together.
@@ -1060,6 +1060,41 @@ Alternatively to using base R, we can plot the frequency of simulated observatio
 The [ggplot2](https://ggplot2.tidyverse.org/){target="_blank"} package creates plots by using layers.
 Notice in the following code how there is a plus sign between the `ggplot()` function and the `geom_histogram()` function. 
 With `ggplot2` we select what data we would like to plot using the first function (`ggplot()`) and then we add on additional layers of complexity (these layers can even involve different data). 
+
+***
+<details> <summary> Click here for additional information on using `ggplot2`.</summary>
+
+The reasons [`ggplot2`](http://ggplot2.tidyverse.org) is generally intuitive for beginners is the use of [grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.html) or the `gg` in `ggplot2`. 
+The idea is that you can construct many sentences by learning just a few nouns, adjectives, and verbs. 
+There are specific "words" that we will introduce, and once you are comfortable with them, you will be able to create (or "write") hundreds of different plots.
+
+#### What is the `ggplot()` function? 
+
+As explained by Hadley Wickham: 
+
+> the grammar tells us that a statistical graphic is a mapping from data to aesthetic attributes (colour, shape, size) of geometric objects (points, lines, bars). The plot may also contain statistical transformations of the data and is drawn on a specific coordinates system.
+
+#### `ggplot2` Terminology 
+
+* **ggplot** - the main function where you specify the dataset and variables to plot (this is where we define the `x` and
+`y` variable names)
+* **geoms** - geometric objects
+    * e.g. `geom_point()`, `geom_bar()`, `geom_line()`, `geom_histogram()`
+* **aes** - aesthetics
+    * shape, transparency, color, fill, line types
+* **scales** - define how your data will be plotted
+    * continuous, discrete, log, etc
+
+The function `aes()` is an aesthetic mapping function inside the `ggplot()` object. 
+We use this function to specify plot attributes (e.g. `x` and `y` variable names) that will not change as we add more layers.  
+
+Anything that goes in the `ggplot()` object becomes a global setting. 
+From there, we use the `geom` objects to add more layers to the base `ggplot()` object. 
+These will define what we are interested in illustrating using the data.
+
+</details> 
+***
+
 ```{r}
   ggplot2::ggplot(norm_BMI_ex_data, aes(x = norm_data)) + 
   ggplot2::geom_histogram() 
@@ -1076,7 +1111,7 @@ norm_BMI_ex_data %>%
   ggplot2::geom_histogram() 
 ```
 
-We will see later how we can add many layers to plots with `ggplot2`. For additional information on using `ggplot2`, see this [case study](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}.
+We will see later how we can add many layers to plots with `ggplot2`.
 
 
 Now instead of using simulated data from a normal distribution, let's make a histogram of our BMI data:
@@ -1585,7 +1620,7 @@ So we see a significant difference in the means of the groups after multiple tes
 ## **Data Visualization**
 ***
 
-Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see [here](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}. The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
+Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see the [Data Exploration section](https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity/#Distribution/#:~:text=Click%20here%20for%20additional%20information%20on%20using%20ggplot2.){target="_blank"} earlier in this case study. The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
 
 Our first main question was: Is there a difference between rural and urban BMI estimates around the world?
 Let's look at the national mean BMI estimates for each of the years:
