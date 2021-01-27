@@ -1068,13 +1068,13 @@ The reasons [`ggplot2`](http://ggplot2.tidyverse.org) is generally intuitive for
 The idea is that you can construct many sentences by learning just a few nouns, adjectives, and verbs. 
 There are specific "words" that we will introduce, and once you are comfortable with them, you will be able to create (or "write") hundreds of different plots.
 
-#### What is the `ggplot()` function? 
+**_What is the `ggplot()` function?_**
 
 As explained by Hadley Wickham: 
 
 > the grammar tells us that a statistical graphic is a mapping from data to aesthetic attributes (colour, shape, size) of geometric objects (points, lines, bars). The plot may also contain statistical transformations of the data and is drawn on a specific coordinates system.
 
-#### `ggplot2` Terminology 
+**_`ggplot2` Terminology_**
 
 * **ggplot** - the main function where you specify the dataset and variables to plot (this is where we define the `x` and
 `y` variable names)
