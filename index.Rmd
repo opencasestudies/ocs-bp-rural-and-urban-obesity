@@ -67,6 +67,13 @@ To access the GitHub Repository for this case study see here: https://github.com
 
 This case study is part of a series of public health case studies for the [Bloomberg American Health  Initiative](https://americanhealth.jhu.edu/open-case-studies).
 
+
+Please help us by filling out our survey.
+
+
+<div style="display: flex; justify-content: center;"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfpN4FN3KELqBNEgf2Atpi7Wy7Nqy2beSkFQINL7Y5sAMV5_w/viewform?embedded=true" width="1200" height="700" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe></div>
+
+
 ## **Motivation**
 
 Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}) is often used as a proxy for **adiposity** (the condition of having excess body fat) and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
@@ -2317,3 +2324,5 @@ We would like to acknowledge [Jessica Fanzo](https://www.jhsph.edu/faculty/direc
 We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
 
 <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=a&t=tt&d=a1Ews2eHEWlY8v8IFJHWTERegYZfMmtyCxPiYu5y9DM&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfpN4FN3KELqBNEgf2Atpi7Wy7Nqy2beSkFQINL7Y5sAMV5_w/viewform?embedded=true" width="640" height="891" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
