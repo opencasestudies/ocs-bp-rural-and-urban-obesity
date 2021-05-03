@@ -7,13 +7,10 @@ output: md_document
 # OpenCaseStudies
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity.svg?branch=master)](https://travis-ci.org/opencasestudies/Bloomberg-ocs-rural-and-urban-obesity)
-<!-- badges: end -->
-
-<!-- badges: start -->
 [![render-README](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/workflows/render-README/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions)
 [![render-index](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/workflows/render-index/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions)
 <!-- badges: end -->
+
 
 ### Important links 
 
