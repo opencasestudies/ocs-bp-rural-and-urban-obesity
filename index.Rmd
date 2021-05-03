@@ -40,6 +40,7 @@ function googleTranslateElementInit() {
 </script>
 
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE, cache = FALSE,
