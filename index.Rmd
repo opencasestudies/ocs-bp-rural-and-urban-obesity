@@ -279,19 +279,47 @@ The data within the parentheses are the 95% [credible intervals](https://en.wiki
 ***
 First let's download the data from the PDF file. 
 We use `file.exists()` from base R to check if the file we want to download already exists. 
-If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `docs` directory of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
+If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `raw` subdirectory of the `data` directory of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
 
 ```{r}
-if(!file.exists(here("docs", "paper_supplement.pdf"))){
+if(!file.exists(here("data", "raw", "paper_supplement.pdf"))){
   url <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf"
-  utils::download.file(url, here("docs", "paper_supplement.pdf"))
+  utils::download.file(url, here("data", "raw", "paper_supplement.pdf"))
 }
 ```
+
+
+We will save our data to a directory within our working directory called data. We will create subdirectories within this directory to organize our data. We can use the `here` function from the `here` package to make this process easier. The `here()` function allows us to specify the path or location of the document that we want to import, starting from the directory where an `.Rproj` file is located after creating a project in RStudio. In this case, we will import our files within subdirectories of  a directory called `raw` of the `data` directory. (*Note the next chunk of code will only work for you if you pull the repository from GitHub and set up your file structure in the same way.*) If you had trouble downloading the data from the orginal sources you can download them from our [GitHub repository for this case study](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data).
+
+***
+
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+</details>
+
+***
 
 Now that we have downloaded the PDF file, we will read it in to R using the `pdftools` package:
 
 ```{r}
-pdf_obesity <- pdftools::pdf_text(here("docs", "paper_supplement.pdf"))
+pdf_obesity <- pdftools::pdf_text(here("data", "raw", "paper_supplement.pdf"))
 ```
 
 
@@ -379,11 +407,53 @@ knitr::include_graphics(here::here("img","last_page.png"))
 
 Great! Our `rural_urban` object looks like it contains the entire Supplementary 3 table, as both the beginning and the end include the data we expected.
 
+Now we will save this imported data for later use like so in a subdirectory of the `data` directory called `imported`:
+
+```{r}
+save(rural_urban, file = here::here("data", "imported", "imported_data.rda"))
+```
+
 ## **Data Wrangling**
 ***
+
+***
+<details> <summary> If you skipped the data import section click here. </summary>
+
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported/impoted_data.rda). Download this file and then place it in your current working directory within a subdirectory called `imported` within a subdirectory called `data` to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+
+```{r}
+load(here::here("data", "imported", "imported_data.rda"))
+```
+
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+</details>
+***
+
 At this point we have large strings now for each page of the table, but this is not very convenient to work with. 
 Now, we will wrangle the data into a more usable form. 
 Ideally, we would like our data to be in some sort of tabular form.
+
+
 
 ### **Separate the data into lines**
 ***
@@ -996,17 +1066,62 @@ head(BMI_long)
 
 ####
 
-Great! Our data is very usable now in this format!
+Great! Our data is very usable now in this format! Now let's save our wrangled data for future use. We will save it as an r compatible file (a .rda file), as well as csv files, as these are useful to give to collaborators. We will use the `write_csv()` function of the `readr` package to do this.This requires that each tibble be saved one at a time.
 
-```{r, echo = FALSE}
+```{r, eval = FALSE}
 save(BMI_numeric, 
      BMI_long, 
-     file = here("data", "Wrangled_data.rda"))
+     file = here::here("data",  "wrangled", "wrangled_data.rda"))
+readr::write_csv(BMI_numeric, 
+                 path = here::here("data", "wrangled", "BMI_numeric.csv"))
+readr::write_csv(BMI_long, 
+                 path = here::here("data", "wrangled", "BMI_long.csv"))
 
 ```
 
+
 ## **Data Exploration**
 ***
+
+If you have been following along but stopped, we could load our wrangled data like so:
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+***
+<details> <summary> If you skipped the data wrangling section click here. </summary>
+
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+</details>
+***
+
 Now that our data is clean and in a format that we can work with, we can start to take a look at the data and how different groups might compare.
 
 Going back to one of our original questions, 
@@ -1019,10 +1134,6 @@ First, let's explore our data a bit.
 ### **General summary**
 ***
 
-```{r, echo = FALSE}
-# Start here if not working through data import and wrangling
-load(here("data", "Wrangled_data.rda"))
-```
 
 ```{r}
 summary(BMI_numeric)
@@ -1244,6 +1355,47 @@ We can conclude from these plots that the assumption of normality appears to be 
 
 ## **Data Analysis**
 ***
+
+If you have been following along but stopped, we could load our wrangled data like so:
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+***
+<details> <summary> If you skipped the data wrangling section click here. </summary>
+
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+</details>
+***
+
+
 In the previous section, we hinted at the existence of statistical tests to be able to assess if there is a difference in the average BMI estimates between two groups (e.g. national BMI estimates in rural areas and national BMI estimates in urban areas). 
 One such test is the [Student's $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test){target="_blank"}, which can be used to determine if [two group means are different](http://onlinestatbook.com/2/estimation/difference_means.html){target="_blank"}.
 However, as mentioned before, this test depends on certain assumption of our data. 
@@ -1640,6 +1792,46 @@ So we see a significant difference in the means of the groups after multiple tes
 
 ## **Data Visualization**
 ***
+
+If you have been following along but stopped, we could load our wrangled data like so:
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+***
+<details> <summary> If you skipped the data wrangling section click here. </summary>
+
+An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
+
+```{r}
+load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+
+***
+<details> <summary> Click here to see more about creating new projects in RStudio. </summary>
+
+You can create a project by going to the File menu of RStudio like so:
+
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "New_project.png"))
+```
+
+You can also do so by clicking the project button:
+
+```{r, echo = FALSE, out.width="60%"}
+knitr::include_graphics(here::here("img", "project_button.png"))
+```
+
+See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
+
+</details>
+***
+</details>
+***
+
 
 Again we will utilize `ggplot2` to create plots to look at the directional and magnitude of the differences in BMI we are interested in. If you need additional information please see the [Data Exploration section](https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity/#Distribution/#:~:text=Click%20here%20for%20additional%20information%20on%20using%20ggplot2.){target="_blank"} earlier in this case study. The top two lines of the code for the following plots, filter the data to only specific values of interest. Then we layer what is called a jitter on top of a box plot. A jitter is essentially a dot plot but with some variation on the location of the points so that they do not line up vertically which can make the individual points difficult to see.
 

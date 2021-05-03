@@ -1,0 +1,2401 @@
+Country,Sex,Region,Year,BMI
+Afghanistan,Men,National,1985,20.2
+Afghanistan,Men,Rural,1985,19.7
+Afghanistan,Men,Urban,1985,22.4
+Afghanistan,Men,National,2017,22.8
+Afghanistan,Men,Rural,2017,22.5
+Afghanistan,Men,Urban,2017,23.6
+Afghanistan,Women,National,1985,20.6
+Afghanistan,Women,Rural,1985,20.1
+Afghanistan,Women,Urban,1985,23.2
+Afghanistan,Women,National,2017,24.4
+Afghanistan,Women,Rural,2017,23.6
+Afghanistan,Women,Urban,2017,26.3
+Albania,Men,National,1985,25.2
+Albania,Men,Rural,1985,25
+Albania,Men,Urban,1985,25.4
+Albania,Men,National,2017,27
+Albania,Men,Rural,2017,26.9
+Albania,Men,Urban,2017,27
+Albania,Women,National,1985,26
+Albania,Women,Rural,1985,26.1
+Albania,Women,Urban,1985,25.9
+Albania,Women,National,2017,26
+Albania,Women,Rural,2017,26.2
+Albania,Women,Urban,2017,25.9
+Algeria,Men,National,1985,22.1
+Algeria,Men,Rural,1985,21.8
+Algeria,Men,Urban,1985,22.3
+Algeria,Men,National,2017,25.1
+Algeria,Men,Rural,2017,24.8
+Algeria,Men,Urban,2017,25.2
+Algeria,Women,National,1985,24
+Algeria,Women,Rural,1985,23.3
+Algeria,Women,Urban,1985,24.8
+Algeria,Women,National,2017,27.4
+Algeria,Women,Rural,2017,27
+Algeria,Women,Urban,2017,27.5
+American Samoa,Men,National,1985,33.7
+American Samoa,Men,Rural,1985,32.6
+American Samoa,Men,Urban,1985,34
+American Samoa,Men,National,2017,34.3
+American Samoa,Men,Rural,2017,34.6
+American Samoa,Men,Urban,2017,34.2
+American Samoa,Women,National,1985,34.3
+American Samoa,Women,Rural,1985,34.1
+American Samoa,Women,Urban,1985,34.4
+American Samoa,Women,National,2017,35.3
+American Samoa,Women,Rural,2017,35
+American Samoa,Women,Urban,2017,35.4
+Andorra,Men,National,1985,25
+Andorra,Men,Rural,1985,25.3
+Andorra,Men,Urban,1985,25
+Andorra,Men,National,2017,26.8
+Andorra,Men,Rural,2017,26.8
+Andorra,Men,Urban,2017,26.8
+Andorra,Women,National,1985,25.2
+Andorra,Women,Rural,1985,25.4
+Andorra,Women,Urban,1985,25.2
+Andorra,Women,National,2017,25.3
+Andorra,Women,Rural,2017,25.2
+Andorra,Women,Urban,2017,25.3
+Angola,Men,National,1985,20.5
+Angola,Men,Rural,1985,20.2
+Angola,Men,Urban,1985,21.4
+Angola,Men,National,2017,22.6
+Angola,Men,Rural,2017,22
+Angola,Men,Urban,2017,23.2
+Angola,Women,National,1985,21.3
+Angola,Women,Rural,1985,20.9
+Angola,Women,Urban,1985,22.7
+Angola,Women,National,2017,24.4
+Angola,Women,Rural,2017,23.3
+Angola,Women,Urban,2017,25.7
+Antigua and Barbuda,Men,National,1985,23.6
+Antigua and Barbuda,Men,Rural,1985,23.2
+Antigua and Barbuda,Men,Urban,1985,24.2
+Antigua and Barbuda,Men,National,2017,26.2
+Antigua and Barbuda,Men,Rural,2017,26
+Antigua and Barbuda,Men,Urban,2017,26.7
+Antigua and Barbuda,Women,National,1985,24.5
+Antigua and Barbuda,Women,Rural,1985,24
+Antigua and Barbuda,Women,Urban,1985,25.4
+Antigua and Barbuda,Women,National,2017,28.1
+Antigua and Barbuda,Women,Rural,2017,28
+Antigua and Barbuda,Women,Urban,2017,28.5
+Argentina,Men,National,1985,25.2
+Argentina,Men,Rural,1985,24.3
+Argentina,Men,Urban,1985,25.4
+Argentina,Men,National,2017,27.8
+Argentina,Men,Rural,2017,26.9
+Argentina,Men,Urban,2017,27.9
+Argentina,Women,National,1985,24.3
+Argentina,Women,Rural,1985,23.3
+Argentina,Women,Urban,1985,24.5
+Argentina,Women,National,2017,27.3
+Argentina,Women,Rural,2017,27
+Argentina,Women,Urban,2017,27.3
+Armenia,Men,National,1985,23.4
+Armenia,Men,Rural,1985,22.8
+Armenia,Men,Urban,1985,23.7
+Armenia,Men,National,2017,25.7
+Armenia,Men,Rural,2017,25.3
+Armenia,Men,Urban,2017,25.8
+Armenia,Women,National,1985,25.4
+Armenia,Women,Rural,1985,25.2
+Armenia,Women,Urban,1985,25.5
+Armenia,Women,National,2017,27.1
+Armenia,Women,Rural,2017,27.5
+Armenia,Women,Urban,2017,26.8
+Australia,Men,National,1985,25.3
+Australia,Men,Rural,1985,25.6
+Australia,Men,Urban,1985,25.3
+Australia,Men,National,2017,27.5
+Australia,Men,Rural,2017,27.9
+Australia,Men,Urban,2017,27.5
+Australia,Women,National,1985,24.5
+Australia,Women,Rural,1985,24.7
+Australia,Women,Urban,1985,24.4
+Australia,Women,National,2017,26.7
+Australia,Women,Rural,2017,27.3
+Australia,Women,Urban,2017,26.6
+Austria,Men,National,1985,24.4
+Austria,Men,Rural,1985,24.7
+Austria,Men,Urban,1985,24.2
+Austria,Men,National,2017,26.7
+Austria,Men,Rural,2017,27
+Austria,Men,Urban,2017,26.6
+Austria,Women,National,1985,23.7
+Austria,Women,Rural,1985,24.3
+Austria,Women,Urban,1985,23.3
+Austria,Women,National,2017,24
+Austria,Women,Rural,2017,24.5
+Austria,Women,Urban,2017,23.7
+Azerbaijan,Men,National,1985,24
+Azerbaijan,Men,Rural,1985,23.6
+Azerbaijan,Men,Urban,1985,24.3
+Azerbaijan,Men,National,2017,26.2
+Azerbaijan,Men,Rural,2017,26
+Azerbaijan,Men,Urban,2017,26.4
+Azerbaijan,Women,National,1985,25.2
+Azerbaijan,Women,Rural,1985,24.2
+Azerbaijan,Women,Urban,1985,26
+Azerbaijan,Women,National,2017,27.4
+Azerbaijan,Women,Rural,2017,26.9
+Azerbaijan,Women,Urban,2017,27.7
+Bahamas,Men,National,1985,24.1
+Bahamas,Men,Rural,1985,23.3
+Bahamas,Men,Urban,1985,24.3
+Bahamas,Men,National,2017,26.7
+Bahamas,Men,Rural,2017,26.1
+Bahamas,Men,Urban,2017,26.8
+Bahamas,Women,National,1985,25.1
+Bahamas,Women,Rural,1985,24
+Bahamas,Women,Urban,1985,25.4
+Bahamas,Women,National,2017,28.4
+Bahamas,Women,Rural,2017,28
+Bahamas,Women,Urban,2017,28.5
+Bahrain,Men,National,1985,24.3
+Bahrain,Men,Rural,1985,23.7
+Bahrain,Men,Urban,1985,24.4
+Bahrain,Men,National,2017,27.7
+Bahrain,Men,Rural,2017,27
+Bahrain,Men,Urban,2017,27.7
+Bahrain,Women,National,1985,25.4
+Bahrain,Women,Rural,1985,24
+Bahrain,Women,Urban,1985,25.6
+Bahrain,Women,National,2017,28.9
+Bahrain,Women,Rural,2017,28.4
+Bahrain,Women,Urban,2017,29
+Bangladesh,Men,National,1985,19.4
+Bangladesh,Men,Rural,1985,18.8
+Bangladesh,Men,Urban,1985,21.8
+Bangladesh,Men,National,2017,21.6
+Bangladesh,Men,Rural,2017,21.1
+Bangladesh,Men,Urban,2017,22.4
+Bangladesh,Women,National,1985,18.2
+Bangladesh,Women,Rural,1985,17.7
+Bangladesh,Women,Urban,1985,20.6
+Bangladesh,Women,National,2017,22.5
+Bangladesh,Women,Rural,2017,21.7
+Bangladesh,Women,Urban,2017,23.9
+Barbados,Men,National,1985,24.2
+Barbados,Men,Rural,1985,24.1
+Barbados,Men,Urban,1985,24.5
+Barbados,Men,National,2017,26.5
+Barbados,Men,Rural,2017,26.4
+Barbados,Men,Urban,2017,26.5
+Barbados,Women,National,1985,27.1
+Barbados,Women,Rural,1985,26.8
+Barbados,Women,Urban,1985,27.7
+Barbados,Women,National,2017,29.4
+Barbados,Women,Rural,2017,29.5
+Barbados,Women,Urban,2017,29.3
+Belarus,Men,National,1985,24.7
+Belarus,Men,Rural,1985,24.7
+Belarus,Men,Urban,1985,24.7
+Belarus,Men,National,2017,26.5
+Belarus,Men,Rural,2017,26.2
+Belarus,Men,Urban,2017,26.6
+Belarus,Women,National,1985,26.2
+Belarus,Women,Rural,1985,26.7
+Belarus,Women,Urban,1985,25.8
+Belarus,Women,National,2017,26.4
+Belarus,Women,Rural,2017,27.3
+Belarus,Women,Urban,2017,26.1
+Belgium,Men,National,1985,24.8
+Belgium,Men,Rural,1985,25
+Belgium,Men,Urban,1985,24.8
+Belgium,Men,National,2017,26.4
+Belgium,Men,Rural,2017,26.4
+Belgium,Men,Urban,2017,26.4
+Belgium,Women,National,1985,24.8
+Belgium,Women,Rural,1985,25.1
+Belgium,Women,Urban,1985,24.8
+Belgium,Women,National,2017,25.4
+Belgium,Women,Rural,2017,25.3
+Belgium,Women,Urban,2017,25.4
+Belize,Men,National,1985,24.9
+Belize,Men,Rural,1985,24.4
+Belize,Men,Urban,1985,25.4
+Belize,Men,National,2017,27.6
+Belize,Men,Rural,2017,27.3
+Belize,Men,Urban,2017,27.9
+Belize,Women,National,1985,26.8
+Belize,Women,Rural,1985,26.2
+Belize,Women,Urban,1985,27.5
+Belize,Women,National,2017,30.5
+Belize,Women,Rural,2017,30.4
+Belize,Women,Urban,2017,30.8
+Benin,Men,National,1985,20.7
+Benin,Men,Rural,1985,20.3
+Benin,Men,Urban,1985,21.7
+Benin,Men,National,2017,22.7
+Benin,Men,Rural,2017,22.1
+Benin,Men,Urban,2017,23.4
+Benin,Women,National,1985,20.6
+Benin,Women,Rural,1985,20.1
+Benin,Women,Urban,1985,21.8
+Benin,Women,National,2017,24.3
+Benin,Women,Rural,2017,23.2
+Benin,Women,Urban,2017,25.5
+Bermuda,Men,National,1985,24.3
+Bermuda,Men,Rural,1985,NA
+Bermuda,Men,Urban,1985,24.3
+Bermuda,Men,National,2017,26.7
+Bermuda,Men,Rural,2017,NA
+Bermuda,Men,Urban,2017,26.7
+Bermuda,Women,National,1985,25.4
+Bermuda,Women,Rural,1985,NA
+Bermuda,Women,Urban,1985,25.4
+Bermuda,Women,National,2017,28.5
+Bermuda,Women,Rural,2017,NA
+Bermuda,Women,Urban,2017,28.5
+Bhutan,Men,National,1985,20.6
+Bhutan,Men,Rural,1985,20.3
+Bhutan,Men,Urban,1985,23.1
+Bhutan,Men,National,2017,23.5
+Bhutan,Men,Rural,2017,23.1
+Bhutan,Men,Urban,2017,24.2
+Bhutan,Women,National,1985,20.7
+Bhutan,Women,Rural,1985,20.3
+Bhutan,Women,Urban,1985,23
+Bhutan,Women,National,2017,24.6
+Bhutan,Women,Rural,2017,23.8
+Bhutan,Women,Urban,2017,25.9
+Bolivia,Men,National,1985,23.3
+Bolivia,Men,Rural,1985,22.9
+Bolivia,Men,Urban,1985,23.6
+Bolivia,Men,National,2017,26.1
+Bolivia,Men,Rural,2017,25.3
+Bolivia,Men,Urban,2017,26.5
+Bolivia,Women,National,1985,23.8
+Bolivia,Women,Rural,1985,23
+Bolivia,Women,Urban,1985,24.6
+Bolivia,Women,National,2017,27.9
+Bolivia,Women,Rural,2017,27
+Bolivia,Women,Urban,2017,28.3
+Bosnia and Herzegovina,Men,National,1985,24.9
+Bosnia and Herzegovina,Men,Rural,1985,24.8
+Bosnia and Herzegovina,Men,Urban,1985,25
+Bosnia and Herzegovina,Men,National,2017,26.8
+Bosnia and Herzegovina,Men,Rural,2017,26.7
+Bosnia and Herzegovina,Men,Urban,2017,26.8
+Bosnia and Herzegovina,Women,National,1985,25.5
+Bosnia and Herzegovina,Women,Rural,1985,25.7
+Bosnia and Herzegovina,Women,Urban,1985,25.1
+Bosnia and Herzegovina,Women,National,2017,25.7
+Bosnia and Herzegovina,Women,Rural,2017,26
+Bosnia and Herzegovina,Women,Urban,2017,25.3
+Botswana,Men,National,1985,20.6
+Botswana,Men,Rural,1985,20.3
+Botswana,Men,Urban,1985,21.4
+Botswana,Men,National,2017,22.6
+Botswana,Men,Rural,2017,21.9
+Botswana,Men,Urban,2017,23.2
+Botswana,Women,National,1985,24.2
+Botswana,Women,Rural,1985,23.7
+Botswana,Women,Urban,1985,25.6
+Botswana,Women,National,2017,26.2
+Botswana,Women,Rural,2017,25
+Botswana,Women,Urban,2017,27
+Brazil,Men,National,1985,23.3
+Brazil,Men,Rural,1985,22.2
+Brazil,Men,Urban,1985,23.7
+Brazil,Men,National,2017,26.2
+Brazil,Men,Rural,2017,25
+Brazil,Men,Urban,2017,26.4
+Brazil,Women,National,1985,24
+Brazil,Women,Rural,1985,23.1
+Brazil,Women,Urban,1985,24.4
+Brazil,Women,National,2017,26.9
+Brazil,Women,Rural,2017,26.4
+Brazil,Women,Urban,2017,26.9
+Brunei Darussalam,Men,National,1985,24
+Brunei Darussalam,Men,Rural,1985,23.7
+Brunei Darussalam,Men,Urban,1985,24.2
+Brunei Darussalam,Men,National,2017,27.1
+Brunei Darussalam,Men,Rural,2017,26.6
+Brunei Darussalam,Men,Urban,2017,27.2
+Brunei Darussalam,Women,National,1985,23.6
+Brunei Darussalam,Women,Rural,1985,22.9
+Brunei Darussalam,Women,Urban,1985,24
+Brunei Darussalam,Women,National,2017,27.4
+Brunei Darussalam,Women,Rural,2017,27
+Brunei Darussalam,Women,Urban,2017,27.5
+Bulgaria,Men,National,1985,25
+Bulgaria,Men,Rural,1985,24.9
+Bulgaria,Men,Urban,1985,25.1
+Bulgaria,Men,National,2017,27
+Bulgaria,Men,Rural,2017,27
+Bulgaria,Men,Urban,2017,27
+Bulgaria,Women,National,1985,25.2
+Bulgaria,Women,Rural,1985,25.5
+Bulgaria,Women,Urban,1985,25
+Bulgaria,Women,National,2017,25.6
+Bulgaria,Women,Rural,2017,26
+Bulgaria,Women,Urban,2017,25.5
+Burkina Faso,Men,National,1985,20.2
+Burkina Faso,Men,Rural,1985,20
+Burkina Faso,Men,Urban,1985,21.4
+Burkina Faso,Men,National,2017,22.2
+Burkina Faso,Men,Rural,2017,21.8
+Burkina Faso,Men,Urban,2017,23.1
+Burkina Faso,Women,National,1985,19.9
+Burkina Faso,Women,Rural,1985,19.6
+Burkina Faso,Women,Urban,1985,22
+Burkina Faso,Women,National,2017,22.2
+Burkina Faso,Women,Rural,2017,21.1
+Burkina Faso,Women,Urban,2017,24.7
+Burundi,Men,National,1985,20.2
+Burundi,Men,Rural,1985,20.1
+Burundi,Men,Urban,1985,21.2
+Burundi,Men,National,2017,22.1
+Burundi,Men,Rural,2017,22
+Burundi,Men,Urban,2017,23.2
+Burundi,Women,National,1985,19.6
+Burundi,Women,Rural,1985,19.5
+Burundi,Women,Urban,1985,21.7
+Burundi,Women,National,2017,21.1
+Burundi,Women,Rural,2017,20.7
+Burundi,Women,Urban,2017,24
+Cabo Verde,Men,National,1985,21.4
+Cabo Verde,Men,Rural,1985,20.9
+Cabo Verde,Men,Urban,1985,22.3
+Cabo Verde,Men,National,2017,23.6
+Cabo Verde,Men,Rural,2017,22.7
+Cabo Verde,Men,Urban,2017,24.1
+Cabo Verde,Women,National,1985,22.2
+Cabo Verde,Women,Rural,1985,21.8
+Cabo Verde,Women,Urban,1985,23.3
+Cabo Verde,Women,National,2017,25.6
+Cabo Verde,Women,Rural,2017,24.2
+Cabo Verde,Women,Urban,2017,26.3
+Cambodia,Men,National,1985,19.8
+Cambodia,Men,Rural,1985,19.7
+Cambodia,Men,Urban,1985,20.6
+Cambodia,Men,National,2017,22.1
+Cambodia,Men,Rural,2017,21.9
+Cambodia,Men,Urban,2017,22.9
+Cambodia,Women,National,1985,19.2
+Cambodia,Women,Rural,1985,19
+Cambodia,Women,Urban,1985,20.4
+Cambodia,Women,National,2017,22.5
+Cambodia,Women,Rural,2017,22.3
+Cambodia,Women,Urban,2017,23.2
+Cameroon,Men,National,1985,21.6
+Cameroon,Men,Rural,1985,21.2
+Cameroon,Men,Urban,1985,22.5
+Cameroon,Men,National,2017,23.5
+Cameroon,Men,Rural,2017,22.9
+Cameroon,Men,Urban,2017,24.1
+Cameroon,Women,National,1985,22
+Cameroon,Women,Rural,1985,21.1
+Cameroon,Women,Urban,1985,23.5
+Cameroon,Women,National,2017,24.8
+Cameroon,Women,Rural,2017,23.1
+Cameroon,Women,Urban,2017,26.2
+Canada,Men,National,1985,25.4
+Canada,Men,Rural,1985,25.6
+Canada,Men,Urban,1985,25.4
+Canada,Men,National,2017,27.4
+Canada,Men,Rural,2017,27.6
+Canada,Men,Urban,2017,27.4
+Canada,Women,National,1985,24.5
+Canada,Women,Rural,1985,24.9
+Canada,Women,Urban,1985,24.3
+Canada,Women,National,2017,26.7
+Canada,Women,Rural,2017,27
+Canada,Women,Urban,2017,26.6
+Central African Republic,Men,National,1985,20
+Central African Republic,Men,Rural,1985,19.6
+Central African Republic,Men,Urban,1985,20.8
+Central African Republic,Men,National,2017,21.8
+Central African Republic,Men,Rural,2017,21.3
+Central African Republic,Men,Urban,2017,22.5
+Central African Republic,Women,National,1985,20.5
+Central African Republic,Women,Rural,1985,20.1
+Central African Republic,Women,Urban,1985,21.3
+Central African Republic,Women,National,2017,23.3
+Central African Republic,Women,Rural,2017,22.6
+Central African Republic,Women,Urban,2017,24.5
+Chad,Men,National,1985,20.4
+Chad,Men,Rural,1985,20.1
+Chad,Men,Urban,1985,21.4
+Chad,Men,National,2017,22.2
+Chad,Men,Rural,2017,22
+Chad,Men,Urban,2017,23.1
+Chad,Women,National,1985,19.6
+Chad,Women,Rural,1985,19.3
+Chad,Women,Urban,1985,21.1
+Chad,Women,National,2017,21.8
+Chad,Women,Rural,2017,21.2
+Chad,Women,Urban,2017,23.9
+Chile,Men,National,1985,25.3
+Chile,Men,Rural,1985,24.9
+Chile,Men,Urban,1985,25.3
+Chile,Men,National,2017,28.1
+Chile,Men,Rural,2017,27.8
+Chile,Men,Urban,2017,28.1
+Chile,Women,National,1985,25.8
+Chile,Women,Rural,1985,25.3
+Chile,Women,Urban,1985,25.9
+Chile,Women,National,2017,28.8
+Chile,Women,Rural,2017,29.4
+Chile,Women,Urban,2017,28.8
+China,Men,National,1985,21.1
+China,Men,Rural,1985,20.9
+China,Men,Urban,1985,22
+China,Men,National,2017,24.4
+China,Men,Rural,2017,23.9
+China,Men,Urban,2017,24.7
+China,Women,National,1985,21.4
+China,Women,Rural,1985,21.2
+China,Women,Urban,1985,22.2
+China,Women,National,2017,23.6
+China,Women,Rural,2017,23.4
+China,Women,Urban,2017,23.7
+China (Hong Kong SAR),Men,National,1985,22.4
+China (Hong Kong SAR),Men,Rural,1985,21.5
+China (Hong Kong SAR),Men,Urban,1985,22.4
+China (Hong Kong SAR),Men,National,2017,24.8
+China (Hong Kong SAR),Men,Rural,2017,NA
+China (Hong Kong SAR),Men,Urban,2017,24.8
+China (Hong Kong SAR),Women,National,1985,22
+China (Hong Kong SAR),Women,Rural,1985,21.2
+China (Hong Kong SAR),Women,Urban,1985,22.1
+China (Hong Kong SAR),Women,National,2017,24.2
+China (Hong Kong SAR),Women,Rural,2017,NA
+China (Hong Kong SAR),Women,Urban,2017,24.2
+Colombia,Men,National,1985,22.8
+Colombia,Men,Rural,1985,22
+Colombia,Men,Urban,1985,23.2
+Colombia,Men,National,2017,25.7
+Colombia,Men,Rural,2017,24.8
+Colombia,Men,Urban,2017,26
+Colombia,Women,National,1985,23.8
+Colombia,Women,Rural,1985,23.3
+Colombia,Women,Urban,1985,24
+Colombia,Women,National,2017,26.7
+Colombia,Women,Rural,2017,26.6
+Colombia,Women,Urban,2017,26.7
+Comoros,Men,National,1985,21.3
+Comoros,Men,Rural,1985,21
+Comoros,Men,Urban,1985,22.1
+Comoros,Men,National,2017,23.3
+Comoros,Men,Rural,2017,22.9
+Comoros,Men,Urban,2017,24.2
+Comoros,Women,National,1985,21.3
+Comoros,Women,Rural,1985,21
+Comoros,Women,Urban,1985,22.2
+Comoros,Women,National,2017,25.5
+Comoros,Women,Rural,2017,25
+Comoros,Women,Urban,2017,26.9
+Congo,Men,National,1985,20.6
+Congo,Men,Rural,1985,19.9
+Congo,Men,Urban,1985,21.1
+Congo,Men,National,2017,22.4
+Congo,Men,Rural,2017,21.6
+Congo,Men,Urban,2017,22.8
+Congo,Women,National,1985,21.7
+Congo,Women,Rural,1985,20.6
+Congo,Women,Urban,1985,22.6
+Congo,Women,National,2017,24.2
+Congo,Women,Rural,2017,22.5
+Congo,Women,Urban,2017,25
+Cook Islands,Men,National,1985,30.4
+Cook Islands,Men,Rural,1985,29.3
+Cook Islands,Men,Urban,1985,31.2
+Cook Islands,Men,National,2017,32.6
+Cook Islands,Men,Rural,2017,32.4
+Cook Islands,Men,Urban,2017,32.6
+Cook Islands,Women,National,1985,31.1
+Cook Islands,Women,Rural,1985,30.5
+Cook Islands,Women,Urban,1985,31.6
+Cook Islands,Women,National,2017,33.1
+Cook Islands,Women,Rural,2017,32.4
+Cook Islands,Women,Urban,2017,33.4
+Costa Rica,Men,National,1985,24.3
+Costa Rica,Men,Rural,1985,24
+Costa Rica,Men,Urban,1985,24.7
+Costa Rica,Men,National,2017,26.9
+Costa Rica,Men,Rural,2017,26.4
+Costa Rica,Men,Urban,2017,27.1
+Costa Rica,Women,National,1985,23.8
+Costa Rica,Women,Rural,1985,23.1
+Costa Rica,Women,Urban,1985,24.5
+Costa Rica,Women,National,2017,28
+Costa Rica,Women,Rural,2017,27.6
+Costa Rica,Women,Urban,2017,28.1
+Cote d'Ivoire,Men,National,1985,21.5
+Cote d'Ivoire,Men,Rural,1985,21.1
+Cote d'Ivoire,Men,Urban,1985,22.1
+Cote d'Ivoire,Men,National,2017,23.4
+Cote d'Ivoire,Men,Rural,2017,22.9
+Cote d'Ivoire,Men,Urban,2017,23.8
+Cote d'Ivoire,Women,National,1985,21.5
+Cote d'Ivoire,Women,Rural,1985,20.7
+Cote d'Ivoire,Women,Urban,1985,22.9
+Cote d'Ivoire,Women,National,2017,24.2
+Cote d'Ivoire,Women,Rural,2017,22.7
+Cote d'Ivoire,Women,Urban,2017,25.4
+Croatia,Men,National,1985,25.4
+Croatia,Men,Rural,1985,25.1
+Croatia,Men,Urban,1985,25.6
+Croatia,Men,National,2017,27.6
+Croatia,Men,Rural,2017,27.4
+Croatia,Men,Urban,2017,27.7
+Croatia,Women,National,1985,25
+Croatia,Women,Rural,1985,25.3
+Croatia,Women,Urban,1985,24.7
+Croatia,Women,National,2017,26.2
+Croatia,Women,Rural,2017,26.7
+Croatia,Women,Urban,2017,25.9
+Cuba,Men,National,1985,22.8
+Cuba,Men,Rural,1985,22
+Cuba,Men,Urban,1985,23.1
+Cuba,Men,National,2017,25.3
+Cuba,Men,Rural,2017,24.7
+Cuba,Men,Urban,2017,25.5
+Cuba,Women,National,1985,23.5
+Cuba,Women,Rural,1985,22.7
+Cuba,Women,Urban,1985,23.8
+Cuba,Women,National,2017,26.3
+Cuba,Women,Rural,2017,26.2
+Cuba,Women,Urban,2017,26.3
+Cyprus,Men,National,1985,25.6
+Cyprus,Men,Rural,1985,25.8
+Cyprus,Men,Urban,1985,25.5
+Cyprus,Men,National,2017,27.4
+Cyprus,Men,Rural,2017,27.4
+Cyprus,Men,Urban,2017,27.4
+Cyprus,Women,National,1985,25.4
+Cyprus,Women,Rural,1985,25.6
+Cyprus,Women,Urban,1985,25.3
+Cyprus,Women,National,2017,25.5
+Cyprus,Women,Rural,2017,25.4
+Cyprus,Women,Urban,2017,25.5
+Czech Republic,Men,National,1985,26.4
+Czech Republic,Men,Rural,1985,26.6
+Czech Republic,Men,Urban,1985,26.3
+Czech Republic,Men,National,2017,27.9
+Czech Republic,Men,Rural,2017,28.2
+Czech Republic,Men,Urban,2017,27.8
+Czech Republic,Women,National,1985,26.6
+Czech Republic,Women,Rural,1985,27.6
+Czech Republic,Women,Urban,1985,26.3
+Czech Republic,Women,National,2017,26.1
+Czech Republic,Women,Rural,2017,26.8
+Czech Republic,Women,Urban,2017,25.9
+Denmark,Men,National,1985,24
+Denmark,Men,Rural,1985,24.1
+Denmark,Men,Urban,1985,23.9
+Denmark,Men,National,2017,26.3
+Denmark,Men,Rural,2017,26.3
+Denmark,Men,Urban,2017,26.3
+Denmark,Women,National,1985,24.2
+Denmark,Women,Rural,1985,24.6
+Denmark,Women,Urban,1985,24.2
+Denmark,Women,National,2017,24.5
+Denmark,Women,Rural,2017,24.6
+Denmark,Women,Urban,2017,24.5
+Djibouti,Men,National,1985,21
+Djibouti,Men,Rural,1985,20.1
+Djibouti,Men,Urban,1985,21.2
+Djibouti,Men,National,2017,23
+Djibouti,Men,Rural,2017,22
+Djibouti,Men,Urban,2017,23.3
+Djibouti,Women,National,1985,22
+Djibouti,Women,Rural,1985,20.8
+Djibouti,Women,Urban,1985,22.4
+Djibouti,Women,National,2017,24.9
+Djibouti,Women,Rural,2017,23
+Djibouti,Women,Urban,2017,25.4
+Dominica,Men,National,1985,22.4
+Dominica,Men,Rural,1985,21.9
+Dominica,Men,Urban,1985,22.8
+Dominica,Men,National,2017,25
+Dominica,Men,Rural,2017,24.5
+Dominica,Men,Urban,2017,25.2
+Dominica,Women,National,1985,25.4
+Dominica,Women,Rural,1985,24.7
+Dominica,Women,Urban,1985,26.1
+Dominica,Women,National,2017,29.1
+Dominica,Women,Rural,2017,28.7
+Dominica,Women,Urban,2017,29.2
+Dominican Republic,Men,National,1985,23
+Dominican Republic,Men,Rural,1985,22.4
+Dominican Republic,Men,Urban,1985,23.4
+Dominican Republic,Men,National,2017,26.1
+Dominican Republic,Men,Rural,2017,25.6
+Dominican Republic,Men,Urban,2017,26.3
+Dominican Republic,Women,National,1985,23.3
+Dominican Republic,Women,Rural,1985,22.6
+Dominican Republic,Women,Urban,1985,24
+Dominican Republic,Women,National,2017,27.7
+Dominican Republic,Women,Rural,2017,27.4
+Dominican Republic,Women,Urban,2017,27.7
+DR Congo,Men,National,1985,19.4
+DR Congo,Men,Rural,1985,19.1
+DR Congo,Men,Urban,1985,20.2
+DR Congo,Men,National,2017,21.3
+DR Congo,Men,Rural,2017,20.8
+DR Congo,Men,Urban,2017,22
+DR Congo,Women,National,1985,20
+DR Congo,Women,Rural,1985,19.5
+DR Congo,Women,Urban,1985,21.2
+DR Congo,Women,National,2017,22.7
+DR Congo,Women,Rural,2017,21.7
+DR Congo,Women,Urban,2017,24.1
+Ecuador,Men,National,1985,23.5
+Ecuador,Men,Rural,1985,23.1
+Ecuador,Men,Urban,1985,24
+Ecuador,Men,National,2017,26.5
+Ecuador,Men,Rural,2017,25.6
+Ecuador,Men,Urban,2017,27
+Ecuador,Women,National,1985,24.5
+Ecuador,Women,Rural,1985,23.8
+Ecuador,Women,Urban,1985,25.2
+Ecuador,Women,National,2017,28
+Ecuador,Women,Rural,2017,27.4
+Ecuador,Women,Urban,2017,28.3
+Egypt,Men,National,1985,25
+Egypt,Men,Rural,1985,24.7
+Egypt,Men,Urban,1985,25.3
+Egypt,Men,National,2017,27.5
+Egypt,Men,Rural,2017,27.2
+Egypt,Men,Urban,2017,27.9
+Egypt,Women,National,1985,26.6
+Egypt,Women,Rural,1985,25.4
+Egypt,Women,Urban,1985,28.1
+Egypt,Women,National,2017,31.7
+Egypt,Women,Rural,2017,31.3
+Egypt,Women,Urban,2017,32.3
+El Salvador,Men,National,1985,24.3
+El Salvador,Men,Rural,1985,23.8
+El Salvador,Men,Urban,1985,24.9
+El Salvador,Men,National,2017,27.1
+El Salvador,Men,Rural,2017,26.3
+El Salvador,Men,Urban,2017,27.4
+El Salvador,Women,National,1985,23.9
+El Salvador,Women,Rural,1985,23.2
+El Salvador,Women,Urban,1985,24.8
+El Salvador,Women,National,2017,28.5
+El Salvador,Women,Rural,2017,28
+El Salvador,Women,Urban,2017,28.7
+Equatorial Guinea,Men,National,1985,20.6
+Equatorial Guinea,Men,Rural,1985,20.2
+Equatorial Guinea,Men,Urban,1985,21.4
+Equatorial Guinea,Men,National,2017,22.5
+Equatorial Guinea,Men,Rural,2017,22
+Equatorial Guinea,Men,Urban,2017,23.2
+Equatorial Guinea,Women,National,1985,22.8
+Equatorial Guinea,Women,Rural,1985,22.3
+Equatorial Guinea,Women,Urban,1985,24
+Equatorial Guinea,Women,National,2017,25.9
+Equatorial Guinea,Women,Rural,2017,25
+Equatorial Guinea,Women,Urban,2017,27.3
+Eritrea,Men,National,1985,19
+Eritrea,Men,Rural,1985,18.9
+Eritrea,Men,Urban,1985,20
+Eritrea,Men,National,2017,20.5
+Eritrea,Men,Rural,2017,20.2
+Eritrea,Men,Urban,2017,21.6
+Eritrea,Women,National,1985,19.1
+Eritrea,Women,Rural,1985,18.8
+Eritrea,Women,Urban,1985,20.5
+Eritrea,Women,National,2017,21.1
+Eritrea,Women,Rural,2017,20.5
+Eritrea,Women,Urban,2017,23.1
+Estonia,Men,National,1985,24.8
+Estonia,Men,Rural,1985,25
+Estonia,Men,Urban,1985,24.7
+Estonia,Men,National,2017,26.6
+Estonia,Men,Rural,2017,26.6
+Estonia,Men,Urban,2017,26.6
+Estonia,Women,National,1985,25.3
+Estonia,Women,Rural,1985,25.8
+Estonia,Women,Urban,1985,25.1
+Estonia,Women,National,2017,25.7
+Estonia,Women,Rural,2017,26.2
+Estonia,Women,Urban,2017,25.5
+Ethiopia,Men,National,1985,18.5
+Ethiopia,Men,Rural,1985,18.4
+Ethiopia,Men,Urban,1985,19.8
+Ethiopia,Men,National,2017,20.2
+Ethiopia,Men,Rural,2017,19.8
+Ethiopia,Men,Urban,2017,21.5
+Ethiopia,Women,National,1985,18.9
+Ethiopia,Women,Rural,1985,18.7
+Ethiopia,Women,Urban,1985,20.2
+Ethiopia,Women,National,2017,21
+Ethiopia,Women,Rural,2017,20.4
+Ethiopia,Women,Urban,2017,23.1
+Fiji,Men,National,1985,24.1
+Fiji,Men,Rural,1985,23.4
+Fiji,Men,Urban,1985,25.1
+Fiji,Men,National,2017,26.5
+Fiji,Men,Rural,2017,26.4
+Fiji,Men,Urban,2017,26.7
+Fiji,Women,National,1985,25.8
+Fiji,Women,Rural,1985,25.5
+Fiji,Women,Urban,1985,26.4
+Fiji,Women,National,2017,28.8
+Fiji,Women,Rural,2017,28.3
+Fiji,Women,Urban,2017,29.2
+Finland,Men,National,1985,25.2
+Finland,Men,Rural,1985,25.5
+Finland,Men,Urban,1985,25.1
+Finland,Men,National,2017,26.4
+Finland,Men,Rural,2017,26.6
+Finland,Men,Urban,2017,26.3
+Finland,Women,National,1985,24.5
+Finland,Women,Rural,1985,25.2
+Finland,Women,Urban,1985,24.3
+Finland,Women,National,2017,25.4
+Finland,Women,Rural,2017,25.9
+Finland,Women,Urban,2017,25.3
+France,Men,National,1985,24.9
+France,Men,Rural,1985,25.4
+France,Men,Urban,1985,24.7
+France,Men,National,2017,26
+France,Men,Rural,2017,26.3
+France,Men,Urban,2017,25.9
+France,Women,National,1985,24.2
+France,Women,Rural,1985,24.6
+France,Women,Urban,1985,24
+France,Women,National,2017,24
+France,Women,Rural,2017,24.2
+France,Women,Urban,2017,24
+French Polynesia,Men,National,1985,28.2
+French Polynesia,Men,Rural,1985,27.1
+French Polynesia,Men,Urban,1985,29
+French Polynesia,Men,National,2017,29.7
+French Polynesia,Men,Rural,2017,29.6
+French Polynesia,Men,Urban,2017,29.8
+French Polynesia,Women,National,1985,28.7
+French Polynesia,Women,Rural,1985,28.1
+French Polynesia,Women,Urban,1985,29.1
+French Polynesia,Women,National,2017,29.6
+French Polynesia,Women,Rural,2017,29.1
+French Polynesia,Women,Urban,2017,30
+Gabon,Men,National,1985,21.7
+Gabon,Men,Rural,1985,20.9
+Gabon,Men,Urban,1985,22.2
+Gabon,Men,National,2017,24
+Gabon,Men,Rural,2017,22.9
+Gabon,Men,Urban,2017,24.2
+Gabon,Women,National,1985,22.5
+Gabon,Women,Rural,1985,21.3
+Gabon,Women,Urban,1985,23.2
+Gabon,Women,National,2017,26.8
+Gabon,Women,Rural,2017,24.4
+Gabon,Women,Urban,2017,27.1
+Gambia,Men,National,1985,20
+Gambia,Men,Rural,1985,19.6
+Gambia,Men,Urban,1985,20.9
+Gambia,Men,National,2017,23
+Gambia,Men,Rural,2017,22.3
+Gambia,Men,Urban,2017,23.5
+Gambia,Women,National,1985,20.5
+Gambia,Women,Rural,1985,19.8
+Gambia,Women,Urban,1985,22.1
+Gambia,Women,National,2017,24.6
+Gambia,Women,Rural,2017,22.9
+Gambia,Women,Urban,2017,25.8
+Georgia,Men,National,1985,24.7
+Georgia,Men,Rural,1985,24.4
+Georgia,Men,Urban,1985,25.1
+Georgia,Men,National,2017,27.5
+Georgia,Men,Rural,2017,27.3
+Georgia,Men,Urban,2017,27.6
+Georgia,Women,National,1985,24.3
+Georgia,Women,Rural,1985,24
+Georgia,Women,Urban,1985,24.5
+Georgia,Women,National,2017,27.6
+Georgia,Women,Rural,2017,27.9
+Georgia,Women,Urban,2017,27.3
+Germany,Men,National,1985,25.3
+Germany,Men,Rural,1985,25.6
+Germany,Men,Urban,1985,25.1
+Germany,Men,National,2017,27.3
+Germany,Men,Rural,2017,27.5
+Germany,Men,Urban,2017,27.3
+Germany,Women,National,1985,24.6
+Germany,Women,Rural,1985,25.2
+Germany,Women,Urban,1985,24.4
+Germany,Women,National,2017,25.6
+Germany,Women,Rural,2017,26
+Germany,Women,Urban,2017,25.5
+Ghana,Men,National,1985,20.8
+Ghana,Men,Rural,1985,20.2
+Ghana,Men,Urban,1985,22.1
+Ghana,Men,National,2017,22.8
+Ghana,Men,Rural,2017,21.7
+Ghana,Men,Urban,2017,23.6
+Ghana,Women,National,1985,21.5
+Ghana,Women,Rural,1985,20.6
+Ghana,Women,Urban,1985,23.2
+Ghana,Women,National,2017,25.6
+Ghana,Women,Rural,2017,23.8
+Ghana,Women,Urban,2017,27.1
+Greece,Men,National,1985,25.5
+Greece,Men,Rural,1985,25.6
+Greece,Men,Urban,1985,25.5
+Greece,Men,National,2017,26.9
+Greece,Men,Rural,2017,26.7
+Greece,Men,Urban,2017,26.9
+Greece,Women,National,1985,26.3
+Greece,Women,Rural,1985,26.2
+Greece,Women,Urban,1985,26.3
+Greece,Women,National,2017,25
+Greece,Women,Rural,2017,24.7
+Greece,Women,Urban,2017,25.1
+Greenland,Men,National,1985,23.9
+Greenland,Men,Rural,1985,23.7
+Greenland,Men,Urban,1985,23.9
+Greenland,Men,National,2017,25.8
+Greenland,Men,Rural,2017,25.4
+Greenland,Men,Urban,2017,25.9
+Greenland,Women,National,1985,25.5
+Greenland,Women,Rural,1985,26
+Greenland,Women,Urban,1985,25.3
+Greenland,Women,National,2017,26.5
+Greenland,Women,Rural,2017,26.9
+Greenland,Women,Urban,2017,26.4
+Grenada,Men,National,1985,22.7
+Grenada,Men,Rural,1985,22.4
+Grenada,Men,Urban,1985,23.4
+Grenada,Men,National,2017,25.2
+Grenada,Men,Rural,2017,25
+Grenada,Men,Urban,2017,25.7
+Grenada,Women,National,1985,25
+Grenada,Women,Rural,1985,24.6
+Grenada,Women,Urban,1985,25.9
+Grenada,Women,National,2017,28.8
+Grenada,Women,Rural,2017,28.7
+Grenada,Women,Urban,2017,29.1
+Guatemala,Men,National,1985,23.1
+Guatemala,Men,Rural,1985,22.5
+Guatemala,Men,Urban,1985,24
+Guatemala,Men,National,2017,25.7
+Guatemala,Men,Rural,2017,24.8
+Guatemala,Men,Urban,2017,26.4
+Guatemala,Women,National,1985,23
+Guatemala,Women,Rural,1985,22.3
+Guatemala,Women,Urban,1985,24.1
+Guatemala,Women,National,2017,27.4
+Guatemala,Women,Rural,2017,26.8
+Guatemala,Women,Urban,2017,27.9
+Guinea,Men,National,1985,20.5
+Guinea,Men,Rural,1985,20.2
+Guinea,Men,Urban,1985,21.5
+Guinea,Men,National,2017,22.4
+Guinea,Men,Rural,2017,21.9
+Guinea,Men,Urban,2017,23.1
+Guinea,Women,National,1985,20.9
+Guinea,Women,Rural,1985,20.3
+Guinea,Women,Urban,1985,22.5
+Guinea,Women,National,2017,23.5
+Guinea,Women,Rural,2017,22.4
+Guinea,Women,Urban,2017,25.5
+Guinea Bissau,Men,National,1985,20.7
+Guinea Bissau,Men,Rural,1985,20.4
+Guinea Bissau,Men,Urban,1985,21.7
+Guinea Bissau,Men,National,2017,22.8
+Guinea Bissau,Men,Rural,2017,22.2
+Guinea Bissau,Men,Urban,2017,23.4
+Guinea Bissau,Women,National,1985,21.1
+Guinea Bissau,Women,Rural,1985,20.6
+Guinea Bissau,Women,Urban,1985,22.7
+Guinea Bissau,Women,National,2017,24.2
+Guinea Bissau,Women,Rural,2017,22.8
+Guinea Bissau,Women,Urban,2017,25.6
+Guyana,Men,National,1985,22.5
+Guyana,Men,Rural,1985,22.3
+Guyana,Men,Urban,1985,23.1
+Guyana,Men,National,2017,25.1
+Guyana,Men,Rural,2017,24.9
+Guyana,Men,Urban,2017,25.5
+Guyana,Women,National,1985,23.9
+Guyana,Women,Rural,1985,23.6
+Guyana,Women,Urban,1985,24.8
+Guyana,Women,National,2017,27.6
+Guyana,Women,Rural,2017,27.5
+Guyana,Women,Urban,2017,27.8
+Haiti,Men,National,1985,23.5
+Haiti,Men,Rural,1985,23.2
+Haiti,Men,Urban,1985,24.3
+Haiti,Men,National,2017,26.5
+Haiti,Men,Rural,2017,26
+Haiti,Men,Urban,2017,26.7
+Haiti,Women,National,1985,20
+Haiti,Women,Rural,1985,19.4
+Haiti,Women,Urban,1985,21.8
+Haiti,Women,National,2017,24.6
+Haiti,Women,Rural,2017,23.5
+Haiti,Women,Urban,2017,25.2
+Honduras,Men,National,1985,23.5
+Honduras,Men,Rural,1985,23.1
+Honduras,Men,Urban,1985,24.2
+Honduras,Men,National,2017,26.2
+Honduras,Men,Rural,2017,25.5
+Honduras,Men,Urban,2017,26.6
+Honduras,Women,National,1985,22.1
+Honduras,Women,Rural,1985,21.4
+Honduras,Women,Urban,1985,23.4
+Honduras,Women,National,2017,27.7
+Honduras,Women,Rural,2017,26.9
+Honduras,Women,Urban,2017,28.3
+Hungary,Men,National,1985,25.7
+Hungary,Men,Rural,1985,25.6
+Hungary,Men,Urban,1985,25.7
+Hungary,Men,National,2017,27.9
+Hungary,Men,Rural,2017,27.9
+Hungary,Men,Urban,2017,27.9
+Hungary,Women,National,1985,25.4
+Hungary,Women,Rural,1985,25.6
+Hungary,Women,Urban,1985,25.3
+Hungary,Women,National,2017,25.9
+Hungary,Women,Rural,2017,26.2
+Hungary,Women,Urban,2017,25.8
+Iceland,Men,National,1985,24.8
+Iceland,Men,Rural,1985,25.2
+Iceland,Men,Urban,1985,24.8
+Iceland,Men,National,2017,27.1
+Iceland,Men,Rural,2017,27.3
+Iceland,Men,Urban,2017,27.1
+Iceland,Women,National,1985,24.3
+Iceland,Women,Rural,1985,24.9
+Iceland,Women,Urban,1985,24.3
+Iceland,Women,National,2017,25.5
+Iceland,Women,Rural,2017,25.9
+Iceland,Women,Urban,2017,25.5
+India,Men,National,1985,19.6
+India,Men,Rural,1985,18.9
+India,Men,Urban,1985,21.9
+India,Men,National,2017,21.9
+India,Men,Rural,2017,21.5
+India,Men,Urban,2017,22.6
+India,Women,National,1985,19.7
+India,Women,Rural,1985,19
+India,Women,Urban,1985,22.2
+India,Women,National,2017,22.1
+India,Women,Rural,2017,21.5
+India,Women,Urban,2017,23.2
+Indonesia,Men,National,1985,20.1
+Indonesia,Men,Rural,1985,19.8
+Indonesia,Men,Urban,1985,20.9
+Indonesia,Men,National,2017,22.5
+Indonesia,Men,Rural,2017,21.9
+Indonesia,Men,Urban,2017,23.1
+Indonesia,Women,National,1985,20.5
+Indonesia,Women,Rural,1985,20
+Indonesia,Women,Urban,1985,21.9
+Indonesia,Women,National,2017,24
+Indonesia,Women,Rural,2017,23.3
+Indonesia,Women,Urban,2017,24.5
+Iran,Men,National,1985,22.6
+Iran,Men,Rural,1985,22
+Iran,Men,Urban,1985,23.2
+Iran,Men,National,2017,25.4
+Iran,Men,Rural,2017,24.5
+Iran,Men,Urban,2017,25.7
+Iran,Women,National,1985,24.2
+Iran,Women,Rural,1985,23.1
+Iran,Women,Urban,1985,25.1
+Iran,Women,National,2017,27.3
+Iran,Women,Rural,2017,26.5
+Iran,Women,Urban,2017,27.5
+Iraq,Men,National,1985,24.6
+Iraq,Men,Rural,1985,24.2
+Iraq,Men,Urban,1985,24.8
+Iraq,Men,National,2017,27.7
+Iraq,Men,Rural,2017,27.2
+Iraq,Men,Urban,2017,27.9
+Iraq,Women,National,1985,26.1
+Iraq,Women,Rural,1985,24.8
+Iraq,Women,Urban,1985,26.7
+Iraq,Women,National,2017,29.8
+Iraq,Women,Rural,2017,29.1
+Iraq,Women,Urban,2017,30.1
+Ireland,Men,National,1985,25.4
+Ireland,Men,Rural,1985,25.7
+Ireland,Men,Urban,1985,25.2
+Ireland,Men,National,2017,27.8
+Ireland,Men,Rural,2017,28.1
+Ireland,Men,Urban,2017,27.7
+Ireland,Women,National,1985,24.4
+Ireland,Women,Rural,1985,24.7
+Ireland,Women,Urban,1985,24.2
+Ireland,Women,National,2017,26.8
+Ireland,Women,Rural,2017,27
+Ireland,Women,Urban,2017,26.7
+Israel,Men,National,1985,24.6
+Israel,Men,Rural,1985,24.3
+Israel,Men,Urban,1985,24.6
+Israel,Men,National,2017,26.4
+Israel,Men,Rural,2017,25.6
+Israel,Men,Urban,2017,26.4
+Israel,Women,National,1985,24.9
+Israel,Women,Rural,1985,24
+Israel,Women,Urban,1985,25
+Israel,Women,National,2017,25.6
+Israel,Women,Rural,2017,24.5
+Israel,Women,Urban,2017,25.7
+Italy,Men,National,1985,24.9
+Italy,Men,Rural,1985,25.1
+Italy,Men,Urban,1985,24.9
+Italy,Men,National,2017,26.2
+Italy,Men,Rural,2017,26.1
+Italy,Men,Urban,2017,26.3
+Italy,Women,National,1985,24.9
+Italy,Women,Rural,1985,25.4
+Italy,Women,Urban,1985,24.6
+Italy,Women,National,2017,24.5
+Italy,Women,Rural,2017,24.3
+Italy,Women,Urban,2017,24.5
+Jamaica,Men,National,1985,22.6
+Jamaica,Men,Rural,1985,22.1
+Jamaica,Men,Urban,1985,23.1
+Jamaica,Men,National,2017,25.4
+Jamaica,Men,Rural,2017,25
+Jamaica,Men,Urban,2017,25.7
+Jamaica,Women,National,1985,25.1
+Jamaica,Women,Rural,1985,24.6
+Jamaica,Women,Urban,1985,25.5
+Jamaica,Women,National,2017,29.1
+Jamaica,Women,Rural,2017,29.1
+Jamaica,Women,Urban,2017,29
+Japan,Men,National,1985,22.3
+Japan,Men,Rural,1985,22.3
+Japan,Men,Urban,1985,22.3
+Japan,Men,National,2017,23.6
+Japan,Men,Rural,2017,23.6
+Japan,Men,Urban,2017,23.6
+Japan,Women,National,1985,22
+Japan,Women,Rural,1985,22.2
+Japan,Women,Urban,1985,22
+Japan,Women,National,2017,21.6
+Japan,Women,Rural,2017,21.9
+Japan,Women,Urban,2017,21.6
+Jordan,Men,National,1985,25.3
+Jordan,Men,Rural,1985,25
+Jordan,Men,Urban,1985,25.4
+Jordan,Men,National,2017,28.3
+Jordan,Men,Rural,2017,27.9
+Jordan,Men,Urban,2017,28.4
+Jordan,Women,National,1985,27.7
+Jordan,Women,Rural,1985,27
+Jordan,Women,Urban,1985,28.1
+Jordan,Women,National,2017,29.9
+Jordan,Women,Rural,2017,30
+Jordan,Women,Urban,2017,29.9
+Kazakhstan,Men,National,1985,24.1
+Kazakhstan,Men,Rural,1985,23.8
+Kazakhstan,Men,Urban,1985,24.4
+Kazakhstan,Men,National,2017,26.3
+Kazakhstan,Men,Rural,2017,26.2
+Kazakhstan,Men,Urban,2017,26.5
+Kazakhstan,Women,National,1985,25.2
+Kazakhstan,Women,Rural,1985,24.9
+Kazakhstan,Women,Urban,1985,25.4
+Kazakhstan,Women,National,2017,26.4
+Kazakhstan,Women,Rural,2017,26.6
+Kazakhstan,Women,Urban,2017,26.3
+Kenya,Men,National,1985,20.1
+Kenya,Men,Rural,1985,19.9
+Kenya,Men,Urban,1985,21.2
+Kenya,Men,National,2017,22
+Kenya,Men,Rural,2017,21.6
+Kenya,Men,Urban,2017,23.1
+Kenya,Women,National,1985,21.2
+Kenya,Women,Rural,1985,20.9
+Kenya,Women,Urban,1985,23
+Kenya,Women,National,2017,24.4
+Kenya,Women,Rural,2017,23.7
+Kenya,Women,Urban,2017,26.5
+Kiribati,Men,National,1985,27.2
+Kiribati,Men,Rural,1985,26.6
+Kiribati,Men,Urban,1985,28.4
+Kiribati,Men,National,2017,28.8
+Kiribati,Men,Rural,2017,28.7
+Kiribati,Men,Urban,2017,28.9
+Kiribati,Women,National,1985,29
+Kiribati,Women,Rural,1985,28.7
+Kiribati,Women,Urban,1985,29.7
+Kiribati,Women,National,2017,30.3
+Kiribati,Women,Rural,2017,29.9
+Kiribati,Women,Urban,2017,30.9
+Kuwait,Men,National,1985,26
+Kuwait,Men,Rural,1985,25.2
+Kuwait,Men,Urban,1985,26
+Kuwait,Men,National,2017,29
+Kuwait,Men,Rural,2017,28.2
+Kuwait,Men,Urban,2017,29
+Kuwait,Women,National,1985,28.1
+Kuwait,Women,Rural,1985,26.3
+Kuwait,Women,Urban,1985,28.2
+Kuwait,Women,National,2017,30.6
+Kuwait,Women,Rural,2017,29.8
+Kuwait,Women,Urban,2017,30.6
+Kyrgyzstan,Men,National,1985,23.5
+Kyrgyzstan,Men,Rural,1985,23.2
+Kyrgyzstan,Men,Urban,1985,23.9
+Kyrgyzstan,Men,National,2017,26
+Kyrgyzstan,Men,Rural,2017,25.8
+Kyrgyzstan,Men,Urban,2017,26.2
+Kyrgyzstan,Women,National,1985,23
+Kyrgyzstan,Women,Rural,1985,22.8
+Kyrgyzstan,Women,Urban,1985,23.4
+Kyrgyzstan,Women,National,2017,27.2
+Kyrgyzstan,Women,Rural,2017,27.4
+Kyrgyzstan,Women,Urban,2017,26.8
+Lao PDR,Men,National,1985,20.4
+Lao PDR,Men,Rural,1985,20.3
+Lao PDR,Men,Urban,1985,20.9
+Lao PDR,Men,National,2017,22.8
+Lao PDR,Men,Rural,2017,22.5
+Lao PDR,Men,Urban,2017,23.2
+Lao PDR,Women,National,1985,19.8
+Lao PDR,Women,Rural,1985,19.6
+Lao PDR,Women,Urban,1985,21.2
+Lao PDR,Women,National,2017,23.2
+Lao PDR,Women,Rural,2017,22.8
+Lao PDR,Women,Urban,2017,23.9
+Latvia,Men,National,1985,24.9
+Latvia,Men,Rural,1985,25.2
+Latvia,Men,Urban,1985,24.8
+Latvia,Men,National,2017,26.8
+Latvia,Men,Rural,2017,26.9
+Latvia,Men,Urban,2017,26.8
+Latvia,Women,National,1985,25.4
+Latvia,Women,Rural,1985,25.9
+Latvia,Women,Urban,1985,25.1
+Latvia,Women,National,2017,25.8
+Latvia,Women,Rural,2017,26.5
+Latvia,Women,Urban,2017,25.5
+Lebanon,Men,National,1985,24.9
+Lebanon,Men,Rural,1985,24.7
+Lebanon,Men,Urban,1985,24.9
+Lebanon,Men,National,2017,27.7
+Lebanon,Men,Rural,2017,27.4
+Lebanon,Men,Urban,2017,27.7
+Lebanon,Women,National,1985,25
+Lebanon,Women,Rural,1985,24.3
+Lebanon,Women,Urban,1985,25.2
+Lebanon,Women,National,2017,27
+Lebanon,Women,Rural,2017,27.1
+Lebanon,Women,Urban,2017,27
+Lesotho,Men,National,1985,20.8
+Lesotho,Men,Rural,1985,20.7
+Lesotho,Men,Urban,1985,21.8
+Lesotho,Men,National,2017,22.6
+Lesotho,Men,Rural,2017,22.3
+Lesotho,Men,Urban,2017,23.5
+Lesotho,Women,National,1985,25.5
+Lesotho,Women,Rural,1985,25.3
+Lesotho,Women,Urban,1985,27
+Lesotho,Women,National,2017,26.9
+Lesotho,Women,Rural,2017,26.4
+Lesotho,Women,Urban,2017,28.1
+Liberia,Men,National,1985,21.5
+Liberia,Men,Rural,1985,21.1
+Liberia,Men,Urban,1985,22.2
+Liberia,Men,National,2017,23.1
+Liberia,Men,Rural,2017,22.6
+Liberia,Men,Urban,2017,23.6
+Liberia,Women,National,1985,21.6
+Liberia,Women,Rural,1985,20.8
+Liberia,Women,Urban,1985,22.7
+Liberia,Women,National,2017,25
+Liberia,Women,Rural,2017,23.8
+Liberia,Women,Urban,2017,26.3
+Libya,Men,National,1985,24.2
+Libya,Men,Rural,1985,23.7
+Libya,Men,Urban,1985,24.4
+Libya,Men,National,2017,26.9
+Libya,Men,Rural,2017,26.3
+Libya,Men,Urban,2017,27.1
+Libya,Women,National,1985,26.3
+Libya,Women,Rural,1985,25
+Libya,Women,Urban,1985,26.8
+Libya,Women,National,2017,29.5
+Libya,Women,Rural,2017,28.9
+Libya,Women,Urban,2017,29.6
+Lithuania,Men,National,1985,25.6
+Lithuania,Men,Rural,1985,25.7
+Lithuania,Men,Urban,1985,25.5
+Lithuania,Men,National,2017,27
+Lithuania,Men,Rural,2017,26.9
+Lithuania,Men,Urban,2017,27.1
+Lithuania,Women,National,1985,26.7
+Lithuania,Women,Rural,1985,27.1
+Lithuania,Women,Urban,1985,26.5
+Lithuania,Women,National,2017,26
+Lithuania,Women,Rural,2017,26.5
+Lithuania,Women,Urban,2017,25.8
+Luxembourg,Men,National,1985,24.8
+Luxembourg,Men,Rural,1985,25.2
+Luxembourg,Men,Urban,1985,24.8
+Luxembourg,Men,National,2017,26.9
+Luxembourg,Men,Rural,2017,27.1
+Luxembourg,Men,Urban,2017,26.9
+Luxembourg,Women,National,1985,24.5
+Luxembourg,Women,Rural,1985,24.9
+Luxembourg,Women,Urban,1985,24.4
+Luxembourg,Women,National,2017,25.4
+Luxembourg,Women,Rural,2017,25.6
+Luxembourg,Women,Urban,2017,25.4
+Macedonia (TFYR),Men,National,1985,25.3
+Macedonia (TFYR),Men,Rural,1985,25.3
+Macedonia (TFYR),Men,Urban,1985,25.4
+Macedonia (TFYR),Men,National,2017,27.3
+Macedonia (TFYR),Men,Rural,2017,27.3
+Macedonia (TFYR),Men,Urban,2017,27.3
+Macedonia (TFYR),Women,National,1985,25.6
+Macedonia (TFYR),Women,Rural,1985,25.9
+Macedonia (TFYR),Women,Urban,1985,25.4
+Macedonia (TFYR),Women,National,2017,26.1
+Macedonia (TFYR),Women,Rural,2017,26.4
+Macedonia (TFYR),Women,Urban,2017,25.9
+Madagascar,Men,National,1985,19.9
+Madagascar,Men,Rural,1985,19.7
+Madagascar,Men,Urban,1985,20.8
+Madagascar,Men,National,2017,21.9
+Madagascar,Men,Rural,2017,21.4
+Madagascar,Men,Urban,2017,22.7
+Madagascar,Women,National,1985,19.7
+Madagascar,Women,Rural,1985,19.5
+Madagascar,Women,Urban,1985,20.4
+Madagascar,Women,National,2017,21.5
+Madagascar,Women,Rural,2017,20.8
+Madagascar,Women,Urban,2017,22.6
+Malawi,Men,National,1985,20.1
+Malawi,Men,Rural,1985,20
+Malawi,Men,Urban,1985,20.9
+Malawi,Men,National,2017,22
+Malawi,Men,Rural,2017,21.8
+Malawi,Men,Urban,2017,22.9
+Malawi,Women,National,1985,20.8
+Malawi,Women,Rural,1985,20.7
+Malawi,Women,Urban,1985,22.3
+Malawi,Women,National,2017,23.5
+Malawi,Women,Rural,2017,23.1
+Malawi,Women,Urban,2017,25.9
+Malaysia,Men,National,1985,22.2
+Malaysia,Men,Rural,1985,21.9
+Malaysia,Men,Urban,1985,22.6
+Malaysia,Men,National,2017,25.3
+Malaysia,Men,Rural,2017,24.7
+Malaysia,Men,Urban,2017,25.5
+Malaysia,Women,National,1985,22.1
+Malaysia,Women,Rural,1985,21.8
+Malaysia,Women,Urban,1985,22.5
+Malaysia,Women,National,2017,26.1
+Malaysia,Women,Rural,2017,26.2
+Malaysia,Women,Urban,2017,26.1
+Maldives,Men,National,1985,21.4
+Maldives,Men,Rural,1985,21.1
+Maldives,Men,Urban,1985,22.1
+Maldives,Men,National,2017,24
+Maldives,Men,Rural,2017,23.5
+Maldives,Men,Urban,2017,24.5
+Maldives,Women,National,1985,22.6
+Maldives,Women,Rural,1985,22.3
+Maldives,Women,Urban,1985,23.3
+Maldives,Women,National,2017,25.9
+Maldives,Women,Rural,2017,25.7
+Maldives,Women,Urban,2017,26.2
+Mali,Men,National,1985,20.7
+Mali,Men,Rural,1985,20.4
+Mali,Men,Urban,1985,21.8
+Mali,Men,National,2017,22.9
+Mali,Men,Rural,2017,22.4
+Mali,Men,Urban,2017,23.6
+Mali,Women,National,1985,20
+Mali,Women,Rural,1985,19.6
+Mali,Women,Urban,1985,21.7
+Mali,Women,National,2017,23.6
+Mali,Women,Rural,2017,22.3
+Mali,Women,Urban,2017,25.6
+Malta,Men,National,1985,25.5
+Malta,Men,Rural,1985,25.8
+Malta,Men,Urban,1985,25.5
+Malta,Men,National,2017,27.2
+Malta,Men,Rural,2017,27.2
+Malta,Men,Urban,2017,27.2
+Malta,Women,National,1985,25.5
+Malta,Women,Rural,1985,25.8
+Malta,Women,Urban,1985,25.5
+Malta,Women,National,2017,25.5
+Malta,Women,Rural,2017,25.4
+Malta,Women,Urban,2017,25.5
+Marshall Islands,Men,National,1985,27.4
+Marshall Islands,Men,Rural,1985,26.3
+Marshall Islands,Men,Urban,1985,28.1
+Marshall Islands,Men,National,2017,28.9
+Marshall Islands,Men,Rural,2017,28.8
+Marshall Islands,Men,Urban,2017,29
+Marshall Islands,Women,National,1985,29
+Marshall Islands,Women,Rural,1985,28.4
+Marshall Islands,Women,Urban,1985,29.4
+Marshall Islands,Women,National,2017,30.5
+Marshall Islands,Women,Rural,2017,29.9
+Marshall Islands,Women,Urban,2017,30.8
+Mauritania,Men,National,1985,21.2
+Mauritania,Men,Rural,1985,20.7
+Mauritania,Men,Urban,1985,22
+Mauritania,Men,National,2017,23.3
+Mauritania,Men,Rural,2017,22.6
+Mauritania,Men,Urban,2017,23.8
+Mauritania,Women,National,1985,23.3
+Mauritania,Women,Rural,1985,22.6
+Mauritania,Women,Urban,1985,24.6
+Mauritania,Women,National,2017,26.6
+Mauritania,Women,Rural,2017,24.9
+Mauritania,Women,Urban,2017,27.7
+Mauritius,Men,National,1985,22.5
+Mauritius,Men,Rural,1985,22.4
+Mauritius,Men,Urban,1985,22.8
+Mauritius,Men,National,2017,24.6
+Mauritius,Men,Rural,2017,24.4
+Mauritius,Men,Urban,2017,25
+Mauritius,Women,National,1985,23.7
+Mauritius,Women,Rural,1985,23.5
+Mauritius,Women,Urban,1985,24
+Mauritius,Women,National,2017,25.8
+Mauritius,Women,Rural,2017,25.5
+Mauritius,Women,Urban,2017,26.3
+Mexico,Men,National,1985,25.1
+Mexico,Men,Rural,1985,24.4
+Mexico,Men,Urban,1985,25.4
+Mexico,Men,National,2017,27.6
+Mexico,Men,Rural,2017,26.8
+Mexico,Men,Urban,2017,27.9
+Mexico,Women,National,1985,24.2
+Mexico,Women,Rural,1985,23.3
+Mexico,Women,Urban,1985,24.6
+Mexico,Women,National,2017,28.5
+Mexico,Women,Rural,2017,28.1
+Mexico,Women,Urban,2017,28.6
+Micronesia (Federated States of),Men,National,1985,26.5
+Micronesia (Federated States of),Men,Rural,1985,26
+Micronesia (Federated States of),Men,Urban,1985,27.7
+Micronesia (Federated States of),Men,National,2017,28.7
+Micronesia (Federated States of),Men,Rural,2017,28.8
+Micronesia (Federated States of),Men,Urban,2017,28.7
+Micronesia (Federated States of),Women,National,1985,29
+Micronesia (Federated States of),Women,Rural,1985,28.6
+Micronesia (Federated States of),Women,Urban,1985,30.1
+Micronesia (Federated States of),Women,National,2017,30.2
+Micronesia (Federated States of),Women,Rural,2017,29.9
+Micronesia (Federated States of),Women,Urban,2017,31.5
+Moldova,Men,National,1985,24.9
+Moldova,Men,Rural,1985,24.8
+Moldova,Men,Urban,1985,25.1
+Moldova,Men,National,2017,26.6
+Moldova,Men,Rural,2017,26.3
+Moldova,Men,Urban,2017,27
+Moldova,Women,National,1985,26.8
+Moldova,Women,Rural,1985,27
+Moldova,Women,Urban,1985,26.5
+Moldova,Women,National,2017,27.1
+Moldova,Women,Rural,2017,27.4
+Moldova,Women,Urban,2017,26.8
+Mongolia,Men,National,1985,22.9
+Mongolia,Men,Rural,1985,22.6
+Mongolia,Men,Urban,1985,23.2
+Mongolia,Men,National,2017,25.8
+Mongolia,Men,Rural,2017,25.6
+Mongolia,Men,Urban,2017,25.8
+Mongolia,Women,National,1985,23.5
+Mongolia,Women,Rural,1985,23.1
+Mongolia,Women,Urban,1985,23.8
+Mongolia,Women,National,2017,26.6
+Mongolia,Women,Rural,2017,26.8
+Mongolia,Women,Urban,2017,26.5
+Montenegro,Men,National,1985,25.1
+Montenegro,Men,Rural,1985,25.1
+Montenegro,Men,Urban,1985,25.2
+Montenegro,Men,National,2017,27.1
+Montenegro,Men,Rural,2017,27.1
+Montenegro,Men,Urban,2017,27.1
+Montenegro,Women,National,1985,25.6
+Montenegro,Women,Rural,1985,25.8
+Montenegro,Women,Urban,1985,25.4
+Montenegro,Women,National,2017,26
+Montenegro,Women,Rural,2017,26.3
+Montenegro,Women,Urban,2017,25.8
+Morocco,Men,National,1985,22.2
+Morocco,Men,Rural,1985,21.9
+Morocco,Men,Urban,1985,22.7
+Morocco,Men,National,2017,24.6
+Morocco,Men,Rural,2017,24.1
+Morocco,Men,Urban,2017,24.9
+Morocco,Women,National,1985,23.9
+Morocco,Women,Rural,1985,22.8
+Morocco,Women,Urban,1985,25.3
+Morocco,Women,National,2017,27.1
+Morocco,Women,Rural,2017,26.3
+Morocco,Women,Urban,2017,27.6
+Mozambique,Men,National,1985,19.9
+Mozambique,Men,Rural,1985,19.7
+Mozambique,Men,Urban,1985,21
+Mozambique,Men,National,2017,22.1
+Mozambique,Men,Rural,2017,21.6
+Mozambique,Men,Urban,2017,23.2
+Mozambique,Women,National,1985,20.6
+Mozambique,Women,Rural,1985,20.3
+Mozambique,Women,Urban,1985,22.2
+Mozambique,Women,National,2017,23.3
+Mozambique,Women,Rural,2017,22.4
+Mozambique,Women,Urban,2017,25.3
+Myanmar,Men,National,1985,19.8
+Myanmar,Men,Rural,1985,19.5
+Myanmar,Men,Urban,1985,20.6
+Myanmar,Men,National,2017,21.8
+Myanmar,Men,Rural,2017,21.4
+Myanmar,Men,Urban,2017,22.6
+Myanmar,Women,National,1985,20.2
+Myanmar,Women,Rural,1985,19.8
+Myanmar,Women,Urban,1985,21.3
+Myanmar,Women,National,2017,23
+Myanmar,Women,Rural,2017,22.5
+Myanmar,Women,Urban,2017,23.9
+Namibia,Men,National,1985,20.9
+Namibia,Men,Rural,1985,20.6
+Namibia,Men,Urban,1985,21.8
+Namibia,Men,National,2017,22.9
+Namibia,Men,Rural,2017,22.3
+Namibia,Men,Urban,2017,23.7
+Namibia,Women,National,1985,22.8
+Namibia,Women,Rural,1985,22
+Namibia,Women,Urban,1985,25
+Namibia,Women,National,2017,25.3
+Namibia,Women,Rural,2017,23.9
+Namibia,Women,Urban,2017,26.8
+Nauru,Men,National,1985,32.6
+Nauru,Men,Rural,1985,NA
+Nauru,Men,Urban,1985,32.6
+Nauru,Men,National,2017,32.9
+Nauru,Men,Rural,2017,NA
+Nauru,Men,Urban,2017,32.9
+Nauru,Women,National,1985,34.1
+Nauru,Women,Rural,1985,NA
+Nauru,Women,Urban,1985,34.1
+Nauru,Women,National,2017,33.6
+Nauru,Women,Rural,2017,NA
+Nauru,Women,Urban,2017,33.6
+Nepal,Men,National,1985,19.7
+Nepal,Men,Rural,1985,19.5
+Nepal,Men,Urban,1985,22.2
+Nepal,Men,National,2017,22.4
+Nepal,Men,Rural,2017,22.2
+Nepal,Men,Urban,2017,23.2
+Nepal,Women,National,1985,18.4
+Nepal,Women,Rural,1985,18.3
+Nepal,Women,Urban,1985,20.5
+Nepal,Women,National,2017,22.5
+Nepal,Women,Rural,2017,22.1
+Nepal,Women,Urban,2017,23.9
+Netherlands,Men,National,1985,24.1
+Netherlands,Men,Rural,1985,24.3
+Netherlands,Men,Urban,1985,24
+Netherlands,Men,National,2017,25.9
+Netherlands,Men,Rural,2017,26
+Netherlands,Men,Urban,2017,25.9
+Netherlands,Women,National,1985,24.3
+Netherlands,Women,Rural,1985,24.5
+Netherlands,Women,Urban,1985,24.2
+Netherlands,Women,National,2017,25
+Netherlands,Women,Rural,2017,24.9
+Netherlands,Women,Urban,2017,25
+New Zealand,Men,National,1985,25.3
+New Zealand,Men,Rural,1985,25.3
+New Zealand,Men,Urban,1985,25.3
+New Zealand,Men,National,2017,28.1
+New Zealand,Men,Rural,2017,28
+New Zealand,Men,Urban,2017,28.1
+New Zealand,Women,National,1985,24.6
+New Zealand,Women,Rural,1985,24.8
+New Zealand,Women,Urban,1985,24.6
+New Zealand,Women,National,2017,28
+New Zealand,Women,Rural,2017,28
+New Zealand,Women,Urban,2017,28
+Nicaragua,Men,National,1985,24.2
+Nicaragua,Men,Rural,1985,23.6
+Nicaragua,Men,Urban,1985,24.8
+Nicaragua,Men,National,2017,26.8
+Nicaragua,Men,Rural,2017,26.1
+Nicaragua,Men,Urban,2017,27.2
+Nicaragua,Women,National,1985,23.6
+Nicaragua,Women,Rural,1985,22.6
+Nicaragua,Women,Urban,1985,24.5
+Nicaragua,Women,National,2017,28
+Nicaragua,Women,Rural,2017,27.3
+Nicaragua,Women,Urban,2017,28.5
+Niger,Men,National,1985,19.6
+Niger,Men,Rural,1985,19.5
+Niger,Men,Urban,1985,20.8
+Niger,Men,National,2017,21.4
+Niger,Men,Rural,2017,21.2
+Niger,Men,Urban,2017,22.4
+Niger,Women,National,1985,20
+Niger,Women,Rural,1985,19.6
+Niger,Women,Urban,1985,22.4
+Niger,Women,National,2017,22.3
+Niger,Women,Rural,2017,21.6
+Niger,Women,Urban,2017,25.3
+Nigeria,Men,National,1985,21
+Nigeria,Men,Rural,1985,20.8
+Nigeria,Men,Urban,1985,21.7
+Nigeria,Men,National,2017,22.5
+Nigeria,Men,Rural,2017,22.1
+Nigeria,Men,Urban,2017,22.9
+Nigeria,Women,National,1985,22.2
+Nigeria,Women,Rural,1985,21.8
+Nigeria,Women,Urban,1985,23.5
+Nigeria,Women,National,2017,24.1
+Nigeria,Women,Rural,2017,23.1
+Nigeria,Women,Urban,2017,25
+Niue,Men,National,1985,29.4
+Niue,Men,Rural,1985,28.8
+Niue,Men,Urban,1985,30.7
+Niue,Men,National,2017,31.6
+Niue,Men,Rural,2017,31.5
+Niue,Men,Urban,2017,31.6
+Niue,Women,National,1985,31.5
+Niue,Women,Rural,1985,31.2
+Niue,Women,Urban,1985,32.2
+Niue,Women,National,2017,33.2
+Niue,Women,Rural,2017,32.8
+Niue,Women,Urban,2017,33.8
+North Korea,Men,National,1985,22
+North Korea,Men,Rural,1985,21.5
+North Korea,Men,Urban,1985,22.4
+North Korea,Men,National,2017,24.5
+North Korea,Men,Rural,2017,24.1
+North Korea,Men,Urban,2017,24.7
+North Korea,Women,National,1985,22.3
+North Korea,Women,Rural,1985,21.8
+North Korea,Women,Urban,1985,22.6
+North Korea,Women,National,2017,24.2
+North Korea,Women,Rural,2017,24
+North Korea,Women,Urban,2017,24.3
+Norway,Men,National,1985,24.5
+Norway,Men,Rural,1985,24.7
+Norway,Men,Urban,1985,24.4
+Norway,Men,National,2017,26.7
+Norway,Men,Rural,2017,26.8
+Norway,Men,Urban,2017,26.7
+Norway,Women,National,1985,23.7
+Norway,Women,Rural,1985,24.3
+Norway,Women,Urban,1985,23.4
+Norway,Women,National,2017,25.2
+Norway,Women,Rural,2017,25.8
+Norway,Women,Urban,2017,25
+Occupied Palestinian Territory,Men,National,1985,25
+Occupied Palestinian Territory,Men,Rural,1985,24.6
+Occupied Palestinian Territory,Men,Urban,1985,25.2
+Occupied Palestinian Territory,Men,National,2017,27.9
+Occupied Palestinian Territory,Men,Rural,2017,27.4
+Occupied Palestinian Territory,Men,Urban,2017,28.1
+Occupied Palestinian Territory,Women,National,1985,26.7
+Occupied Palestinian Territory,Women,Rural,1985,25.8
+Occupied Palestinian Territory,Women,Urban,1985,27.3
+Occupied Palestinian Territory,Women,National,2017,29.8
+Occupied Palestinian Territory,Women,Rural,2017,29.5
+Occupied Palestinian Territory,Women,Urban,2017,29.9
+Oman,Men,National,1985,23.5
+Oman,Men,Rural,1985,22.9
+Oman,Men,Urban,1985,23.9
+Oman,Men,National,2017,26.5
+Oman,Men,Rural,2017,25.6
+Oman,Men,Urban,2017,26.7
+Oman,Women,National,1985,25.1
+Oman,Women,Rural,1985,24.3
+Oman,Women,Urban,1985,25.7
+Oman,Women,National,2017,27.2
+Oman,Women,Rural,2017,27
+Oman,Women,Urban,2017,27.3
+Pakistan,Men,National,1985,20.5
+Pakistan,Men,Rural,1985,19.8
+Pakistan,Men,Urban,1985,22.2
+Pakistan,Men,National,2017,23.4
+Pakistan,Men,Rural,2017,23.1
+Pakistan,Men,Urban,2017,23.9
+Pakistan,Women,National,1985,21
+Pakistan,Women,Rural,1985,20.2
+Pakistan,Women,Urban,1985,22.8
+Pakistan,Women,National,2017,24.8
+Pakistan,Women,Rural,2017,23.9
+Pakistan,Women,Urban,2017,26.2
+Palau,Men,National,1985,28.2
+Palau,Men,Rural,1985,27
+Palau,Men,Urban,1985,28.8
+Palau,Men,National,2017,29.5
+Palau,Men,Rural,2017,29.5
+Palau,Men,Urban,2017,29.5
+Palau,Women,National,1985,28.7
+Palau,Women,Rural,1985,28.1
+Palau,Women,Urban,1985,28.9
+Palau,Women,National,2017,29.7
+Palau,Women,Rural,2017,29
+Palau,Women,Urban,2017,29.8
+Panama,Men,National,1985,23.8
+Panama,Men,Rural,1985,23.1
+Panama,Men,Urban,1985,24.3
+Panama,Men,National,2017,26.4
+Panama,Men,Rural,2017,25.6
+Panama,Men,Urban,2017,26.8
+Panama,Women,National,1985,23.9
+Panama,Women,Rural,1985,23.1
+Panama,Women,Urban,1985,24.6
+Panama,Women,National,2017,27.9
+Panama,Women,Rural,2017,27.3
+Panama,Women,Urban,2017,28.1
+Papua New Guinea,Men,National,1985,22.6
+Papua New Guinea,Men,Rural,1985,22.4
+Papua New Guinea,Men,Urban,1985,24.1
+Papua New Guinea,Men,National,2017,25.4
+Papua New Guinea,Men,Rural,2017,25.3
+Papua New Guinea,Men,Urban,2017,25.7
+Papua New Guinea,Women,National,1985,22.2
+Papua New Guinea,Women,Rural,1985,22
+Papua New Guinea,Women,Urban,1985,23.5
+Papua New Guinea,Women,National,2017,25.7
+Papua New Guinea,Women,Rural,2017,25.6
+Papua New Guinea,Women,Urban,2017,26.9
+Paraguay,Men,National,1985,24.1
+Paraguay,Men,Rural,1985,23.4
+Paraguay,Men,Urban,1985,24.9
+Paraguay,Men,National,2017,27
+Paraguay,Men,Rural,2017,26
+Paraguay,Men,Urban,2017,27.6
+Paraguay,Women,National,1985,24.6
+Paraguay,Women,Rural,1985,24.1
+Paraguay,Women,Urban,1985,25.3
+Paraguay,Women,National,2017,28.1
+Paraguay,Women,Rural,2017,27.9
+Paraguay,Women,Urban,2017,28.3
+Peru,Men,National,1985,23.2
+Peru,Men,Rural,1985,22
+Peru,Men,Urban,1985,23.8
+Peru,Men,National,2017,26.5
+Peru,Men,Rural,2017,24.5
+Peru,Men,Urban,2017,27
+Peru,Women,National,1985,24.5
+Peru,Women,Rural,1985,23.3
+Peru,Women,Urban,1985,25.1
+Peru,Women,National,2017,27.5
+Peru,Women,Rural,2017,26
+Peru,Women,Urban,2017,27.9
+Philippines,Men,National,1985,21.1
+Philippines,Men,Rural,1985,20.7
+Philippines,Men,Urban,1985,21.7
+Philippines,Men,National,2017,23
+Philippines,Men,Rural,2017,22.5
+Philippines,Men,Urban,2017,23.6
+Philippines,Women,National,1985,20.1
+Philippines,Women,Rural,1985,19.5
+Philippines,Women,Urban,1985,20.9
+Philippines,Women,National,2017,23.5
+Philippines,Women,Rural,2017,23
+Philippines,Women,Urban,2017,24.1
+Poland,Men,National,1985,25.4
+Poland,Men,Rural,1985,25.3
+Poland,Men,Urban,1985,25.4
+Poland,Men,National,2017,27.5
+Poland,Men,Rural,2017,27.5
+Poland,Men,Urban,2017,27.4
+Poland,Women,National,1985,26
+Poland,Women,Rural,1985,26.3
+Poland,Women,Urban,1985,25.7
+Poland,Women,National,2017,26
+Poland,Women,Rural,2017,26.4
+Poland,Women,Urban,2017,25.7
+Portugal,Men,National,1985,24.4
+Portugal,Men,Rural,1985,24.6
+Portugal,Men,Urban,1985,24.1
+Portugal,Men,National,2017,26.3
+Portugal,Men,Rural,2017,26.4
+Portugal,Men,Urban,2017,26.2
+Portugal,Women,National,1985,25.4
+Portugal,Women,Rural,1985,25.6
+Portugal,Women,Urban,1985,25.1
+Portugal,Women,National,2017,25
+Portugal,Women,Rural,2017,25.1
+Portugal,Women,Urban,2017,25
+Puerto Rico,Men,National,1985,25.8
+Puerto Rico,Men,Rural,1985,24.8
+Puerto Rico,Men,Urban,1985,25.9
+Puerto Rico,Men,National,2017,28.4
+Puerto Rico,Men,Rural,2017,27.6
+Puerto Rico,Men,Urban,2017,28.4
+Puerto Rico,Women,National,1985,25.4
+Puerto Rico,Women,Rural,1985,24.3
+Puerto Rico,Women,Urban,1985,25.7
+Puerto Rico,Women,National,2017,28.8
+Puerto Rico,Women,Rural,2017,28.3
+Puerto Rico,Women,Urban,2017,28.8
+Qatar,Men,National,1985,25.7
+Qatar,Men,Rural,1985,25
+Qatar,Men,Urban,1985,25.7
+Qatar,Men,National,2017,28.7
+Qatar,Men,Rural,2017,27.9
+Qatar,Men,Urban,2017,28.7
+Qatar,Women,National,1985,26.8
+Qatar,Women,Rural,1985,25.2
+Qatar,Women,Urban,1985,27
+Qatar,Women,National,2017,30.4
+Qatar,Women,Rural,2017,29.6
+Qatar,Women,Urban,2017,30.4
+Romania,Men,National,1985,24.3
+Romania,Men,Rural,1985,24.3
+Romania,Men,Urban,1985,24.3
+Romania,Men,National,2017,27
+Romania,Men,Rural,2017,27.1
+Romania,Men,Urban,2017,26.9
+Romania,Women,National,1985,25.2
+Romania,Women,Rural,1985,25.3
+Romania,Women,Urban,1985,25.2
+Romania,Women,National,2017,26.8
+Romania,Women,Rural,2017,27
+Romania,Women,Urban,2017,26.7
+Russian Federation,Men,National,1985,24.8
+Russian Federation,Men,Rural,1985,24.9
+Russian Federation,Men,Urban,1985,24.8
+Russian Federation,Men,National,2017,26.1
+Russian Federation,Men,Rural,2017,25.8
+Russian Federation,Men,Urban,2017,26.2
+Russian Federation,Women,National,1985,26.6
+Russian Federation,Women,Rural,1985,26.7
+Russian Federation,Women,Urban,1985,26.5
+Russian Federation,Women,National,2017,26.7
+Russian Federation,Women,Rural,2017,26.9
+Russian Federation,Women,Urban,2017,26.6
+Rwanda,Men,National,1985,19.4
+Rwanda,Men,Rural,1985,19.4
+Rwanda,Men,Urban,1985,20.2
+Rwanda,Men,National,2017,21.4
+Rwanda,Men,Rural,2017,21.1
+Rwanda,Men,Urban,2017,22.1
+Rwanda,Women,National,1985,20.3
+Rwanda,Women,Rural,1985,20.3
+Rwanda,Women,Urban,1985,21.5
+Rwanda,Women,National,2017,23
+Rwanda,Women,Rural,2017,22.4
+Rwanda,Women,Urban,2017,24.5
+Saint Kitts and Nevis,Men,National,1985,25.6
+Saint Kitts and Nevis,Men,Rural,1985,25.3
+Saint Kitts and Nevis,Men,Urban,1985,26.2
+Saint Kitts and Nevis,Men,National,2017,28.5
+Saint Kitts and Nevis,Men,Rural,2017,28.3
+Saint Kitts and Nevis,Men,Urban,2017,28.9
+Saint Kitts and Nevis,Women,National,1985,26.8
+Saint Kitts and Nevis,Women,Rural,1985,26.4
+Saint Kitts and Nevis,Women,Urban,1985,27.7
+Saint Kitts and Nevis,Women,National,2017,30.8
+Saint Kitts and Nevis,Women,Rural,2017,30.7
+Saint Kitts and Nevis,Women,Urban,2017,31.1
+Saint Lucia,Men,National,1985,25.2
+Saint Lucia,Men,Rural,1985,25.1
+Saint Lucia,Men,Urban,1985,25.5
+Saint Lucia,Men,National,2017,29.2
+Saint Lucia,Men,Rural,2017,29.2
+Saint Lucia,Men,Urban,2017,29.2
+Saint Lucia,Women,National,1985,25.8
+Saint Lucia,Women,Rural,1985,25.5
+Saint Lucia,Women,Urban,1985,26.5
+Saint Lucia,Women,National,2017,30.5
+Saint Lucia,Women,Rural,2017,30.5
+Saint Lucia,Women,Urban,2017,30.5
+Saint Vincent and the Grenadines,Men,National,1985,23.6
+Saint Vincent and the Grenadines,Men,Rural,1985,23.2
+Saint Vincent and the Grenadines,Men,Urban,1985,24.2
+Saint Vincent and the Grenadines,Men,National,2017,26.4
+Saint Vincent and the Grenadines,Men,Rural,2017,26
+Saint Vincent and the Grenadines,Men,Urban,2017,26.7
+Saint Vincent and the Grenadines,Women,National,1985,24.6
+Saint Vincent and the Grenadines,Women,Rural,1985,24.1
+Saint Vincent and the Grenadines,Women,Urban,1985,25.4
+Saint Vincent and the Grenadines,Women,National,2017,28.3
+Saint Vincent and the Grenadines,Women,Rural,2017,28
+Saint Vincent and the Grenadines,Women,Urban,2017,28.5
+Samoa,Men,National,1985,27.5
+Samoa,Men,Rural,1985,27
+Samoa,Men,Urban,1985,29.6
+Samoa,Men,National,2017,30.4
+Samoa,Men,Rural,2017,30.3
+Samoa,Men,Urban,2017,31.1
+Samoa,Women,National,1985,30
+Samoa,Women,Rural,1985,29.7
+Samoa,Women,Urban,1985,30.8
+Samoa,Women,National,2017,33.9
+Samoa,Women,Rural,2017,33.7
+Samoa,Women,Urban,2017,34.7
+Sao Tome and Principe,Men,National,1985,21.7
+Sao Tome and Principe,Men,Rural,1985,21.2
+Sao Tome and Principe,Men,Urban,1985,22.4
+Sao Tome and Principe,Men,National,2017,23.8
+Sao Tome and Principe,Men,Rural,2017,23.1
+Sao Tome and Principe,Men,Urban,2017,24.2
+Sao Tome and Principe,Women,National,1985,22.5
+Sao Tome and Principe,Women,Rural,1985,22
+Sao Tome and Principe,Women,Urban,1985,23.2
+Sao Tome and Principe,Women,National,2017,25.7
+Sao Tome and Principe,Women,Rural,2017,24.5
+Sao Tome and Principe,Women,Urban,2017,26.3
+Saudi Arabia,Men,National,1985,25.6
+Saudi Arabia,Men,Rural,1985,24.8
+Saudi Arabia,Men,Urban,1985,25.9
+Saudi Arabia,Men,National,2017,28
+Saudi Arabia,Men,Rural,2017,27
+Saudi Arabia,Men,Urban,2017,28.2
+Saudi Arabia,Women,National,1985,27.2
+Saudi Arabia,Women,Rural,1985,25.9
+Saudi Arabia,Women,Urban,1985,27.7
+Saudi Arabia,Women,National,2017,29.5
+Saudi Arabia,Women,Rural,2017,28.9
+Saudi Arabia,Women,Urban,2017,29.6
+Senegal,Men,National,1985,20
+Senegal,Men,Rural,1985,19.6
+Senegal,Men,Urban,1985,20.7
+Senegal,Men,National,2017,21.7
+Senegal,Men,Rural,2017,21.3
+Senegal,Men,Urban,2017,22.3
+Senegal,Women,National,1985,21.9
+Senegal,Women,Rural,1985,21.2
+Senegal,Women,Urban,1985,23.2
+Senegal,Women,National,2017,23.7
+Senegal,Women,Rural,2017,22.4
+Senegal,Women,Urban,2017,25.3
+Serbia,Men,National,1985,25.2
+Serbia,Men,Rural,1985,25.1
+Serbia,Men,Urban,1985,25.3
+Serbia,Men,National,2017,27
+Serbia,Men,Rural,2017,27
+Serbia,Men,Urban,2017,27.1
+Serbia,Women,National,1985,25.7
+Serbia,Women,Rural,1985,26
+Serbia,Women,Urban,1985,25.5
+Serbia,Women,National,2017,25.5
+Serbia,Women,Rural,2017,25.9
+Serbia,Women,Urban,2017,25.3
+Seychelles,Men,National,1985,22.8
+Seychelles,Men,Rural,1985,22.6
+Seychelles,Men,Urban,1985,23.1
+Seychelles,Men,National,2017,25.6
+Seychelles,Men,Rural,2017,25.2
+Seychelles,Men,Urban,2017,25.9
+Seychelles,Women,National,1985,25.1
+Seychelles,Women,Rural,1985,25
+Seychelles,Women,Urban,1985,25.1
+Seychelles,Women,National,2017,27.9
+Seychelles,Women,Rural,2017,27.6
+Seychelles,Women,Urban,2017,28.2
+Sierra Leone,Men,National,1985,20.3
+Sierra Leone,Men,Rural,1985,20
+Sierra Leone,Men,Urban,1985,21.1
+Sierra Leone,Men,National,2017,22
+Sierra Leone,Men,Rural,2017,21.6
+Sierra Leone,Men,Urban,2017,22.5
+Sierra Leone,Women,National,1985,21.5
+Sierra Leone,Women,Rural,1985,20.9
+Sierra Leone,Women,Urban,1985,22.8
+Sierra Leone,Women,National,2017,23.6
+Sierra Leone,Women,Rural,2017,22.5
+Sierra Leone,Women,Urban,2017,25.1
+Singapore,Men,National,1985,22.8
+Singapore,Men,Rural,1985,NA
+Singapore,Men,Urban,1985,22.8
+Singapore,Men,National,2017,24.4
+Singapore,Men,Rural,2017,NA
+Singapore,Men,Urban,2017,24.4
+Singapore,Women,National,1985,23.5
+Singapore,Women,Rural,1985,NA
+Singapore,Women,Urban,1985,23.5
+Singapore,Women,National,2017,23
+Singapore,Women,Rural,2017,NA
+Singapore,Women,Urban,2017,23
+Slovakia,Men,National,1985,25.6
+Slovakia,Men,Rural,1985,25.5
+Slovakia,Men,Urban,1985,25.6
+Slovakia,Men,National,2017,27.4
+Slovakia,Men,Rural,2017,27.4
+Slovakia,Men,Urban,2017,27.4
+Slovakia,Women,National,1985,25.3
+Slovakia,Women,Rural,1985,25.6
+Slovakia,Women,Urban,1985,25.1
+Slovakia,Women,National,2017,25.6
+Slovakia,Women,Rural,2017,25.9
+Slovakia,Women,Urban,2017,25.3
+Slovenia,Men,National,1985,25.1
+Slovenia,Men,Rural,1985,25
+Slovenia,Men,Urban,1985,25.2
+Slovenia,Men,National,2017,26.8
+Slovenia,Men,Rural,2017,26.8
+Slovenia,Men,Urban,2017,26.9
+Slovenia,Women,National,1985,26
+Slovenia,Women,Rural,1985,26.1
+Slovenia,Women,Urban,1985,25.9
+Slovenia,Women,National,2017,27
+Slovenia,Women,Rural,2017,27
+Slovenia,Women,Urban,2017,26.9
+Solomon Islands,Men,National,1985,23
+Solomon Islands,Men,Rural,1985,22.8
+Solomon Islands,Men,Urban,1985,24.2
+Solomon Islands,Men,National,2017,25.7
+Solomon Islands,Men,Rural,2017,25.7
+Solomon Islands,Men,Urban,2017,25.7
+Solomon Islands,Women,National,1985,24.1
+Solomon Islands,Women,Rural,1985,23.9
+Solomon Islands,Women,Urban,1985,25.3
+Solomon Islands,Women,National,2017,26.9
+Solomon Islands,Women,Rural,2017,26.5
+Solomon Islands,Women,Urban,2017,28.1
+Somalia,Men,National,1985,20.5
+Somalia,Men,Rural,1985,20.2
+Somalia,Men,Urban,1985,21.2
+Somalia,Men,National,2017,22.5
+Somalia,Men,Rural,2017,22
+Somalia,Men,Urban,2017,23.3
+Somalia,Women,National,1985,21.3
+Somalia,Women,Rural,1985,20.9
+Somalia,Women,Urban,1985,22.4
+Somalia,Women,National,2017,24
+Somalia,Women,Rural,2017,23
+Somalia,Women,Urban,2017,25.4
+South Africa,Men,National,1985,23.1
+South Africa,Men,Rural,1985,22.5
+South Africa,Men,Urban,1985,23.7
+South Africa,Men,National,2017,25.1
+South Africa,Men,Rural,2017,24.2
+South Africa,Men,Urban,2017,25.6
+South Africa,Women,National,1985,27
+South Africa,Women,Rural,1985,26.2
+South Africa,Women,Urban,1985,27.8
+South Africa,Women,National,2017,29.6
+South Africa,Women,Rural,2017,28.7
+South Africa,Women,Urban,2017,30
+South Korea,Men,National,1985,22.2
+South Korea,Men,Rural,1985,22
+South Korea,Men,Urban,1985,22.4
+South Korea,Men,National,2017,24.6
+South Korea,Men,Rural,2017,24.5
+South Korea,Men,Urban,2017,24.6
+South Korea,Women,National,1985,22.3
+South Korea,Women,Rural,1985,22.2
+South Korea,Women,Urban,1985,22.4
+South Korea,Women,National,2017,23.1
+South Korea,Women,Rural,2017,23.3
+South Korea,Women,Urban,2017,23.1
+Spain,Men,National,1985,25.3
+Spain,Men,Rural,1985,25.6
+Spain,Men,Urban,1985,25.2
+Spain,Men,National,2017,27
+Spain,Men,Rural,2017,27
+Spain,Men,Urban,2017,26.9
+Spain,Women,National,1985,25.5
+Spain,Women,Rural,1985,25.9
+Spain,Women,Urban,1985,25.4
+Spain,Women,National,2017,24.8
+Spain,Women,Rural,2017,25.1
+Spain,Women,Urban,2017,24.7
+Sri Lanka,Men,National,1985,20.1
+Sri Lanka,Men,Rural,1985,20
+Sri Lanka,Men,Urban,1985,20.8
+Sri Lanka,Men,National,2017,22.6
+Sri Lanka,Men,Rural,2017,22.4
+Sri Lanka,Men,Urban,2017,23.3
+Sri Lanka,Women,National,1985,20.5
+Sri Lanka,Women,Rural,1985,20.3
+Sri Lanka,Women,Urban,1985,21.5
+Sri Lanka,Women,National,2017,23.7
+Sri Lanka,Women,Rural,2017,23.6
+Sri Lanka,Women,Urban,2017,24.4
+Sudan (former),Men,National,1985,21
+Sudan (former),Men,Rural,1985,20.8
+Sudan (former),Men,Urban,1985,21.9
+Sudan (former),Men,National,2017,22.9
+Sudan (former),Men,Rural,2017,22.5
+Sudan (former),Men,Urban,2017,23.8
+Sudan (former),Women,National,1985,22.4
+Sudan (former),Women,Rural,1985,22
+Sudan (former),Women,Urban,1985,23.9
+Sudan (former),Women,National,2017,24.4
+Sudan (former),Women,Rural,2017,23.4
+Sudan (former),Women,Urban,2017,26.4
+Suriname,Men,National,1985,23.2
+Suriname,Men,Rural,1985,22.6
+Suriname,Men,Urban,1985,23.5
+Suriname,Men,National,2017,25.6
+Suriname,Men,Rural,2017,25.2
+Suriname,Men,Urban,2017,25.8
+Suriname,Women,National,1985,24.9
+Suriname,Women,Rural,1985,24
+Suriname,Women,Urban,1985,25.4
+Suriname,Women,National,2017,28.3
+Suriname,Women,Rural,2017,28
+Suriname,Women,Urban,2017,28.4
+Swaziland,Men,National,1985,22.4
+Swaziland,Men,Rural,1985,22.2
+Swaziland,Men,Urban,1985,23.3
+Swaziland,Men,National,2017,24.4
+Swaziland,Men,Rural,2017,24.1
+Swaziland,Men,Urban,2017,25.4
+Swaziland,Women,National,1985,26.7
+Swaziland,Women,Rural,1985,26.4
+Swaziland,Women,Urban,1985,27.5
+Swaziland,Women,National,2017,28.9
+Swaziland,Women,Rural,2017,28.6
+Swaziland,Women,Urban,2017,29.6
+Sweden,Men,National,1985,24.2
+Sweden,Men,Rural,1985,24.8
+Sweden,Men,Urban,1985,24.1
+Sweden,Men,National,2017,26.3
+Sweden,Men,Rural,2017,26.8
+Sweden,Men,Urban,2017,26.3
+Sweden,Women,National,1985,23.8
+Sweden,Women,Rural,1985,24.7
+Sweden,Women,Urban,1985,23.7
+Sweden,Women,National,2017,24.9
+Sweden,Women,Rural,2017,25.4
+Sweden,Women,Urban,2017,24.8
+Switzerland,Men,National,1985,24.8
+Switzerland,Men,Rural,1985,25.1
+Switzerland,Men,Urban,1985,24.6
+Switzerland,Men,National,2017,26.5
+Switzerland,Men,Rural,2017,26.7
+Switzerland,Men,Urban,2017,26.4
+Switzerland,Women,National,1985,23.4
+Switzerland,Women,Rural,1985,23.8
+Switzerland,Women,Urban,1985,23.2
+Switzerland,Women,National,2017,23.9
+Switzerland,Women,Rural,2017,24.1
+Switzerland,Women,Urban,2017,23.8
+Syrian Arab Republic,Men,National,1985,24.6
+Syrian Arab Republic,Men,Rural,1985,24.2
+Syrian Arab Republic,Men,Urban,1985,25
+Syrian Arab Republic,Men,National,2017,27.4
+Syrian Arab Republic,Men,Rural,2017,27
+Syrian Arab Republic,Men,Urban,2017,27.7
+Syrian Arab Republic,Women,National,1985,26.1
+Syrian Arab Republic,Women,Rural,1985,25.3
+Syrian Arab Republic,Women,Urban,1985,27
+Syrian Arab Republic,Women,National,2017,29.4
+Syrian Arab Republic,Women,Rural,2017,29
+Syrian Arab Republic,Women,Urban,2017,29.7
+Taiwan,Men,National,1985,22.5
+Taiwan,Men,Rural,1985,22.3
+Taiwan,Men,Urban,1985,22.7
+Taiwan,Men,National,2017,24.8
+Taiwan,Men,Rural,2017,24.7
+Taiwan,Men,Urban,2017,24.8
+Taiwan,Women,National,1985,22.5
+Taiwan,Women,Rural,1985,22.4
+Taiwan,Women,Urban,1985,22.5
+Taiwan,Women,National,2017,23.3
+Taiwan,Women,Rural,2017,23.7
+Taiwan,Women,Urban,2017,23.2
+Tajikistan,Men,National,1985,23.5
+Tajikistan,Men,Rural,1985,23.2
+Tajikistan,Men,Urban,1985,24
+Tajikistan,Men,National,2017,26
+Tajikistan,Men,Rural,2017,25.9
+Tajikistan,Men,Urban,2017,26.3
+Tajikistan,Women,National,1985,22.6
+Tajikistan,Women,Rural,1985,22.1
+Tajikistan,Women,Urban,1985,23.5
+Tajikistan,Women,National,2017,26.4
+Tajikistan,Women,Rural,2017,26.3
+Tajikistan,Women,Urban,2017,26.7
+Tanzania,Men,National,1985,20.5
+Tanzania,Men,Rural,1985,20.2
+Tanzania,Men,Urban,1985,21.9
+Tanzania,Men,National,2017,22.5
+Tanzania,Men,Rural,2017,21.9
+Tanzania,Men,Urban,2017,23.7
+Tanzania,Women,National,1985,20.7
+Tanzania,Women,Rural,1985,20.5
+Tanzania,Women,Urban,1985,22.1
+Tanzania,Women,National,2017,24.1
+Tanzania,Women,Rural,2017,23.1
+Tanzania,Women,Urban,2017,26.3
+Thailand,Men,National,1985,21
+Thailand,Men,Rural,1985,20.7
+Thailand,Men,Urban,1985,21.7
+Thailand,Men,National,2017,23.9
+Thailand,Men,Rural,2017,23.3
+Thailand,Men,Urban,2017,24.5
+Thailand,Women,National,1985,22
+Thailand,Women,Rural,1985,21.7
+Thailand,Women,Urban,1985,22.8
+Thailand,Women,National,2017,25
+Thailand,Women,Rural,2017,24.6
+Thailand,Women,Urban,2017,25.3
+Timor-Leste,Men,National,1985,18.8
+Timor-Leste,Men,Rural,1985,18.7
+Timor-Leste,Men,Urban,1985,19.3
+Timor-Leste,Men,National,2017,21
+Timor-Leste,Men,Rural,2017,20.8
+Timor-Leste,Men,Urban,2017,21.5
+Timor-Leste,Women,National,1985,18.5
+Timor-Leste,Women,Rural,1985,18.2
+Timor-Leste,Women,Urban,1985,19.7
+Timor-Leste,Women,National,2017,21.2
+Timor-Leste,Women,Rural,2017,20.9
+Timor-Leste,Women,Urban,2017,21.9
+Togo,Men,National,1985,20.6
+Togo,Men,Rural,1985,20.3
+Togo,Men,Urban,1985,21.6
+Togo,Men,National,2017,22.5
+Togo,Men,Rural,2017,22.1
+Togo,Men,Urban,2017,23.2
+Togo,Women,National,1985,20.9
+Togo,Women,Rural,1985,20.3
+Togo,Women,Urban,1985,22.7
+Togo,Women,National,2017,24.2
+Togo,Women,Rural,2017,22.7
+Togo,Women,Urban,2017,26.3
+Tokelau,Men,National,1985,29.6
+Tokelau,Men,Rural,1985,29.6
+Tokelau,Men,Urban,1985,NA
+Tokelau,Men,National,2017,32.3
+Tokelau,Men,Rural,2017,32.3
+Tokelau,Men,Urban,2017,NA
+Tokelau,Women,National,1985,31.7
+Tokelau,Women,Rural,1985,31.7
+Tokelau,Women,Urban,1985,NA
+Tokelau,Women,National,2017,33.4
+Tokelau,Women,Rural,2017,33.4
+Tokelau,Women,Urban,2017,NA
+Tonga,Men,National,1985,28.8
+Tonga,Men,Rural,1985,28.4
+Tonga,Men,Urban,1985,30.3
+Tonga,Men,National,2017,30.9
+Tonga,Men,Rural,2017,30.8
+Tonga,Men,Urban,2017,31.1
+Tonga,Women,National,1985,32
+Tonga,Women,Rural,1985,31.7
+Tonga,Women,Urban,1985,32.8
+Tonga,Women,National,2017,33.6
+Tonga,Women,Rural,2017,33.3
+Tonga,Women,Urban,2017,34.3
+Trinidad and Tobago,Men,National,1985,24.3
+Trinidad and Tobago,Men,Rural,1985,24.2
+Trinidad and Tobago,Men,Urban,1985,25.3
+Trinidad and Tobago,Men,National,2017,26.9
+Trinidad and Tobago,Men,Rural,2017,26.8
+Trinidad and Tobago,Men,Urban,2017,27.6
+Trinidad and Tobago,Women,National,1985,25.4
+Trinidad and Tobago,Women,Rural,1985,25.2
+Trinidad and Tobago,Women,Urban,1985,26.9
+Trinidad and Tobago,Women,National,2017,28.7
+Trinidad and Tobago,Women,Rural,2017,28.6
+Trinidad and Tobago,Women,Urban,2017,29.3
+Tunisia,Men,National,1985,22.4
+Tunisia,Men,Rural,1985,21.9
+Tunisia,Men,Urban,1985,22.9
+Tunisia,Men,National,2017,25.5
+Tunisia,Men,Rural,2017,24.8
+Tunisia,Men,Urban,2017,25.9
+Tunisia,Women,National,1985,24.6
+Tunisia,Women,Rural,1985,23.4
+Tunisia,Women,Urban,1985,25.7
+Tunisia,Women,National,2017,27.6
+Tunisia,Women,Rural,2017,26.8
+Tunisia,Women,Urban,2017,28.1
+Turkey,Men,National,1985,24.1
+Turkey,Men,Rural,1985,24
+Turkey,Men,Urban,1985,24.1
+Turkey,Men,National,2017,27
+Turkey,Men,Rural,2017,26.8
+Turkey,Men,Urban,2017,27.1
+Turkey,Women,National,1985,26.2
+Turkey,Women,Rural,1985,25.7
+Turkey,Women,Urban,1985,26.7
+Turkey,Women,National,2017,28.8
+Turkey,Women,Rural,2017,28.8
+Turkey,Women,Urban,2017,28.8
+Turkmenistan,Men,National,1985,24
+Turkmenistan,Men,Rural,1985,23.6
+Turkmenistan,Men,Urban,1985,24.4
+Turkmenistan,Men,National,2017,26.5
+Turkmenistan,Men,Rural,2017,26.3
+Turkmenistan,Men,Urban,2017,26.7
+Turkmenistan,Women,National,1985,23
+Turkmenistan,Women,Rural,1985,22.6
+Turkmenistan,Women,Urban,1985,23.6
+Turkmenistan,Women,National,2017,26.6
+Turkmenistan,Women,Rural,2017,26.6
+Turkmenistan,Women,Urban,2017,26.6
+Tuvalu,Men,National,1985,28.3
+Tuvalu,Men,Rural,1985,27.6
+Tuvalu,Men,Urban,1985,29.5
+Tuvalu,Men,National,2017,30.3
+Tuvalu,Men,Rural,2017,30.2
+Tuvalu,Men,Urban,2017,30.4
+Tuvalu,Women,National,1985,29.5
+Tuvalu,Women,Rural,1985,29.2
+Tuvalu,Women,Urban,1985,30.2
+Tuvalu,Women,National,2017,31.2
+Tuvalu,Women,Rural,2017,30.7
+Tuvalu,Women,Urban,2017,31.6
+Uganda,Men,National,1985,19.5
+Uganda,Men,Rural,1985,19.4
+Uganda,Men,Urban,1985,20.6
+Uganda,Men,National,2017,21.5
+Uganda,Men,Rural,2017,21.3
+Uganda,Men,Urban,2017,22.7
+Uganda,Women,National,1985,20.7
+Uganda,Women,Rural,1985,20.5
+Uganda,Women,Urban,1985,22.6
+Uganda,Women,National,2017,23.3
+Uganda,Women,Rural,2017,22.8
+Uganda,Women,Urban,2017,25.7
+Ukraine,Men,National,1985,25
+Ukraine,Men,Rural,1985,25.1
+Ukraine,Men,Urban,1985,25
+Ukraine,Men,National,2017,26.8
+Ukraine,Men,Rural,2017,26.6
+Ukraine,Men,Urban,2017,26.9
+Ukraine,Women,National,1985,25.8
+Ukraine,Women,Rural,1985,26.2
+Ukraine,Women,Urban,1985,25.6
+Ukraine,Women,National,2017,26.1
+Ukraine,Women,Rural,2017,26.6
+Ukraine,Women,Urban,2017,25.9
+United Arab Emirates,Men,National,1985,25.1
+United Arab Emirates,Men,Rural,1985,24.4
+United Arab Emirates,Men,Urban,1985,25.3
+United Arab Emirates,Men,National,2017,28.1
+United Arab Emirates,Men,Rural,2017,27.3
+United Arab Emirates,Men,Urban,2017,28.2
+United Arab Emirates,Women,National,1985,26.5
+United Arab Emirates,Women,Rural,1985,24.7
+United Arab Emirates,Women,Urban,1985,27
+United Arab Emirates,Women,National,2017,29.5
+United Arab Emirates,Women,Rural,2017,28.2
+United Arab Emirates,Women,Urban,2017,29.7
+United Kingdom,Men,National,1985,24.7
+United Kingdom,Men,Rural,1985,24.9
+United Kingdom,Men,Urban,1985,24.7
+United Kingdom,Men,National,2017,27.3
+United Kingdom,Men,Rural,2017,27.4
+United Kingdom,Men,Urban,2017,27.3
+United Kingdom,Women,National,1985,24.3
+United Kingdom,Women,Rural,1985,24.4
+United Kingdom,Women,Urban,1985,24.3
+United Kingdom,Women,National,2017,26.8
+United Kingdom,Women,Rural,2017,26.6
+United Kingdom,Women,Urban,2017,26.9
+United States of America,Men,National,1985,25.8
+United States of America,Men,Rural,1985,26.1
+United States of America,Men,Urban,1985,25.7
+United States of America,Men,National,2017,28.9
+United States of America,Men,Rural,2017,29.2
+United States of America,Men,Urban,2017,28.8
+United States of America,Women,National,1985,25.7
+United States of America,Women,Rural,1985,26
+United States of America,Women,Urban,1985,25.6
+United States of America,Women,National,2017,29.1
+United States of America,Women,Rural,2017,29.5
+United States of America,Women,Urban,2017,29
+Uruguay,Men,National,1985,24.4
+Uruguay,Men,Rural,1985,23.4
+Uruguay,Men,Urban,1985,24.5
+Uruguay,Men,National,2017,27.2
+Uruguay,Men,Rural,2017,26.3
+Uruguay,Men,Urban,2017,27.3
+Uruguay,Women,National,1985,24.6
+Uruguay,Women,Rural,1985,23.5
+Uruguay,Women,Urban,1985,24.7
+Uruguay,Women,National,2017,27.4
+Uruguay,Women,Rural,2017,27.1
+Uruguay,Women,Urban,2017,27.4
+Uzbekistan,Men,National,1985,23.6
+Uzbekistan,Men,Rural,1985,23.4
+Uzbekistan,Men,Urban,1985,23.8
+Uzbekistan,Men,National,2017,26.3
+Uzbekistan,Men,Rural,2017,26.3
+Uzbekistan,Men,Urban,2017,26.3
+Uzbekistan,Women,National,1985,23.1
+Uzbekistan,Women,Rural,1985,22.8
+Uzbekistan,Women,Urban,1985,23.6
+Uzbekistan,Women,National,2017,27.5
+Uzbekistan,Women,Rural,2017,27.6
+Uzbekistan,Women,Urban,2017,27.3
+Vanuatu,Men,National,1985,23.9
+Vanuatu,Men,Rural,1985,23.6
+Vanuatu,Men,Urban,1985,25.3
+Vanuatu,Men,National,2017,25.9
+Vanuatu,Men,Rural,2017,25.8
+Vanuatu,Men,Urban,2017,26
+Vanuatu,Women,National,1985,24.4
+Vanuatu,Women,Rural,1985,24.2
+Vanuatu,Women,Urban,1985,25.4
+Vanuatu,Women,National,2017,26.8
+Vanuatu,Women,Rural,2017,26.5
+Vanuatu,Women,Urban,2017,27.6
+Venezuela,Men,National,1985,24.7
+Venezuela,Men,Rural,1985,23.7
+Venezuela,Men,Urban,1985,24.9
+Venezuela,Men,National,2017,26.8
+Venezuela,Men,Rural,2017,25.7
+Venezuela,Men,Urban,2017,26.9
+Venezuela,Women,National,1985,24
+Venezuela,Women,Rural,1985,22.6
+Venezuela,Women,Urban,1985,24.3
+Venezuela,Women,National,2017,26.9
+Venezuela,Women,Rural,2017,26.1
+Venezuela,Women,Urban,2017,27
+Viet Nam,Men,National,1985,19
+Viet Nam,Men,Rural,1985,18.8
+Viet Nam,Men,Urban,1985,19.8
+Viet Nam,Men,National,2017,21.8
+Viet Nam,Men,Rural,2017,21.4
+Viet Nam,Men,Urban,2017,22.4
+Viet Nam,Women,National,1985,18.5
+Viet Nam,Women,Rural,1985,18.2
+Viet Nam,Women,Urban,1985,19.8
+Viet Nam,Women,National,2017,21.8
+Viet Nam,Women,Rural,2017,21.4
+Viet Nam,Women,Urban,2017,22.5
+Yemen,Men,National,1985,21.3
+Yemen,Men,Rural,1985,21.2
+Yemen,Men,Urban,1985,22
+Yemen,Men,National,2017,24
+Yemen,Men,Rural,2017,23.6
+Yemen,Men,Urban,2017,24.5
+Yemen,Women,National,1985,20.5
+Yemen,Women,Rural,1985,20
+Yemen,Women,Urban,1985,22.5
+Yemen,Women,National,2017,24.3
+Yemen,Women,Rural,2017,23.7
+Yemen,Women,Urban,2017,25.5
+Zambia,Men,National,1985,20
+Zambia,Men,Rural,1985,19.6
+Zambia,Men,Urban,1985,20.7
+Zambia,Men,National,2017,22.2
+Zambia,Men,Rural,2017,21.7
+Zambia,Men,Urban,2017,23
+Zambia,Women,National,1985,21.4
+Zambia,Women,Rural,1985,20.7
+Zambia,Women,Urban,1985,22.5
+Zambia,Women,National,2017,23.9
+Zambia,Women,Rural,2017,22.7
+Zambia,Women,Urban,2017,25.5
+Zimbabwe,Men,National,1985,21.2
+Zimbabwe,Men,Rural,1985,20.9
+Zimbabwe,Men,Urban,1985,22.1
+Zimbabwe,Men,National,2017,22.3
+Zimbabwe,Men,Rural,2017,21.9
+Zimbabwe,Men,Urban,2017,23.3
+Zimbabwe,Women,National,1985,24.6
+Zimbabwe,Women,Rural,1985,24
+Zimbabwe,Women,Urban,1985,26.5
+Zimbabwe,Women,National,2017,25.3
+Zimbabwe,Women,Rural,2017,24.5
+Zimbabwe,Women,Urban,2017,27.1
