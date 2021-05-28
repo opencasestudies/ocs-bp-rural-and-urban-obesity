@@ -14,7 +14,8 @@ output: md_document
 
 ### Important links 
 
-- HTML: https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity
+- Static version: https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity
+- Interactive version: https://rsconnect.biostat.jhsph.edu/ocs-bp-rural-and-urban-obesity-interactive/
 - GitHub: https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity
 - Bloomberg American Health Initiative: https://americanhealth.jhu.edu/open-case-studies
 

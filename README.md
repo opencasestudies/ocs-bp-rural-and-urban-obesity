@@ -11,8 +11,10 @@ OpenCaseStudies
 
 ### Important links
 
--   HTML:
+-   Static version:
     <a href="https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity" class="uri">https://www.opencasestudies.org/ocs-bp-rural-and-urban-obesity</a>
+-   Interactive version:
+    <a href="https://rsconnect.biostat.jhsph.edu/ocs-bp-rural-and-urban-obesity-interactive/" class="uri">https://rsconnect.biostat.jhsph.edu/ocs-bp-rural-and-urban-obesity-interactive/</a>
 -   GitHub:
     <a href="https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity" class="uri">https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity</a>
 -   Bloomberg American Health Initiative:
