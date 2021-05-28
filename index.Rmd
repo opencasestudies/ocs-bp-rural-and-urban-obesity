@@ -1,10 +1,12 @@
 ---
-title: "Open Case Studies: Exploring global patterns of obesity across rural and urban regions"
-css: style.css
+title: |
+  ![](https://opencasestudies.github.io/img/icon-bahi.png){width=120px align=left style="padding-right: 20px"} 
+  Exploring global patterns of obesity across rural and urban regions
+css: www/style.css
 output:
   html_document:
     includes:
-       in_header: GA_Script.Rhtml
+      in_header: www/GA_Script.Rhtml
     self_contained: yes
     code_download: yes
     highlight: tango
@@ -16,20 +18,13 @@ output:
     toc: yes
   word_document:
     toc: yes
+runtime: shiny_prerendered
 ---
-
-<style>
-#TOC {
-  background: url("https://opencasestudies.github.io/img/icon-bahi.png");
-  background-size: contain;
-  padding-top: 240px !important;
-  background-repeat: no-repeat;
-}
-</style>
 
 <!-- Open all links in new tab-->  
 <base target="_blank"/>  
-<div id="google_translate_element"></div>
+
+<div align="left" id="google_translate_element",></div>
 
 <script type="text/javascript" src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
 
@@ -40,19 +35,19 @@ function googleTranslateElementInit() {
 </script>
 
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       message = FALSE, warning = FALSE, cache = FALSE,
                       fig.align = "center", out.width = '90%')
 library(here)
 library(knitr)
+library(learnr)
 ```
 
  
 #### {.outline }
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "main_plot.png"))
+knitr::include_graphics(here::here("www", "img", "main_plot.png"))
 ```
 
 ####
@@ -96,14 +91,14 @@ There are different categories of weight defined using different BMI thresholds 
 For example, these are the categories defined by the WHO: 
 
 ```{r,  echo=FALSE, out.width='100%'}
-knitr::include_graphics(here::here("img","obesity_classes.jpeg"))
+knitr::include_graphics(here::here("www", "img","obesity_classes.jpeg"))
 ```
 
 ###### [[source](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg){target="_blank"}]
 
 The following chart can help you identify your estimate of BMI:
 ```{r,  echo=FALSE, out.width='100%'}
-knitr::include_graphics(here::here("img","BMIchart.jpeg"))
+knitr::include_graphics(here::here("www", "img","BMIchart.jpeg"))
 ```
 
 ###### [[source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426){target="_blank"}]
@@ -112,7 +107,7 @@ knitr::include_graphics(here::here("img","BMIchart.jpeg"))
 Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} published in [*Nature*](https://www.nature.com){target="_blank"} evaluated and compared the BMI of populations in rural and urban communities around the world: 
 
 ```{r,  echo=FALSE, out.width='100%'}
-knitr::include_graphics(here::here("img", "paper.png"))
+knitr::include_graphics(here::here("www", "img", "paper.png"))
 ```
 
 #### {.reference_block}
@@ -267,7 +262,7 @@ This is a pdf that can be found freely available online. Here is a screenshot of
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img","first_page.png"))
+knitr::include_graphics(here::here("www", "img","first_page.png"))
 ```
 
 You can see that the data contain average BMI estimates for both men and women in countries at the national level, as well as the average BMI estimates for the rural and urban areas of these countries in both 1985 and 2017.
@@ -281,10 +276,17 @@ First let's download the data from the PDF file.
 We use `file.exists()` from base R to check if the file we want to download already exists. 
 If not, then we download it using the function `utils::download.file()`. We also use the `here()` function of the `here` package to look specifically in the `raw` subdirectory of the `data` directory of the directory where our open RStudio project file is located. This helps us, as we do not need to write the full path to the document. This makes our code more reproducible for someone else, who may have a different overall file structure on their computer but downloads our case study files from GitHub and therefore has the same file structure specifically for the files included in our GitHub repository. Thus our commands about file locations still work on their local machine.
 
-```{r}
+```{r, eval=FALSE}
 if(!file.exists(here("data", "raw", "paper_supplement.pdf"))){
   url <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf"
   utils::download.file(url, here("data", "raw", "paper_supplement.pdf"))
+}
+```
+
+```{r, echo=FALSE}
+if(!file.exists(here("www", "data", "raw", "paper_supplement.pdf"))){
+  url <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-019-1171-x/MediaObjects/41586_2019_1171_MOESM1_ESM.pdf"
+  utils::download.file(url, here("www", "data", "raw", "paper_supplement.pdf"))
 }
 ```
 
@@ -299,13 +301,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -318,8 +320,12 @@ See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Project
 
 Now that we have downloaded the PDF file, we will read it in to R using the `pdftools` package:
 
-```{r}
+```{r, eval=FALSE}
 pdf_obesity <- pdftools::pdf_text(here("data", "raw", "paper_supplement.pdf"))
+```
+
+```{r, echo=FALSE}
+pdf_obesity <- pdftools::pdf_text(here("www", "data", "raw", "paper_supplement.pdf"))
 ```
 
 
@@ -347,7 +353,7 @@ Note `print(pdf_obesity[52])` would show the entire contents of this page of the
 
 Here is the PDF version again:
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img", "first_page.png"))
+knitr::include_graphics(here::here("www", "img", "first_page.png"))
 ```
 
 We can see that the output looks pretty similar to the pages of the pdf, but the spacing is a bit awkward. 
@@ -386,12 +392,12 @@ Using `[1]` shows just the first page of the 10 pages that contain the table.
 Also, notice the new line `"\n"` values that indicate new lines. 
 
 ```{r, echo = FALSE, eval = FALSE}
-knitr::include_graphics(here::here("img","first_page_in_R.png"))
+knitr::include_graphics(here::here("www", "img","first_page_in_R.png"))
 ```
 
 
 ```{r, echo = FALSE}
-knitr::include_graphics(here::here("img","first_page.png"))
+knitr::include_graphics(here::here("www", "img","first_page.png"))
 ```
 
 This looks the same as the beginning... how about the end?
@@ -401,7 +407,7 @@ str(rural_urban[10], nchar.max = 1800)
 ```
 
 ```{r, echo = FALSE }
-knitr::include_graphics(here::here("img","last_page.png"))
+knitr::include_graphics(here::here("www", "img","last_page.png"))
 ```
 
 
@@ -409,8 +415,12 @@ Great! Our `rural_urban` object looks like it contains the entire Supplementary 
 
 Now we will save this imported data for later use like so in a subdirectory of the `data` directory called `imported`:
 
-```{r}
+```{r, eval=FALSE}
 save(rural_urban, file = here::here("data", "imported", "imported_data.rda"))
+```
+
+```{r, echo=FALSE}
+save(rural_urban, file = here::here("www", "data", "imported", "imported_data.rda"))
 ```
 
 ## **Data Wrangling**
@@ -421,8 +431,12 @@ save(rural_urban, file = here::here("data", "imported", "imported_data.rda"))
 
 An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported/impoted_data.rda). Download this file and then place it in your current working directory within a subdirectory called `imported` within a subdirectory called `data` to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "imported", "imported_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "imported", "imported_data.rda"))
 ```
 
 
@@ -433,13 +447,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -519,6 +533,20 @@ length(stringr::str_which(string = rural_urban,
 
 Note that `str_which()` is case sensitive, so it would not work to use "women" as the pattern, and using "men" would return the lines that contain "Wo**men**" or "Ye**men**" etc.  Try this out with `pattern = "women"` and `pattern = "men"` to see the result!
 
+```{r, echo=FALSE}
+save(rural_urban, file = here::here("www", "exercise", "dw_code1.rda"))
+```
+
+```{r dw_code1-setup}
+library(tidyverse)
+
+load(here::here("www", "exercise", "dw_code1.rda"))
+```
+
+```{r dw_code1, exercise=TRUE, exercise.lines=5}
+# Try this out! 
+```
+
 OK, so this looks correct. 
 This includes most lines but there are gaps where the header is located. It looks like out of the original 461 lines, there are 400 lines in our table that aren't headers.
 
@@ -544,7 +572,7 @@ Great! So now our data looks much better but we need to add back our header and 
 As a reminder, here is what our header used to look like:
 
 ```{r, echo = FALSE,  out.width = '100%'}
-knitr::include_graphics(here::here("img","last_page.png"))
+knitr::include_graphics(here::here("www", "img","last_page.png"))
 ```
 
 We will add a new header after first dealing with some additional spacing and missing data issues.
@@ -607,7 +635,42 @@ country_split <-
 head(country_split)
 ```
 
-However, we can also do the same thing in a single step, where we replace the `Women` dataset with the code we used to create that dataset.  So first, we select the "Women" and then we split the data by " Women" to create a new dataset all within the same chunk of code.
+However, we can also do the same thing in a single step, where we replace the `Women` dataset with the code we used to create that dataset.  So first, we select the "Women" and then we split the data by " Women" to create a new dataset all within the same chunk of code. Write this code yourself!
+
+```{r, echo=FALSE}
+save(rural_urban, file = here::here("www", "exercise", "dw_code2.rda"))
+```
+
+```{r dw_code2-setup}
+library(tidyverse)
+library(magrittr)
+
+load(here::here("www", "exercise", "dw_code2.rda"))
+```
+
+```{r dw_code2, exercise=TRUE}
+country_split <- 
+```
+
+```{r dw_code2-hint-1}
+country_split <- 
+  str_subset(string = rural_urban,
+             pattern = "Women") %>%
+```
+
+```{r dw_code2-solution}
+country_split <- 
+  str_subset(string = rural_urban,
+             pattern = "Women") %>%
+  stringr::str_split(pattern= " Women") %>%
+  unlist()
+# View the first rows of the data
+head(country_split)
+```
+
+***
+<details> <summary> Click here to see the code and the output </summary>
+
 ```{r}
 country_split <- 
   str_subset(string = rural_urban,
@@ -617,6 +680,10 @@ country_split <-
 
 head(country_split)
 ```
+
+</details>
+
+***
 
 Now, we can see that `Country` is always the odd rows and the  BMI data for Women is the even rows. 
 We can select the odd rows using the <b> Modulus (Remainder from division) operator</b>. 
@@ -761,7 +828,7 @@ So close! Notice that the `"na*"` values have shifted the subsequent values with
 Here we can see this data in our original pdf:
 
 ```{r, echo = FALSE, out.width="100%"}
-knitr::include_graphics(here::here("img","missing_pdf.png"))
+knitr::include_graphics(here::here("www", "img","missing_pdf.png"))
 ```
 
 
@@ -1080,13 +1147,171 @@ readr::write_csv(BMI_long,
 ```
 
 
+### **Exercise**
+***
+``` {r dw_quiz, echo = FALSE}
+quiz(caption = "",
+  question("A wider credible interval indicates higher accuracy of the estimate.",
+    answer("True", message = "A wider credible interval suggests that the estimate is **less** accurate."),
+    answer("False", correct = TRUE, message = "A wider credible interval suggests that the estimate is **less** accurate."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Which one of the pipe operators (from the `magrittr` package) should be used right after a variable name if we want to perform a sequence of operations on that variable, and meanwhile, assign the final output to that variable (without redefining that variable using `<-` or `=`)?",
+    answer("`%>%`", message = "This operator cannot assign the final output to that variable."),
+    answer("`%<%`", message = "This is not a valie pipe operator."),
+    answer("`%T>%`", message = "This is the [side-effects operator] (https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html#additional-pipe-operators)."),
+    answer("`%<>%`", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Which of the following can the `mutate()` function in the `dplyr` package do? (check all that apply)",
+    answer("Select certain variables(columns) of the data.", message = "Selecting certain variables(columns) of the data is the function of the `select()` function."),
+    answer("Rename a variable.", message = "Renaming a variable is the function of the `rename()` function."),
+    answer("Create a new variable.", correct = TRUE),
+    answer("Modify an existing variable.", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Which one of the functions from the `stringr` package does not require a `pattern` argument?",
+    answer("`str_split()`", message = "A pattern argument is needed when using `str_split()`. See its documentation [here](https://www.rdocumentation.org/packages/stringr/versions/1.4.0/topics/str_split)"),
+    answer("`str_subset()`", message = "A pattern argument is needed when using `str_subset()`. See its documentation [here](https://www.rdocumentation.org/packages/stringr/versions/1.4.0/topics/str_subset) "),
+    answer("`str_which()`", message = "A pattern argument is needed when using `str_which()`. See its documentation [here](https://www.rdocumentation.org/packages/stringr/versions/1.4.0/topics/str_subset) "),
+    answer("`str_squish()`", correct = TRUE, message = "`str_squish()` is used to remove excess white-space, which does not need a `pattern` argument. See its documentation [here](https://www.rdocumentation.org/packages/stringr/versions/1.4.0/topics/str_trim) "),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+Suppose we have two datasets called `wide_format1` and `wide_format2`. Write some code to:\
+Step 1. For `wide_format1`, change names of the columns to `ID`, `Year`, and `Length`. (Hint: You can do this by adding a new header or using the `rename()` function of the `dplyr` package.)\
+Step 2. For `wide_format1`, add a new variable called `Adjusted` which has value = `Length` - 2. (Hint: Use the `mutate()` function from the `dplyr` package.)\
+Step 3. Append `wide_format2` to `wide_format1` and call the new dataset `wide_format`. (Hint: Use `bind_rows()` function from the `dplyr` package.)\
+Step 4. Arrange the data by `ID` in **descending** order. (Hint: Use the `arrange()` function from the `dplyr` package.)\
+Step 5. Transform `wide_format` data into "long" format and call it "long_format". (Hint: Use `pivot_longer()` function from the `tidyr` package.) We want it to look like this:
+
+```{r dw_exercise-setup}
+library(tidyverse)
+library(magrittr)
+
+V1 <- c(1003, 1001, 1006)
+V2 <- c(2015, 2018, 2019)
+V3 <- c(20, 21.5, 19)
+wide_format1 <- as_tibble(data.frame(V1, V2, V3))
+ID <- c(1005, 1002, 1004)
+Year <- c(2013, 2016, 2020)
+Length <- c(18, 19.2, 20.3)
+Adjusted <- Length - 2
+wide_format2 <- as_tibble(data.frame(ID, Year, Length, Adjusted))
+```
+
+```{r dw_exercise, exercise=TRUE}
+# View the given datasets
+wide_format1
+wide_format2
+# Make sure you view your data moving along each part of the question
+# 1. changing names of the columns
+
+# 2. adding new variable
+
+# 3. joining (appending) the data
+
+# 4. sorting the data in descending order
+
+# 5. transforming to "long" format
+
+```
+
+```{r dw_exercise-hint-1}
+# 1. change names of the columns
+# First way
+new_header <- c("ID","Year","Length")
+names(wide_format1) <- new_header
+# Second way
+wide_format1 %<>% 
+  rename(ID = V1, Year = V2, Length = V3)
+```
+
+```{r dw_exercise-hint-2}
+# 1. change names of the columns
+# First way
+new_header <- c("ID","Year","Length")
+names(wide_format1) <- new_header
+# Second way
+wide_format1 %<>% 
+  rename(ID = V1, Year = V2, Length = V3)
+# 2. adding new variable
+wide_format1 %<>%
+  mutate(Adjusted = Length - 2)
+```
+
+```{r dw_exercise-hint-3}
+# 1. change names of the columns
+# First way
+new_header <- c("ID","Year","Length")
+names(wide_format1) <- new_header
+# Second way
+wide_format1 %<>% 
+  rename(ID = V1, Year = V2, Length = V3)
+# 2. adding new variable
+wide_format1 %<>%
+  mutate(Adjusted = Length - 2)
+# 3. joining (appending) the data
+wide_format <- bind_rows(wide_format1, wide_format2)
+```
+
+```{r dw_exercise-hint-4}
+# 1. change names of the columns
+# First way
+new_header <- c("ID","Year","Length")
+names(wide_format1) <- new_header
+# Second way
+wide_format1 %<>% 
+  rename(ID = V1, Year = V2, Length = V3)
+# 2. adding new variable
+wide_format1 %<>%
+  mutate(Adjusted = Length - 2)
+# 3. joining (appending) the data
+wide_format <- bind_rows(wide_format1, wide_format2)
+# 4. sorting the data in descending order
+wide_format <- arrange(wide_format, desc(ID))
+```
+
+```{r dw_exercise-solution}
+# 1. change names of the columns
+# First way
+new_header <- c("ID","Year","Length")
+names(wide_format1) <- new_header
+# Second way
+wide_format1 %<>% 
+  rename(ID = V1, Year = V2, Length = V3)
+# 2. adding new variable
+wide_format1 %<>%
+  mutate(Adjusted = Length - 2)
+# 3. joining (appending) the data
+wide_format <- bind_rows(wide_format1, wide_format2)
+# 4. sorting the data in descending order
+wide_format <- arrange(wide_format, desc(ID))
+# 5. transforming to "long" format
+long_format <- pivot_longer(wide_format,
+                            cols = -ID, 
+                            names_to = "Variable", 
+                            values_to = "Value")
+```
+
+
 ## **Data Exploration**
 ***
 
 If you have been following along but stopped, we could load our wrangled data like so:
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 ***
@@ -1094,8 +1319,12 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 
 An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 
@@ -1106,13 +1335,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -1236,12 +1465,38 @@ Here, we are using the column called `norm_data` within `norm_BMI_ex_data`.
 As we noted, with `ggplot2` we must first specify the data to plot with the `ggplot()` function. 
 Then, the `geom_*` function specifies what type of plot to create (e.g. `geom_histogram()` create a histogram). 
 
-We could also make this same plot by piping the `norm_BMI_ex_data` data into the `ggplot()` function:
+We could also make this same plot by piping the `norm_BMI_ex_data` data into the `ggplot()` function. Try writing the code yourself!
+
+```{r de_code-setup}
+library(tidyverse)
+
+set.seed(100)
+norm_BMI_ex_data <- 
+  tibble(norm_data = rnorm(n = 200, mean = 24, sd = 1))
+```
+
+```{r de_code, exercise=TRUE, exercise.lines=5}
+
+```
+
+```{r de_code-solution}
+norm_BMI_ex_data %>% 
+  ggplot2::ggplot(aes(x = norm_data)) + 
+  ggplot2::geom_histogram() 
+```
+
+***
+<details> <summary> Click here to see the code and the output </summary>
+
 ```{r}
 norm_BMI_ex_data %>% 
   ggplot2::ggplot(aes(x = norm_data)) + 
   ggplot2::geom_histogram() 
 ```
+
+</details>
+
+***
 
 We will see later how we can add many layers to plots with `ggplot2`.
 
@@ -1353,13 +1608,92 @@ So, if we want to use those powerful statistical tests that rely on this assumpt
 We can conclude from these plots that the assumption of normality appears to be violated in our data.
 
 
+### **Exercise**
+***
+``` {r de_quiz, echo = FALSE}
+quiz(caption = "",
+  question("If the mean and the median of our data is similar, then the data is not skewed.",
+    answer("False"),
+    answer("True", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("What can Q-Q plots allow us to do? (Check all that apply)",
+    answer("Compare the quantiles of the theoretical distribution and the distribution of our data.", correct = TRUE),
+    answer("Gain visual evidence of if our data follows a normal distribution.", correct = TRUE),
+    answer("Tell if our data is right- or - left skewed.", correct = TRUE),
+    answer("Add a regression line that best fits our data.", message = "The line on a Q-Q plot is not a regression line."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+To check the normality of our data, we can use a histogram and/or a Q-Q plot. Suppose that we have dataset `mydata`, write some code that uses the `ggplot()` function to plot a histogram and a Q-Q plot. Does `mydata` seem to be normally distributed?
+
+```{r de_exercise-setup}
+library(tidyverse)
+library(magrittr)
+
+set.seed(500)
+mydata <- rnorm(n = 500, mean = 5, sd = 1)
+```
+
+```{r de_exercise, exercise=TRUE, eval=FALSE}
+# First we need mydata to be a tibble so that we can use the ggplot() function
+mydata <- tibble(mydata)
+# View the data
+mydata
+# Plot histogram
+mydata %>% 
+  ggplot(___(x = mydata)) + 
+  ______________()
+# Q-Q plot
+mydata %>%
+  ggplot(___(sample = mydata)) +
+  _______() + # Q-Q plot
+  ____________() # add a line
+```
+
+```{r de_exercise-hint-1}
+# First we need mydata to be a tibble so that we can use the ggplot() function
+mydata <- tibble(mydata)
+# View the data
+mydata
+# Plot histogram
+mydata %>% 
+  ggplot(aes(x = mydata)) + 
+  geom_histogram()
+```
+
+```{r de_exercise-solution}
+# First we need mydata to be a tibble so that we can use the ggplot() function
+mydata <- tibble(mydata)
+# View the data
+mydata
+# Plot histogram
+mydata %>% 
+  ggplot(aes(x = mydata)) + 
+  geom_histogram()
+# Q-Q plot
+mydata %>%
+  ggplot(aes(sample = mydata)) +
+  stat_qq() + # Q-Q plot
+  stat_qq_line() # add a line
+```
+
+
 ## **Data Analysis**
 ***
 
 If you have been following along but stopped, we could load our wrangled data like so:
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 ***
@@ -1367,8 +1701,12 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 
 An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 
@@ -1379,13 +1717,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -1679,7 +2017,7 @@ You may recall that probability is the chance that an event will happen and it r
 You can also think of it as a percentage of 0% (probability =0) to 100% (probability = 1) of chance that an event will happen.
 
 ```{r, echo = FALSE, out.width='100%'}
-include_graphics(here::here("img", "probability-line.svg"))
+include_graphics(here::here("www", "img", "probability-line.svg"))
 
 ```
 
@@ -1790,13 +2128,47 @@ Thus our p-values should be less than this value for us to reject the null that 
 In our 4 Wilcoxon tests, our p-values were less than 0.0125.
 So we see a significant difference in the means of the groups after multiple testing correction for our four different tests.
 
+
+### **Exercise**
+***
+``` {r da_quiz, echo = FALSE}
+quiz(caption = "",
+  question("What are the required assumptions of the data when performing a student t-test? (Check all that apply)",
+    answer("Normality", correct = TRUE),
+    answer("Large sample size", message = "t-test can be performed with small samples."),
+    answer("The observations are independent and identically distributed", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("When performing a statistical test, we are our options if our data seems not to be normally distributed? (Check all that apply)",
+    answer("Do a transformation of the data to make it more normally distributed.", correct = TRUE),
+    answer("Use a nonparametric test.", correct = TRUE),
+    answer("Perform a parametric test and see if the results are as expected.", message = "Parametric tests should not be performed when assumptions are violated."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Suppose we have a group of patients who have high blood pressure. Their baseline blood pressure measures were recorded on day 0. They then received a type of treatment for 30 days. Their blood pressure measures were recorded again on day 30. We want to test if their blood pressure measures changed (if the treatment was effective), what kind of t-test is the most appropriate? (Assume that the assumptions of a t-test are satisfied)",
+    answer("Two-sample t-test", message = "Keep in mind that two measures are from the same patient."),
+    answer("Welch's t-test (unequal variance t-test)", message = "Keep in mind that two measures are from the same patient."),
+    answer("Paired t test", correct = TRUE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+
 ## **Data Visualization**
 ***
 
 If you have been following along but stopped, we could load our wrangled data like so:
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 ***
@@ -1804,8 +2176,12 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 
 An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
 
-```{r}
+```{r, eval=FALSE}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
+```
+
+```{r, echo=FALSE}
+load(here::here("www", "data", "wrangled", "wrangled_data.rda"))
 ```
 
 
@@ -1816,13 +2192,13 @@ You can create a project by going to the File menu of RStudio like so:
 
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "New_project.png"))
+knitr::include_graphics(here::here("www", "img", "New_project.png"))
 ```
 
 You can also do so by clicking the project button:
 
 ```{r, echo = FALSE, out.width="60%"}
-knitr::include_graphics(here::here("img", "project_button.png"))
+knitr::include_graphics(here::here("www", "img", "project_button.png"))
 ```
 
 See [here](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) to learn more about using RStudio projects and [here](https://github.com/jennybc/here_here) to learn more about the `here` package.
@@ -2365,8 +2741,14 @@ Our plot visually explores all of our main questions:
 
 Now let's save our plot as a png file using the `png()` function:
 
-```{r}
+```{r, eval=FALSE}
 png(here::here("img", "main_plot.png"), height = 1500, width = 2300, res = 300)
+cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
+dev.off()
+```
+
+```{r, echo=FALSE}
+png(here::here("www", "img", "main_plot.png"), height = 1500, width = 2300, res = 300)
 cowplot::plot_grid(Means_plot, Diff_plot, labels = c("A", "B"))
 dev.off()
 ```
