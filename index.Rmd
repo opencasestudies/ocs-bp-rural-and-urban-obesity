@@ -2059,14 +2059,14 @@ But what really is the [p-value](https://towardsdatascience.com/p-values-explain
 ### **p-values**
 ***
 
-The p in p-value stands for <b>probability</b> - the probability that we would obtain the statistics (for example the t in our student $t$-tests based on the means of our groups of comparison) just by random chance alone. Therefore a p-value of 0.02 means that there is a 2 percent chance that out data may look the way it does just because of random chance and not because there is really a difference in the means of the groups of interest.
+The p in p-value stands for <b>probability</b> - the probability of observing a test statistic (for example the t in our student $t$-tests based on the means of our groups of comparison) as or more extreme than what we observe if the null hypothesis is true (continuing with the t test example, the distribution of possible t statistics if there is no difference between groups). Therefore a p-value of 0.02 means that there is a 2 percent chance that our data may also look the way it does if the null hypothesis is true. This does not mean there is a 2% chance that the null hypothesis is true. It only means that there is a 2% chance we would observe data as extreme as ours if there really is no difference between the groups. 
 
 So then if alpha is the threshold for the p-value for obtaining false significant results then the probability of not making incorrect conclusions is 1 - alpha:
 
-                 P(Not making an error) = 1 - α
+                 P(Not making a type 1 error) = 1 - α
 
 ```{r}
-#P(Not making an error) = 1 - α
+#P(Not making a type 1 error) = 1 - α
 1-.05 
 
 ```
