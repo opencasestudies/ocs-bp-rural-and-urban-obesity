@@ -215,12 +215,10 @@ This case study is designed for undergraduate students who have not taken a stat
 
 Students can repeat a similar analysis, but evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. 
 
-#### RMarkdown Compilation Time
+#### Estimate of RMarkdown Compilation Time:
 
-~ 35 seconds
+~ About 31 - 41 seconds
 
- 
-
-
+This compilation time was measured on a PC machine operating on Windows 10. This range should only be used as an estimate as compilation time will vary with different machines and operating systems. 
 
 
