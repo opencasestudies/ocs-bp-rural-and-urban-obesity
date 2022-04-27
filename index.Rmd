@@ -47,10 +47,19 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       fig.align = "center", out.width = '90%')
 library(here)
 library(knitr)
+library(magrittr)
+remotes::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
+remotes::install_github("alistaire47/read.so")
+library(wordcountaddin)
+library(read.so)
+
+rmarkdown:::perf_timer_reset_all()
+rmarkdown:::perf_timer_start("render")
 ```
 
  
 #### {.outline }
+
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("img", "main_plot.png"))
 ```
@@ -73,14 +82,49 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 [
 
 To cite this case study please use:
 
-Wright, Carrie and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity. Exploring global patterns of obesity across rural and urban regions (Version v1.0.0).
+Wright, Carrie and Meng, Qier and Jager, Leah and Taub, Margaret and Hicks, Stephanie. (2020). https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity. Exploring global patterns of obesity across rural and urban regions (Version v1.0.0).
 
 ####
 
 To access the GitHub Repository for this case study see here: https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity.
 
+You may also access and download the data using our `OCSdata` package. To learn more about this package including examples, see this [link](https://github.com/opencasestudies/OCSdata). Here is how you would install this package:
+
+```{r, eval=FALSE}
+install.packages("OCSdata")
+```
+
 This case study is part of a series of public health case studies for the [Bloomberg American Health  Initiative](https://americanhealth.jhu.edu/open-case-studies).
 
+***
+
+The total reading time for this case study is calculated via [koRpus](https://github.com/unDocUMeantIt/koRpus) and shown below: 
+
+```{r, echo=FALSE}
+readtable = text_stats("index.Rmd") # producing reading time markdown table
+readtime = read.so::read.md(readtable) %>% dplyr::select(Method, koRpus) %>% # reading table into dataframe, selecting relevant factors
+  dplyr::filter(Method == "Reading time") %>% # dropping unnecessary rows
+  dplyr::mutate(koRpus = paste(round(as.numeric(stringr::str_split(koRpus, " ")[[1]][1])), "minutes")) %>% # rounding reading time estimate
+  dplyr::mutate(Method = "koRpus") %>% dplyr::relocate(koRpus, .before = Method) %>% dplyr::rename(`Reading Time` = koRpus) # reorganizing table
+knitr::kable(readtime, format="markdown")
+```
+
+***
+
+**Readability Score: **
+
+A readability index estimates the reading difficulty level of a particular text. Flesch-Kincaid, FORCAST, and SMOG are three common readability indices that were calculated for this case study via [koRpus](https://github.com/unDocUMeantIt/koRpus). These indices provide an estimation of the minimum reading level required to comprehend this case study by grade and age. 
+
+```{r, echo=FALSE}
+rt = wordcountaddin::readability("index.Rmd", quiet=TRUE) # producing readability markdown table
+df = read.so::read.md(rt) %>% dplyr::select(index, grade, age) %>%  # reading table into dataframe, selecting relevant factors
+  tidyr::drop_na() %>% dplyr::mutate(grade = round(as.numeric(grade)), # dropping rows with missing values, rounding age and grade columns
+                                     age = round(as.numeric(age))
+                                     )
+knitr::kable(df, format="markdown")
+```
+
+***
 
 Please help us by filling out our survey.
 
@@ -204,6 +248,7 @@ library(ggplot2)
 library(ggrepel)
 library(cowplot)
 library(patchwork)
+library(OCSdata)
 ```
 
 
@@ -224,6 +269,7 @@ library(patchwork)
 [ggplot2](https://ggplot2.tidyverse.org/)    | to make visualizations with multiple layers
 [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html){target="_blank"}    | to allow labels in figures not to overlap
 [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html){target="_blank"} and [patchwork](https://github.com/thomasp85/patchwork){target="_blank"} | to allow plots to be combined 
+[OCSdata](https://github.com/opencasestudies/OCSdata){target="_blank"} | to access and download OCS data files
 
 
 ___
@@ -289,7 +335,15 @@ if(!file.exists(here("data", "raw", "paper_supplement.pdf"))){
 ```
 
 
-We will save our data to a directory within our working directory called data. We will create subdirectories within this directory to organize our data. We can use the `here` function from the `here` package to make this process easier. The `here()` function allows us to specify the path or location of the document that we want to import, starting from the directory where an `.Rproj` file is located after creating a project in RStudio. In this case, we will import our files within subdirectories of  a directory called `raw` of the `data` directory. (*Note the next chunk of code will only work for you if you pull the repository from GitHub and set up your file structure in the same way.*) If you had trouble downloading the data from the orginal sources you can download them from our [GitHub repository for this case study](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data).
+We will save our data to a directory within our working directory called data. We will create subdirectories within this directory to organize our data. We can use the `here` function from the `here` package to make this process easier. The `here()` function allows us to specify the path or location of the document that we want to import, starting from the directory where an `.Rproj` file is located after creating a project in RStudio. In this case, we will import our files within subdirectories of  a directory called `raw` of the `data` directory. (*Note the next chunk of code will only work for you if you pull the repository from GitHub and set up your file structure in the same way.*) If you had trouble downloading the data from the orginal sources you can download them from our [GitHub repository for this case study](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data) or use the `OCSdata` package:
+
+```{r, eval=FALSE}
+# install.packages("OCSdata")
+library(OCSdata)
+raw_data("ocs-bp-rural-and-urban-obesity", outpath = getwd())
+# This will save the pdf file in a "OCSdata/data/raw/" subfolder 
+# in your current working directory
+```
 
 ***
 
@@ -415,16 +469,34 @@ save(rural_urban, file = here::here("data", "imported", "imported_data.rda"))
 
 ## **Data Wrangling**
 ***
+If you have been following along but stopped, we could load our imported data from the "data" directory like so:
+
+```{r}
+load(file = here::here("data", "imported", "imported_data.rda"))
+```
 
 ***
 <details> <summary> If you skipped the data import section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported/impoted_data.rda). Download this file and then place it in your current working directory within a subdirectory called `imported` within a subdirectory called `data` to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+First you need to install and load the `OCSdata` package:
+
+```{r, eval=FALSE}
+install.packages("OCSdata")
+library(OCSdata)
+```
+
+Then, you may load the imported data using the following code:
+
+```{r, eval=FALSE}
+imported_data("ocs-bp-rural-and-urban-obesity", outpath = getwd())
+load(here::here("OCSdata", "data", "imported", "imported_data.rda"))
+```
+
+If the package does not work for you, alternatively, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported/impoted_data.rda). Download this file and then place it in your current working directory within a subdirectory called `imported` within a subdirectory called `data` to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
 ```{r}
 load(here::here("data", "imported", "imported_data.rda"))
 ```
-
 
 ***
 <details> <summary> Click here to see more about creating new projects in RStudio. </summary>
@@ -1092,7 +1164,21 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
+First you need to install and load the `OCSdata` package:
+
+```{r, eval=FALSE}
+install.packages("OCSdata")
+library(OCSdata)
+```
+
+Then, you may load the wrangled data using the following code:
+
+```{r, eval=FALSE}
+wrangled_rda("ocs-bp-rural-and-urban-obesity", outpath = getwd())
+load(here::here("OCSdata", "data", "wrangled", "wrangled_data.rda"))
+```
+
+If the package does not work for you, alternatively, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -1365,7 +1451,21 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
+First you need to install and load the `OCSdata` package:
+
+```{r, eval=FALSE}
+install.packages("OCSdata")
+library(OCSdata)
+```
+
+Then, you may load the wrangled data using the following code:
+
+```{r, eval=FALSE}
+wrangled_rda("ocs-bp-rural-and-urban-obesity", outpath = getwd())
+load(here::here("OCSdata", "data", "wrangled", "wrangled_data.rda"))
+```
+
+If the package does not work for you, alternatively, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -1802,7 +1902,21 @@ load(here::here("data", "wrangled", "wrangled_data.rda"))
 ***
 <details> <summary> If you skipped the data wrangling section click here. </summary>
 
-An RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
+First you need to install and load the `OCSdata` package:
+
+```{r, eval=FALSE}
+install.packages("OCSdata")
+library(OCSdata)
+```
+
+Then, you may load the wrangled data using the following code:
+
+```{r, eval=FALSE}
+wrangled_rda("ocs-bp-rural-and-urban-obesity", outpath = getwd())
+load(here::here("OCSdata", "data", "wrangled", "wrangled_data.rda"))
+```
+
+If the package does not work for you, alternatively, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/wrangled) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/wrangled/wrangled_data.rda). Download this file and then place it in your current working directory within a subdirectory called "wrangled" within a subdirectory called "data" to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily.
 
 ```{r}
 load(here::here("data", "wrangled", "wrangled_data.rda"))
@@ -2521,14 +2635,24 @@ Students can evaluate the change in BMI over time using the global data availabl
 sessionInfo()
 ```
 
+**Estimate of RMarkdown Compilation Time: **
+
+```{r, echo=FALSE}
+rmarkdown:::perf_timer_stop("render")
+pts = rmarkdown:::perf_timer_summary()
+cat("About", round(pts$time[1]/1000 + 5), "-", round(pts$time[1]/1000 + 15),"seconds")
+```
+
+This compilation time was measured on a PC machine operating on Windows 10. This range should only be used as an estimate as compilation time will vary with different machines and operating systems. 
 
 ### **Acknowledgments**
 ***
 
 We would like to acknowledge [Jessica Fanzo](https://www.jhsph.edu/faculty/directory/profile/3380/jessica-fanzo) for assisting in framing the major direction of the case study.
 
+We would like to acknowledge [Michael Breshock](https://mbreshock.github.io/) for his contributions to this case study and developing the `OCSdata` package.
+
 We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
 
 <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=a&t=tt&d=a1Ews2eHEWlY8v8IFJHWTERegYZfMmtyCxPiYu5y9DM&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
 
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfpN4FN3KELqBNEgf2Atpi7Wy7Nqy2beSkFQINL7Y5sAMV5_w/viewform?embedded=true" width="640" height="891" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
