@@ -2131,7 +2131,7 @@ quiz(caption = "",
     allow_retry = TRUE,
     random_answer_order = TRUE
   ),
-  question("When performing a statistical test, we are our options if our data seems not to be normally distributed? (Check all that apply)",
+  question("When performing a statistical test, what are our options if our data seems not to be normally distributed? (Check all that apply)",
     answer("Do a transformation of the data to make it more normally distributed.", correct = TRUE),
     answer("Use a nonparametric test.", correct = TRUE),
     answer("Perform a parametric test and see if the results are as expected.", message = "Parametric tests should not be performed when assumptions are violated."),
