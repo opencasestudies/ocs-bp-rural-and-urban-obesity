@@ -212,7 +212,6 @@ library(patchwork)
 [readr](https://readr.tidyverse.org/){target="_blank"}      | to manipulate the text data within the pdf into individual lines  
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to arrange/filter/select subsets of the data 
 [tibble](https://tibble.tidyverse.org/){target="_blank"}     | to create data objects that we can manipulate with `dplyr`/`stringr`/`tidyr`/`purrr`
-[magrittr](https://magrittr.tidyverse.org/articles/magrittr.html){target="_blank"}   | to use the `%<>%` piping operator
 [glue](https://www.tidyverse.org/blog/2017/10/glue-1.2.0/){target="_blank"}  | to paste or combine character strings and data together
 [purrr](https://purrr.tidyverse.org/){target="_blank"}      | to perform functions on all columns of a tibble
 [tidyr](https://tidyr.tidyverse.org/){target="_blank"}      | to convert data from 'wide' to 'long' format
@@ -953,17 +952,10 @@ head(Men)
 ### **Changing variable names**
 ***
 Here, we will change the variable name in the `country` dataset to `country` (currently it is called `country_split`). 
-We will also introduce the concept of the assignment pipe. 
-In this case our pipe operator looks like this `%<>%`. 
-Using this additional pipe requires another package, called `magrittr`. 
-The other simpler pipe options from this package are loaded with `tidyverse` (if you used `library(tidyverse)` which loads most tidyverse packages), but not this version. 
-
-The `>` portion of the pipe still behaves like a normal pipe, while the `<` portion of the pipe makes an assignment to whatever the `<`is pointing to, just like when we use the typical assignment operator `<-`. 
+We will also introduce the concept of the pipe operator `%>%`. 
+The pipe operator is loaded with `tidyverse` (if you used `library(tidyverse)` which loads most tidyverse packages).
 
 ```{r}
-# library(magrittr) 
-# We can't use the `%<>%` unless we load the magrittr package
-# We have already done this but we include this for illustrative purposes.
 # Here we will just use the traditional assignment strategy
 
 Women <- dplyr::rename(Women, Country = country_split) 
@@ -972,7 +964,7 @@ Here, we have renamed the `country_split` variable to be called `Country`.
 
 Here, we reassign `Men` using the pipe strategy.
 ```{r}
-Men %<>% rename(Country = country_split) 
+Men <- Men %>% rename(Country = country_split) 
 ```
 
 This is equivalent to
@@ -1029,14 +1021,14 @@ Let's change that now.
 To start, we could change these values to be numeric with 6 lines of code like this, where the double brackets`[[]]` and quotes are used to select the specific variable within the `BMI` tibble. In this case we need to use the brackets instead of `pull()` because we can't start a command with `pull()` to reassign values in a variable.
 
 ```{r, eval = TRUE}
-#pull(BMI, National_BMI_1985)%<>% as.numeric #This will not work
-BMI[["National_BMI_1985"]] %<>% as.numeric
-BMI[["Rural_BMI_1985"]] %<>% as.numeric
-BMI[["Urban_BMI_1985"]] %<>% as.numeric
+#pull(BMI, National_BMI_1985) <- BMI %>% as.numeric #This will not work
+BMI[["National_BMI_1985"]] <- BMI[["National_BMI_1985"]] %>% as.numeric
+BMI[["Rural_BMI_1985"]] <- BMI[["Rural_BMI_1985"]] %>%  as.numeric
+BMI[["Urban_BMI_1985"]] <- BMI[["Urban_BMI_1985"]] %>% as.numeric
 
-BMI[["National_BMI_2017"]] %<>% as.numeric
-BMI[["Rural_BMI_2017"]] %<>% as.numeric
-BMI[["Urban_BMI_2017"]] %<>% as.numeric
+BMI[["National_BMI_2017"]] <- BMI[["National_BMI_2017"]] %>%  as.numeric
+BMI[["Rural_BMI_2017"]] <- BMI[["Rural_BMI_2017"]] %>% as.numeric
+BMI[["Urban_BMI_2017"]] <- BMI[["Urban_BMI_2017"]] %>% as.numeric
 ```
 
 And if we did this we would see these variables show as `"num"` which stands for a numeric type of variable.
@@ -1060,7 +1052,7 @@ If you are familiar with `apply()`, this function is very similar.
 Now we need to add the `Country` and `Sex` variables back to our new numeric dataset. To do this we will use the `mutate()` function from the `dplyr` package. This function allows us to create and modify variables.
 
 ```{r}
-BMI_numeric %<>% 
+BMI_numeric <- BMI_numeric %>% 
   mutate(Country = pull(BMI, Country), 
          Sex = pull(BMI, Sex))
 head(BMI_numeric)
@@ -1097,7 +1089,7 @@ head(BMI_long)
 We really want to promote the idea of working with [tidy data](https://r4ds.had.co.nz/tidy-data.html){target="_blank"}. Tidy data is data that is structured in a way that makes it especially usable. One of the rules of tidy data, is that each column or variable should have only one type of data. Currently we have two types of data in the `class_BMI` variable: the type of BMI measurement ( Rural, Urban, or National), and the year (1985 and 2017).  We can separate these two data types of the `class_BMI` column using the `separate()` function of the `tidyr` package to replace the `class_BMI` column with two new columns.
 
 ```{r}
-BMI_long %<>% 
+BMI_long <- BMI_long %>% 
   tidyr::separate(class_BMI, 
                   c("Region", NA, "Year")) 
 ```
@@ -1123,7 +1115,7 @@ Let's rename the `value` column to something more informative. We can use the `r
 
 ```{r}
 
-BMI_long %<>% 
+BMI_long <- BMI_long %>%  
   rename(BMI = value)
 head(BMI_long)
 
@@ -1157,11 +1149,10 @@ quiz(caption = "",
     allow_retry = TRUE,
     random_answer_order = TRUE
   ),
-  question("Which one of the pipe operators (from the `magrittr` package) should be used right after a variable name if we want to perform a sequence of operations on that variable, and meanwhile, assign the final output to that variable (without redefining that variable using `<-` or `=`)?",
-    answer("`%>%`", message = "This operator cannot assign the final output to that variable."),
+  question("Which one of the pipe operators should be used right after a variable name if we want to perform a sequence of operations on that variable?",
+    answer("`%>%`", correct = TRUE),
     answer("`%<%`", message = "This is not a valie pipe operator."),
     answer("`%T>%`", message = "This is the [side-effects operator] (https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html#additional-pipe-operators)."),
-    answer("`%<>%`", correct = TRUE),
     allow_retry = TRUE,
     random_answer_order = TRUE
   ),
@@ -1229,7 +1220,7 @@ wide_format2
 new_header <- c("ID","Year","Length")
 names(wide_format1) <- new_header
 # Second way
-wide_format1 %<>% 
+wide_format1 <- wide_format1 %>% 
   rename(ID = V1, Year = V2, Length = V3)
 ```
 
@@ -1239,10 +1230,10 @@ wide_format1 %<>%
 new_header <- c("ID","Year","Length")
 names(wide_format1) <- new_header
 # Second way
-wide_format1 %<>% 
+wide_format1 <- wide_format1 %>% 
   rename(ID = V1, Year = V2, Length = V3)
 # 2. adding new variable
-wide_format1 %<>%
+wide_format1 <- wide_format1 %>% 
   mutate(Adjusted = Length - 2)
 ```
 
@@ -1252,10 +1243,10 @@ wide_format1 %<>%
 new_header <- c("ID","Year","Length")
 names(wide_format1) <- new_header
 # Second way
-wide_format1 %<>% 
+wide_format1 <- wide_format1 %>% 
   rename(ID = V1, Year = V2, Length = V3)
 # 2. adding new variable
-wide_format1 %<>%
+wide_format1 <- wide_format1 %>% 
   mutate(Adjusted = Length - 2)
 # 3. joining (appending) the data
 wide_format <- bind_rows(wide_format1, wide_format2)
@@ -1267,10 +1258,10 @@ wide_format <- bind_rows(wide_format1, wide_format2)
 new_header <- c("ID","Year","Length")
 names(wide_format1) <- new_header
 # Second way
-wide_format1 %<>% 
+wide_format1 <- wide_format1 %>% 
   rename(ID = V1, Year = V2, Length = V3)
 # 2. adding new variable
-wide_format1 %<>%
+wide_format1 <- wide_format1 %>% 
   mutate(Adjusted = Length - 2)
 # 3. joining (appending) the data
 wide_format <- bind_rows(wide_format1, wide_format2)
@@ -1284,10 +1275,10 @@ wide_format <- arrange(wide_format, desc(ID))
 new_header <- c("ID","Year","Length")
 names(wide_format1) <- new_header
 # Second way
-wide_format1 %<>% 
+wide_format1 <- wide_format1 %>% 
   rename(ID = V1, Year = V2, Length = V3)
 # 2. adding new variable
-wide_format1 %<>%
+wide_format1 <- wide_format1 %>% 
   mutate(Adjusted = Length - 2)
 # 3. joining (appending) the data
 wide_format <- bind_rows(wide_format1, wide_format2)
@@ -2410,7 +2401,7 @@ How does the rate of change in BMI differ between groups? Which group might espe
 
 First let's calculate the differences in BMI from 2017 and 1985 and add this to our BMI_long data object. This will create new variables called `Rural_difference,` `Urban_difference`, and `National_difference`.
 ```{r}
-BMI_numeric  %<>% 
+BMI_numeric <- BMI_numeric %>%  
   mutate(Rural_difference = Rural_BMI_2017 - Rural_BMI_1985) %>%
   mutate(Urban_difference = Urban_BMI_2017 - Urban_BMI_1985) %>%
   mutate(National_difference = National_BMI_2017 - National_BMI_1985)
@@ -2887,7 +2878,6 @@ Students can evaluate the change in BMI over time using the global data availabl
 [readr](https://readr.tidyverse.org/){target="_blank"}      | to manipulate the text data within the pdf into individual lines  
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to arrange/filter/select subsets of the data 
 [tibble](https://tibble.tidyverse.org/){target="_blank"}     | to create data objects that we can manipulate with `dplyr`/`stringr`/`tidyr`/`purrr`
-[magrittr](https://magrittr.tidyverse.org/articles/magrittr.html){target="_blank"}   | to use the `%<>%` piping operator
 [glue](https://www.tidyverse.org/blog/2017/10/glue-1.2.0/){target="_blank"}  | to paste or combine character strings and data together
 [purrr](https://purrr.tidyverse.org/){target="_blank"}      | to perform functions on all columns of a tibble
 [tidyr](https://tidyr.tidyverse.org/){target="_blank"}      | to convert data from 'wide' to 'long' format
