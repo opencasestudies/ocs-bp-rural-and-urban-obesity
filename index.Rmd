@@ -2835,6 +2835,11 @@ Using the `ggplot2` package we were able to visualize trends in the data. Import
 
 Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. The data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv){target="_blank"}.
 
+# **More Case Studies**
+***
+
+Interested in exploring more open case studies? Visit **[opencasestudies.org](https://opencasestudies.org)** to access additional studies and open educational resources.
+
 ## **Additional Information**
 ***
 
