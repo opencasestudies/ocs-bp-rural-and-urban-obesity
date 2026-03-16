@@ -2131,7 +2131,7 @@ quiz(caption = "",
     allow_retry = TRUE,
     random_answer_order = TRUE
   ),
-  question("When performing a statistical test, we are our options if our data seems not to be normally distributed? (Check all that apply)",
+  question("When performing a statistical test, what are our options if our data seems not to be normally distributed? (Check all that apply)",
     answer("Do a transformation of the data to make it more normally distributed.", correct = TRUE),
     answer("Use a nonparametric test.", correct = TRUE),
     answer("Perform a parametric test and see if the results are as expected.", message = "Parametric tests should not be performed when assumptions are violated."),
@@ -2834,6 +2834,11 @@ Using the `ggplot2` package we were able to visualize trends in the data. Import
 ***
 
 Students can evaluate the change in BMI over time using the global data available for each year between 2015 and 2017. The data can be found [here](http://www.ncdrisc.org/downloads/bmi/NCD_RisC_Lancet_2017_BMI_age_standardised_world.csv){target="_blank"}.
+
+# **More Case Studies**
+***
+
+Interested in exploring more open case studies? Visit **[opencasestudies.org](https://opencasestudies.org)** to access additional studies and open educational resources.
 
 ## **Additional Information**
 ***
