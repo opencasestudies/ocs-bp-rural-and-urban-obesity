@@ -52,6 +52,7 @@ remotes::install_github("benmarwick/wordcountaddin", type = "source", dependenci
 remotes::install_github("alistaire47/read.so")
 library(wordcountaddin)
 library(read.so)
+install.packages("pdftools")
 
 rmarkdown:::perf_timer_reset_all()
 rmarkdown:::perf_timer_start("render")
