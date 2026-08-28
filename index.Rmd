@@ -55,6 +55,7 @@ library(read.so)
 install.packages("pdftools")
 install.packages("ggrepel")
 install.packages("cowplot")
+install.packages("patchwork")
 
 rmarkdown:::perf_timer_reset_all()
 rmarkdown:::perf_timer_start("render")
