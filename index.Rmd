@@ -12,8 +12,6 @@ output:
     theme: cosmo
     toc: yes
     toc_float: yes
-  pdf_document:
-    toc: yes
   word_document:
     toc: yes
 ---
@@ -52,6 +50,11 @@ remotes::install_github("benmarwick/wordcountaddin", type = "source", dependenci
 remotes::install_github("alistaire47/read.so")
 library(wordcountaddin)
 library(read.so)
+install.packages("pdftools")
+install.packages("ggrepel")
+install.packages("cowplot")
+install.packages("patchwork")
+install.packages("OCSdata")
 
 rmarkdown:::perf_timer_reset_all()
 rmarkdown:::perf_timer_start("render")
@@ -134,23 +137,23 @@ Please help us by filling out our survey.
 
 ## **Motivation**
 
-Body mass index ([BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}) is often used as a proxy for **adiposity** (the condition of having excess body fat) and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
+Body mass index ([BMI](https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html){target="_blank"}) is often used as a proxy for **adiposity** (the condition of having excess body fat) and is measured as an individual's weight in kilograms (kg) or pounds (lbs) divided by the individual's height in meters ($m^2$) squared.
 
-There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi){target="_blank"} (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/obesity/adult/defining.html){target="_blank"}, and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}. 
+There are different categories of weight defined using different BMI thresholds as defined by the [World Health Organization](http://www.euro.who.int/en/health-topics/disease-prevention/nutrition/a-healthy-lifestyle/body-mass-index-bmi){target="_blank"} (WHO), the [Centers for Disease Control and Prevention](https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html){target="_blank"}, and the [National Institutes of Health](https://www.nhlbi.nih.gov/sites/default/files/media/docs/obesity-evidence-review.pdf){target="_blank"}. 
 For example, these are the categories defined by the WHO: 
 
 ```{r,  echo=FALSE, out.width='100%'}
 knitr::include_graphics(here::here("img","obesity_classes.jpeg"))
 ```
 
-###### [[source](https://www.ncbi.nlm.nih.gov/books/NBK535456/bin/bmi_WHO.jpg){target="_blank"}]
+###### [[source](https://www.ncbi.nlm.nih.gov/books/NBK551660/figure/article-35266.image.f1/){target="_blank"}]
 
 The following chart can help you identify your estimate of BMI:
 ```{r,  echo=FALSE, out.width='100%'}
 knitr::include_graphics(here::here("img","BMIchart.jpeg"))
 ```
 
-###### [[source](http://diet.mayoclinic.org/diet/eat/what-is-your-bmi?xid=nl_MayoClinicDiet_20160426){target="_blank"}]
+###### [[source](https://www.mayoclinic.org/diseases-conditions/obesity/in-depth/bmi-calculator/itt-20084938){target="_blank"}]
 
 
 Recently, an [article](https://www.nature.com/articles/s41586-019-1171-x.pdf){target="_blank"} published in [*Nature*](https://www.nature.com){target="_blank"} evaluated and compared the BMI of populations in rural and urban communities around the world: 
@@ -283,7 +286,7 @@ Previous work has shown higher BMI (>30) is associated with [higher rates of all
 
 However, there appears to be caveats associated with the use of a threshold like this to evaluate public health risk in various populations.
 
-According to this [report](https://www.who.int/nutrition/publications/bmi_asia_strategies.pdf){target="_blank"}:
+According to this [report](https://pubmed.ncbi.nlm.nih.gov/14726171/){target="_blank"}:
 
 >...the associations between BMI, percentage of body fat, and body fat distribution differ across populations. 
 
@@ -293,7 +296,7 @@ According to this [report](https://www.who.int/nutrition/publications/bmi_asia_s
 
 > The associations of BMI and comorbidities are probably not stable within populations over time.
 
-##### [[source]](https://www.who.int/nutrition/publications/bmi_asia_strategies.pdf)
+##### [[source]](https://pubmed.ncbi.nlm.nih.gov/14726171/)
 
 ## **Limitations**
 ***
@@ -301,7 +304,7 @@ According to this [report](https://www.who.int/nutrition/publications/bmi_asia_s
 The measurement of BMI has some [limitations](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/pdf/nt-50-117.pdf){target="_blank"} that are well recognized, as it does not account for the composition of body mass, the location of body fat, or the contribution of body frame size. 
 However, [BMI has been a useful health indicator](https://journals.lww.com/acsm-healthfitness/Fulltext/2016/07000/THE_BENEFITS_OF_BODY_MASS_INDEX_AND_WAIST.8.aspx#pdf-link){target="_blank"} for risk for many diseases and conditions particularly when combined with other risk factor information.
 
-While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
+While [gender](https://www.genderspectrum.org/resources){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women. 
 
 
 ## **What are the data?**
@@ -491,7 +494,7 @@ imported_data("ocs-bp-rural-and-urban-obesity", outpath = getwd())
 load(here::here("data", "imported", "imported_data.rda"))
 ```
 
-If the package does not work for you, alternatively, an RDA file (stands for R data) of the data can be found [here](https://github.com//opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported/impoted_data.rda). Download this file and then place it in your current working directory within a subdirectory called `imported` within a subdirectory called `data` to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
+If the package does not work for you, alternatively, an RDA file (stands for R data) of the data can be found [here](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/tree/master/data/imported) or slightly more directly [here](https://raw.githubusercontent.com/opencasestudies/ocs-bp-rural-and-urban-obesity/master/data/imported/imported_data.rda). Download this file and then place it in your current working directory within a subdirectory called `imported` within a subdirectory called `data` to copy and paste our code. We used an RStudio project and the [`here` package](https://github.com/jennybc/here_here) to navigate to the file more easily. 
 
 ```{r}
 load(here::here("data", "imported", "imported_data.rda"))
@@ -1762,7 +1765,7 @@ wilcox.test(pull(filter(BMI_long, Sex == "Women",
 ```
 In each of these tests, the very small p-value that would lead us to conclude that there is a difference between the two groups we are comparing.  However, when we test multiple questions like this, we need to correct for the multiple tests that we are performing.
 
-The more we test data, the more likely we are to see a significant finding just by [random chance](https://www.stat.berkeley.edu/~mgoldman/Section0402.pdf){target="_blank"} even when the finding is in fact not real. It all comes down to probability.
+The more we test data, the more likely we are to see a significant finding just by [random chance](https://online.stat.psu.edu/stat200/lesson/6/6.1){target="_blank"} even when the finding is in fact not real. It all comes down to probability.
 
 #### Probability
 
@@ -1865,7 +1868,7 @@ What about 100 tests?
                         
 Yikes!! That is almost a 100% chance that there will be a significant finding simply due to chance alone!
 
-Much of this explanation is described in this [lecture](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf){target="_blank"}.
+Much of this explanation is described in this [lecture](https://online.stat.psu.edu/stat200/lesson/6/6.3){target="_blank"}.
 
 
 One way to correct for this is multiple testing issue is using the [Bonferroni method](http://mathworld.wolfram.com/BonferroniCorrection.html){target="_blank"}. 
@@ -2573,13 +2576,13 @@ Students can evaluate the change in BMI over time using the global data availabl
 ### **Helpful Links**
 ***
 
-[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}  
-[Long and Wide Data Formats](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}  
+[BMI](https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html){target="_blank"}  
+[Long and Wide Data Formats](https://r4ds.hadley.nz/data-tidy.html){target="_blank"}  
 [Distributions](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
 [Normal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
 [Skewed Distributions](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} 
 [Bimodal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"} 
-[ggplot2](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}    
+[ggplot2](https://ggplot2.tidyverse.org/){target="_blank"}    
 [Q-Q Plots](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html){target="_blank"}  
 [Student $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)   
 [Paired Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}  
@@ -2597,7 +2600,7 @@ Students can evaluate the change in BMI over time using the global data availabl
 [Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm){target="_blank"}  
 [Type 1 Error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html){target="_blank"}  
 [p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8){target="_blank"}  
-[Multiple Testing](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf){target="_blank"}    
+[Multiple Testing](https://online.stat.psu.edu/stat200/lesson/6/6.3){target="_blank"}    
 [Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html){target="_blank"}
 
 <u>**Packages used in this case study:** </u>
@@ -2645,4 +2648,3 @@ We would like to acknowledge [Michael Breshock](https://mbreshock.github.io/) fo
 We would also like to acknowledge the [Bloomberg American Health Initiative](https://americanhealth.jhu.edu/) for funding this work. 
 
 <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=a&t=tt&d=a1Ews2eHEWlY8v8IFJHWTERegYZfMmtyCxPiYu5y9DM&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>
-
