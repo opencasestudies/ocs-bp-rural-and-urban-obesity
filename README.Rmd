@@ -83,7 +83,7 @@ The data used in this analysis comes from a [supplementary table](https://static
 
 This article can be found freely available online.
 
-While [gender](https://www.genderspectrum.org/quick-links/understanding-gender/){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women.
+While [gender](https://www.genderspectrum.org/resources){target="_blank"} and [sex](https://www.who.int/genomics/gender/en/index1.html){target="_blank"} are not actually binary, the data presented that is used in this analysis only contain data for groups of individuals described as men or women.
 
 #### Learning Objectives
 
@@ -149,13 +149,13 @@ This case study covers fundamental concepts in statistics such as type 1 error, 
 
 ### Other notes and resources 
 
-[BMI](https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html){target="_blank"}  
-[Long and Wide Data Formats](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}  
+[BMI](https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html){target="_blank"}  
+[Long and Wide Data Formats](https://r4ds.hadley.nz/data-tidy.html){target="_blank"}  
 [Distributions](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
 [Normal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"}
 [Skewed Distributions](http://onlinestatbook.com/2/glossary/skew.html){target="_blank"} 
 [Bimodal Distribution](http://onlinestatbook.com/2/introduction/distributions.html){target="_blank"} 
-[ggplot2](https://opencasestudies.github.io/ocs-healthexpenditure/ocs-healthexpenditure.html){target="_blank"}    
+[ggplot2](https://ggplot2.tidyverse.org/){target="_blank"}    
 [Q-Q Plots](http://onlinestatbook.com/2/advanced_graphs/q-q_plots.html){target="_blank"}  
 [Student $t$-test](https://stattrek.com/statistics/dictionary.aspx?definition=two-sample%20t-test)   
 [Paired Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5579465/){target="_blank"}  
@@ -173,7 +173,7 @@ This case study covers fundamental concepts in statistics such as type 1 error, 
 [Two-sample Kolmogorov-Smirnov Test](https://www.itl.nist.gov/div898/software/dataplot/refman1/auxillar/ks2samp.htm){target="_blank"}  
 [Type 1 Error](https://web.ma.utexas.edu/users/mks/statmistakes/errortypes.html){target="_blank"}  
 [p-value](https://towardsdatascience.com/p-values-explained-by-data-scientist-f40a746cfc8){target="_blank"}  
-[Multiple Testing](https://www.gs.washington.edu/academics/courses/akey/56008/lecture/lecture10.pdf){target="_blank"}    
+[Multiple Testing](https://online.stat.psu.edu/stat200/lesson/6/6.3){target="_blank"}    
 [Bonferroni Method of Multiple Testing Correction](http://mathworld.wolfram.com/BonferroniCorrection.html){target="_blank"}
 
 
@@ -220,5 +220,4 @@ Students can repeat a similar analysis, but evaluate the change in BMI over time
 ~ About 31 - 41 seconds
 
 This compilation time was measured on a PC machine operating on Windows 10. This range should only be used as an estimate as compilation time will vary with different machines and operating systems. 
-
 
