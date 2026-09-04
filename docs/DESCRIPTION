@@ -1,0 +1,36 @@
+Description: Open Case Studies: Exploring global patterns of obesity across rural and urban regions
+License: CC BY-NC 3.0
+Authors@R: c(
+    person(c("Stephanie", "C."), "Hicks", role = c("aut", "cre"),
+    email = "shicks19@jhu.edu",
+    comment = c(ORCID = "0000-0002-7858-0231")),
+    person("Carrie", "Wright", role = "aut"))
+Package: ocsbpruralandurbanobesity
+Type: package
+Title: Exploring global patterns of obesity across rural and urban regions
+Version: 0.99.0
+Depends: R (>= 4.0)
+Imports:
+    here,
+    remotes,
+    qpdf,
+    Rcpp,
+    jpeg, 
+    png, 
+    testthat, 
+    pdftools,
+    readr,
+    tidyr,
+    dplyr,
+    ggplot2,
+    ggrepel,
+    rmarkdown,
+    knitr,
+    cowplot,
+    stringr,
+    tibble,
+    magrittr,
+    glue,
+    purrr,
+    patchwork
+VignetteBuilder: knitr
