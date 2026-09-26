@@ -2,12 +2,12 @@
 
 OpenCaseStudies
 ===============
-
 <!-- badges: start -->
 
-[![render-README](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/workflows/render-README/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions)
-[![render-index](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/workflows/render-index/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions)
+[![render-README](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-readme.yaml/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-readme.yaml)
+[![render-index](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml)
 <!-- badges: end -->
+
 
 ### Important links
 
