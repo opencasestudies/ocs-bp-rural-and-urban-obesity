@@ -63,11 +63,11 @@ Initiative](https://americanhealth.jhu.edu/) for funding this work.
 
 ### Reading Metrics
 
-The total reading time for this case study was calculated with
-[koRpus](https://github.com/unDocUMeantIt/koRpus): **About 70 minutes**
+The total reading time for this case study is estimated from its
+reader-facing word count at 200 words per minute: **About 68 minutes**
 
-The Flesch-Kincaid Readability Index was also calculated with
-[koRpus](https://github.com/unDocUMeantIt/koRpus): **Grade 9, Age 14**
+The Flesch-Kincaid Readability Index is calculated with
+`quanteda.textstats`: **Grade 11, Age 16**
 
 ### Title
 
