@@ -52,7 +52,7 @@ library(wordcountaddin)
 library(read.so)
 install.packages("pdftools")
 install.packages("ggrepel")
-install.packages("cowplot")
+install.packages("cowplot") 
 install.packages("patchwork")
 install.packages("OCSdata")
 
