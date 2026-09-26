@@ -45,7 +45,6 @@ knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
                       fig.align = "center", out.width = '90%')
 library(here)
 library(knitr)
-library(magrittr)
 remotes::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
 remotes::install_github("alistaire47/read.so")
 library(wordcountaddin)
@@ -243,7 +242,6 @@ library(stringr)
 library(readr)
 library(dplyr)
 library(tibble)
-library(magrittr)
 library(glue)
 library(purrr)
 library(tidyr)
@@ -651,7 +649,7 @@ head(rural_urban)
 ```
 To do this, we start by noticing that the sex always starts with either a capital "W" if the sex is female. Note, we need to use a space before the "W" otherwise we will split some of the country names if the names starts with "W". 
 
-Here, we will also introduce the concept of piping, which uses the `%>%` from the `magrittr` package, which allows us to pipe the output from one function to the input for another function.
+Here, we will also introduce the concept of piping, which uses `%>%` from the `tidyverse` to pipe the output from one function to the input for another function.
 This is really useful when we have multiple steps, which we will show soon.
 
 First, we will select just the data for Women and Men separately:

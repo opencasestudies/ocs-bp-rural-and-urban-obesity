@@ -27,7 +27,6 @@ ITCR
 Jager
 lightblue
 lightgreen
-magrittr
 md
 NonCommercial
 Ontiveros

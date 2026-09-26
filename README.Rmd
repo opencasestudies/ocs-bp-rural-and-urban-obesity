@@ -187,7 +187,6 @@ Package   | Use in this case study
 [readr](https://readr.tidyverse.org/){target="_blank"}      | to manipulate the text data within the pdf into individual lines  
 [dplyr](https://dplyr.tidyverse.org/){target="_blank"}      | to arrange/filter/select subsets of the data 
 [tibble](https://tibble.tidyverse.org/){target="_blank"}     | to create data objects that we can manipulate with `dplyr`/`stringr`/`tidyr`/`purrr`
-[magrittr](https://magrittr.tidyverse.org/articles/magrittr.html){target="_blank"}   | to use the `%<>%` piping operator
 [glue](https://www.tidyverse.org/blog/2017/10/glue-1.2.0/){target="_blank"}  | to paste or combine character strings and data together
 [purrr](https://purrr.tidyverse.org/){target="_blank"}      | to perform functions on all columns of a tibble
 [tidyr](https://tidyr.tidyverse.org/){target="_blank"}      | to convert data from 'wide' to 'long' format
@@ -220,4 +219,3 @@ Students can repeat a similar analysis, but evaluate the change in BMI over time
 ~ About 31 - 41 seconds
 
 This compilation time was measured on a PC machine operating on Windows 10. This range should only be used as an estimate as compilation time will vary with different machines and operating systems. 
-

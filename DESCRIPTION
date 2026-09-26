@@ -29,7 +29,6 @@ Imports:
     cowplot,
     stringr,
     tibble,
-    magrittr,
     glue,
     purrr,
     patchwork
