@@ -32,5 +32,8 @@ Imports:
     magrittr,
     glue,
     purrr,
-    patchwork
+    patchwork,
+    OCSdata,
+    quanteda,
+    quanteda.textstats
 VignetteBuilder: knitr
