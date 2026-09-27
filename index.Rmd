@@ -52,9 +52,20 @@ library(wordcountaddin)
 library(read.so)
 install.packages("pdftools")
 install.packages("ggrepel")
-install.packages("cowplot") 
+install.packages("cowplot")
 install.packages("patchwork")
 install.packages("OCSdata")
+install.packages(c(
+  "dplyr", "readr", "stringr", "tibble", "tidyr", "quanteda",
+  "quanteda.textstats"
+))
+library(dplyr)
+library(readr)
+library(stringr)
+library(tibble)
+library(tidyr)
+library(quanteda)
+library(quanteda.textstats)
 
 rmarkdown:::perf_timer_reset_all()
 rmarkdown:::perf_timer_start("render")
