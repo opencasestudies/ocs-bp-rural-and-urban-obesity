@@ -51,9 +51,9 @@ We would also like to acknowledge the [Bloomberg American Health Initiative](htt
 
 ### Reading Metrics
 
-The total reading time for this case study was calculated with [koRpus](https://github.com/unDocUMeantIt/koRpus): **About 70 minutes**
+The total reading time for this case study is estimated from its reader-facing word count at 200 words per minute: **About 68 minutes**
 
-The Flesch-Kincaid Readability Index was also calculated with [koRpus](https://github.com/unDocUMeantIt/koRpus): **Grade 9, Age 14**
+The Flesch-Kincaid Readability Index is calculated with `quanteda.textstats`: **Grade 11, Age 16**
 
 ### Title 
 
@@ -220,4 +220,3 @@ Students can repeat a similar analysis, but evaluate the change in BMI over time
 ~ About 31 - 41 seconds
 
 This compilation time was measured on a PC machine operating on Windows 10. This range should only be used as an estimate as compilation time will vary with different machines and operating systems. 
-

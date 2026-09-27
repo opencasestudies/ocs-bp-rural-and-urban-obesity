@@ -52,9 +52,20 @@ library(wordcountaddin)
 library(read.so)
 install.packages("pdftools")
 install.packages("ggrepel")
-install.packages("cowplot") 
+install.packages("cowplot")
 install.packages("patchwork")
 install.packages("OCSdata")
+install.packages(c(
+  "dplyr", "readr", "stringr", "tibble", "tidyr", "quanteda",
+  "quanteda.textstats"
+))
+library(dplyr)
+library(readr)
+library(stringr)
+library(tibble)
+library(tidyr)
+library(quanteda)
+library(quanteda.textstats)
 
 rmarkdown:::perf_timer_reset_all()
 rmarkdown:::perf_timer_start("render")
@@ -101,14 +112,43 @@ This case study is part of a series of public health case studies for the [Bloom
 
 ***
 
-The total reading time for this case study is calculated via [koRpus](https://github.com/unDocUMeantIt/koRpus) and shown below: 
+The estimated reading time for this case study is calculated from its word count at 200 words per minute and shown below:
 
 ```{r, echo=FALSE}
-readtable = text_stats("index.Rmd") # producing reading time markdown table
-readtime = read.so::read.md(readtable) %>% dplyr::select(Method, koRpus) %>% # reading table into dataframe, selecting relevant factors
-  dplyr::filter(Method == "Reading time") %>% # dropping unnecessary rows
-  dplyr::mutate(koRpus = paste(round(as.numeric(stringr::str_split(koRpus, " ")[[1]][1])), "minutes")) %>% # rounding reading time estimate
-  dplyr::mutate(Method = "koRpus") %>% dplyr::relocate(koRpus, .before = Method) %>% dplyr::rename(`Reading Time` = koRpus) # reorganizing table
+extract_reader_text <- function(path) {
+  read_lines(path) %>%
+    tibble(line = .) %>%
+    mutate(
+      fence_count = cumsum(str_detect(line, "^```")),
+      markup_depth = cumsum(str_detect(line, "<(style|script)\\b")) -
+        cumsum(str_detect(line, "</(style|script)>"))
+    ) %>%
+    filter(
+      fence_count %% 2 == 0,
+      !str_detect(line, "^```"),
+      markup_depth == 0
+    ) %>%
+    pull(line) %>%
+    str_c(collapse = "\n") %>%
+    str_replace_all("\\[([^]]+)\\]\\([^)]+\\)", "\\1") %>%
+    str_replace_all("<[^>]+>", " ") %>%
+    str_replace_all("`", "")
+}
+
+case_study_text <- extract_reader_text("index.Rmd")
+
+word_count <- case_study_text %>%
+  tokens(
+    remove_punct = TRUE,
+    remove_symbols = TRUE,
+    remove_numbers = TRUE
+  ) %>%
+  ntoken()
+
+readtime <- tibble(
+  `Reading Time` = str_c(ceiling(word_count / 200), "minutes", sep = " "),
+  Method = "200 words per minute"
+)
 knitr::kable(readtime, format="markdown")
 ```
 
@@ -116,14 +156,25 @@ knitr::kable(readtime, format="markdown")
 
 **Readability Score: **
 
-A readability index estimates the reading difficulty level of a particular text. Flesch-Kincaid, FORCAST, and SMOG are three common readability indices that were calculated for this case study via [koRpus](https://github.com/unDocUMeantIt/koRpus). These indices provide an estimation of the minimum reading level required to comprehend this case study by grade and age. 
+A readability index estimates the reading difficulty level of a particular text. Flesch-Kincaid, FORCAST, and SMOG are three common readability indices calculated for this case study. These indices provide an estimation of the minimum reading level required to comprehend this case study by grade and age.
 
 ```{r, echo=FALSE}
-rt = wordcountaddin::readability("index.Rmd", quiet=TRUE) # producing readability markdown table
-df = read.so::read.md(rt) %>% dplyr::select(index, grade, age) %>%  # reading table into dataframe, selecting relevant factors
-  tidyr::drop_na() %>% dplyr::mutate(grade = round(as.numeric(grade)), # dropping rows with missing values, rounding age and grade columns
-                                     age = round(as.numeric(age))
-                                     )
+readability <- textstat_readability(
+  case_study_text,
+  measure = c("Flesch.Kincaid", "FORCAST", "SMOG")
+) %>%
+  pivot_longer(
+    cols = -document,
+    names_to = "index",
+    values_to = "grade"
+  ) %>%
+  mutate(
+    index = str_replace_all(index, "\\.", "-"),
+    grade = round(grade),
+    age = grade + 5
+  ) %>%
+  select(-document)
+df <- readability
 knitr::kable(df, format="markdown")
 ```
 
