@@ -5,7 +5,7 @@ OpenCaseStudies
 <!-- badges: start -->
 
 [![render-README](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-readme.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-readme.yaml)
-[![render-index](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml)
+[![render-index](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml)
 <!-- badges: end -->
 
 
@@ -266,10 +266,6 @@ Test](http://www.biostathandbook.com/wilcoxonsignedrank.html)
 <tr class="even">
 <td><a href="https://tibble.tidyverse.org/" target="_blank">tibble</a></td>
 <td>to create data objects that we can manipulate with <code>dplyr</code>/<code>stringr</code>/<code>tidyr</code>/<code>purrr</code></td>
-</tr>
-<tr class="odd">
-<td><a href="https://magrittr.tidyverse.org/articles/magrittr.html" target="_blank">magrittr</a></td>
-<td>to use the <code>%&lt;&gt;%</code> piping operator</td>
 </tr>
 <tr class="even">
 <td><a href="https://www.tidyverse.org/blog/2017/10/glue-1.2.0/" target="_blank">glue</a></td>
