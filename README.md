@@ -5,7 +5,7 @@ OpenCaseStudies
 <!-- badges: start -->
 
 [![render-README](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-readme.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-readme.yaml)
-[![render-index](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml/badge.svg?branch=master)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml)
+[![render-index](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml/badge.svg)](https://github.com/opencasestudies/ocs-bp-rural-and-urban-obesity/actions/workflows/render-index.yaml)
 <!-- badges: end -->
 
 
